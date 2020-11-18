@@ -19,7 +19,11 @@
 		2B1903CC2563FF13006D755E /* FeedService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903CB2563FF13006D755E /* FeedService.m */; };
 		2B1903E0256406A3006D755E /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903DF256406A3006D755E /* FeedItem.m */; };
 		2B1903E725640873006D755E /* FeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903E625640873006D755E /* FeedXMLParser.m */; };
+		2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */; };
+		2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B653A0425654EE8008A76A3 /* FeedChannel.m */; };
+		2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F5DF625654FFB00656FC7 /* MediaContent.m */; };
 		2BB54D0525650AE900960B3F /* FeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB54D0425650AE900960B3F /* FeedPresenter.m */; };
+		2BB54D392565399600960B3F /* FeedRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB54D382565399600960B3F /* FeedRouter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,11 +69,20 @@
 		2B1903DF256406A3006D755E /* FeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
 		2B1903E525640873006D755E /* FeedXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedXMLParser.h; sourceTree = "<group>"; };
 		2B1903E625640873006D755E /* FeedXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedXMLParser.m; sourceTree = "<group>"; };
+		2B6539F3256539D1008A76A3 /* RouterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouterType.h; sourceTree = "<group>"; };
+		2B6539F825653DF6008A76A3 /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
+		2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
+		2B653A0325654EE8008A76A3 /* FeedChannel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedChannel.h; sourceTree = "<group>"; };
+		2B653A0425654EE8008A76A3 /* FeedChannel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedChannel.m; sourceTree = "<group>"; };
+		2B7F5DF525654FFB00656FC7 /* MediaContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaContent.h; sourceTree = "<group>"; };
+		2B7F5DF625654FFB00656FC7 /* MediaContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaContent.m; sourceTree = "<group>"; };
 		2BB54D0325650AE900960B3F /* FeedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedPresenter.h; sourceTree = "<group>"; };
 		2BB54D0425650AE900960B3F /* FeedPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedPresenter.m; sourceTree = "<group>"; };
 		2BB54D092565159100960B3F /* FeedPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedPresenterType.h; sourceTree = "<group>"; };
 		2BB54D0D256515B900960B3F /* FeedViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedViewType.h; sourceTree = "<group>"; };
 		2BB54D152565183F00960B3F /* FeedItemViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemViewModel.h; sourceTree = "<group>"; };
+		2BB54D372565399600960B3F /* FeedRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedRouter.h; sourceTree = "<group>"; };
+		2BB54D382565399600960B3F /* FeedRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedRouter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,20 +176,22 @@
 		2B1903B52563FEC5006D755E /* ContentFlow */ = {
 			isa = PBXGroup;
 			children = (
+				2BB54D332565382700960B3F /* Router */,
 				2B1903BD2563FEE4006D755E /* Presenter */,
-				2B1903B62563FECD006D755E /* Controller */,
+				2B1903B62563FECD006D755E /* View */,
 			);
 			name = ContentFlow;
 			sourceTree = "<group>";
 		};
-		2B1903B62563FECD006D755E /* Controller */ = {
+		2B1903B62563FECD006D755E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2B6539F725653DE5008A76A3 /* Cell */,
 				2B1903B72563FEDC006D755E /* FeedViewController.h */,
 				2B1903B82563FEDC006D755E /* FeedViewController.m */,
 				2BB54D0D256515B900960B3F /* FeedViewType.h */,
 			);
-			name = Controller;
+			name = View;
 			sourceTree = "<group>";
 		};
 		2B1903BD2563FEE4006D755E /* Presenter */ = {
@@ -192,8 +207,8 @@
 		2B1903BE2563FEE9006D755E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2B653A0125654ED6008A76A3 /* Entity */,
 				2B1903E425640866006D755E /* Parser */,
-				2B1903DD25640694006D755E /* FeedItem */,
 				2B1903C92563FF07006D755E /* FeedService */,
 				2B1903BF2563FEED006D755E /* DownloadService */,
 			);
@@ -235,6 +250,61 @@
 				2B1903E625640873006D755E /* FeedXMLParser.m */,
 			);
 			path = Parser;
+			sourceTree = "<group>";
+		};
+		2B6539F725653DE5008A76A3 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2B6539F825653DF6008A76A3 /* FeedTableViewCell.h */,
+				2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		2B653A0125654ED6008A76A3 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				2B7F5DF325654FED00656FC7 /* Media */,
+				2B653A0225654EDD008A76A3 /* Channel */,
+				2B1903DD25640694006D755E /* FeedItem */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		2B653A0225654EDD008A76A3 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				2B653A0325654EE8008A76A3 /* FeedChannel.h */,
+				2B653A0425654EE8008A76A3 /* FeedChannel.m */,
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
+		2B7F5DF325654FED00656FC7 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				2B7F5DF425654FF100656FC7 /* Content */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		2B7F5DF425654FF100656FC7 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				2B7F5DF525654FFB00656FC7 /* MediaContent.h */,
+				2B7F5DF625654FFB00656FC7 /* MediaContent.m */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		2BB54D332565382700960B3F /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				2BB54D372565399600960B3F /* FeedRouter.h */,
+				2BB54D382565399600960B3F /* FeedRouter.m */,
+				2B6539F3256539D1008A76A3 /* RouterType.h */,
+			);
+			name = Router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,9 +436,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
+				2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */,
 				2B1903CC2563FF13006D755E /* FeedService.m in Sources */,
 				2B1903B92563FEDC006D755E /* FeedViewController.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
+				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
+				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
+				2BB54D392565399600960B3F /* FeedRouter.m in Sources */,
 				2B1903C22563FEFD006D755E /* DownloadService.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,

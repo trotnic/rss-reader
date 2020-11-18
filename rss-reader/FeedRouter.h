@@ -1,17 +1,16 @@
 //
-//  FeedItemViewModel.h
+//  FeedRouter.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
 //
 
 #import <Foundation/Foundation.h>
+#import "RouterType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedItemViewModel <NSObject>
-
-- (NSString *)articleTitle;
+@interface FeedRouter : NSObject <RouterType>
 
 @end
 

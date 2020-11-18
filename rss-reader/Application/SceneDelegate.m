@@ -8,6 +8,7 @@
 #import "SceneDelegate.h"
 #import "FeedViewController.h"
 #import "FeedXMLParser.h"
+#import "FeedRouter.h"
 
 @interface SceneDelegate ()
 
@@ -22,9 +23,11 @@
     self.window = window;
     [window release];
     
-    FeedXMLParser *parser = [FeedXMLParser new];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithParser:parser];
+    FeedXMLParser *parser = [FeedXMLParser new];    
+    FeedRouter *router = [FeedRouter new];
+    FeedPresenter *presenter = [[FeedPresenter alloc] initWithParser:parser router:router];
     [parser release];
+    [router release];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:presenter];
     [presenter assignView:controller];
     

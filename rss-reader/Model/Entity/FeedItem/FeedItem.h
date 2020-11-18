@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedItemViewModel.h"
+#import "MediaContent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,8 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSString *link;
-@property (nonatomic, copy, readonly) NSString *imageLink;
-@property (nonatomic, retain, readonly) NSArray *mediaLinks;
+@property (nonatomic, copy, readonly) NSString *summary;
+@property (nonatomic, copy, readonly) NSString *category;
+@property (nonatomic, retain, readonly) NSArray<MediaContent *> *mediaContent;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

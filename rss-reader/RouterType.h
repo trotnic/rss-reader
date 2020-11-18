@@ -1,5 +1,5 @@
 //
-//  FeedPresenterType.h
+//  RouterType.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
@@ -9,10 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedPresenterType <NSObject>
+@protocol RouterType <NSObject>
 
-- (void)updateFeed;
-- (void)selectRowAt:(NSInteger)row;
+- (void)startURL:(NSURL *)url;
 
 @end
 

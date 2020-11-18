@@ -1,5 +1,5 @@
 //
-//  FeedPresenterType.h
+//  FeedItemViewModel.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
@@ -9,10 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedPresenterType <NSObject>
+@protocol FeedItemViewModel <NSObject>
 
-- (void)updateFeed;
-- (void)selectRowAt:(NSInteger)row;
+- (NSString *)articleTitle;
+- (NSString *)articleCategory;
+- (NSString *)articleDate;
 
 @end
 

@@ -6,15 +6,19 @@
 //
 
 #import "FeedXMLParser.h"
+#import "FeedChannel.h"
 
 @interface FeedXMLParser () 
 
 @property (nonatomic, copy) ParseHandler completion;
 
+// MARK: Channel -
 @property (nonatomic, retain) NSMutableArray<FeedItem *> *results;
+
+// MARK: Item -
 @property (nonatomic, retain) NSMutableDictionary *item;
 @property (nonatomic, retain) NSMutableString *parsingString;
-@property (nonatomic, retain) NSMutableArray *mediaLinks;
+@property (nonatomic, retain) NSMutableArray<MediaContent *> *mediaContent;
 
 @end
 
@@ -34,17 +38,16 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
-    NSString *tagName = @"item";
     
-    if ([elementName isEqualToString:tagName]) {
+    if ([elementName isEqualToString:@"item"]) {
         self.item = [NSMutableDictionary dictionary];
-        self.mediaLinks = [NSMutableArray array];
+        self.mediaContent = [NSMutableArray array];
     }
     
-    [tagName release];
-    tagName = @"title";
-    if([elementName isEqualToString:tagName] ||
-       [elementName isEqualToString:@"link"]) {
+    if([elementName isEqualToString:@"title"] ||
+       [elementName isEqualToString:@"link"] ||
+       [elementName isEqualToString:@"category"] ||
+       [elementName isEqualToString:@"pubDate"]) {
         self.parsingString = [NSMutableString string];
     }
     
@@ -53,11 +56,10 @@ didStartElement:(NSString *)elementName
     }
     
     if([elementName isEqualToString:@"media:content"]) {
-        [self.mediaLinks addObject:[attributeDict valueForKey:@"url"]];
+        MediaContent *content = [[MediaContent alloc] initWithDictionary:attributeDict];
+        [self.mediaContent addObject:content];
+        [content release];
     }
-    
-    [tagName release];
-    
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -70,15 +72,19 @@ foundCharacters:(NSString *)string {
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
     
+    
+    // TODO: parse description
     if([elementName isEqualToString:@"title"] ||
        [elementName isEqualToString:@"link"] ||
-       [elementName isEqualToString:@"img"]) {
+       [elementName isEqualToString:@"category"] ||
+       [elementName isEqualToString:@"pubDate"]) {
         [self.item setValue:self.parsingString forKey:elementName];
         self.parsingString = nil;
     }
     
+    
     if([elementName isEqualToString:@"item"]) {
-        [self.item setValue:self.mediaLinks forKey:@"mediaLinks"];
+        [self.item setValue:self.mediaContent forKey:@"mediaContent"];
         FeedItem *item = [[FeedItem alloc] initWithDictionary:self.item];
         [self.results addObject:item];
         [item release];
@@ -93,7 +99,7 @@ foundCharacters:(NSString *)string {
 - (void)dealloc
 {
     [_parsingString release];
-    [_mediaLinks release];
+    [_mediaContent release];
     [_results release];
     [_item release];
     [_completion release];
