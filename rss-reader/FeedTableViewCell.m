@@ -35,6 +35,7 @@
     ]];
     
     textSubStack.axis = UILayoutConstraintAxisHorizontal;
+    textSubStack.distribution = UIStackViewDistributionEqualSpacing;
     
     UIStackView *textMainStack = [[UIStackView alloc] initWithArrangedSubviews:@[
         self.titleLabel,

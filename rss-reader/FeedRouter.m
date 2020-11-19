@@ -33,17 +33,22 @@
     [super dealloc];
 }
 
+// MARK: - RouterType
+
 - (void)start {
     FeedXMLParser *parser = [FeedXMLParser new];
     
     FeedPresenter *presenter = [[FeedPresenter alloc] initWithParser:parser router:self];
     [parser release];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:presenter];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
     [presenter assignView:controller];
     [presenter release];
     
-    self.window.rootViewController = controller;
+    self.window.rootViewController = navigationController;
     [controller release];
+    [navigationController release];
     
     [self.window makeKeyAndVisible];
 }

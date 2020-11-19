@@ -14,10 +14,8 @@
 		2B19038D2563FE17006D755E /* rss_readerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B19038C2563FE17006D755E /* rss_readerTests.m */; };
 		2B1903982563FE17006D755E /* rss_readerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903972563FE17006D755E /* rss_readerUITests.m */; };
 		2B1903B92563FEDC006D755E /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903B82563FEDC006D755E /* FeedViewController.m */; };
-		2B1903C22563FEFD006D755E /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903C12563FEFD006D755E /* DownloadService.m */; };
 		2B1903E0256406A3006D755E /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903DF256406A3006D755E /* FeedItem.m */; };
 		2B1903E725640873006D755E /* FeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903E625640873006D755E /* FeedXMLParser.m */; };
-		2B42590625669C200084C0A4 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B42590525669C200084C0A4 /* FeedProvider.m */; };
 		2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */; };
 		2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B653A0425654EE8008A76A3 /* FeedChannel.m */; };
 		2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F5DF625654FFB00656FC7 /* MediaContent.m */; };
@@ -58,16 +56,12 @@
 		2B1903992563FE17006D755E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B1903B72563FEDC006D755E /* FeedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedViewController.h; sourceTree = "<group>"; };
 		2B1903B82563FEDC006D755E /* FeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedViewController.m; sourceTree = "<group>"; };
-		2B1903C02563FEFD006D755E /* DownloadService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
-		2B1903C12563FEFD006D755E /* DownloadService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
 		2B1903DE256406A3006D755E /* FeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
 		2B1903DF256406A3006D755E /* FeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
 		2B1903E525640873006D755E /* FeedXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedXMLParser.h; sourceTree = "<group>"; };
 		2B1903E625640873006D755E /* FeedXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedXMLParser.m; sourceTree = "<group>"; };
 		2B425900256693240084C0A4 /* FeedParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedParser.h; sourceTree = "<group>"; };
-		2B42590425669C200084C0A4 /* FeedProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedProvider.h; sourceTree = "<group>"; };
-		2B42590525669C200084C0A4 /* FeedProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedProvider.m; sourceTree = "<group>"; };
-		2B42590D25669C320084C0A4 /* FeedProviderType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedProviderType.h; sourceTree = "<group>"; };
+		2B4259142566B49A0084C0A4 /* FeedChannelViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedChannelViewModel.h; sourceTree = "<group>"; };
 		2B6539F3256539D1008A76A3 /* RouterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouterType.h; sourceTree = "<group>"; };
 		2B6539F825653DF6008A76A3 /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
@@ -206,29 +200,8 @@
 			children = (
 				2B653A0125654ED6008A76A3 /* Entity */,
 				2B1903E425640866006D755E /* Parser */,
-				2B1903C92563FF07006D755E /* FeedService */,
-				2B1903BF2563FEED006D755E /* DownloadService */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		2B1903BF2563FEED006D755E /* DownloadService */ = {
-			isa = PBXGroup;
-			children = (
-				2B1903C02563FEFD006D755E /* DownloadService.h */,
-				2B1903C12563FEFD006D755E /* DownloadService.m */,
-			);
-			path = DownloadService;
-			sourceTree = "<group>";
-		};
-		2B1903C92563FF07006D755E /* FeedService */ = {
-			isa = PBXGroup;
-			children = (
-				2B42590425669C200084C0A4 /* FeedProvider.h */,
-				2B42590525669C200084C0A4 /* FeedProvider.m */,
-				2B42590D25669C320084C0A4 /* FeedProviderType.h */,
-			);
-			path = FeedService;
 			sourceTree = "<group>";
 		};
 		2B1903DD25640694006D755E /* FeedItem */ = {
@@ -275,6 +248,7 @@
 			children = (
 				2B653A0325654EE8008A76A3 /* FeedChannel.h */,
 				2B653A0425654EE8008A76A3 /* FeedChannel.m */,
+				2B4259142566B49A0084C0A4 /* FeedChannelViewModel.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -436,13 +410,11 @@
 			files = (
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */,
-				2B42590625669C200084C0A4 /* FeedProvider.m in Sources */,
 				2B1903B92563FEDC006D755E /* FeedViewController.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2BB54D392565399600960B3F /* FeedRouter.m in Sources */,
-				2B1903C22563FEFD006D755E /* DownloadService.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 				2BB54D0525650AE900960B3F /* FeedPresenter.m in Sources */,

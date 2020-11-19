@@ -7,15 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-@class FeedItem;
-typedef void(^ParseHandler)(NSArray<FeedItem *> *, NSError *);
+@class FeedChannel;
+typedef void(^ParseHandler)(FeedChannel *, NSError *);
 
 @protocol FeedParser <NSObject>
 
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion;
 
 @end
-
-NS_ASSUME_NONNULL_END

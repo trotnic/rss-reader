@@ -7,6 +7,7 @@
 
 #import "FeedChannel.h"
 
+NSString *const kRSSChannel = @"channel";
 NSString *const kRSSChannelTitle = @"title";
 NSString *const kRSSChannelLink = @"link";
 NSString *const kRSSChannelDescription = @"description";
@@ -42,6 +43,16 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
     [_summary release];
     [_items release];
     [super dealloc];
+}
+
+// MARK: - FeedChannelViewModel
+
+- (NSString *)channelTitle {
+    return self.title;
+}
+
+- (NSArray<id<FeedItemViewModel>> *)channelItems {
+    return self.items;
 }
 
 @end

@@ -9,11 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedItemViewModel;
+@protocol FeedChannelViewModel;
 
 @protocol FeedViewType <NSObject>
 
-- (void)setFeed:(NSArray<id<FeedItemViewModel>> *)feed;
+- (void)setChannel:(id<FeedChannelViewModel>)channel;
+- (void)showError:(NSError *)error;
 
 @end
 
