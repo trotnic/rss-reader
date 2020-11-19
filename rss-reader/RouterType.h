@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol RouterType <NSObject>
 
-- (void)startURL:(NSURL *)url;
+- (void)start;
+- (void)openURL:(NSURL *)url;
 
 @end
 

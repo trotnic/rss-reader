@@ -8,7 +8,7 @@
 #import "FeedXMLParser.h"
 #import "FeedChannel.h"
 
-@interface FeedXMLParser () 
+@interface FeedXMLParser () <NSXMLParserDelegate>
 
 @property (nonatomic, copy) ParseHandler completion;
 
@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSMutableString *parsingString;
 @property (nonatomic, retain) NSMutableArray<MediaContent *> *mediaContent;
 
+
 @end
 
 @implementation FeedXMLParser
@@ -27,10 +28,20 @@
 - (void)parseFeed:(NSData *)data
        completion:(ParseHandler)completion {
     self.completion = completion;
-    self.results = [NSMutableArray array];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
     parser.delegate = self;
     [parser parse];
+    [parser release];
+}
+
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    if(self.completion) {
+        self.completion(nil, parseError);
+    }
+}
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.results = [NSMutableArray array];
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -39,23 +50,23 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if ([elementName isEqualToString:@"item"]) {
+    if ([elementName isEqualToString:kRSSItem]) {
         self.item = [NSMutableDictionary dictionary];
         self.mediaContent = [NSMutableArray array];
     }
     
-    if([elementName isEqualToString:@"title"] ||
-       [elementName isEqualToString:@"link"] ||
-       [elementName isEqualToString:@"category"] ||
-       [elementName isEqualToString:@"pubDate"]) {
+    if([elementName isEqualToString:kRSSItemTitle] ||
+       [elementName isEqualToString:kRSSItemLink] ||
+       [elementName isEqualToString:kRSSItemCategory] ||
+       [elementName isEqualToString:kRSSItemPubDate]) {
         self.parsingString = [NSMutableString string];
     }
     
-    if([elementName isEqualToString:@"description"]) {
+    if([elementName isEqualToString:kRSSItemSummary]) {
         self.parsingString = [NSMutableString stringWithFormat:@"%@", [attributeDict valueForKey:@"src"]];
     }
     
-    if([elementName isEqualToString:@"media:content"]) {
+    if([elementName isEqualToString:kRSSMediaContent]) {
         MediaContent *content = [[MediaContent alloc] initWithDictionary:attributeDict];
         [self.mediaContent addObject:content];
         [content release];
@@ -72,19 +83,16 @@ foundCharacters:(NSString *)string {
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
     
-    
-    // TODO: parse description
-    if([elementName isEqualToString:@"title"] ||
-       [elementName isEqualToString:@"link"] ||
-       [elementName isEqualToString:@"category"] ||
-       [elementName isEqualToString:@"pubDate"]) {
+    if([elementName isEqualToString:kRSSItemTitle] ||
+       [elementName isEqualToString:kRSSItemLink] ||
+       [elementName isEqualToString:kRSSItemCategory] ||
+       [elementName isEqualToString:kRSSItemPubDate]) {
         [self.item setValue:self.parsingString forKey:elementName];
         self.parsingString = nil;
     }
     
-    
-    if([elementName isEqualToString:@"item"]) {
-        [self.item setValue:self.mediaContent forKey:@"mediaContent"];
+    if([elementName isEqualToString:kRSSItem]) {
+        [self.item setValue:self.mediaContent forKey:kRSSMediaContent];
         FeedItem *item = [[FeedItem alloc] initWithDictionary:self.item];
         [self.results addObject:item];
         [item release];
@@ -93,7 +101,9 @@ foundCharacters:(NSString *)string {
 
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    self.completion(self.results, nil);
+    if(self.completion) {
+        self.completion([NSArray arrayWithArray:self.results], nil);
+    }
 }
 
 - (void)dealloc

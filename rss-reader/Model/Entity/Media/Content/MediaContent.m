@@ -7,11 +7,16 @@
 
 #import "MediaContent.h"
 
+NSString *const kRSSMediaContent = @"media:content";
+NSString *const kRSSMediaContentURL = @"url";
+NSString *const kRSSMediaContentFileSize = @"fileSize";
+NSString *const kRSSMediaContentType = @"type";
+
 @interface MediaContent ()
 
 @property (nonatomic, copy, readwrite) NSString *url;
+@property (nonatomic, assign, readwrite) NSInteger fileSize;
 @property (nonatomic, copy, readwrite) NSString *type;
-@property (nonatomic, assign, readwrite) NSUInteger fileSize;
 
 @end
 
@@ -23,7 +28,7 @@
     if (self) {
         _url = [[dictionary valueForKey:@"url"] copy];
         _type = [[dictionary valueForKey:@"type"] copy];
-        _fileSize = [[dictionary valueForKey:@"fileSize"] unsignedIntValue];
+        _fileSize = [[dictionary valueForKey:@"fileSize"] intValue];
     }
     return self;
 }
@@ -37,7 +42,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%lu", self.fileSize];
+    return [NSString stringWithFormat:@"%@, %@, %ld, %@", self.class, self.url, self.fileSize, self.type];
 }
 
 @end

@@ -7,6 +7,11 @@
 
 #import "FeedChannel.h"
 
+NSString *const kRSSChannelTitle = @"title";
+NSString *const kRSSChannelLink = @"link";
+NSString *const kRSSChannelDescription = @"description";
+NSString *const kRSSChannelItems = @"RSSChannelItems";
+
 @interface FeedChannel ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
@@ -22,10 +27,10 @@
 {
     self = [super init];
     if (self) {
-        _title = [[dictionary valueForKey:@"title"] copy];
-        _link = [[dictionary valueForKey:@"link"] copy];
-        _summary = [[dictionary valueForKey:@"description"] copy];
-        _items = [NSArray new];
+        _title = [[dictionary valueForKey:kRSSChannelTitle] copy];
+        _link = [[dictionary valueForKey:kRSSChannelLink] copy];
+        _summary = [[dictionary valueForKey:kRSSChannelDescription] copy];
+        _items = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSChannelItems]] retain];
     }
     return self;
 }

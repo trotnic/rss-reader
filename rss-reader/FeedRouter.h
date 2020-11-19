@@ -6,11 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "RouterType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedRouter : NSObject <RouterType>
+
+- (instancetype)initWithWindow:(UIWindow *)window;
 
 @end
 

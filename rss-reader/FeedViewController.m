@@ -62,12 +62,15 @@
     self.tableView.dataSource = self;
 }
 
-// MARK: UITableViewDataSource -
+// MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier" forIndexPath:indexPath];
-    
+    cell.alpha = 0;
     [((FeedTableViewCell *)cell) attachViewModel:self.data[indexPath.row]];
+    [UIView animateWithDuration:0.1 animations:^{
+        cell.alpha = 1;
+    }];
     
     return cell;
 }
@@ -76,14 +79,14 @@
     return self.data.count;
 }
 
-// MARK: UITableViewDelegate
+// MARK: - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.presenter selectRowAt:indexPath.row];
 }
 
-// MARK: FeedViewType -
+// MARK: - FeedViewType
 
 - (void)setFeed:(NSArray<id<FeedItemViewModel>> *)feed {
     dispatch_async(dispatch_get_main_queue(), ^{

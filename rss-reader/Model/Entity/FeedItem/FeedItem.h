@@ -11,6 +11,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString *const kRSSItem;
+FOUNDATION_EXPORT NSString *const kRSSItemTitle;
+FOUNDATION_EXPORT NSString *const kRSSItemLink;
+FOUNDATION_EXPORT NSString *const kRSSItemSummary;
+FOUNDATION_EXPORT NSString *const kRSSItemCategory;
+FOUNDATION_EXPORT NSString *const kRSSItemPubDate;
+
 @interface FeedItem : NSObject <FeedItemViewModel>
 
 @property (nonatomic, copy, readonly) NSString *title;

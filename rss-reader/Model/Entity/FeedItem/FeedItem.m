@@ -7,6 +7,13 @@
 
 #import "FeedItem.h"
 
+NSString *const kRSSItem = @"item";
+NSString *const kRSSItemTitle = @"title";
+NSString *const kRSSItemLink = @"link";
+NSString *const kRSSItemSummary = @"description";
+NSString *const kRSSItemCategory = @"category";
+NSString *const kRSSItemPubDate = @"pubDate";
+
 @interface FeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
@@ -27,12 +34,12 @@
         NSDateFormatter *dateFormat = [NSDateFormatter new];
         [dateFormat setDateFormat:@"EE, d LLLL yyyy HH:mm:ss Z"];
         
-        _title = [[dictionary valueForKey:@"title"] copy];
-        _link = [[dictionary valueForKey:@"link"] copy];
-        _summary = [[dictionary valueForKey:@"description"] copy];
-        _category = [[dictionary valueForKey:@"category"] copy];
-        _pubDate = [[dateFormat dateFromString:[dictionary valueForKey:@"pubDate"]] retain];
-        _mediaContent = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:@"mediaContent"]] retain];
+        _title = [[dictionary valueForKey:kRSSItemTitle] copy];
+        _link = [[dictionary valueForKey:kRSSItemLink] copy];
+        _summary = [[dictionary valueForKey:kRSSItemSummary] copy];
+        _category = [[dictionary valueForKey:kRSSItemCategory] copy];
+        _pubDate = [[dateFormat dateFromString:[dictionary valueForKey:kRSSItemPubDate]] retain];
+        _mediaContent = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSMediaContent]] retain];
         
         [dateFormat release];
     }
@@ -55,7 +62,7 @@
     return [NSString stringWithFormat:@"%@", self.class];
 }
 
-// MARK: FeedItemViewModel -
+// MARK: - FeedItemViewModel
 
 - (NSString *)articleTitle {
     return self.title;

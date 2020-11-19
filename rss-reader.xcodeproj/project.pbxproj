@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2B1903722563FE16006D755E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903712563FE16006D755E /* AppDelegate.m */; };
-		2B1903752563FE16006D755E /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903742563FE16006D755E /* SceneDelegate.m */; };
 		2B19037D2563FE17006D755E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B19037C2563FE17006D755E /* Assets.xcassets */; };
 		2B1903802563FE17006D755E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B19037E2563FE17006D755E /* LaunchScreen.storyboard */; };
 		2B1903832563FE17006D755E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903822563FE17006D755E /* main.m */; };
@@ -16,9 +15,9 @@
 		2B1903982563FE17006D755E /* rss_readerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903972563FE17006D755E /* rss_readerUITests.m */; };
 		2B1903B92563FEDC006D755E /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903B82563FEDC006D755E /* FeedViewController.m */; };
 		2B1903C22563FEFD006D755E /* DownloadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903C12563FEFD006D755E /* DownloadService.m */; };
-		2B1903CC2563FF13006D755E /* FeedService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903CB2563FF13006D755E /* FeedService.m */; };
 		2B1903E0256406A3006D755E /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903DF256406A3006D755E /* FeedItem.m */; };
 		2B1903E725640873006D755E /* FeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903E625640873006D755E /* FeedXMLParser.m */; };
+		2B42590625669C200084C0A4 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B42590525669C200084C0A4 /* FeedProvider.m */; };
 		2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */; };
 		2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B653A0425654EE8008A76A3 /* FeedChannel.m */; };
 		2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F5DF625654FFB00656FC7 /* MediaContent.m */; };
@@ -47,8 +46,6 @@
 		2B19036D2563FE16006D755E /* rss-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rss-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B1903702563FE16006D755E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B1903712563FE16006D755E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2B1903732563FE16006D755E /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		2B1903742563FE16006D755E /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		2B19037C2563FE17006D755E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B19037F2563FE17006D755E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B1903812563FE17006D755E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,12 +60,14 @@
 		2B1903B82563FEDC006D755E /* FeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedViewController.m; sourceTree = "<group>"; };
 		2B1903C02563FEFD006D755E /* DownloadService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadService.h; sourceTree = "<group>"; };
 		2B1903C12563FEFD006D755E /* DownloadService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadService.m; sourceTree = "<group>"; };
-		2B1903CA2563FF13006D755E /* FeedService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedService.h; sourceTree = "<group>"; };
-		2B1903CB2563FF13006D755E /* FeedService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedService.m; sourceTree = "<group>"; };
 		2B1903DE256406A3006D755E /* FeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
 		2B1903DF256406A3006D755E /* FeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
 		2B1903E525640873006D755E /* FeedXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedXMLParser.h; sourceTree = "<group>"; };
 		2B1903E625640873006D755E /* FeedXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedXMLParser.m; sourceTree = "<group>"; };
+		2B425900256693240084C0A4 /* FeedParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedParser.h; sourceTree = "<group>"; };
+		2B42590425669C200084C0A4 /* FeedProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedProvider.h; sourceTree = "<group>"; };
+		2B42590525669C200084C0A4 /* FeedProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedProvider.m; sourceTree = "<group>"; };
+		2B42590D25669C320084C0A4 /* FeedProviderType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedProviderType.h; sourceTree = "<group>"; };
 		2B6539F3256539D1008A76A3 /* RouterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouterType.h; sourceTree = "<group>"; };
 		2B6539F825653DF6008A76A3 /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		2B6539F925653DF6008A76A3 /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
@@ -167,8 +166,6 @@
 				2B1903712563FE16006D755E /* AppDelegate.m */,
 				2B19037C2563FE17006D755E /* Assets.xcassets */,
 				2B19037E2563FE17006D755E /* LaunchScreen.storyboard */,
-				2B1903732563FE16006D755E /* SceneDelegate.h */,
-				2B1903742563FE16006D755E /* SceneDelegate.m */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -227,8 +224,9 @@
 		2B1903C92563FF07006D755E /* FeedService */ = {
 			isa = PBXGroup;
 			children = (
-				2B1903CA2563FF13006D755E /* FeedService.h */,
-				2B1903CB2563FF13006D755E /* FeedService.m */,
+				2B42590425669C200084C0A4 /* FeedProvider.h */,
+				2B42590525669C200084C0A4 /* FeedProvider.m */,
+				2B42590D25669C320084C0A4 /* FeedProviderType.h */,
 			);
 			path = FeedService;
 			sourceTree = "<group>";
@@ -248,6 +246,7 @@
 			children = (
 				2B1903E525640873006D755E /* FeedXMLParser.h */,
 				2B1903E625640873006D755E /* FeedXMLParser.m */,
+				2B425900256693240084C0A4 /* FeedParser.h */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -437,7 +436,7 @@
 			files = (
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2B6539FA25653DF6008A76A3 /* FeedTableViewCell.m in Sources */,
-				2B1903CC2563FF13006D755E /* FeedService.m in Sources */,
+				2B42590625669C200084C0A4 /* FeedProvider.m in Sources */,
 				2B1903B92563FEDC006D755E /* FeedViewController.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
@@ -447,7 +446,6 @@
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 				2BB54D0525650AE900960B3F /* FeedPresenter.m in Sources */,
-				2B1903752563FE16006D755E /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
