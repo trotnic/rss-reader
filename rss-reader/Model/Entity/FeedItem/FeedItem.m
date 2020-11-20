@@ -34,10 +34,10 @@ NSString *const kRSSItemPubDate = @"pubDate";
         NSDateFormatter *dateFormat = [NSDateFormatter new];
         [dateFormat setDateFormat:@"EE, d LLLL yyyy HH:mm:ss Z"];
         
-        _title = [[dictionary valueForKey:kRSSItemTitle] copy];
-        _link = [[dictionary valueForKey:kRSSItemLink] copy];
-        _summary = [[dictionary valueForKey:kRSSItemSummary] copy];
-        _category = [[dictionary valueForKey:kRSSItemCategory] copy];
+        _title = [dictionary[kRSSItemTitle] copy];
+        _link = [dictionary[kRSSItemLink] copy];
+        _summary = [dictionary[kRSSItemSummary] copy];
+        _category = [dictionary[kRSSItemCategory] copy];
         _pubDate = [[dateFormat dateFromString:[dictionary valueForKey:kRSSItemPubDate]] retain];
         _mediaContent = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSMediaContent]] retain];
         

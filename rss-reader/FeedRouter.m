@@ -59,4 +59,16 @@
     }];
 }
 
+- (void)showError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:error.localizedDescription
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:okAction];
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    });
+}
+
 @end

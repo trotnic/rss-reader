@@ -28,9 +28,9 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
 {
     self = [super init];
     if (self) {
-        _title = [[dictionary valueForKey:kRSSChannelTitle] copy];
-        _link = [[dictionary valueForKey:kRSSChannelLink] copy];
-        _summary = [[dictionary valueForKey:kRSSChannelDescription] copy];
+        _title = [dictionary[kRSSChannelTitle] copy];
+        _link = [dictionary[kRSSChannelLink] copy];
+        _summary = [dictionary[kRSSChannelDescription] copy];
         _items = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSChannelItems]] retain];
     }
     return self;

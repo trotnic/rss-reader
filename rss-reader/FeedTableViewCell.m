@@ -61,7 +61,7 @@
     
     mainStack.axis = UILayoutConstraintAxisHorizontal;
     
-    self.titleLabel.numberOfLines = 4;
+    self.titleLabel.numberOfLines = 0;
     self.titleLabel.textAlignment = NSTextAlignmentLeft;
     
     self.thumbImageView.hidden = YES;

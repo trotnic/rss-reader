@@ -6,13 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FeedParser.h"
-#import "FeedItem.h"
-#import "FeedViewType.h"
 #import "FeedPresenterType.h"
-#import "RouterType.h"
+#import "FeedViewType.h"
+#import "FeedParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol RouterType;
 
 @interface FeedPresenter : NSObject <FeedPresenterType>
 

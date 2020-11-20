@@ -7,9 +7,6 @@
 
 #import "AppDelegate.h"
 #import "FeedRouter.h"
-#import "FeedViewController.h"
-#import "FeedXMLParser.h"
-#import "FeedRouter.h"
 
 @interface AppDelegate ()
 

@@ -33,6 +33,7 @@
 {
     [_presenter release];
     [_tableView release];
+    _channel = nil;
     [super dealloc];
 }
 
@@ -91,21 +92,9 @@
         _channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            self.navigationItem.title = channel.channelTitle;
+            self.navigationItem.title = self.channel.channelTitle;
         });
     }
-}
-
-- (void)showError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:error.localizedDescription
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:okAction];        
-        [self presentViewController:alert animated:YES completion:nil];
-    });
 }
 
 @end

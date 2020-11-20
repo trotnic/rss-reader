@@ -26,9 +26,9 @@ NSString *const kRSSMediaContentType = @"type";
 {
     self = [super init];
     if (self) {
-        _url = [[dictionary valueForKey:@"url"] copy];
-        _type = [[dictionary valueForKey:@"type"] copy];
-        _fileSize = [[dictionary valueForKey:@"fileSize"] intValue];
+        _url = [dictionary[kRSSMediaContentURL] copy];
+        _type = [dictionary[kRSSMediaContentType] copy];
+        _fileSize = [dictionary[kRSSMediaContentFileSize] intValue];
     }
     return self;
 }

@@ -7,6 +7,7 @@
 
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
+#import "RouterType.h"
 
 @interface FeedPresenter ()
 
@@ -48,21 +49,20 @@
 - (void)updateFeed {
     NSURLSessionDataTask *dataTask = [NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:@"https://news.tut.by/rss/index.rss"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            [self.view showError:error];
+            [self.router showError:error];
             return;
         }
-            
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-            [self.parser parseFeed:data completion:^(FeedChannel *channel, NSError * parseError) {
-                if(parseError) {
-                    [self.view showError:parseError];
-                    return;
-                }
-                self.channel = [channel retain];
-                [self.view setChannel:self.channel];
-            }];
-        });
-            
+           
+        [self.parser parseFeed:data completion:^(FeedChannel *channel, NSError * parseError) {
+            if(parseError) {
+                [self.router showError:parseError];
+                return;
+            }
+            [channel retain];
+            [_channel release];
+            _channel = channel;
+            [self.view setChannel:channel];
+        }];
     }];
     
     [dataTask resume];

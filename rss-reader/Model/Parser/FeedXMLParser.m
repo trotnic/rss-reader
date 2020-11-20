@@ -73,7 +73,7 @@ didStartElement:(NSString *)elementName
     }
     
     if([elementName isEqualToString:kRSSItemSummary]) {
-        self.parsingString = [NSMutableString stringWithFormat:@"%@", [attributeDict valueForKey:@"src"]];
+        self.parsingString = [NSMutableString stringWithFormat:@"%@", attributeDict[@"src"]];
     }
     
     if([elementName isEqualToString:kRSSMediaContent]) {
