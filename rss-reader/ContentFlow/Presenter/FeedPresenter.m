@@ -49,12 +49,14 @@
 
 - (void)updateFeed {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view toggleActivityIndicator:YES];
         [self.router showNetworkActivityIndicator:YES];
     });
     __weak typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.view toggleActivityIndicator:NO];
                 [self.router showNetworkActivityIndicator:NO];
                 [weakSelf.router showError:error];
             });
@@ -62,6 +64,7 @@
         }
         weakSelf.channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.view toggleActivityIndicator:NO];
             [self.router showNetworkActivityIndicator:NO];
             [weakSelf.view updatePresentation];
         });

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FeedViewType <NSObject>
 
 - (void)updatePresentation;
+- (void)toggleActivityIndicator:(BOOL)show;
 
 @end
 

@@ -14,6 +14,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 @interface FeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
+
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
 
 @end
@@ -52,6 +54,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    
+    [self.view addSubview:self.activityIndicator];
 }
 
 // MARK: - Lazy Properties
@@ -61,10 +65,20 @@ CGFloat const kFadeAnimationDuration = 0.1;
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
     }
     return _tableView;
+}
+
+- (UIActivityIndicatorView *)activityIndicator {
+    if(!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicator.hidesWhenStopped = YES;
+        _activityIndicator.center = self.view.center;
+    }
+    return _activityIndicator;
 }
 
 // MARK: - UITableViewDataSource
@@ -97,6 +111,14 @@ CGFloat const kFadeAnimationDuration = 0.1;
 - (void)updatePresentation {
     [self.tableView reloadData];
     self.navigationItem.title = self.presenter.viewModel.channelTitle;
+}
+
+- (void)toggleActivityIndicator:(BOOL)show {
+    if (show) {
+        [self.activityIndicator startAnimating];
+    } else {
+        [self.activityIndicator stopAnimating];
+    }
 }
 
 @end
