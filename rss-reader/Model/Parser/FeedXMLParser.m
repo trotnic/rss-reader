@@ -8,6 +8,7 @@
 #import "FeedXMLParser.h"
 #import "FeedChannel.h"
 #import "MediaContent.h"
+#import "NSXMLParser+DelegateInitializable.h"
 
 @interface FeedXMLParser () <NSXMLParserDelegate>
 
@@ -25,6 +26,7 @@
 
 // MARK: - Util
 @property (nonatomic, assign) BOOL isItem;
+@property (nonatomic, retain) NSXMLParser *parser;
 
 @end
 
@@ -32,10 +34,8 @@
 
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion {
     self.completion = completion;
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-    parser.delegate = self;
-    [parser parse];
-    [parser release];
+    self.parser = [NSXMLParser parserWithData:data delegate:self];
+    [self.parser parse];
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
