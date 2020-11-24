@@ -24,6 +24,7 @@
 		2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E59256D390F00B31BC5 /* FeedProvider.m */; };
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
+		2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E90256D486900B31BC5 /* NetworkService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,9 @@
 		2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringConvertible.m"; sourceTree = "<group>"; };
 		2BBE8E7E256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+DelegateInitializable.h"; sourceTree = "<group>"; };
 		2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+DelegateInitializable.m"; sourceTree = "<group>"; };
+		2BBE8E8E256D47E200B31BC5 /* NetworkServiceType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkServiceType.h; sourceTree = "<group>"; };
+		2BBE8E8F256D486900B31BC5 /* NetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
+		2BBE8E90256D486900B31BC5 /* NetworkService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +213,7 @@
 		2B1903BE2563FEE9006D755E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2BBE8E8D256D47CE00B31BC5 /* NetworkService */,
 				2BBE8E4F256D38D600B31BC5 /* DataProvider */,
 				2B653A0125654ED6008A76A3 /* Entity */,
 				2B1903E425640866006D755E /* Parser */,
@@ -327,6 +332,16 @@
 				2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */,
 			);
 			path = NSXMLParser;
+			sourceTree = "<group>";
+		};
+		2BBE8E8D256D47CE00B31BC5 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				2BBE8E8F256D486900B31BC5 /* NetworkService.h */,
+				2BBE8E90256D486900B31BC5 /* NetworkService.m */,
+				2BBE8E8E256D47E200B31BC5 /* NetworkServiceType.h */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,6 +484,7 @@
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
+				2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,7 +9,7 @@
 
 @interface FeedProvider ()
 
-@property (nonatomic, retain) NSURLSession *session;
+@property (nonatomic, retain) id<NetworkServiceType> service;
 @property (nonatomic, retain) id<FeedParserType> parser;
 
 @end
@@ -18,13 +18,13 @@
 
 // MARK: -
 
-- (instancetype)initWithSession:(NSURLSession *)session
+- (instancetype)initWithNetwork:(id<NetworkServiceType>)service
                          parser:(id<FeedParserType>)parser
 {
     self = [super init];
     if (self) {        
         _parser = [parser retain];
-        _session = [session retain];
+        _service = [service retain];
     }
     return self;
 }
@@ -32,7 +32,7 @@
 - (void)dealloc
 {
     [_parser release];
-    [_session release];
+    [_service release];
     [super dealloc];
 }
 
@@ -40,7 +40,8 @@
 
 - (void)fetchData:(void(^)(FeedChannel *, NSError *))completion {
     __weak typeof(self)weakSelf = self;
-    [self performNetworkRequestWith:^(NSData *data, NSError *error) {
+    [self.service fetchWithURL:[NSURL URLWithString:@"https://news.tut.by/rss/index.rss"]
+                    completion:^(NSData *data, NSError *error) {
         if(error) {
             completion(nil, error);
             return;
@@ -53,21 +54,6 @@
             completion(channel, nil);
         }];
     }];
-}
-
-// MARK: -
-
-- (void)performNetworkRequestWith:(void(^)(NSData *, NSError *))completion {
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:[NSURL URLWithString:@"https://news.tut.by/rss/index.rss"]
-                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            completion(nil, error);
-            return;
-        }
-        completion(data, nil);
-    }];
-    
-    [dataTask resume];
 }
 
 @end

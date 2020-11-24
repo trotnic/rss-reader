@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NetworkServiceType.h"
 #import "FeedProviderType.h"
 #import "FeedParserType.h"
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedProvider : NSObject <FeedProviderType>
 
-- (instancetype)initWithSession:(NSURLSession *)session parser:(id<FeedParserType>)parser;
+- (instancetype)initWithNetwork:(id<NetworkServiceType>)service parser:(id<FeedParserType>)parser;
 
 @end
 

@@ -9,6 +9,7 @@
 #import "FeedXMLParser.h"
 #import "FeedPresenter.h"
 #import "FeedProvider.h"
+#import "NetworkService.h"
 #import "FeedViewController.h"
 
 @interface FeedRouter ()
@@ -38,10 +39,12 @@
 
 - (void)start {
     FeedXMLParser *parser = [FeedXMLParser new];
-    FeedProvider *provider = [[FeedProvider alloc] initWithSession:NSURLSession.sharedSession parser:parser];
+    NetworkService *network = [[NetworkService alloc] initWithSession:NSURLSession.sharedSession];
+    FeedProvider *provider = [[FeedProvider alloc] initWithNetwork:network parser:parser];
     FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:provider router:self];
     [parser release];
     [provider release];
+    [network release];
 
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:presenter];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];

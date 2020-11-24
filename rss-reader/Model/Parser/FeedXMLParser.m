@@ -144,8 +144,9 @@ didStartElement:(NSString *)elementName
 }
 
 - (void)dealloc
-{
+{    
     [_items release];
+    [_parser release];
     [_channel release];
     [_completion release];
     [_mediaContent release];
