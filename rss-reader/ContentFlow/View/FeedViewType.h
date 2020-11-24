@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FeedViewType <NSObject>
 
 - (void)updatePresentation;
-//- (void)setChannel:(id<FeedChannelViewModel>)channel;
 
 @end
 
