@@ -13,8 +13,8 @@
 
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
-@property (nonatomic, retain) id<FeedProviderType> provider;
 @property (nonatomic, retain) id<RouterType> router;
+@property (nonatomic, retain) id<FeedProviderType> provider;
 
 @end
 
@@ -22,7 +22,8 @@
 
 // MARK: -
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider router:(id<RouterType>)router
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider
+                          router:(id<RouterType>)router
 {
     self = [super init];
     if (self) {        
@@ -56,12 +57,18 @@
             return;
         }
         weakSelf.channel = channel;
-        [weakSelf.view setChannel:channel];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.view updatePresentation];
+        });
     }];
 }
 
 - (void)selectRowAt:(NSInteger)row {
     [self.router openURL:[NSURL URLWithString:self.channel.items[row].link]];
+}
+
+- (id<FeedChannelViewModel>)viewModel {
+    return self.channel;
 }
 
 @end

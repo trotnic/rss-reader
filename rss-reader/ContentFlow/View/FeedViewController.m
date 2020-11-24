@@ -15,7 +15,6 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
-@property (nonatomic, retain) id<FeedChannelViewModel> channel;
 
 @end
 
@@ -32,7 +31,6 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)dealloc
 {
-    [_channel release];
     [_presenter release];
     [_tableView release];
     [super dealloc];
@@ -73,7 +71,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.channel.channelItems[indexPath.row]];
+    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row]];
     
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
@@ -84,7 +82,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.channel.channelItems.count;
+    return self.presenter.viewModel.channelItems.count;
 }
 
 // MARK: - UITableViewDelegate
@@ -96,15 +94,9 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 // MARK: - FeedViewType
 
-- (void)setChannel:(id<FeedChannelViewModel>)channel {
-    if(_channel != channel) {
-        [_channel release];
-        _channel = [channel retain];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            self.navigationItem.title = self.channel.channelTitle;
-        });
-    }
+- (void)updatePresentation {
+    [self.tableView reloadData];
+    self.navigationItem.title = self.presenter.viewModel.channelTitle;
 }
 
 @end
