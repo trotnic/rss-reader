@@ -26,7 +26,7 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary) {
-        @throw NSInvalidArgumentException;
+        assert(NO);
         return nil;
     }
     

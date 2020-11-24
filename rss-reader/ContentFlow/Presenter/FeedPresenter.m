@@ -48,7 +48,7 @@
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
-    __weak typeof(self)weakSelf = self;
+    __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{

@@ -30,7 +30,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary) {
-        @throw NSInvalidArgumentException;
+        assert(NO);
         return nil;
     }
     

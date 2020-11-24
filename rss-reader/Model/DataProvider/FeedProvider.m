@@ -39,7 +39,7 @@
 // MARK: - FeedProviderType
 
 - (void)fetchData:(void(^)(FeedChannel *, NSError *))completion {
-    __weak typeof(self)weakSelf = self;
+    __block typeof(self)weakSelf = self;
     [self.service fetchWithURL:[NSURL URLWithString:@"https://news.tut.by/rss/index.rss"]
                     completion:^(NSData *data, NSError *error) {
         if(error) {

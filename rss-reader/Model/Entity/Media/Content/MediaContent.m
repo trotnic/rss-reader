@@ -24,7 +24,7 @@ NSString *const kRSSMediaContentFileSize = @"fileSize";
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary) {
-        @throw NSInvalidArgumentException;
+        assert(NO);
         return nil;
     }
     
