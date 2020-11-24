@@ -36,34 +36,38 @@
 
 - (void)fetchWithURL:(NSURL *)url
           completion:(void (^)(NSData *, NSError *))completion {
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url
-                                                 completionHandler:^(NSData *data,
-                                                                     NSURLResponse *response,
-                                                                     NSError *error) {
-        if(error) {
-            completion(nil, error);
-            return;
-        }
-        completion(data, nil);
+    [NSThread detachNewThreadWithBlock:^{
+        NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url
+                                                     completionHandler:^(NSData *data,
+                                                                         NSURLResponse *response,
+                                                                         NSError *error) {
+            if(error) {
+                completion(nil, error);
+                return;
+            }
+            completion(data, nil);
+        }];
+        
+        [dataTask resume];
     }];
-    
-    [dataTask resume];
 }
 
 - (void)fetchWithRequest:(NSURLRequest *)request
               completion:(void (^)(NSData *, NSError *))completion {
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request
-                                                 completionHandler:^(NSData *data,
-                                                                     NSURLResponse *response,
-                                                                     NSError *error) {
-        if(error) {
-            completion(nil, error);
-            return;
-        }
-        completion(data, nil);
+    [NSThread detachNewThreadWithBlock:^{
+        NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request
+                                                     completionHandler:^(NSData *data,
+                                                                         NSURLResponse *response,
+                                                                         NSError *error) {
+            if(error) {
+                completion(nil, error);
+                return;
+            }
+            completion(data, nil);
+        }];
+        
+        [dataTask resume];
     }];
-    
-    [dataTask resume];
 }
 
 @end

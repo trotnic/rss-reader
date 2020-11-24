@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start;
 - (void)openURL:(NSURL *)url;
 - (void)showError:(NSError *)error;
+- (void)showNetworkActivityIndicator:(BOOL)show;
 
 @end
 

@@ -48,16 +48,21 @@
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.router showNetworkActivityIndicator:YES];
+    });
     __weak typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.router showNetworkActivityIndicator:NO];
                 [weakSelf.router showError:error];
             });
             return;
         }
         weakSelf.channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.router showNetworkActivityIndicator:NO];
             [weakSelf.view updatePresentation];
         });
     }];

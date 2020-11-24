@@ -74,4 +74,8 @@
     [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
+- (void)showNetworkActivityIndicator:(BOOL)show {
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = show;
+}
+
 @end
