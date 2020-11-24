@@ -8,6 +8,7 @@
 #import "FeedRouter.h"
 #import "FeedXMLParser.h"
 #import "FeedPresenter.h"
+#import "FeedProvider.h"
 #import "FeedViewController.h"
 
 @interface FeedRouter ()
@@ -37,17 +38,18 @@
 
 - (void)start {
     FeedXMLParser *parser = [FeedXMLParser new];
-    
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithParser:parser router:self];
+    FeedProvider *provider = [[FeedProvider alloc] initWithSession:NSURLSession.sharedSession parser:parser];
+    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:provider router:self];
     [parser release];
+    [provider release];
+
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:presenter];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-    
     [presenter assignView:controller];
+    [controller release];
     [presenter release];
     
     self.window.rootViewController = navigationController;
-    [controller release];
     [navigationController release];
     
     [self.window makeKeyAndVisible];
@@ -60,15 +62,13 @@
 }
 
 - (void)showError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:error.localizedDescription
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:okAction];
-        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-    });
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                   message:error.localizedFailureReason
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okAction];
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 @end

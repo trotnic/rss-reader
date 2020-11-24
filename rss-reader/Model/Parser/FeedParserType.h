@@ -10,7 +10,7 @@
 @class FeedChannel;
 typedef void(^ParseHandler)(FeedChannel *, NSError *);
 
-@protocol FeedParser <NSObject>
+@protocol FeedParserType <NSObject>
 
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion;
 

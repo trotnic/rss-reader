@@ -6,9 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FeedParser.h"
+#import "FeedParserType.h"
 #import "FeedItem.h"
 
-@interface FeedXMLParser : NSObject <FeedParser>
+@interface FeedXMLParser : NSObject <FeedParserType>
 
 @end

@@ -9,11 +9,13 @@
 #import "FeedChannelViewModel.h"
 #import "FeedTableViewCell.h"
 
+CGFloat const kFadeAnimationDuration = 0.1;
+
 @interface FeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
-@property (nonatomic, assign) id<FeedChannelViewModel> channel;
+@property (nonatomic, retain) id<FeedChannelViewModel> channel;
 
 @end
 
@@ -23,7 +25,6 @@
 {
     self = [super init];
     if (self) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _presenter = [presenter retain];
     }
     return self;
@@ -31,9 +32,9 @@
 
 - (void)dealloc
 {
+    [_channel release];
     [_presenter release];
     [_tableView release];
-    _channel = nil;
     [super dealloc];
 }
 
@@ -42,32 +43,40 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupTableView];
+    [self setupLayout];
     [self.presenter updateFeed];
 }
 
-- (void)setupTableView {
+- (void)setupLayout {
     [self.view addSubview:self.tableView];
-    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+        
     [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-    
-    [self.tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:@"identifier"];
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+}
+
+// MARK: - Lazy Properties
+
+- (UITableView *)tableView {
+    if(!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
+    }
+    return _tableView;
 }
 
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier" forIndexPath:indexPath];
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
+    [cell setupWithViewModel:self.channel.channelItems[indexPath.row]];
+    
     cell.alpha = 0;
-    [((FeedTableViewCell *)cell) attachViewModel:self.channel.channelItems[indexPath.row]];
-    [UIView animateWithDuration:0.1 animations:^{
+    [UIView animateWithDuration:kFadeAnimationDuration animations:^{
         cell.alpha = 1;
     }];
     
@@ -89,7 +98,8 @@
 
 - (void)setChannel:(id<FeedChannelViewModel>)channel {
     if(_channel != channel) {
-        _channel = channel;
+        [_channel release];
+        _channel = [channel retain];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             self.navigationItem.title = self.channel.channelTitle;

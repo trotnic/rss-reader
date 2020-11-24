@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
 #import "FeedViewType.h"
-#import "FeedParser.h"
+#import "FeedProviderType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedPresenter : NSObject <FeedPresenterType>
 
-- (instancetype)initWithParser:(id<FeedParser>)parser router:(id<RouterType>)router;
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider router:(id<RouterType>)router;
 - (void)assignView:(id<FeedViewType>)view;
 
 @end

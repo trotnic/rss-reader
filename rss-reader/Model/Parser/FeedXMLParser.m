@@ -7,6 +7,7 @@
 
 #import "FeedXMLParser.h"
 #import "FeedChannel.h"
+#import "MediaContent.h"
 
 @interface FeedXMLParser () <NSXMLParserDelegate>
 
@@ -77,14 +78,14 @@ didStartElement:(NSString *)elementName
     }
     
     if([elementName isEqualToString:kRSSMediaContent]) {
-        MediaContent *content = [[MediaContent alloc] initWithDictionary:attributeDict];
-        [self.mediaContent addObject:content];
-        [content release];
+        MediaContent *content = [MediaContent objectWithDictionary:attributeDict];
+        if(content) {
+            [self.mediaContent addObject:content];
+        }
     }
 }
 
-- (void)parser:(NSXMLParser *)parser
-foundCharacters:(NSString *)string {
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
     [self.parsingString appendString:string];
 }
 
@@ -95,9 +96,12 @@ foundCharacters:(NSString *)string {
     
     if([elementName isEqualToString:kRSSChannel]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
-        FeedChannel *channel = [[FeedChannel alloc] initWithDictionary:self.channelDictionary];
-        self.channel = channel;
-        [channel release];
+        FeedChannel *channel = [FeedChannel objectWithDictionary:self.channelDictionary];
+        if(channel) {
+            self.channel = channel;
+        } else {
+            [parser abortParsing];
+        }
         
         [_channelDictionary release];
         _channelDictionary = nil;
@@ -124,9 +128,11 @@ foundCharacters:(NSString *)string {
     
     if([elementName isEqualToString:kRSSItem]) {
         [self.itemDictionary setValue:self.mediaContent forKey:kRSSMediaContent];
-        FeedItem *item = [[FeedItem alloc] initWithDictionary:self.itemDictionary];
-        [self.items addObject:item];
-        [item release];
+        FeedItem *item = [FeedItem objectWithDictionary:self.itemDictionary];
+        if(item) {
+            [self.items addObject:item];
+        }
+        self.isItem = NO;
     }
 }
 
@@ -139,12 +145,12 @@ foundCharacters:(NSString *)string {
 
 - (void)dealloc
 {
-    [_parsingString release];
-    [_mediaContent release];
     [_items release];
-    [_itemDictionary release];
-    [_completion release];
     [_channel release];
+    [_completion release];
+    [_mediaContent release];
+    [_parsingString release];
+    [_itemDictionary release];
     [_channelDictionary release];
     [super dealloc];
 }

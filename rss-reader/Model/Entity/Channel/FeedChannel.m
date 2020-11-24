@@ -8,15 +8,15 @@
 #import "FeedChannel.h"
 
 NSString *const kRSSChannel = @"channel";
-NSString *const kRSSChannelTitle = @"title";
 NSString *const kRSSChannelLink = @"link";
+NSString *const kRSSChannelTitle = @"title";
 NSString *const kRSSChannelDescription = @"description";
 NSString *const kRSSChannelItems = @"RSSChannelItems";
 
 @interface FeedChannel ()
 
-@property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *link;
+@property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, retain, readwrite) NSArray<FeedItem *> *items;
 
@@ -24,24 +24,28 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
 
 @implementation FeedChannel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super init];
-    if (self) {
-        _title = [dictionary[kRSSChannelTitle] copy];
-        _link = [dictionary[kRSSChannelLink] copy];
-        _summary = [dictionary[kRSSChannelDescription] copy];
-        _items = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSChannelItems]] retain];
++ (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
+    if(!dictionary) {
+        @throw NSInvalidArgumentException;
+        return nil;
     }
-    return self;
+    
+    FeedChannel *object = [FeedChannel new];
+        
+    object.link = dictionary[kRSSChannelLink];
+    object.title = dictionary[kRSSChannelTitle];
+    object.summary = dictionary[kRSSChannelDescription];
+    object.items = [NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSChannelItems]];
+    
+    return [object autorelease];
 }
 
 - (void)dealloc
 {
-    [_title release];
     [_link release];
-    [_summary release];
+    [_title release];
     [_items release];
+    [_summary release];
     [super dealloc];
 }
 

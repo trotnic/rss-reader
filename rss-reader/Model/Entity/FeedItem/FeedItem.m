@@ -6,6 +6,7 @@
 //
 
 #import "FeedItem.h"
+#import "NSDate+StringConvertible.h"
 
 NSString *const kRSSItem = @"item";
 NSString *const kRSSItemTitle = @"title";
@@ -27,32 +28,32 @@ NSString *const kRSSItemPubDate = @"pubDate";
 
 @implementation FeedItem
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super init];
-    if (self) {
-        NSDateFormatter *dateFormat = [NSDateFormatter new];
-        [dateFormat setDateFormat:@"EE, d LLLL yyyy HH:mm:ss Z"];
-        
-        _title = [dictionary[kRSSItemTitle] copy];
-        _link = [dictionary[kRSSItemLink] copy];
-        _summary = [dictionary[kRSSItemSummary] copy];
-        _category = [dictionary[kRSSItemCategory] copy];
-        _pubDate = [[dateFormat dateFromString:[dictionary valueForKey:kRSSItemPubDate]] retain];
-        _mediaContent = [[NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSMediaContent]] retain];
-        
-        [dateFormat release];
++ (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
+    if(!dictionary) {
+        @throw NSInvalidArgumentException;
+        return nil;
     }
-    return self;
+    
+    FeedItem *object = [FeedItem new];
+    
+    
+    object.title = dictionary[kRSSItemTitle];
+    object.link = dictionary[kRSSItemLink];
+    object.summary = dictionary[kRSSItemSummary];
+    object.category = dictionary[kRSSItemCategory];
+    object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:@"EE, d LLLL yyyy HH:mm:ss Z"];
+    object.mediaContent = [NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSMediaContent]];
+    
+    return [object autorelease];
 }
 
 - (void)dealloc
 {
-    [_title release];
     [_link release];
-    [_summary release];
-    [_category release];
+    [_title release];
+    [_summary release];    
     [_pubDate release];
+    [_category release];
     [_mediaContent release];
     [super dealloc];
 }
@@ -73,9 +74,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 }
 
 - (NSString *)articleDate {
-    NSDateFormatter *dateFormat = [[NSDateFormatter new] autorelease];
-    [dateFormat setDateFormat:@"dd.MM.yyyy"];
-    return [dateFormat stringFromDate:self.pubDate];
+    return [self.pubDate stringWithFormat:@"dd.MM.yyyy HH:mm"];
 }
 
 @end

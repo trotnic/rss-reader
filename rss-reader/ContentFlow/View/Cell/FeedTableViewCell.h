@@ -14,12 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, retain, readwrite) UILabel *titleLabel;
 @property (nonatomic, retain, readwrite) UILabel *dateLabel;
-@property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
 @property (nonatomic, retain, readwrite) UILabel *categoryLabel;
-@property (nonatomic, retain, readwrite) UIImageView *thumbImageView;
 
-
-- (void)attachViewModel:(id<FeedItemViewModel>)viewModel;
++ (NSString *)cellIdentifier;
+- (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel;
 
 @end
 

@@ -26,8 +26,8 @@ FOUNDATION_EXPORT NSString *const kRSSItemPubDate;
 @property (nonatomic, copy, readonly) NSString *category;
 @property (nonatomic, retain, readonly) NSArray<MediaContent *> *mediaContent;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+NS_ASSUME_NONNULL_END
+
++ (nullable instancetype)objectWithDictionary:(NSDictionary *_Nonnull)dictionary;
 
 @end
-
-NS_ASSUME_NONNULL_END

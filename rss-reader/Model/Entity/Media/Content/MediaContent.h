@@ -11,17 +11,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString *const kRSSMediaContent;
 FOUNDATION_EXPORT NSString *const kRSSMediaContentURL;
-FOUNDATION_EXPORT NSString *const kRSSMediaContentFileSize;
 FOUNDATION_EXPORT NSString *const kRSSMediaContentType;
+FOUNDATION_EXPORT NSString *const kRSSMediaContentFileSize;
 
 @interface MediaContent : NSObject
 
 @property (nonatomic, copy, readonly) NSString *url;
-@property (nonatomic, assign, readonly) NSInteger fileSize;
 @property (nonatomic, copy, readonly) NSString *type;
+@property (nonatomic, assign, readonly) NSInteger fileSize;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+NS_ASSUME_NONNULL_END
+
++ (nullable instancetype)objectWithDictionary:(NSDictionary *_Nonnull)dictionary;
 
 @end
 
-NS_ASSUME_NONNULL_END
