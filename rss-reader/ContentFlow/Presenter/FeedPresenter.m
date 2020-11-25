@@ -50,16 +50,19 @@
 - (void)updateFeed {
     __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
+        [weakSelf retain];
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.router showError:error];
             });
+            [weakSelf release];
             return;
         }
         weakSelf.channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.view updatePresentation];
         });
+        [weakSelf release];
     }];
 }
 
