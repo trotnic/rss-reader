@@ -6,20 +6,17 @@
 //
 
 #import "NSDate+StringConvertible.h"
+#import "NSDateFormatter+FormatInitializable.h"
 
 @implementation NSDate (StringConvertible)
 
 + (instancetype)dateFromString:(NSString *)string
                     withFormat:(NSString *)format {
-    NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
-    formatter.dateFormat = format;
-    return [formatter dateFromString:string];
+    return [[NSDateFormatter dateFormatterWithFormat:format] dateFromString:string];
 }
 
 - (NSString *)stringWithFormat:(NSString *)format {
-    NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
-    formatter.dateFormat = format;
-    return [formatter stringFromDate:self];
+    return [[NSDateFormatter dateFormatterWithFormat:format] stringFromDate:self];
 }
 
 @end

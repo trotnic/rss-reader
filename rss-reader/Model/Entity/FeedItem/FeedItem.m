@@ -30,7 +30,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary) {
-        assert(NO);
+        NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
     
