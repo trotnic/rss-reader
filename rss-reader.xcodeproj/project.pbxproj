@@ -26,6 +26,8 @@
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
 		2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E90256D486900B31BC5 /* NetworkService.m */; };
+		2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48F17256E871E007A81E0 /* ErrorManager.m */; };
+		2BF48F3E256E8C5B007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48F3B256E8C5B007A81E0 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,10 @@
 		2BBE8E8E256D47E200B31BC5 /* NetworkServiceType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkServiceType.h; sourceTree = "<group>"; };
 		2BBE8E8F256D486900B31BC5 /* NetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
 		2BBE8E90256D486900B31BC5 /* NetworkService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkService.m; sourceTree = "<group>"; };
+		2BF48F15256E8714007A81E0 /* ErrorManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorManagerType.h; sourceTree = "<group>"; };
+		2BF48F16256E871E007A81E0 /* ErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorManager.h; sourceTree = "<group>"; };
+		2BF48F17256E871E007A81E0 /* ErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
+		2BF48F3C256E8C5B007A81E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +179,8 @@
 		2B1903B12563FE9D006D755E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				2BF48F3B256E8C5B007A81E0 /* Localizable.strings */,
+				2BF48F14256E8704007A81E0 /* ErrorManager */,
 				2B1903822563FE17006D755E /* main.m */,
 				2B1903702563FE16006D755E /* AppDelegate.h */,
 				2B1903712563FE16006D755E /* AppDelegate.m */,
@@ -357,6 +365,16 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		2BF48F14256E8704007A81E0 /* ErrorManager */ = {
+			isa = PBXGroup;
+			children = (
+				2BF48F15256E8714007A81E0 /* ErrorManagerType.h */,
+				2BF48F16256E871E007A81E0 /* ErrorManager.h */,
+				2BF48F17256E871E007A81E0 /* ErrorManager.m */,
+			);
+			path = ErrorManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -459,6 +477,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BF48F3E256E8C5B007A81E0 /* Localizable.strings in Resources */,
 				2B1903802563FE17006D755E /* LaunchScreen.storyboard in Resources */,
 				2B19037D2563FE17006D755E /* Assets.xcassets in Resources */,
 			);
@@ -499,6 +518,7 @@
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */,
+				2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,6 +561,14 @@
 				2B19037F2563FE17006D755E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2BF48F3B256E8C5B007A81E0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BF48F3C256E8C5B007A81E0 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

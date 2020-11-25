@@ -65,8 +65,8 @@
 }
 
 - (void)showError:(NSError *)error {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:error.localizedFailureReason
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:error.localizedFailureReason
+                                                                   message:error.localizedDescription
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];

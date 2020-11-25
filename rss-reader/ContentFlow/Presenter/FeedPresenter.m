@@ -6,6 +6,7 @@
 //
 
 #import "FeedPresenter.h"
+#import "ErrorManager.h"
 #import "FeedChannel.h"
 #import "RouterType.h"
 
