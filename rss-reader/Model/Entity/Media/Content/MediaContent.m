@@ -23,7 +23,7 @@ NSString *const kRSSMediaContentFileSize = @"fileSize";
 @implementation MediaContent
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary) {
+    if(!dictionary || dictionary.count == 0) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }

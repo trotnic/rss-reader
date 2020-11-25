@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedProviderType <NSObject>
 
-- (void)fetchData:(void(^)(FeedChannel *, NSError *))completion;
+- (void)fetchData:(void(^)(FeedChannel *_Nullable, NSError *_Nullable))completion;
 
 @end
 
