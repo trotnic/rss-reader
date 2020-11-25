@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FeedPresenterType <NSObject>
 
 - (void)updateFeed;
-- (id<FeedChannelViewModel>)viewModel;
 - (void)selectRowAt:(NSInteger)row;
+- (id<FeedChannelViewModel>)viewModel;
 
 @end
 

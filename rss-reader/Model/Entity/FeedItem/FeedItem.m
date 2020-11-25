@@ -15,6 +15,9 @@ NSString *const kRSSItemSummary = @"description";
 NSString *const kRSSItemCategory = @"category";
 NSString *const kRSSItemPubDate = @"pubDate";
 
+NSString *const kDatePresentationFormat = @"dd.MM.yyyy HH:mm";
+NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
+
 @interface FeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
@@ -29,7 +32,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 @implementation FeedItem
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary) {
+    if(!dictionary || dictionary.count == 0) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
@@ -41,7 +44,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
     object.link = dictionary[kRSSItemLink];
     object.summary = dictionary[kRSSItemSummary];
     object.category = dictionary[kRSSItemCategory];
-    object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:@"EE, d LLLL yyyy HH:mm:ss Z"];
+    object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
     object.mediaContent = [NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSMediaContent]];
     
     return [object autorelease];
@@ -60,7 +63,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@", self.class];
+    return NSStringFromClass(self.class);
 }
 
 // MARK: - FeedItemViewModel
@@ -74,7 +77,7 @@ NSString *const kRSSItemPubDate = @"pubDate";
 }
 
 - (NSString *)articleDate {
-    return [self.pubDate stringWithFormat:@"dd.MM.yyyy HH:mm"];
+    return [self.pubDate stringWithFormat:kDatePresentationFormat];
 }
 
 @end

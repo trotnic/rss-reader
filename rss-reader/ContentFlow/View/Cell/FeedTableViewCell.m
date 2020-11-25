@@ -14,9 +14,9 @@ NSInteger const kTitleNumberOfLines = 0;
 
 @interface FeedTableViewCell ()
 
+@property (nonatomic, retain) UIStackView *mainStack;
 @property (nonatomic, retain) UIStackView *textSubStack;
 @property (nonatomic, retain) UIStackView *textMainStack;
-@property (nonatomic, retain) UIStackView *mainStack;
 
 @end
 
