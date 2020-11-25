@@ -49,13 +49,14 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)setupLayout {
     [self.view addSubview:self.tableView];
-        
-    [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
-    [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-    [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
-    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-    
     [self.view addSubview:self.activityIndicator];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
 }
 
 // MARK: - Lazy Properties

@@ -15,6 +15,7 @@
 		2B1903982563FE17006D755E /* rss_readerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903972563FE17006D755E /* rss_readerUITests.m */; };
 		2B1903E0256406A3006D755E /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903DF256406A3006D755E /* FeedItem.m */; };
 		2B1903E725640873006D755E /* FeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903E625640873006D755E /* FeedXMLParser.m */; };
+		2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53014E256E430200E82D56 /* NSDateFormatter+FormatInitializable.m */; };
 		2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B653A0425654EE8008A76A3 /* FeedChannel.m */; };
 		2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F5DF625654FFB00656FC7 /* MediaContent.m */; };
 		2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E1C256D37A400B31BC5 /* FeedPresenter.m */; };
@@ -63,6 +64,8 @@
 		2B1903E525640873006D755E /* FeedXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedXMLParser.h; sourceTree = "<group>"; };
 		2B1903E625640873006D755E /* FeedXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedXMLParser.m; sourceTree = "<group>"; };
 		2B4259142566B49A0084C0A4 /* FeedChannelViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedChannelViewModel.h; sourceTree = "<group>"; };
+		2B53014D256E430200E82D56 /* NSDateFormatter+FormatInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+FormatInitializable.h"; sourceTree = "<group>"; };
+		2B53014E256E430200E82D56 /* NSDateFormatter+FormatInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+FormatInitializable.m"; sourceTree = "<group>"; };
 		2B653A0325654EE8008A76A3 /* FeedChannel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedChannel.h; sourceTree = "<group>"; };
 		2B653A0425654EE8008A76A3 /* FeedChannel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedChannel.m; sourceTree = "<group>"; };
 		2B7F5DF525654FFB00656FC7 /* MediaContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaContent.h; sourceTree = "<group>"; };
@@ -241,6 +244,15 @@
 			path = Parser;
 			sourceTree = "<group>";
 		};
+		2B53014C256E42F000E82D56 /* NSDateFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				2B53014D256E430200E82D56 /* NSDateFormatter+FormatInitializable.h */,
+				2B53014E256E430200E82D56 /* NSDateFormatter+FormatInitializable.m */,
+			);
+			path = NSDateFormatter;
+			sourceTree = "<group>";
+		};
 		2B6539F725653DE5008A76A3 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +322,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2B53014C256E42F000E82D56 /* NSDateFormatter */,
 				2BBE8E7D256D445600B31BC5 /* NSXMLParser */,
 				2BBE8E5F256D393E00B31BC5 /* NSDate */,
 			);
@@ -472,6 +485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */,
 				2BBE8E26256D37B300B31BC5 /* FeedRouter.m in Sources */,

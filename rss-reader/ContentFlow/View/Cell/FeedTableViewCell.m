@@ -23,7 +23,7 @@ NSInteger const kTitleNumberOfLines = 0;
 @implementation FeedTableViewCell
 
 + (NSString *)cellIdentifier {
-    return @"FeedTableViewCell";
+    return NSStringFromClass(self);
 }
 
 // MARK: -
@@ -60,10 +60,12 @@ NSInteger const kTitleNumberOfLines = 0;
     
     [self.contentView addSubview:self.mainStack];
     
-    [self.mainStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding].active = YES;
-    [self.mainStack.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:kPadding].active = YES;
-    [self.mainStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding].active = YES;
-    [self.mainStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-kPadding].active = YES;
+    [NSLayoutConstraint activateConstraints:@[
+        [self.mainStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding],
+        [self.mainStack.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:kPadding],
+        [self.mainStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding],
+        [self.mainStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-kPadding]
+    ]];
 }
 
 // MARK: -
@@ -129,15 +131,6 @@ NSInteger const kTitleNumberOfLines = 0;
     self.dateLabel.text = [viewModel articleDate];
     self.titleLabel.text = [viewModel articleTitle];
     self.categoryLabel.text = [viewModel articleCategory];
-}
-
-// MARK: -
-
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    self.categoryLabel.text = nil;
-    self.titleLabel.text = nil;
-    self.dateLabel.text = nil;
 }
 
 @end
