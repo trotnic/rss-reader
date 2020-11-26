@@ -6,7 +6,6 @@
 //
 
 #import "FeedPresenter.h"
-#import "ErrorManager.h"
 #import "FeedChannel.h"
 #import "RouterType.h"
 
@@ -42,10 +41,6 @@
     [super dealloc];
 }
 
-- (void)assignView:(id<FeedViewType>)view {
-    _view = view;
-}
-
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
@@ -55,12 +50,14 @@
     });
     __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
+        [weakSelf retain];
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.view toggleActivityIndicator:NO];
                 [self.router showNetworkActivityIndicator:NO];
                 [weakSelf.router showError:error];
             });
+            [weakSelf release];
             return;
         }
         weakSelf.channel = channel;
@@ -69,6 +66,7 @@
             [self.router showNetworkActivityIndicator:NO];
             [weakSelf.view updatePresentation];
         });
+        [weakSelf release];
     }];
 }
 
@@ -78,6 +76,10 @@
 
 - (id<FeedChannelViewModel>)viewModel {
     return self.channel;
+}
+
+- (void)assignView:(id<FeedViewType>)view {
+    _view = view;
 }
 
 @end

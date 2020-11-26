@@ -25,7 +25,7 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
 @implementation FeedChannel
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary || dictionary.count == 0) {
+    if(!dictionary || !dictionary.count) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
@@ -52,7 +52,7 @@ NSString *const kRSSChannelItems = @"RSSChannelItems";
 // MARK: - FeedChannelViewModel
 
 - (NSString *)channelTitle {
-    return self.title;
+    return [[self.title copy] autorelease];
 }
 
 - (NSArray<id<FeedItemViewModel>> *)channelItems {

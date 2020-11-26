@@ -32,13 +32,12 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @implementation FeedItem
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary || dictionary.count == 0) {
+    if(!dictionary || !dictionary.count) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
     
     FeedItem *object = [FeedItem new];
-    
     
     object.title = dictionary[kRSSItemTitle];
     object.link = dictionary[kRSSItemLink];
@@ -69,11 +68,11 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 // MARK: - FeedItemViewModel
 
 - (NSString *)articleTitle {
-    return self.title;
+    return [[self.title copy] autorelease];
 }
 
 - (NSString *)articleCategory {
-    return self.category;
+    return [[self.category copy] autorelease];
 }
 
 - (NSString *)articleDate {

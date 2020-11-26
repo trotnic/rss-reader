@@ -6,25 +6,24 @@
 //
 
 #import "FeedRouter.h"
-#import "FeedXMLParser.h"
-#import "FeedPresenter.h"
-#import "FeedProvider.h"
-#import "NetworkService.h"
 #import "FeedViewController.h"
+#import "UIViewController+ErrorPresenter.h"
 
 @interface FeedRouter ()
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) id<DIContainerType> container;
 
 @end
 
 @implementation FeedRouter
 
 - (instancetype)initWithWindow:(UIWindow *)window
-{
+                  dependencies:(id<DIContainerType>)container {
     self = [super init];
     if (self) {
         _window = [window retain];
+        _container = [container retain];
     }
     return self;
 }
@@ -32,29 +31,16 @@
 - (void)dealloc
 {
     [_window release];
+    [_container release];
     [super dealloc];
 }
 
 // MARK: - RouterType
 
-- (void)start {
-    FeedXMLParser *parser = [FeedXMLParser new];
-    NetworkService *network = [[NetworkService alloc] initWithSession:NSURLSession.sharedSession];
-    FeedProvider *provider = [[FeedProvider alloc] initWithNetwork:network parser:parser];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:provider router:self];
-    [parser release];
-    [provider release];
-    [network release];
-
-    FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:presenter];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-    [presenter assignView:controller];
-    [controller release];
-    [presenter release];
-    
-    self.window.rootViewController = navigationController;
-    [navigationController release];
-    
+- (void)start {    
+    self.window.rootViewController = [[[UINavigationController alloc]
+                                       initWithRootViewController:[self.container
+                                                                   resolveServiceOfType:NSStringFromClass(FeedViewController.class)]] autorelease];
     [self.window makeKeyAndVisible];
 }
 
@@ -65,13 +51,7 @@
 }
 
 - (void)showError:(NSError *)error {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:error.localizedFailureReason
-                                                                   message:error.localizedDescription
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:okAction];
-    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    [self.window.rootViewController showError:error];
 }
 
 - (void)showNetworkActivityIndicator:(BOOL)show {

@@ -12,6 +12,7 @@
 + (instancetype)dateFormatterWithFormat:(NSString *)format {
     NSDateFormatter *formatter = [NSDateFormatter new];
     formatter.dateFormat = format;
+    [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
     return [formatter autorelease];
 }
 

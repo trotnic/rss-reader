@@ -32,11 +32,20 @@
 
 @implementation FeedXMLParser
 
+// MARK: -
+
++ (instancetype)parser {
+    FeedXMLParser *parser = [FeedXMLParser new];
+    return [parser autorelease];
+}
+
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
 }
+
+// MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
     if(self.completion) {

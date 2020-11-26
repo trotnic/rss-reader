@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  rss-reader
+
+  Created by Uladzislau on 11/25/20.
+  
+*/
+
+"BAD_INTERNET_CONNECTION_TITLE" = "Connection error";
+"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Check your connection and try to reload a feed";
+
+"BAD_RSS_FEED_TITLE" = "RSS error";
+"BAD_RSS_FEED_DESCRIPTION" = "Can't recognize RSS feed, use another one";

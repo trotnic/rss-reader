@@ -7,6 +7,9 @@
 
 #import "ErrorManager.h"
 
+NSInteger const RSSReaderErrorCodeKey = 10000;
+NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
+
 NSString *const BAD_INTERNET_CONNECTION_TITLE = @"BAD_INTERNET_CONNECTION_TITLE";
 NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION = @"BAD_INTERNET_CONNECTION_DESCRIPTION";
 
@@ -20,7 +23,7 @@ NSString *const BAD_RSS_FEED_DESCRIPTION = @"BAD_RSS_FEED_DESCRIPTION";
     assert(completion);
     switch (type) {
         case RSSErrorTypeBadNetwork: {
-            NSError *error = [NSError errorWithDomain:@"self" code:0 userInfo:@{
+            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")                
             }];
@@ -29,7 +32,7 @@ NSString *const BAD_RSS_FEED_DESCRIPTION = @"BAD_RSS_FEED_DESCRIPTION";
         }
             
         case RSSErrorTypeParsingError: {
-            NSError *error = [NSError errorWithDomain:@"self" code:0 userInfo:@{
+            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
             }];

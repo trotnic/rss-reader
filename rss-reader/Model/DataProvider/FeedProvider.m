@@ -7,6 +7,8 @@
 
 #import "FeedProvider.h"
 
+NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
+
 @interface FeedProvider ()
 
 @property (nonatomic, retain) id<NetworkServiceType> service;
@@ -40,18 +42,21 @@
 
 - (void)fetchData:(void(^)(FeedChannel *, NSError *))completion {
     __block typeof(self)weakSelf = self;
-    [self.service fetchWithURL:[NSURL URLWithString:@"https://news.tut.by/rss/index.rss"]
+    [self.service fetchWithURL:[NSURL URLWithString:kFeedURL]
                     completion:^(NSData *data, NSError *error) {
         if(error) {
             completion(nil, error);
             return;
         }
+        [weakSelf retain];
         [weakSelf.parser parseFeed:data completion:^(FeedChannel *channel, NSError *parseError) {
             if(parseError) {
                 completion(nil, parseError);
+                [weakSelf release];
                 return;
             }
             completion(channel, nil);
+            [weakSelf release];
         }];
     }];
 }

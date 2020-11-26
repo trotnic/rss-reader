@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2B1903722563FE16006D755E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903712563FE16006D755E /* AppDelegate.m */; };
 		2B19037D2563FE17006D755E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B19037C2563FE17006D755E /* Assets.xcassets */; };
-		2B1903802563FE17006D755E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B19037E2563FE17006D755E /* LaunchScreen.storyboard */; };
 		2B1903832563FE17006D755E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903822563FE17006D755E /* main.m */; };
 		2B19038D2563FE17006D755E /* rss_readerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B19038C2563FE17006D755E /* rss_readerTests.m */; };
 		2B1903982563FE17006D755E /* rss_readerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1903972563FE17006D755E /* rss_readerUITests.m */; };
@@ -26,8 +25,10 @@
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
 		2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E90256D486900B31BC5 /* NetworkService.m */; };
+		2BE0646D256FA9350073601F /* DIContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0646C256FA9350073601F /* DIContainer.m */; };
 		2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48F17256E871E007A81E0 /* ErrorManager.m */; };
-		2BF48F3E256E8C5B007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48F3B256E8C5B007A81E0 /* Localizable.strings */; };
+		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
+		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,6 @@
 		2B1903702563FE16006D755E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B1903712563FE16006D755E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2B19037C2563FE17006D755E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2B19037F2563FE17006D755E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B1903812563FE17006D755E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B1903822563FE17006D755E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2B1903882563FE17006D755E /* rss-readerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-readerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,10 +95,16 @@
 		2BBE8E8E256D47E200B31BC5 /* NetworkServiceType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkServiceType.h; sourceTree = "<group>"; };
 		2BBE8E8F256D486900B31BC5 /* NetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
 		2BBE8E90256D486900B31BC5 /* NetworkService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkService.m; sourceTree = "<group>"; };
+		2BE0646A256FA9280073601F /* DIContainerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainerType.h; sourceTree = "<group>"; };
+		2BE0646B256FA9350073601F /* DIContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainer.h; sourceTree = "<group>"; };
+		2BE0646C256FA9350073601F /* DIContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIContainer.m; sourceTree = "<group>"; };
 		2BF48F15256E8714007A81E0 /* ErrorManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorManagerType.h; sourceTree = "<group>"; };
 		2BF48F16256E871E007A81E0 /* ErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorManager.h; sourceTree = "<group>"; };
 		2BF48F17256E871E007A81E0 /* ErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
-		2BF48F3C256E8C5B007A81E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
+		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
+		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,13 +185,13 @@
 		2B1903B12563FE9D006D755E /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				2BF48F3B256E8C5B007A81E0 /* Localizable.strings */,
+				2BE06469256FA9150073601F /* DIContainer */,
+				2BF48F6A256E99EF007A81E0 /* Localization */,
 				2BF48F14256E8704007A81E0 /* ErrorManager */,
 				2B1903822563FE17006D755E /* main.m */,
 				2B1903702563FE16006D755E /* AppDelegate.h */,
 				2B1903712563FE16006D755E /* AppDelegate.m */,
 				2B19037C2563FE17006D755E /* Assets.xcassets */,
-				2B19037E2563FE17006D755E /* LaunchScreen.storyboard */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CAF30C2325701736004A925D /* UIViewController */,
 				2B53014C256E42F000E82D56 /* NSDateFormatter */,
 				2BBE8E7D256D445600B31BC5 /* NSXMLParser */,
 				2BBE8E5F256D393E00B31BC5 /* NSDate */,
@@ -365,6 +372,16 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		2BE06469256FA9150073601F /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				2BE0646A256FA9280073601F /* DIContainerType.h */,
+				2BE0646B256FA9350073601F /* DIContainer.h */,
+				2BE0646C256FA9350073601F /* DIContainer.m */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
 		2BF48F14256E8704007A81E0 /* ErrorManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +390,23 @@
 				2BF48F17256E871E007A81E0 /* ErrorManager.m */,
 			);
 			path = ErrorManager;
+			sourceTree = "<group>";
+		};
+		2BF48F6A256E99EF007A81E0 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				2BF48FA0256E9B85007A81E0 /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		CAF30C2325701736004A925D /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */,
+				CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */,
+			);
+			path = UIViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,6 +493,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 2B1903642563FE16006D755E;
 			productRefGroup = 2B19036E2563FE16006D755E /* Products */;
@@ -477,9 +512,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BF48F3E256E8C5B007A81E0 /* Localizable.strings in Resources */,
-				2B1903802563FE17006D755E /* LaunchScreen.storyboard in Resources */,
 				2B19037D2563FE17006D755E /* Assets.xcassets in Resources */,
+				2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */,
@@ -517,6 +552,7 @@
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
+				2BE0646D256FA9350073601F /* DIContainer.m in Sources */,
 				2BBE8E91256D486900B31BC5 /* NetworkService.m in Sources */,
 				2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
@@ -555,18 +591,11 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2B19037E2563FE17006D755E /* LaunchScreen.storyboard */ = {
+		2BF48FA0256E9B85007A81E0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2B19037F2563FE17006D755E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		2BF48F3B256E8C5B007A81E0 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2BF48F3C256E8C5B007A81E0 /* Base */,
+				2BF48F9F256E9B85007A81E0 /* en */,
+				2BF48FA4256E9B88007A81E0 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -578,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -637,6 +667,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -700,7 +731,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.uvolchyk.rss-reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -718,7 +749,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.uvolchyk.rss-reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

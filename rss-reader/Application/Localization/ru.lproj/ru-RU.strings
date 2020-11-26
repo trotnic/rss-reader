@@ -1,0 +1,14 @@
+/* 
+  ru-RU.strings
+  rss-reader
+
+  Created by Uladzislau on 11/25/20.
+  
+*/
+
+
+"BAD_INTERNET_CONNECTION_TITLE" = "Ошибка сети";
+"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Проверьте подключение к интернету и попробуйте обновить ленту";
+
+"BAD_RSS_FEED_TITLE" = "lolkek";
+"BAD_RSS_FEED_DESCRIPTION" = "cheburek";

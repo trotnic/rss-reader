@@ -14,6 +14,7 @@ typedef void(^ParseHandler)(FeedChannel *_Nullable, NSError *_Nullable);
 
 @protocol FeedParserType <NSObject>
 
++ (instancetype)parser;
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion;
 
 @end

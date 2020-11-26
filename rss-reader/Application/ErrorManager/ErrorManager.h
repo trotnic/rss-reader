@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSInteger const RSSReaderErrorCodeKey;
+FOUNDATION_EXPORT NSString *const RSSReaderDomainKey;
+
 @interface ErrorManager : NSObject <ErrorManagerType>
 
 @end
