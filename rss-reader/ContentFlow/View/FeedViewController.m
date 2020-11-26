@@ -25,6 +25,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
     self = [super init];
     if (self) {
         _presenter = [presenter retain];
+        [_presenter assignView:self];
     }
     return self;
 }

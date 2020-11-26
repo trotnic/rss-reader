@@ -41,10 +41,6 @@
     [super dealloc];
 }
 
-- (void)assignView:(id<FeedViewType>)view {
-    _view = view;
-}
-
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
@@ -72,6 +68,10 @@
 
 - (id<FeedChannelViewModel>)viewModel {
     return self.channel;
+}
+
+- (void)assignView:(id<FeedViewType>)view {
+    _view = view;
 }
 
 @end
