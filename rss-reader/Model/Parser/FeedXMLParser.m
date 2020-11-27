@@ -148,7 +148,22 @@ didStartElement:(NSString *)elementName
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
         self.completion(self.channel, nil);
+        [_items release];
+        _items = nil;
+        [_parser release];
+        _parser = nil;
         [_channel release];
+        _channel = nil;
+        [_completion release];
+        _completion = nil;
+        [_mediaContent release];
+        _mediaContent = nil;
+        [_parsingString release];
+        _parsingString = nil;
+        [_itemDictionary release];
+        _itemDictionary = nil;
+        [_channelDictionary release];
+        _channelDictionary = nil;
     }
 }
 

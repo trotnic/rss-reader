@@ -18,6 +18,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
 
+@property (nonatomic, retain) UIRefreshControl *refreshControl;
+
 @end
 
 @implementation FeedViewController
@@ -68,6 +70,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
@@ -82,6 +85,14 @@ CGFloat const kFadeAnimationDuration = 0.1;
         _activityIndicator.center = self.view.center;
     }
     return _activityIndicator;
+}
+
+- (UIRefreshControl *)refreshControl {
+    if(!_refreshControl) {
+        _refreshControl = [UIRefreshControl new];
+        [_refreshControl addTarget:self.presenter action:@selector(updateFeed) forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
 }
 
 // MARK: - UITableViewDataSource
@@ -113,7 +124,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)updatePresentation {
     [self.tableView reloadData];
-    self.navigationItem.title = self.presenter.viewModel.channelTitle;
+    self.navigationItem.title = [self.presenter.viewModel channelTitle];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)toggleActivityIndicator:(BOOL)show {
