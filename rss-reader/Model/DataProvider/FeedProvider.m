@@ -40,22 +40,22 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 // MARK: - FeedProviderType
 
-- (void)fetchData:(void(^)(FeedChannel *, NSError *))completion {
+- (void)fetchData:(void(^)(FeedChannel *, RSSError))completion {
     __block typeof(self)weakSelf = self;
     [self.service fetchWithURL:[NSURL URLWithString:kFeedURL]
                     completion:^(NSData *data, NSError *error) {
         if(error) {
-            completion(nil, error);
+            completion(nil, RSSErrorTypeBadNetwork);
             return;
         }
         [weakSelf retain];
         [weakSelf.parser parseFeed:data completion:^(FeedChannel *channel, NSError *parseError) {
             if(parseError) {
-                completion(nil, parseError);
+                completion(nil, RSSErrorTypeParsingError);
                 [weakSelf release];
                 return;
             }
-            completion(channel, nil);
+            completion(channel, RSSErrorTypeNone);
             [weakSelf release];
         }];
     }];

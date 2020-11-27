@@ -77,7 +77,7 @@
 		2BBE8E1D256D37A400B31BC5 /* FeedPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPresenter.h; path = ContentFlow/Presenter/FeedPresenter.h; sourceTree = "<group>"; };
 		2BBE8E1E256D37A400B31BC5 /* FeedPresenterType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPresenterType.h; path = ContentFlow/Presenter/FeedPresenterType.h; sourceTree = "<group>"; };
 		2BBE8E23256D37B300B31BC5 /* FeedRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedRouter.h; path = ContentFlow/Router/FeedRouter.h; sourceTree = "<group>"; };
-		2BBE8E24256D37B300B31BC5 /* RouterType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouterType.h; path = ContentFlow/Router/RouterType.h; sourceTree = "<group>"; };
+		2BBE8E24256D37B300B31BC5 /* MainRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainRouter.h; path = ContentFlow/Router/MainRouter.h; sourceTree = "<group>"; };
 		2BBE8E25256D37B300B31BC5 /* FeedRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedRouter.m; path = ContentFlow/Router/FeedRouter.m; sourceTree = "<group>"; };
 		2BBE8E2A256D37C200B31BC5 /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedTableViewCell.m; path = ContentFlow/View/Cell/FeedTableViewCell.m; sourceTree = "<group>"; };
 		2BBE8E2B256D37C200B31BC5 /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedTableViewCell.h; path = ContentFlow/View/Cell/FeedTableViewCell.h; sourceTree = "<group>"; };
@@ -103,6 +103,7 @@
 		2BF48F17256E871E007A81E0 /* ErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
 		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CA20B69B25713CDF00E92D27 /* RouterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouterType.h; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocaleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocaleConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
@@ -320,9 +321,9 @@
 		2BB54D332565382700960B3F /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				CA20B69A25713CD100E92D27 /* Type */,
 				2BBE8E23256D37B300B31BC5 /* FeedRouter.h */,
 				2BBE8E25256D37B300B31BC5 /* FeedRouter.m */,
-				2BBE8E24256D37B300B31BC5 /* RouterType.h */,
 			);
 			name = Router;
 			sourceTree = "<group>";
@@ -402,6 +403,15 @@
 				2BF48FA0256E9B85007A81E0 /* Localizable.strings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		CA20B69A25713CD100E92D27 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				CA20B69B25713CDF00E92D27 /* RouterType.h */,
+				2BBE8E24256D37B300B31BC5 /* MainRouter.h */,
+			);
+			name = Type;
 			sourceTree = "<group>";
 		};
 		CA243AB72570E5C100B56A7B /* Constants */ = {

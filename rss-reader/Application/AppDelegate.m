@@ -17,7 +17,7 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, retain) FeedRouter* router;
+@property (nonatomic, retain) FeedRouter *router;
 @property (nonatomic, retain) DIContainer *container;
 
 @end

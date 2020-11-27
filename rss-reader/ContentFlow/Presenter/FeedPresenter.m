@@ -7,13 +7,13 @@
 
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
-#import "RouterType.h"
+#import "MainRouter.h"
 
 @interface FeedPresenter ()
 
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
-@property (nonatomic, retain) id<RouterType> router;
+@property (nonatomic, retain) id<MainRouter> router;
 @property (nonatomic, retain) id<FeedProviderType> provider;
 
 @end
@@ -23,7 +23,7 @@
 // MARK: -
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
-                          router:(id<RouterType>)router
+                          router:(id<MainRouter>)router
 {
     self = [super init];
     if (self) {        
@@ -49,23 +49,27 @@
         [self.router showNetworkActivityIndicator:YES];
     });
     __block typeof(self)weakSelf = self;
-    [self.provider fetchData:^(FeedChannel *channel, NSError *error) {
+    [self.provider fetchData:^(FeedChannel *channel, RSSError error) {
         [weakSelf retain];
-        if(error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.view toggleActivityIndicator:NO];
-                [self.router showNetworkActivityIndicator:NO];
-                [weakSelf.router showError:RSSErrorTypeParsingError];
-            });
-            [weakSelf release];
-            return;
+        switch (error) {
+            case RSSErrorTypeNone: {
+                weakSelf.channel = channel;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.view toggleActivityIndicator:NO];
+                    [self.router showNetworkActivityIndicator:NO];
+                    [weakSelf.view updatePresentation];
+                });
+                break;
+            }
+            default: {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.view toggleActivityIndicator:NO];
+                    [self.router showNetworkActivityIndicator:NO];
+                    [weakSelf.router showErrorOfType:error];
+                });
+                [weakSelf release];
+            }
         }
-        weakSelf.channel = channel;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.view toggleActivityIndicator:NO];
-            [self.router showNetworkActivityIndicator:NO];
-            [weakSelf.view updatePresentation];
-        });
         [weakSelf release];
     }];
 }

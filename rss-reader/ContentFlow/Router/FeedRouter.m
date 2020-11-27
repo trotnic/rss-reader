@@ -73,11 +73,11 @@
     }];
 }
 
-- (void)showError:(RSSError)error {
+- (void)showErrorOfType:(RSSError)type {
     __block typeof(self)weakSelf = self;
-    [self.errorManager provideErrorOfType:RSSErrorTypeBadNetwork withCompletion:^(NSError *someError) {
+    [self.errorManager provideErrorOfType:type withCompletion:^(NSError *error) {
         [weakSelf retain];
-        [weakSelf.window.rootViewController showError:someError];
+        [weakSelf.window.rootViewController showError:error];
         [weakSelf release];
     }];
 }

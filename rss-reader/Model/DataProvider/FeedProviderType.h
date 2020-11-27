@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RSSError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedProviderType <NSObject>
 
-- (void)fetchData:(void(^)(FeedChannel *_Nullable, NSError *_Nullable))completion;
+- (void)fetchData:(void(^)(FeedChannel *_Nullable, RSSError))completion;
 
 @end
 

@@ -6,13 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RouterType.h"
+#import "MainRouter.h"
 #import "DIContainerType.h"
 #import "ErrorManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FeedRouter : NSObject <RouterType>
+@interface FeedRouter : NSObject <MainRouter>
 
 @property (nonatomic, retain, readonly) id<ErrorManagerType> errorManager;
 @property (nonatomic, retain, readonly) UIApplication *application;

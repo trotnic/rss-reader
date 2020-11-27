@@ -33,6 +33,8 @@ NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
             completion(error);
             break;
         }
+        case RSSErrorTypeNone:
+            break;
     }
 }
 
