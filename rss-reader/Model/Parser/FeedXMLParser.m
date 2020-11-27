@@ -32,11 +32,15 @@
 
 @implementation FeedXMLParser
 
+// MARK: -
+
 - (void)parseFeed:(NSData *)data completion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
 }
+
+// MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
     if(self.completion) {
@@ -49,12 +53,6 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
-    
-    if([elementName isEqualToString:kRSSChannel]) {
-        _isItem = NO;
-        _channelDictionary = [NSMutableDictionary new];
-        _items = [NSMutableArray new];
-    }
     
     if ([elementName isEqualToString:kRSSItem]) {
         self.isItem = YES;
@@ -143,16 +141,40 @@ didStartElement:(NSString *)elementName
     }
 }
 
+// MARK: - Lazy
+
+- (NSMutableArray<FeedItem *> *)items {
+    if(!_items) {
+        _items = [NSMutableArray new];
+    }
+    return _items;
+}
+
+- (NSMutableDictionary *)channelDictionary {
+    if(!_channelDictionary) {
+        _channelDictionary = [NSMutableDictionary new];
+    }
+    return _channelDictionary;
+}
+
 - (void)dealloc
 {    
     [_items release];
+    _items = nil;
     [_parser release];
+    _parser = nil;
     [_channel release];
+    _channel = nil;
     [_completion release];
+    _completion = nil;
     [_mediaContent release];
+    _mediaContent = nil;
     [_parsingString release];
+    _parsingString = nil;
     [_itemDictionary release];
+    _itemDictionary = nil;
     [_channelDictionary release];
+    _channelDictionary = nil;
     [super dealloc];
 }
 
