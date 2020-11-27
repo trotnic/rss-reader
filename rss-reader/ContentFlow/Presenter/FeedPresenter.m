@@ -55,7 +55,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.view toggleActivityIndicator:NO];
                 [self.router showNetworkActivityIndicator:NO];
-                [weakSelf.router showError:error];
+                [weakSelf.router showError:RSSErrorTypeParsingError];
             });
             [weakSelf release];
             return;

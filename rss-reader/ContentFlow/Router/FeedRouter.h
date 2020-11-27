@@ -8,10 +8,14 @@
 #import <UIKit/UIKit.h>
 #import "RouterType.h"
 #import "DIContainerType.h"
+#import "ErrorManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedRouter : NSObject <RouterType>
+
+@property (nonatomic, retain, readonly) id<ErrorManagerType> errorManager;
+@property (nonatomic, retain, readonly) UIApplication *application;
 
 - (instancetype)initWithWindow:(UIWindow *)window dependencies:(id<DIContainerType>)container;
 

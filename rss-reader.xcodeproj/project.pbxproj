@@ -103,6 +103,8 @@
 		2BF48F17256E871E007A81E0 /* ErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
 		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CA243AB82570E5D600B56A7B /* LocaleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocaleConstants.h; sourceTree = "<group>"; };
+		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,6 +187,8 @@
 		2B1903B12563FE9D006D755E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				CA243AC225710D2F00B56A7B /* Collections */,
+				CA243AB72570E5C100B56A7B /* Constants */,
 				2BE06469256FA9150073601F /* DIContainer */,
 				2BF48F6A256E99EF007A81E0 /* Localization */,
 				2BF48F14256E8704007A81E0 /* ErrorManager */,
@@ -398,6 +402,22 @@
 				2BF48FA0256E9B85007A81E0 /* Localizable.strings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		CA243AB72570E5C100B56A7B /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				CA243AB82570E5D600B56A7B /* LocaleConstants.h */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		CA243AC225710D2F00B56A7B /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				CA243AC325710D6F00B56A7B /* RSSError.h */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 		CAF30C2325701736004A925D /* UIViewController */ = {

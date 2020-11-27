@@ -13,6 +13,7 @@
 #import "FeedPresenter.h"
 #import "DIContainer.h"
 #import "FeedViewController.h"
+#import "ErrorManager.h"
 
 @interface AppDelegate ()
 
@@ -49,6 +50,12 @@
     }];
     [self.container registerServiceOfType:NSStringFromClass(FeedViewController.class) withCompletion:^id (id<DIContainerType> container) {
         return [[FeedViewController alloc] initWithPresenter:[container resolveServiceOfType:NSStringFromClass(FeedPresenter.class)]];
+    }];
+    [self.container registerServiceOfType:NSStringFromClass(UIApplication.class) withCompletion:^id (id<DIContainerType> container) {
+        return [UIApplication.sharedApplication retain];
+    }];
+    [self.container registerServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType)) withCompletion:^id (id<DIContainerType> container) {
+        return [ErrorManager new];
     }];
 }
 

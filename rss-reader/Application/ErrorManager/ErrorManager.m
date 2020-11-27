@@ -10,15 +10,9 @@
 NSInteger const RSSReaderErrorCodeKey = 10000;
 NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
 
-NSString *const BAD_INTERNET_CONNECTION_TITLE = @"BAD_INTERNET_CONNECTION_TITLE";
-NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION = @"BAD_INTERNET_CONNECTION_DESCRIPTION";
-
-NSString *const BAD_RSS_FEED_TITLE = @"BAD_RSS_FEED_TITLE";
-NSString *const BAD_RSS_FEED_DESCRIPTION = @"BAD_RSS_FEED_DESCRIPTION";
-
 @implementation ErrorManager
 
-- (void)provideErrorOfType:(RSSErrorType)type
+- (void)provideErrorOfType:(RSSError)type
             withCompletion:(ErrorCompletion)completion {
     assert(completion);
     switch (type) {

@@ -9,7 +9,12 @@
 #import "FeedViewController.h"
 #import "UIViewController+ErrorPresenter.h"
 
+@protocol ErrorManagerType;
+
 @interface FeedRouter ()
+
+@property (nonatomic, retain, readwrite) id<ErrorManagerType> errorManager;
+@property (nonatomic, retain, readwrite) UIApplication *application;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) id<DIContainerType> container;
@@ -32,12 +37,30 @@
 {
     [_window release];
     [_container release];
+    [_application release];
+    [_errorManager release];
     [super dealloc];
+}
+
+// MARK: - Lazy
+
+- (id<ErrorManagerType>)errorManager {
+    if(!_errorManager) {
+        _errorManager = [[self.container resolveServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType))] retain];
+    }
+    return _errorManager;
+}
+
+- (UIApplication *)application {
+    if(!_application) {
+        _application = [[self.container resolveServiceOfType:NSStringFromClass(UIApplication.class)] retain];
+    }
+    return _application;
 }
 
 // MARK: - RouterType
 
-- (void)start {    
+- (void)start {
     self.window.rootViewController = [[[UINavigationController alloc]
                                        initWithRootViewController:[self.container
                                                                    resolveServiceOfType:NSStringFromClass(FeedViewController.class)]] autorelease];
@@ -45,17 +68,22 @@
 }
 
 - (void)openURL:(NSURL *)url {
-    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+    [self.application openURL:url options:@{} completionHandler:^(BOOL success) {
         NSLog(@"%@ %@", url, success ? @" is opened" : @" isn't opened");
     }];
 }
 
-- (void)showError:(NSError *)error {
-    [self.window.rootViewController showError:error];
+- (void)showError:(RSSError)error {
+    __block typeof(self)weakSelf = self;
+    [self.errorManager provideErrorOfType:RSSErrorTypeBadNetwork withCompletion:^(NSError *someError) {
+        [weakSelf retain];
+        [weakSelf.window.rootViewController showError:someError];
+        [weakSelf release];
+    }];
 }
 
 - (void)showNetworkActivityIndicator:(BOOL)show {
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = show;
+    self.application.networkActivityIndicatorVisible = show;
 }
 
 @end

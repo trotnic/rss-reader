@@ -6,19 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RSSError.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NS_ENUM(NSInteger, RSSErrorType) {
-    RSSErrorTypeBadNetwork,
-    RSSErrorTypeParsingError
-};
 
 typedef void(^ErrorCompletion)(NSError *);
 
 @protocol ErrorManagerType <NSObject>
 
-- (void)provideErrorOfType:(RSSErrorType)type withCompletion:(ErrorCompletion)completion;
+- (void)provideErrorOfType:(RSSError)type withCompletion:(ErrorCompletion)completion;
 
 @end
 

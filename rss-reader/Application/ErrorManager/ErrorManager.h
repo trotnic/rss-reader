@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ErrorManagerType.h"
+#import "LocaleConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

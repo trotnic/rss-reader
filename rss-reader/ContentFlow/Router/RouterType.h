@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RSSError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start;
 - (void)openURL:(NSURL *)url;
-- (void)showError:(NSError *)error;
+- (void)showError:(RSSError)error;
 - (void)showNetworkActivityIndicator:(BOOL)show;
 
 @end
