@@ -8,15 +8,21 @@
 #import "FeedTableViewCell.h"
 
 NSInteger const kPadding = 20;
-NSInteger const kFontSize = 17;
+NSInteger const kMainTextFontSize = 18;
+NSInteger const kSupplementaryTextFontSize = 14;
 NSInteger const kTextSpacing = 20;
 NSInteger const kTitleNumberOfLines = 0;
 
 @interface FeedTableViewCell ()
 
 @property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *textSubStack;
 @property (nonatomic, retain) UIStackView *textMainStack;
+
+@property (nonatomic, retain) UIStackView *supplementaryTextStack;
+@property (nonatomic, retain) UIStackView *supplementaryButtonStack;
+@property (nonatomic, retain) UIStackView *supplementarySectionStack;
+
+@property (nonatomic, retain) UIButton *expandButton;
 
 @end
 
@@ -41,20 +47,29 @@ NSInteger const kTitleNumberOfLines = 0;
     [_mainStack release];
     [_dateLabel release];
     [_titleLabel release];
-    [_textSubStack release];
     [_textMainStack release];
-    [_categoryLabel release];    
+    [_categoryLabel release];
+    [_expandButton release];
+    
+    [_supplementaryTextStack release];
+    [_supplementaryButtonStack release];
+    [_supplementarySectionStack release];
     [super dealloc];
 }
 
 // MARK: -
 
 - (void)setupLayout {
-    [self.textSubStack addArrangedSubview:self.dateLabel];
-    [self.textSubStack addArrangedSubview:self.categoryLabel];
+    [self.supplementaryTextStack addArrangedSubview:self.dateLabel];
+    [self.supplementaryTextStack addArrangedSubview:self.categoryLabel];
+    
+    [self.supplementaryButtonStack addArrangedSubview:self.expandButton];
+    
+    [self.supplementarySectionStack addArrangedSubview:self.supplementaryTextStack];
+    [self.supplementarySectionStack addArrangedSubview:self.supplementaryButtonStack];
     
     [self.textMainStack addArrangedSubview:self.titleLabel];
-    [self.textMainStack addArrangedSubview:self.textSubStack];
+    [self.textMainStack addArrangedSubview:self.supplementarySectionStack];
     
     [self.mainStack addArrangedSubview:self.textMainStack];
     
@@ -74,7 +89,7 @@ NSInteger const kTitleNumberOfLines = 0;
     if(!_categoryLabel) {
         _categoryLabel = [UILabel new];
         _categoryLabel.textColor = UIColor.grayColor;
-        _categoryLabel.font = [UIFont systemFontOfSize:kFontSize];
+        _categoryLabel.font = [UIFont systemFontOfSize:kSupplementaryTextFontSize];
     }
     return _categoryLabel;
 }
@@ -84,7 +99,7 @@ NSInteger const kTitleNumberOfLines = 0;
         _titleLabel = [UILabel new];
         _titleLabel.numberOfLines = kTitleNumberOfLines;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
-        _titleLabel.font = [UIFont systemFontOfSize:kFontSize weight:UIFontWeightBold];
+        _titleLabel.font = [UIFont systemFontOfSize:kMainTextFontSize weight:UIFontWeightBold];
     }
     return _titleLabel;
 }
@@ -92,18 +107,45 @@ NSInteger const kTitleNumberOfLines = 0;
 - (UILabel *)dateLabel {
     if(!_dateLabel) {
         _dateLabel = [UILabel new];
-        _dateLabel.font = [UIFont systemFontOfSize:kFontSize];
+        _dateLabel.font = [UIFont systemFontOfSize:kSupplementaryTextFontSize];
     }
     return _dateLabel;
 }
 
-- (UIStackView *)textSubStack {
-    if(!_textSubStack) {
-        _textSubStack = [UIStackView new];
-        _textSubStack.axis = UILayoutConstraintAxisHorizontal;
-        _textSubStack.distribution = UIStackViewDistributionEqualSpacing;
+- (UIButton *)expandButton {
+    if(!_expandButton) {
+        _expandButton = [UIButton new];
+        [_expandButton setImage:[UIImage systemImageNamed:@"ellipsis"] forState:UIControlStateNormal];
     }
-    return _textSubStack;
+    return _expandButton;
+}
+
+- (UIStackView *)supplementarySectionStack {
+    if(!_supplementarySectionStack) {
+        _supplementarySectionStack = [UIStackView new];
+        _supplementarySectionStack.axis = UILayoutConstraintAxisHorizontal;
+        _supplementarySectionStack.distribution = UIStackViewDistributionEqualSpacing;
+    }
+    return _supplementarySectionStack;
+}
+
+- (UIStackView *)supplementaryTextStack {
+    if(!_supplementaryTextStack) {
+        _supplementaryTextStack = [UIStackView new];
+        _supplementaryTextStack.axis = UILayoutConstraintAxisHorizontal;
+        _supplementaryTextStack.spacing = kTextSpacing / 2;
+    }
+    return _supplementaryTextStack;
+}
+
+- (UIStackView *)supplementaryButtonStack {
+    if(!_supplementaryButtonStack) {
+        _supplementaryButtonStack = [UIStackView new];
+        _supplementaryButtonStack.axis = UILayoutConstraintAxisVertical;
+        _supplementaryButtonStack.distribution = UIStackViewDistributionFill;
+        _supplementaryButtonStack.alignment = UIStackViewAlignmentTrailing;
+    }
+    return _supplementaryButtonStack;
 }
 
 - (UIStackView *)textMainStack {
