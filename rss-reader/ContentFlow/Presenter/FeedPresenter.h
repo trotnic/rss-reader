@@ -7,12 +7,12 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
-#import "FeedViewType.h"
-#import "FeedProviderType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol RouterType;
+@protocol FeedViewType;
+@protocol FeedProviderType;
 
 @interface FeedPresenter : NSObject <FeedPresenterType>
 

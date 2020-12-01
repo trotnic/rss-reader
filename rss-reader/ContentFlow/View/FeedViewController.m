@@ -8,6 +8,7 @@
 #import "FeedViewController.h"
 #import "FeedChannelViewModel.h"
 #import "FeedTableViewCell.h"
+#import "FeedPresenterType.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
 

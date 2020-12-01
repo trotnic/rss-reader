@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkServiceType.h"
 #import "FeedProviderType.h"
-#import "FeedParserType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol FeedParserType;
+@protocol NetworkServiceType;
 
 @interface FeedProvider : NSObject <FeedProviderType>
 

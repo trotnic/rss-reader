@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedTableViewCell : UITableViewCell
 
-@property (nonatomic, retain, readwrite) UILabel *titleLabel;
-@property (nonatomic, retain, readwrite) UILabel *dateLabel;
-@property (nonatomic, retain, readwrite) UILabel *categoryLabel;
+@property (nonatomic, retain, readonly) UILabel *titleLabel;
+@property (nonatomic, retain, readonly) UILabel *dateLabel;
+@property (nonatomic, retain, readonly) UILabel *categoryLabel;
 
 + (NSString *)cellIdentifier;
 - (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel;

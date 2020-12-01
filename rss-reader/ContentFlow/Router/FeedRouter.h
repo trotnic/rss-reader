@@ -7,9 +7,10 @@
 
 #import <UIKit/UIKit.h>
 #import "RouterType.h"
-#import "DIContainerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol DIContainerType;
 
 @interface FeedRouter : NSObject <RouterType>
 

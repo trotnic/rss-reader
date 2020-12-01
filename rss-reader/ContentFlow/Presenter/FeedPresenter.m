@@ -8,6 +8,8 @@
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
 #import "RouterType.h"
+#import "FeedViewType.h"
+#import "FeedProviderType.h"
 
 @interface FeedPresenter ()
 

@@ -6,6 +6,8 @@
 //
 
 #import "FeedProvider.h"
+#import "NetworkServiceType.h"
+#import "FeedParserType.h"
 
 NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 

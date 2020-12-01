@@ -6,6 +6,7 @@
 //
 
 #import "FeedRouter.h"
+#import "DIContainerType.h"
 #import "FeedViewController.h"
 #import "UIViewController+ErrorPresenter.h"
 
