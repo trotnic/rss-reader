@@ -7,6 +7,7 @@
 
 #import "FeedItem.h"
 #import "NSDate+StringConvertible.h"
+#import "NSString+StringExtractor.h"
 
 NSString *const kRSSItem = @"item";
 NSString *const kRSSItemTitle = @"title";
@@ -77,6 +78,10 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 - (NSString *)articleDate {
     return [self.pubDate stringWithFormat:kDatePresentationFormat];
+}
+
+- (NSString *)articleDescription {
+    return [self.summary stringBetweenStart:@" />" andFinish:@"<br"];
 }
 
 @end

@@ -75,6 +75,7 @@ didStartElement:(NSString *)elementName
        [elementName isEqualToString:kRSSItemLink] ||
        [elementName isEqualToString:kRSSItemCategory] ||
        [elementName isEqualToString:kRSSItemPubDate] ||
+       [elementName isEqualToString:kRSSItemSummary] ||
        
        [elementName isEqualToString:kRSSChannelTitle] ||
        [elementName isEqualToString:kRSSChannelLink] ||
@@ -120,6 +121,7 @@ didStartElement:(NSString *)elementName
        [elementName isEqualToString:kRSSItemLink] ||
        [elementName isEqualToString:kRSSItemCategory] ||
        [elementName isEqualToString:kRSSItemPubDate] ||
+       [elementName isEqualToString:kRSSItemSummary] ||
        
        [elementName isEqualToString:kRSSChannelTitle] ||
        [elementName isEqualToString:kRSSChannelLink] ||

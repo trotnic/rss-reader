@@ -28,6 +28,7 @@
 		2BE0646D256FA9350073601F /* DIContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0646C256FA9350073601F /* DIContainer.m */; };
 		2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48F17256E871E007A81E0 /* ErrorManager.m */; };
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
+		CA23288B25769BE6009C8671 /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA23288A25769BE6009C8671 /* NSString+StringExtractor.m */; };
 		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +105,8 @@
 		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CA20B69B25713CDF00E92D27 /* RouterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouterType.h; sourceTree = "<group>"; };
+		CA23288925769BE6009C8671 /* NSString+StringExtractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+StringExtractor.h"; sourceTree = "<group>"; };
+		CA23288A25769BE6009C8671 /* NSString+StringExtractor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringExtractor.m"; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocaleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocaleConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
@@ -341,6 +344,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CA23288825769BCD009C8671 /* NSString */,
 				CAF30C2325701736004A925D /* UIViewController */,
 				2B53014C256E42F000E82D56 /* NSDateFormatter */,
 				2BBE8E7D256D445600B31BC5 /* NSXMLParser */,
@@ -412,6 +416,15 @@
 				2BBE8E24256D37B300B31BC5 /* MainRouter.h */,
 			);
 			name = Type;
+			sourceTree = "<group>";
+		};
+		CA23288825769BCD009C8671 /* NSString */ = {
+			isa = PBXGroup;
+			children = (
+				CA23288925769BE6009C8671 /* NSString+StringExtractor.h */,
+				CA23288A25769BE6009C8671 /* NSString+StringExtractor.m */,
+			);
+			path = NSString;
 			sourceTree = "<group>";
 		};
 		CA243AB72570E5C100B56A7B /* Constants */ = {
@@ -576,6 +589,7 @@
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
+				CA23288B25769BE6009C8671 /* NSString+StringExtractor.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,

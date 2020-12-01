@@ -15,6 +15,11 @@ NSInteger const kTitleNumberOfLines = 0;
 
 @interface FeedTableViewCell ()
 
+@property (nonatomic, retain, readwrite) UILabel *titleLabel;
+@property (nonatomic, retain, readwrite) UILabel *dateLabel;
+@property (nonatomic, retain, readwrite) UILabel *categoryLabel;
+@property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
+
 @property (nonatomic, retain) UIStackView *mainStack;
 @property (nonatomic, retain) UIStackView *textMainStack;
 
@@ -69,6 +74,7 @@ NSInteger const kTitleNumberOfLines = 0;
     [self.supplementarySectionStack addArrangedSubview:self.supplementaryButtonStack];
     
     [self.textMainStack addArrangedSubview:self.titleLabel];
+    [self.textMainStack addArrangedSubview:self.descriptionLabel];
     [self.textMainStack addArrangedSubview:self.supplementarySectionStack];
     
     [self.mainStack addArrangedSubview:self.textMainStack];
@@ -102,6 +108,16 @@ NSInteger const kTitleNumberOfLines = 0;
         _titleLabel.font = [UIFont systemFontOfSize:kMainTextFontSize weight:UIFontWeightBold];
     }
     return _titleLabel;
+}
+
+- (UILabel *)descriptionLabel {
+    if(!_descriptionLabel) {
+        _descriptionLabel = [UILabel new];
+        _descriptionLabel.numberOfLines = kTitleNumberOfLines;
+        _descriptionLabel.textAlignment = NSTextAlignmentLeft;
+        _descriptionLabel.font = [UIFont systemFontOfSize:kMainTextFontSize weight:UIFontWeightRegular];
+    }
+    return _descriptionLabel;
 }
 
 - (UILabel *)dateLabel {
@@ -173,6 +189,7 @@ NSInteger const kTitleNumberOfLines = 0;
     self.dateLabel.text = [viewModel articleDate];
     self.titleLabel.text = [viewModel articleTitle];
     self.categoryLabel.text = [viewModel articleCategory];
+    self.descriptionLabel.text = [viewModel articleDescription];
 }
 
 @end

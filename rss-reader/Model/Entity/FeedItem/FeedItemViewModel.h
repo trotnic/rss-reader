@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)articleTitle;
 - (NSString *)articleCategory;
 - (NSString *)articleDate;
+- (NSString *)articleDescription;
 
 @end
 
