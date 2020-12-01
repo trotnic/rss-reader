@@ -100,7 +100,9 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row]];
+    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^{
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
     
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{

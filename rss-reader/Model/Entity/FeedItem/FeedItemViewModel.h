@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedItemViewModel <NSObject>
 
+@property (nonatomic, assign, getter=isExpand) BOOL expand;
+
 - (NSString *)articleTitle;
 - (NSString *)articleCategory;
 - (NSString *)articleDate;

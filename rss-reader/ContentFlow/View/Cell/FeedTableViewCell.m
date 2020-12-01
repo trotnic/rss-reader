@@ -8,7 +8,8 @@
 #import "FeedTableViewCell.h"
 
 NSInteger const kPadding = 20;
-NSInteger const kMainTextFontSize = 18;
+NSInteger const kMainTitleFontSize = 18;
+NSInteger const kMainTextFontSize = 16;
 NSInteger const kSupplementaryTextFontSize = 14;
 NSInteger const kTextSpacing = 20;
 NSInteger const kTitleNumberOfLines = 0;
@@ -21,13 +22,16 @@ NSInteger const kTitleNumberOfLines = 0;
 @property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
 
 @property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *textMainStack;
 
 @property (nonatomic, retain) UIStackView *supplementaryTextStack;
 @property (nonatomic, retain) UIStackView *supplementaryButtonStack;
 @property (nonatomic, retain) UIStackView *supplementarySectionStack;
 
 @property (nonatomic, retain) UIButton *expandButton;
+
+@property (nonatomic, copy) void(^setupCompletion)(void);
+
+@property (nonatomic, retain) id<FeedItemViewModel> viewModel;
 
 @end
 
@@ -52,9 +56,11 @@ NSInteger const kTitleNumberOfLines = 0;
     [_mainStack release];
     [_dateLabel release];
     [_titleLabel release];
-    [_textMainStack release];
     [_categoryLabel release];
     [_expandButton release];
+    [_descriptionLabel release];
+    [_setupCompletion release];
+    [_viewModel release];
     
     [_supplementaryTextStack release];
     [_supplementaryButtonStack release];
@@ -73,11 +79,9 @@ NSInteger const kTitleNumberOfLines = 0;
     [self.supplementarySectionStack addArrangedSubview:self.supplementaryTextStack];
     [self.supplementarySectionStack addArrangedSubview:self.supplementaryButtonStack];
     
-    [self.textMainStack addArrangedSubview:self.titleLabel];
-    [self.textMainStack addArrangedSubview:self.descriptionLabel];
-    [self.textMainStack addArrangedSubview:self.supplementarySectionStack];
-    
-    [self.mainStack addArrangedSubview:self.textMainStack];
+    [self.mainStack addArrangedSubview:self.titleLabel];
+    [self.mainStack addArrangedSubview:self.descriptionLabel];
+    [self.mainStack addArrangedSubview:self.supplementarySectionStack];
     
     [self.contentView addSubview:self.mainStack];
     
@@ -105,7 +109,7 @@ NSInteger const kTitleNumberOfLines = 0;
         _titleLabel = [UILabel new];
         _titleLabel.numberOfLines = kTitleNumberOfLines;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
-        _titleLabel.font = [UIFont systemFontOfSize:kMainTextFontSize weight:UIFontWeightBold];
+        _titleLabel.font = [UIFont systemFontOfSize:kMainTitleFontSize weight:UIFontWeightBold];
     }
     return _titleLabel;
 }
@@ -132,6 +136,7 @@ NSInteger const kTitleNumberOfLines = 0;
     if(!_expandButton) {
         _expandButton = [UIButton new];
         [_expandButton setImage:[UIImage systemImageNamed:@"ellipsis"] forState:UIControlStateNormal];
+        [_expandButton addTarget:self action:@selector(toggleDescription) forControlEvents:UIControlEventTouchUpInside];
     }
     return _expandButton;
 }
@@ -164,20 +169,13 @@ NSInteger const kTitleNumberOfLines = 0;
     return _supplementaryButtonStack;
 }
 
-- (UIStackView *)textMainStack {
-    if(!_textMainStack) {
-        _textMainStack = [UIStackView new];
-        _textMainStack.spacing = kTextSpacing;
-        _textMainStack.alignment = UIStackViewAlignmentFill;
-        _textMainStack.axis = UILayoutConstraintAxisVertical;
-    }
-    return _textMainStack;
-}
-
 - (UIStackView *)mainStack {
     if(!_mainStack) {
         _mainStack = [UIStackView new];
-        _mainStack.axis = UILayoutConstraintAxisHorizontal;
+        _mainStack.spacing = kTextSpacing;
+        _mainStack.axis = UILayoutConstraintAxisVertical;
+        _mainStack.alignment = UIStackViewAlignmentFill;
+        _mainStack.distribution = UIStackViewDistributionFill;
         _mainStack.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _mainStack;
@@ -185,11 +183,22 @@ NSInteger const kTitleNumberOfLines = 0;
 
 // MARK: -
 
-- (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel {
-    self.dateLabel.text = [viewModel articleDate];
-    self.titleLabel.text = [viewModel articleTitle];
-    self.categoryLabel.text = [viewModel articleCategory];
-    self.descriptionLabel.text = [viewModel articleDescription];
+- (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel
+          reloadCompletion:(void(^)(void))completion {
+    self.viewModel = viewModel;
+    self.setupCompletion = completion;
+    self.dateLabel.text = [self.viewModel articleDate];
+    self.titleLabel.text = [self.viewModel articleTitle];
+    self.categoryLabel.text = [self.viewModel articleCategory];
+    self.descriptionLabel.text = [self.viewModel articleDescription];
+    self.descriptionLabel.hidden = !self.viewModel.isExpand;
+}
+
+// MARK: -
+- (void)toggleDescription {
+    self.viewModel.expand = !self.viewModel.isExpand;
+    self.descriptionLabel.hidden = self.viewModel.isExpand;
+    self.setupCompletion();
 }
 
 @end

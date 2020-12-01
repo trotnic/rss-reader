@@ -32,6 +32,8 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 @implementation FeedItem
 
+@synthesize expand;
+
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
