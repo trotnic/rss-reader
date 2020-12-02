@@ -7,15 +7,14 @@
 
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
-#import "RouterType.h"
 #import "FeedViewType.h"
 #import "FeedProviderType.h"
+#import <UIKit/UIKit.h>
 
 @interface FeedPresenter ()
 
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
-@property (nonatomic, retain) id<RouterType> router;
 @property (nonatomic, retain) id<FeedProviderType> provider;
 
 @end
@@ -25,11 +24,9 @@
 // MARK: -
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
-                          router:(id<RouterType>)router
 {
     self = [super init];
-    if (self) {        
-        _router = [router retain];
+    if (self) {
         _provider = [provider retain];
     }
     return self;
@@ -37,7 +34,6 @@
 
 - (void)dealloc
 {
-    [_router release];
     [_channel release];
     [_provider release];
     [super dealloc];
@@ -51,7 +47,7 @@
         [weakSelf retain];
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.router showError:error];
+                [weakSelf.view presentError:error];
             });
             [weakSelf release];
             return;
@@ -65,7 +61,10 @@
 }
 
 - (void)selectRowAt:(NSInteger)row {
-    [self.router openURL:[NSURL URLWithString:self.channel.items[row].link]];
+    NSURL *url = [NSURL URLWithString:self.channel.items[row].link];
+    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+        NSLog(@"%@", success ? @"is opened" : @"isn't opened");
+    }];
 }
 
 - (id<FeedChannelViewModel>)viewModel {

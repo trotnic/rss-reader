@@ -9,6 +9,7 @@
 #import "FeedChannelViewModel.h"
 #import "FeedTableViewCell.h"
 #import "FeedPresenterType.h"
+#import "UIViewController+ErrorPresenter.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
 
@@ -101,6 +102,10 @@ CGFloat const kFadeAnimationDuration = 0.1;
 - (void)updatePresentation {
     [self.tableView reloadData];
     self.navigationItem.title = self.presenter.viewModel.channelTitle;
+}
+
+- (void)presentError:(NSError *)error {
+    [self showError:error];
 }
 
 @end

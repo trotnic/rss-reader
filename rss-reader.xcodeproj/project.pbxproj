@@ -19,7 +19,6 @@
 		2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B653A0425654EE8008A76A3 /* FeedChannel.m */; };
 		2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F5DF625654FFB00656FC7 /* MediaContent.m */; };
 		2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E1C256D37A400B31BC5 /* FeedPresenter.m */; };
-		2BBE8E26256D37B300B31BC5 /* FeedRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E25256D37B300B31BC5 /* FeedRouter.m */; };
 		2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E2A256D37C200B31BC5 /* FeedTableViewCell.m */; };
 		2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E31256D37CE00B31BC5 /* FeedViewController.m */; };
 		2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E59256D390F00B31BC5 /* FeedProvider.m */; };
@@ -76,9 +75,6 @@
 		2BBE8E1C256D37A400B31BC5 /* FeedPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedPresenter.m; path = ContentFlow/Presenter/FeedPresenter.m; sourceTree = "<group>"; };
 		2BBE8E1D256D37A400B31BC5 /* FeedPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPresenter.h; path = ContentFlow/Presenter/FeedPresenter.h; sourceTree = "<group>"; };
 		2BBE8E1E256D37A400B31BC5 /* FeedPresenterType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPresenterType.h; path = ContentFlow/Presenter/FeedPresenterType.h; sourceTree = "<group>"; };
-		2BBE8E23256D37B300B31BC5 /* FeedRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedRouter.h; path = ContentFlow/Router/FeedRouter.h; sourceTree = "<group>"; };
-		2BBE8E24256D37B300B31BC5 /* RouterType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouterType.h; path = ContentFlow/Router/RouterType.h; sourceTree = "<group>"; };
-		2BBE8E25256D37B300B31BC5 /* FeedRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedRouter.m; path = ContentFlow/Router/FeedRouter.m; sourceTree = "<group>"; };
 		2BBE8E2A256D37C200B31BC5 /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedTableViewCell.m; path = ContentFlow/View/Cell/FeedTableViewCell.m; sourceTree = "<group>"; };
 		2BBE8E2B256D37C200B31BC5 /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedTableViewCell.h; path = ContentFlow/View/Cell/FeedTableViewCell.h; sourceTree = "<group>"; };
 		2BBE8E30256D37CE00B31BC5 /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = ContentFlow/View/FeedViewController.h; sourceTree = "<group>"; };
@@ -193,7 +189,6 @@
 		2B1903B52563FEC5006D755E /* ContentFlow */ = {
 			isa = PBXGroup;
 			children = (
-				2BB54D332565382700960B3F /* Router */,
 				2B1903BD2563FEE4006D755E /* Presenter */,
 				2B1903B62563FECD006D755E /* View */,
 			);
@@ -305,16 +300,6 @@
 				2B7F5DF625654FFB00656FC7 /* MediaContent.m */,
 			);
 			path = Content;
-			sourceTree = "<group>";
-		};
-		2BB54D332565382700960B3F /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				2BBE8E23256D37B300B31BC5 /* FeedRouter.h */,
-				2BBE8E25256D37B300B31BC5 /* FeedRouter.m */,
-				2BBE8E24256D37B300B31BC5 /* RouterType.h */,
-			);
-			name = Router;
 			sourceTree = "<group>";
 		};
 		2BBE8E4F256D38D600B31BC5 /* DataProvider */ = {
@@ -516,7 +501,6 @@
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */,
-				2BBE8E26256D37B300B31BC5 /* FeedRouter.m in Sources */,
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,

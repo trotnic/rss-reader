@@ -10,13 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol RouterType;
 @protocol FeedViewType;
 @protocol FeedProviderType;
 
 @interface FeedPresenter : NSObject <FeedPresenterType>
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider router:(id<RouterType>)router;
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider;
 - (void)assignView:(id<FeedViewType>)view;
 
 @end
