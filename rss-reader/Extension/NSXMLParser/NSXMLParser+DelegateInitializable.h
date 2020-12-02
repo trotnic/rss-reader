@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSXMLParser (DelegateInitializable)
 
 + (instancetype)parserWithData:(NSData *)data delegate:(id<NSXMLParserDelegate>)delegate;
++ (instancetype)parserWithURL:(NSURL *)url delegate:(id<NSXMLParserDelegate>)delegate;
 
 @end
 

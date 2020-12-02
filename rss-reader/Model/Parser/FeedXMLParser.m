@@ -34,9 +34,15 @@
 
 // MARK: -
 
-- (void)parseFeed:(NSData *)data completion:(ParseHandler)completion {
+- (void)parseData:(NSData *)data withCompletion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
+    [self.parser parse];
+}
+
+- (void)parseContentsOfURL:(NSURL *)url withCompletion:(ParseHandler)completion {
+    self.completion = completion;
+    self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
 }
 

@@ -11,11 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedParserType;
-@protocol NetworkServiceType;
 
 @interface FeedProvider : NSObject <FeedProviderType>
 
-- (instancetype)initWithNetwork:(id<NetworkServiceType>)service parser:(id<FeedParserType>)parser;
+- (instancetype)initWithParser:(id<FeedParserType>)parser;
 
 @end
 

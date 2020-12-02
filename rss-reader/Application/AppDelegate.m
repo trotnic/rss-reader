@@ -7,7 +7,6 @@
 
 #import "AppDelegate.h"
 #import "FeedXMLParser.h"
-#import "NetworkService.h"
 #import "FeedProvider.h"
 #import "FeedPresenter.h"
 #import "DIContainer.h"
@@ -35,12 +34,8 @@
                            withCompletion:^id (id<DIContainerType> container) {
         return [FeedXMLParser new];
     }];
-    [self.container registerServiceOfType:NSStringFromClass(NetworkService.class) withCompletion:^id (id<DIContainerType> container) {
-        return [[NetworkService alloc] initWithSession:NSURLSession.sharedSession];
-    }];
     [self.container registerServiceOfType:NSStringFromClass(FeedProvider.class) withCompletion:^id (id<DIContainerType> container) {
-        return [[FeedProvider alloc] initWithNetwork:[container resolveServiceOfType:NSStringFromClass(NetworkService.class)]
-                                              parser:[container resolveServiceOfType:NSStringFromClass(FeedXMLParser.class)]];
+        return [[FeedProvider alloc] initWithParser:[container resolveServiceOfType:NSStringFromClass(FeedXMLParser.class)]];
     }];
     [self.container registerServiceOfType:NSStringFromClass(FeedPresenter.class) withCompletion:^id (id<DIContainerType> container) {
         return [[FeedPresenter alloc] initWithProvider:[container resolveServiceOfType:NSStringFromClass(FeedProvider.class)]];
