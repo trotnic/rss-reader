@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+*.pbxproj merge=auto
+=======
+*.pbxproj merge=union
+>>>>>>> develop_v1.1

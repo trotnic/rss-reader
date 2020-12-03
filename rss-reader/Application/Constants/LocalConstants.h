@@ -5,8 +5,8 @@
 //  Created by Uladzislau Volchyk on 11/27/20.
 //
 
-#ifndef LocaleConstants_h
-#define LocaleConstants_h
+#ifndef LocalConstants_h
+#define LocalConstants_h
 
 static NSString *const ALERT_OK_BUTTON_TITLE = @"ALERT_OK_BUTTON_TITLE";
 
