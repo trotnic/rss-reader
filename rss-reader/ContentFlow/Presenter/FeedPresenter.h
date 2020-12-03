@@ -7,16 +7,16 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
+#import "FeedItemWebViewType.h"
+#import "ErrorManagerType.h"
+#import "FeedProviderType.h"
+#import "FeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedViewType;
-@protocol FeedProviderType;
-@protocol ErrorManagerType;
-
 @interface FeedPresenter : NSObject <FeedPresenterType>
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider errorManager:(id<ErrorManagerType>)manager;
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider errorManager:(id<ErrorManagerType>)manager feedWebView:(id<FeedItemWebViewType>)webView;
 - (void)assignView:(id<FeedViewType>)view;
 
 @end

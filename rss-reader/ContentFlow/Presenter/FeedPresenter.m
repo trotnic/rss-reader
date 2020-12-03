@@ -8,10 +8,6 @@
 #import <UIKit/UIKit.h>
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
-#import "FeedViewType.h"
-#import "FeedProviderType.h"
-#import "ErrorManagerType.h"
-#import <UIKit/UIKit.h>
 
 @interface FeedPresenter ()
 
@@ -28,6 +24,7 @@
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
                     errorManager:(id<ErrorManagerType>)manager
+                     feedWebView:(id<FeedItemWebViewType>)webView
 {
     self = [super init];
     if (self) {
@@ -78,10 +75,11 @@
 }
 
 - (void)selectRowAt:(NSInteger)row {
-    NSURL *url = [NSURL URLWithString:self.channel.items[row].link];
-    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
-        NSLog(@"%@ %@", url, success ? @" is opened" : @" isn't opened");
-    }];
+//    NSURL *url = [NSURL URLWithString:self.channel.items[row].link];
+    [self.view presentWebPageOnLink:self.channel.items[row].link];
+//    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+//        NSLog(@"%@ %@", url, success ? @" is opened" : @" isn't opened");
+//    }];
 }
 
 - (id<FeedChannelViewModel>)viewModel {

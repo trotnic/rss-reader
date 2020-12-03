@@ -11,6 +11,8 @@
 #import "FeedPresenterType.h"
 #import "UIViewController+ErrorPresenter.h"
 
+#import "FeedItemWebViewController.h"
+
 CGFloat const kFadeAnimationDuration = 0.1;
 
 @interface FeedViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -144,6 +146,12 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)presentError:(NSError *)error {
     [self showError:error];
+}
+
+- (void)presentWebPageOnLink:(NSString *)link {
+    FeedItemWebViewController *webController = [FeedItemWebViewController new];
+    [webController openURL:[NSURL URLWithString:link]];
+    [self.navigationController pushViewController:webController animated:YES];
 }
 
 @end

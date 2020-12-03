@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updatePresentation;
 - (void)toggleActivityIndicator:(BOOL)show;
 - (void)presentError:(NSError *)error;
+- (void)presentWebPageOnLink:(NSString *)link;
 
 @end
 

@@ -12,6 +12,7 @@
 #import "DIContainer.h"
 #import "FeedViewController.h"
 #import "ErrorManager.h"
+#import "FeedItemWebViewController.h"
 
 @interface AppDelegate ()
 
@@ -40,13 +41,17 @@
     }];
     [self.container registerServiceOfType:NSStringFromClass(FeedPresenter.class) withCompletion:^id (id<DIContainerType> container) {
         return [[FeedPresenter alloc] initWithProvider:[container resolveServiceOfType:NSStringFromClass(FeedProvider.class)]
-                                          errorManager:[container resolveServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType))]];
+                                          errorManager:[container resolveServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType))]
+                                           feedWebView:[container resolveServiceOfType:NSStringFromClass(FeedItemWebViewController.class)]];
     }];
     [self.container registerServiceOfType:NSStringFromClass(FeedProvider.class) withCompletion:^id (id<DIContainerType> container) {
         return [[FeedProvider alloc] initWithParser:[container resolveServiceOfType:NSStringFromClass(FeedXMLParser.class)]];
     }];    
     [self.container registerServiceOfType:NSStringFromClass(FeedViewController.class) withCompletion:^id (id<DIContainerType> container) {
         return [[FeedViewController alloc] initWithPresenter:[container resolveServiceOfType:NSStringFromClass(FeedPresenter.class)]];
+    }];
+    [self.container registerServiceOfType:NSStringFromClass(FeedItemWebViewController.class) withCompletion:^id (id<DIContainerType> container) {
+        return [FeedItemWebViewController new];
     }];
 }
 
