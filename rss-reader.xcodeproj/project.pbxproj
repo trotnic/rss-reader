@@ -235,8 +235,8 @@
 		2B1903E425640866006D755E /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				2B1903E525640873006D755E /* FeedXMLParser.h */,
 				2BBE8E37256D37E300B31BC5 /* FeedParserType.h */,
+				2B1903E525640873006D755E /* FeedXMLParser.h */,
 				2B1903E625640873006D755E /* FeedXMLParser.m */,
 			);
 			path = Parser;

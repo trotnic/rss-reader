@@ -28,11 +28,13 @@
 @property (nonatomic, assign) BOOL isItem;
 @property (nonatomic, retain) NSXMLParser *parser;
 
+@property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
+
 @end
 
 @implementation FeedXMLParser
 
-// MARK: -
+// MARK: FeedParserType
 
 - (void)parseData:(NSData *)data withCompletion:(ParseHandler)completion {
     self.completion = completion;
@@ -49,9 +51,7 @@
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    if(self.completion) {
-        self.completion(nil, parseError);
-    }
+    self.completion(nil, parseError);
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -66,19 +66,8 @@ didStartElement:(NSString *)elementName
         self.mediaContent = [NSMutableArray array];
     }
     
-    if([elementName isEqualToString:kRSSItemTitle] ||
-       [elementName isEqualToString:kRSSItemLink] ||
-       [elementName isEqualToString:kRSSItemCategory] ||
-       [elementName isEqualToString:kRSSItemPubDate] ||
-       
-       [elementName isEqualToString:kRSSChannelTitle] ||
-       [elementName isEqualToString:kRSSChannelLink] ||
-       [elementName isEqualToString:kRSSChannelDescription]) {
+    if([self.plainTextNodes containsObject:elementName]) {
         self.parsingString = [NSMutableString string];
-    }
-    
-    if([elementName isEqualToString:kRSSItemSummary]) {
-        self.parsingString = [NSMutableString stringWithFormat:@"%@", attributeDict[@"src"]];
     }
     
     if([elementName isEqualToString:kRSSMediaContent]) {
@@ -111,15 +100,7 @@ didStartElement:(NSString *)elementName
         _channelDictionary = nil;
     }
     
-    if([elementName isEqualToString:kRSSItemTitle] ||
-       [elementName isEqualToString:kRSSItemLink] ||
-       [elementName isEqualToString:kRSSItemCategory] ||
-       [elementName isEqualToString:kRSSItemPubDate] ||
-       
-       [elementName isEqualToString:kRSSChannelTitle] ||
-       [elementName isEqualToString:kRSSChannelLink] ||
-       [elementName isEqualToString:kRSSChannelDescription]) {
-        
+    if([self.plainTextNodes containsObject:elementName]) {
         if(self.isItem) {
             self.itemDictionary[elementName] = self.parsingString;
         } else {
@@ -163,6 +144,22 @@ didStartElement:(NSString *)elementName
     return _channelDictionary;
 }
 
+- (NSSet<NSString *> *)plainTextNodes {
+    if(!_plainTextNodes) {
+        _plainTextNodes = [[NSSet setWithArray:@[
+            kRSSItemTitle,
+            kRSSItemLink,
+            kRSSItemCategory,
+            kRSSItemPubDate,
+            kRSSItemSummary,
+            kRSSChannelTitle,
+            kRSSChannelLink,
+            kRSSChannelDescription
+        ]] retain];
+    }
+    return _plainTextNodes;
+}
+
 - (void)dealloc
 {    
     [_items release];
@@ -181,6 +178,8 @@ didStartElement:(NSString *)elementName
     _itemDictionary = nil;
     [_channelDictionary release];
     _channelDictionary = nil;
+    [_plainTextNodes release];
+    _plainTextNodes = nil;
     [super dealloc];
 }
 
