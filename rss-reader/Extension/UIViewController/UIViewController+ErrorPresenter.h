@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LocaleConstants.h"
+#import "LocalConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -5,16 +5,20 @@
 //  Created by Uladzislau on 11/18/20.
 //
 
+#import <UIKit/UIKit.h>
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
-#import "MainRouter.h"
+#import "FeedViewType.h"
+#import "FeedProviderType.h"
+#import "ErrorManagerType.h"
+#import <UIKit/UIKit.h>
 
 @interface FeedPresenter ()
 
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
-@property (nonatomic, retain) id<MainRouter> router;
 @property (nonatomic, retain) id<FeedProviderType> provider;
+@property (nonatomic, retain) id<ErrorManagerType> errorManager;
 
 @end
 
@@ -23,21 +27,21 @@
 // MARK: -
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
-                          router:(id<MainRouter>)router
+                    errorManager:(id<ErrorManagerType>)manager
 {
     self = [super init];
-    if (self) {        
-        _router = [router retain];
+    if (self) {
         _provider = [provider retain];
+        _errorManager = [manager retain];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_router release];
     [_channel release];
     [_provider release];
+    [_errorManager release];
     [super dealloc];
 }
 
@@ -46,7 +50,6 @@
 - (void)updateFeed {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view toggleActivityIndicator:YES];
-        [self.router showNetworkActivityIndicator:YES];
     });
     __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, RSSError error) {
@@ -56,7 +59,6 @@
                 weakSelf.channel = channel;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.view toggleActivityIndicator:NO];
-                    [self.router showNetworkActivityIndicator:NO];
                     [weakSelf.view updatePresentation];
                 });
                 break;
@@ -64,8 +66,9 @@
             default: {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.view toggleActivityIndicator:NO];
-                    [self.router showNetworkActivityIndicator:NO];
-                    [weakSelf.router showErrorOfType:error];
+                    [weakSelf.errorManager provideErrorOfType:error withCompletion:^(NSError *resultError) {
+                        [weakSelf.view presentError:resultError];
+                    }];
                 });
                 [weakSelf release];
             }
@@ -75,7 +78,10 @@
 }
 
 - (void)selectRowAt:(NSInteger)row {
-    [self.router openURL:[NSURL URLWithString:self.channel.items[row].link]];
+    NSURL *url = [NSURL URLWithString:self.channel.items[row].link];
+    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+        NSLog(@"%@ %@", url, success ? @" is opened" : @" isn't opened");
+    }];
 }
 
 - (id<FeedChannelViewModel>)viewModel {

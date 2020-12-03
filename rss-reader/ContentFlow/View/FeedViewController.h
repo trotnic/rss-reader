@@ -6,10 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FeedPresenter.h"
 #import "FeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol FeedPresenterType;
 
 @interface FeedViewController : UIViewController <FeedViewType>
 

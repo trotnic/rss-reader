@@ -14,6 +14,10 @@ NSInteger const kTitleNumberOfLines = 0;
 
 @interface FeedTableViewCell ()
 
+@property (nonatomic, retain, readwrite) UILabel *titleLabel;
+@property (nonatomic, retain, readwrite) UILabel *dateLabel;
+@property (nonatomic, retain, readwrite) UILabel *categoryLabel;
+
 @property (nonatomic, retain) UIStackView *mainStack;
 @property (nonatomic, retain) UIStackView *textSubStack;
 @property (nonatomic, retain) UIStackView *textMainStack;

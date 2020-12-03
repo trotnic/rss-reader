@@ -8,6 +8,8 @@
 #import "FeedViewController.h"
 #import "FeedChannelViewModel.h"
 #import "FeedTableViewCell.h"
+#import "FeedPresenterType.h"
+#import "UIViewController+ErrorPresenter.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
 
@@ -38,6 +40,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 {
     [_presenter release];
     [_tableView release];
+    [_refreshControl release];
     [_activityIndicator release];
     [super dealloc];
 }
@@ -134,6 +137,10 @@ CGFloat const kFadeAnimationDuration = 0.1;
     } else {
         [self.activityIndicator stopAnimating];
     }
+}
+
+- (void)presentError:(NSError *)error {
+    [self showError:error];
 }
 
 @end

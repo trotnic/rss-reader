@@ -16,4 +16,11 @@
     return [parser autorelease];
 }
 
++ (instancetype)parserWithURL:(NSURL *)url
+                     delegate:(id<NSXMLParserDelegate>)delegate {
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
+    parser.delegate = delegate;
+    return [parser autorelease];
+}
+
 @end

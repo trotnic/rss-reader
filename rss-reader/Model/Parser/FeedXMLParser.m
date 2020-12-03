@@ -28,29 +28,30 @@
 @property (nonatomic, assign) BOOL isItem;
 @property (nonatomic, retain) NSXMLParser *parser;
 
+@property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
+
 @end
 
 @implementation FeedXMLParser
 
-// MARK: -
+// MARK: FeedParserType
 
-+ (instancetype)parser {
-    FeedXMLParser *parser = [FeedXMLParser new];
-    return [parser autorelease];
-}
-
-- (void)parseFeed:(NSData *)data completion:(ParseHandler)completion {
+- (void)parseData:(NSData *)data withCompletion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
+    [self.parser parse];
+}
+
+- (void)parseContentsOfURL:(NSURL *)url withCompletion:(ParseHandler)completion {
+    self.completion = completion;
+    self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
 }
 
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    if(self.completion) {
-        self.completion(nil, parseError);
-    }
+    self.completion(nil, parseError);
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -59,31 +60,14 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:kRSSChannel]) {
-        _isItem = NO;
-        _channelDictionary = [NSMutableDictionary new];
-        _items = [NSMutableArray new];
-    }
-    
     if ([elementName isEqualToString:kRSSItem]) {
         self.isItem = YES;
         self.itemDictionary = [NSMutableDictionary dictionary];
         self.mediaContent = [NSMutableArray array];
     }
     
-    if([elementName isEqualToString:kRSSItemTitle] ||
-       [elementName isEqualToString:kRSSItemLink] ||
-       [elementName isEqualToString:kRSSItemCategory] ||
-       [elementName isEqualToString:kRSSItemPubDate] ||
-       
-       [elementName isEqualToString:kRSSChannelTitle] ||
-       [elementName isEqualToString:kRSSChannelLink] ||
-       [elementName isEqualToString:kRSSChannelDescription]) {
+    if([self.plainTextNodes containsObject:elementName]) {
         self.parsingString = [NSMutableString string];
-    }
-    
-    if([elementName isEqualToString:kRSSItemSummary]) {
-        self.parsingString = [NSMutableString stringWithFormat:@"%@", attributeDict[@"src"]];
     }
     
     if([elementName isEqualToString:kRSSMediaContent]) {
@@ -116,15 +100,7 @@ didStartElement:(NSString *)elementName
         _channelDictionary = nil;
     }
     
-    if([elementName isEqualToString:kRSSItemTitle] ||
-       [elementName isEqualToString:kRSSItemLink] ||
-       [elementName isEqualToString:kRSSItemCategory] ||
-       [elementName isEqualToString:kRSSItemPubDate] ||
-       
-       [elementName isEqualToString:kRSSChannelTitle] ||
-       [elementName isEqualToString:kRSSChannelLink] ||
-       [elementName isEqualToString:kRSSChannelDescription]) {
-        
+    if([self.plainTextNodes containsObject:elementName]) {
         if(self.isItem) {
             self.itemDictionary[elementName] = self.parsingString;
         } else {
@@ -167,16 +143,58 @@ didStartElement:(NSString *)elementName
     }
 }
 
+// MARK: - Lazy
+
+- (NSMutableArray<FeedItem *> *)items {
+    if(!_items) {
+        _items = [NSMutableArray new];
+    }
+    return _items;
+}
+
+- (NSMutableDictionary *)channelDictionary {
+    if(!_channelDictionary) {
+        _channelDictionary = [NSMutableDictionary new];
+    }
+    return _channelDictionary;
+}
+
+- (NSSet<NSString *> *)plainTextNodes {
+    if(!_plainTextNodes) {
+        _plainTextNodes = [[NSSet setWithArray:@[
+            kRSSItemTitle,
+            kRSSItemLink,
+            kRSSItemCategory,
+            kRSSItemPubDate,
+            kRSSItemSummary,
+            kRSSChannelTitle,
+            kRSSChannelLink,
+            kRSSChannelDescription
+        ]] retain];
+    }
+    return _plainTextNodes;
+}
+
 - (void)dealloc
 {    
     [_items release];
+    _items = nil;
     [_parser release];
+    _parser = nil;
     [_channel release];
+    _channel = nil;
     [_completion release];
+    _completion = nil;
     [_mediaContent release];
+    _mediaContent = nil;
     [_parsingString release];
+    _parsingString = nil;
     [_itemDictionary release];
+    _itemDictionary = nil;
     [_channelDictionary release];
+    _channelDictionary = nil;
+    [_plainTextNodes release];
+    _plainTextNodes = nil;
     [super dealloc];
 }
 
