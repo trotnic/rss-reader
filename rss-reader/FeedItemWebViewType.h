@@ -5,9 +5,10 @@
 //  Created by Uladzislau Volchyk on 12/3/20.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 
 @protocol FeedItemWebViewType <NSObject>
 

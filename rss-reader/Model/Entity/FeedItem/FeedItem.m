@@ -33,6 +33,7 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @implementation FeedItem
 
 @synthesize expand;
+@synthesize frame;
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {

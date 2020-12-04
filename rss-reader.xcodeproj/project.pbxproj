@@ -29,6 +29,8 @@
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
+		CA2F9F42257A6113008498EC /* FeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2F9F41257A6113008498EC /* FeedCollectionViewCell.m */; };
+		CA2F9F4E257A6438008498EC /* FeedCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2F9F4D257A6438008498EC /* FeedCollectionController.m */; };
 		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +109,10 @@
 		CA1C9BD7257948C4002364C3 /* FeedItemWebViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemWebViewType.h; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
+		CA2F9F40257A6113008498EC /* FeedCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FeedCollectionViewCell.h; path = ContentFlow/View/Cell/FeedCollectionViewCell.h; sourceTree = "<group>"; };
+		CA2F9F41257A6113008498EC /* FeedCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FeedCollectionViewCell.m; path = ContentFlow/View/Cell/FeedCollectionViewCell.m; sourceTree = "<group>"; };
+		CA2F9F4C257A6438008498EC /* FeedCollectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FeedCollectionController.h; path = ContentFlow/View/FeedCollectionController.h; sourceTree = "<group>"; };
+		CA2F9F4D257A6438008498EC /* FeedCollectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FeedCollectionController.m; path = ContentFlow/View/FeedCollectionController.m; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,6 +225,8 @@
 				2BBE8E31256D37CE00B31BC5 /* FeedViewController.m */,
 				2BBE8E32256D37CE00B31BC5 /* FeedViewType.h */,
 				2B6539F725653DE5008A76A3 /* Cell */,
+				CA2F9F4C257A6438008498EC /* FeedCollectionController.h */,
+				CA2F9F4D257A6438008498EC /* FeedCollectionController.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -277,6 +285,8 @@
 			children = (
 				2BBE8E2B256D37C200B31BC5 /* FeedTableViewCell.h */,
 				2BBE8E2A256D37C200B31BC5 /* FeedTableViewCell.m */,
+				CA2F9F40257A6113008498EC /* FeedCollectionViewCell.h */,
+				CA2F9F41257A6113008498EC /* FeedCollectionViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -579,12 +589,14 @@
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
 				CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
+				CA2F9F42257A6113008498EC /* FeedCollectionViewCell.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */,
+				CA2F9F4E257A6438008498EC /* FeedCollectionController.m in Sources */,
 				2BE0646D256FA9350073601F /* DIContainer.m in Sources */,
 				2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,

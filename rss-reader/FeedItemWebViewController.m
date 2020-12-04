@@ -71,7 +71,7 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[UIBarButtonItem plainItemWithImage:[UIImage systemImageNamed:@"arrow.left.circle"]
+        _goBackButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
                                                       target:self.webView
                                                       action:@selector(goBack)] retain];
     }
@@ -80,7 +80,7 @@
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[UIBarButtonItem plainItemWithImage:[UIImage systemImageNamed:@"arrow.forward.circle"]
+        _goForwardButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
                                                          target:self.webView
                                                          action:@selector(goForward)] retain];
     }
@@ -89,7 +89,7 @@
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage systemImageNamed:@"arrow.counterclockwise"]
+        _reloadWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"refresh"]
                                                          target:self.webView
                                                          action:@selector(reload)] retain];
     }
@@ -98,7 +98,7 @@
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        _closeWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage systemImageNamed:@"stop"]
+        _closeWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"xmark"]
                                                             target:self
                                                             action:@selector(closeWebPage)] retain];
     }
@@ -107,7 +107,7 @@
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        _openInBrowserButton = [[UIBarButtonItem plainItemWithImage:[UIImage systemImageNamed:@"safari"]
+        _openInBrowserButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"safari"]
                                                              target:self
                                                              action:@selector(openInBrowser)] retain];
     }

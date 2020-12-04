@@ -13,6 +13,7 @@
 #import "FeedViewController.h"
 #import "ErrorManager.h"
 #import "FeedItemWebViewController.h"
+#import "FeedCollectionController.h"
 
 @interface AppDelegate ()
 

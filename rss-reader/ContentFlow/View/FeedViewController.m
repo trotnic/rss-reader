@@ -10,7 +10,6 @@
 #import "FeedTableViewCell.h"
 #import "FeedPresenterType.h"
 #import "UIViewController+ErrorPresenter.h"
-
 #import "FeedItemWebViewController.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
@@ -19,10 +18,14 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, retain) UIRefreshControl *refreshControl;
+
+@property (nonatomic, retain) UIViewController<FeedItemWebViewType> *webView;
 
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
 
-@property (nonatomic, retain) UIRefreshControl *refreshControl;
+
+//@property (nonatomic, assign) CGPoint frozenContentOffsetForRowAnimation;
 
 @end
 
@@ -101,13 +104,40 @@ CGFloat const kFadeAnimationDuration = 0.1;
     return _refreshControl;
 }
 
+- (id<FeedItemWebViewType>)webView {
+    if(!_webView) {
+        _webView = [FeedItemWebViewController new];
+    }
+    return _webView;
+}
+
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^{
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    CGPoint originalContentOffset = tableView.contentOffset;
+    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^(BOOL toExpand) {
+        
+        
+        
+//        CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
+//        BOOL completelyVisible = CGRectContainsRect(tableView.bounds, cellRect);
+        
+        [tableView performBatchUpdates:^{
+            [tableView beginUpdates];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView endUpdates];
+            
+//            if(!CGPointEqualToPoint(originalContentOffset, tableView.contentOffset)) {
+//                self.frozenContentOffsetForRowAnimation = tableView.contentOffset;
+//            }
+        } completion:^(BOOL finished) {
+
+        }];
+        [tableView beginUpdates];
+        [tableView endUpdates];
     }];
+        
     
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
@@ -127,6 +157,25 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.presenter selectRowAt:indexPath.row];
 }
+//
+//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return 0.5*self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
+//}
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
+//}
+
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    self.frozenContentOffsetForRowAnimation = CGPointZero;
+//}
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    if(!CGPointEqualToPoint(self.frozenContentOffsetForRowAnimation, CGPointZero) &&
+//       !CGPointEqualToPoint(scrollView.contentOffset, self.frozenContentOffsetForRowAnimation)) {
+//        [scrollView setContentOffset:self.frozenContentOffsetForRowAnimation animated:NO];
+//    }
+//}
 
 // MARK: - FeedViewType
 
@@ -149,9 +198,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (void)presentWebPageOnLink:(NSString *)link {
-    FeedItemWebViewController *webController = [FeedItemWebViewController new];
-    [webController openURL:[NSURL URLWithString:link]];
-    [self.navigationController pushViewController:webController animated:YES];
+    [self.webView openURL:[NSURL URLWithString:link]];
+    [self.navigationController pushViewController:self.webView animated:YES];
 }
 
 @end

@@ -6,11 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FeedChannelViewModel.h"
+#import "FeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@protocol FeedViewType;
-@protocol FeedChannelViewModel;
 
 @protocol FeedPresenterType <NSObject>
 
