@@ -24,7 +24,6 @@
 		2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E59256D390F00B31BC5 /* FeedProvider.m */; };
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
-		CA8FB96B256FEBE100D09F79 /* DIContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8FB96A256FEBE100D09F79 /* DIContainer.m */; };
 		CA8FB975257004F500D09F79 /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8FB974257004F500D09F79 /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
@@ -87,9 +86,6 @@
 		2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringConvertible.m"; sourceTree = "<group>"; };
 		2BBE8E7E256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+DelegateInitializable.h"; sourceTree = "<group>"; };
 		2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+DelegateInitializable.m"; sourceTree = "<group>"; };
-		CA8FB968256FEBD600D09F79 /* DIContainerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainerType.h; sourceTree = "<group>"; };
-		CA8FB969256FEBE100D09F79 /* DIContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainer.h; sourceTree = "<group>"; };
-		CA8FB96A256FEBE100D09F79 /* DIContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIContainer.m; sourceTree = "<group>"; };
 		CA8FB973257004E200D09F79 /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CA8FB974257004F500D09F79 /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,7 +168,6 @@
 		2B1903B12563FE9D006D755E /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				CA8FB953256FEB7C00D09F79 /* DIContainer */,
 				2B1903822563FE17006D755E /* main.m */,
 				2B1903702563FE16006D755E /* AppDelegate.h */,
 				2B1903712563FE16006D755E /* AppDelegate.m */,
@@ -336,16 +331,6 @@
 			path = NSXMLParser;
 			sourceTree = "<group>";
 		};
-		CA8FB953256FEB7C00D09F79 /* DIContainer */ = {
-			isa = PBXGroup;
-			children = (
-				CA8FB968256FEBD600D09F79 /* DIContainerType.h */,
-				CA8FB969256FEBE100D09F79 /* DIContainer.h */,
-				CA8FB96A256FEBE100D09F79 /* DIContainer.m */,
-			);
-			path = DIContainer;
-			sourceTree = "<group>";
-		};
 		CA8FB9722570048A00D09F79 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -490,7 +475,6 @@
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
-				CA8FB96B256FEBE100D09F79 /* DIContainer.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
