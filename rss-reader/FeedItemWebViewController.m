@@ -23,6 +23,17 @@
 
 @implementation FeedItemWebViewController
 
+- (void)dealloc
+{
+    [_webView release];
+    [_goBackButton release];
+    [_goForwardButton release];
+    [_reloadWebPageButton release];
+    [_closeWebPageButton release];
+    [_openInBrowserButton release];
+    [super dealloc];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColor.whiteColor;

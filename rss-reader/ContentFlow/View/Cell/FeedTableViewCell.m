@@ -22,7 +22,6 @@ NSInteger const kTitleNumberOfLines = 0;
 @property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
 
 @property (nonatomic, retain) UIStackView *mainStack;
-
 @property (nonatomic, retain) UIStackView *supplementaryTextStack;
 @property (nonatomic, retain) UIStackView *supplementaryButtonStack;
 @property (nonatomic, retain) UIStackView *supplementarySectionStack;
@@ -186,6 +185,7 @@ NSInteger const kTitleNumberOfLines = 0;
 - (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel
           reloadCompletion:(void(^)(BOOL))completion {
     self.viewModel = viewModel;
+    self.viewModel.frame = self.frame;
     self.setupCompletion = completion;
     self.dateLabel.text = [self.viewModel articleDate];
     self.titleLabel.text = [self.viewModel articleTitle];
@@ -196,9 +196,9 @@ NSInteger const kTitleNumberOfLines = 0;
 
 // MARK: -
 - (void)toggleDescription {
-    self.descriptionLabel.hidden = !self.viewModel.isExpand;
     self.viewModel.expand = !self.viewModel.isExpand;
-//    self.viewModel.frame = self.frame;
+    self.descriptionLabel.hidden = self.viewModel.isExpand;
+    self.viewModel.frame = self.bounds;
     self.setupCompletion(self.viewModel.isExpand);
 }
 

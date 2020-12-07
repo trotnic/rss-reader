@@ -24,9 +24,6 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
 
-
-//@property (nonatomic, assign) CGPoint frozenContentOffsetForRowAnimation;
-
 @end
 
 @implementation FeedViewController
@@ -43,6 +40,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)dealloc
 {
+    [_webView release];
     [_presenter release];
     [_tableView release];
     [_refreshControl release];
@@ -115,29 +113,15 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    CGPoint originalContentOffset = tableView.contentOffset;
     [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^(BOOL toExpand) {
-        
-        
-        
-//        CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
-//        BOOL completelyVisible = CGRectContainsRect(tableView.bounds, cellRect);
-        
-        [tableView performBatchUpdates:^{
-            [tableView beginUpdates];
-            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [tableView endUpdates];
-            
-//            if(!CGPointEqualToPoint(originalContentOffset, tableView.contentOffset)) {
-//                self.frozenContentOffsetForRowAnimation = tableView.contentOffset;
-//            }
-        } completion:^(BOOL finished) {
-
-        }];
+        CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
+        if (!CGRectContainsRect(tableView.bounds, cellRect)) {
+            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
     }];
-        
     
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
@@ -157,25 +141,10 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.presenter selectRowAt:indexPath.row];
 }
-//
-//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 0.5*self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
-//}
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
-//}
-
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    self.frozenContentOffsetForRowAnimation = CGPointZero;
-//}
-//
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    if(!CGPointEqualToPoint(self.frozenContentOffsetForRowAnimation, CGPointZero) &&
-//       !CGPointEqualToPoint(scrollView.contentOffset, self.frozenContentOffsetForRowAnimation)) {
-//        [scrollView setContentOffset:self.frozenContentOffsetForRowAnimation animated:NO];
-//    }
-//}
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
+}
 
 // MARK: - FeedViewType
 

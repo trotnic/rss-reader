@@ -50,7 +50,6 @@
     });
     __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, RSSError error) {
-        [weakSelf retain];
         switch (error) {
             case RSSErrorTypeNone: {
                 weakSelf.channel = channel;
@@ -67,19 +66,13 @@
                         [weakSelf.view presentError:resultError];
                     }];
                 });
-                [weakSelf release];
             }
         }
-        [weakSelf release];
     }];
 }
 
 - (void)selectRowAt:(NSInteger)row {
-//    NSURL *url = [NSURL URLWithString:self.channel.items[row].link];
     [self.view presentWebPageOnLink:self.channel.items[row].link];
-//    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
-//        NSLog(@"%@ %@", url, success ? @" is opened" : @" isn't opened");
-//    }];
 }
 
 - (id<FeedChannelViewModel>)viewModel {
