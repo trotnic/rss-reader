@@ -18,8 +18,6 @@
 @property (nonatomic, retain) id<FeedProviderType> provider;
 @property (nonatomic, retain) id<ErrorManagerType> errorManager;
 
-@property (nonatomic, retain) UVDataRecognizer *recognizer;
-
 @end
 
 @implementation FeedPresenter
@@ -71,13 +69,6 @@
             }
         }
     }];
-    
-    self.recognizer = [UVDataRecognizer new];
-    
-    [self.recognizer findOnURL:[NSURL URLWithString:@"https://www.tut.by"] withCompletion:^(NSArray<NSString *> *links) {
-            NSLog(@"%@", links);
-    }];
-    
 }
 
 - (void)selectRowAt:(NSInteger)row {

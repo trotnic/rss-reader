@@ -6,13 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSSource.h"
+#import "UVDataRecognizerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVDataRecognizer : NSObject
-
-- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(NSArray<RSSSource *> *))completion;
+@interface UVDataRecognizer : NSObject <UVDataRecognizerType>
 
 @end
 
