@@ -117,7 +117,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
         CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
         if (!CGRectContainsRect(tableView.bounds, cellRect)) {
-            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];            
         }
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];

@@ -29,6 +29,11 @@
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
+		CA2BE099257F954400BC7749 /* RSSSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSSource.m */; };
+		CA2EF4D0257E5F64002452CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA2EF4CF257E5F64002452CA /* Settings.bundle */; };
+		CA2EF4D7257E63C7002452CA /* UVNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2EF4D6257E63C7002452CA /* UVNetworkManager.m */; };
+		CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2EF4E4257E67DA002452CA /* UVDataRecognizer.m */; };
+		CA2EF4EF257E6988002452CA /* UVRSSLinksParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2EF4EE257E6988002452CA /* UVRSSLinksParser.m */; };
 		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +112,18 @@
 		CA1C9BD7257948C4002364C3 /* FeedItemWebViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemWebViewType.h; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
+		CA2BE097257F954400BC7749 /* RSSSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSSource.h; sourceTree = "<group>"; };
+		CA2BE098257F954400BC7749 /* RSSSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSSSource.m; sourceTree = "<group>"; };
+		CA2EF4CF257E5F64002452CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		CA2EF4D5257E63C7002452CA /* UVNetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNetworkManager.h; sourceTree = "<group>"; };
+		CA2EF4D6257E63C7002452CA /* UVNetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVNetworkManager.m; sourceTree = "<group>"; };
+		CA2EF4DE257E63D6002452CA /* UVNetworkManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNetworkManagerType.h; sourceTree = "<group>"; };
+		CA2EF4E3257E67DA002452CA /* UVDataRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizer.h; sourceTree = "<group>"; };
+		CA2EF4E4257E67DA002452CA /* UVDataRecognizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVDataRecognizer.m; sourceTree = "<group>"; };
+		CA2EF4ED257E6988002452CA /* UVRSSLinksParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinksParser.h; sourceTree = "<group>"; };
+		CA2EF4EE257E6988002452CA /* UVRSSLinksParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVRSSLinksParser.m; sourceTree = "<group>"; };
+		CA2EF4F3257E69B1002452CA /* UVRSSLinksParserType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinksParserType.h; sourceTree = "<group>"; };
+		CA2EF4FB257E7F19002452CA /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +160,7 @@
 				2B19038B2563FE17006D755E /* rss-readerTests */,
 				2B1903962563FE17006D755E /* rss-readerUITests */,
 				2B19036E2563FE16006D755E /* Products */,
+				CA2EF4FA257E7F19002452CA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -198,6 +216,7 @@
 				2B1903702563FE16006D755E /* AppDelegate.h */,
 				2B1903712563FE16006D755E /* AppDelegate.m */,
 				2B19037C2563FE17006D755E /* Assets.xcassets */,
+				CA2EF4CF257E5F64002452CA /* Settings.bundle */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -236,7 +255,9 @@
 		2B1903BE2563FEE9006D755E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CA2EF4D4257E63AF002452CA /* NetworkManager */,
 				2BBE8E4F256D38D600B31BC5 /* DataProvider */,
+				CA2EF4E2257E67C2002452CA /* DataRecognizer */,
 				2B653A0125654ED6008A76A3 /* Entity */,
 				2B1903E425640866006D755E /* Parser */,
 			);
@@ -284,6 +305,7 @@
 		2B653A0125654ED6008A76A3 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				CA2BE096257F952800BC7749 /* RSSLink */,
 				2B7F5DF325654FED00656FC7 /* Media */,
 				2B653A0225654EDD008A76A3 /* Channel */,
 				2B1903DD25640694006D755E /* FeedItem */,
@@ -431,6 +453,53 @@
 			path = Collections;
 			sourceTree = "<group>";
 		};
+		CA2BE096257F952800BC7749 /* RSSLink */ = {
+			isa = PBXGroup;
+			children = (
+				CA2BE097257F954400BC7749 /* RSSSource.h */,
+				CA2BE098257F954400BC7749 /* RSSSource.m */,
+			);
+			path = RSSLink;
+			sourceTree = "<group>";
+		};
+		CA2EF4D4257E63AF002452CA /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				CA2EF4D5257E63C7002452CA /* UVNetworkManager.h */,
+				CA2EF4D6257E63C7002452CA /* UVNetworkManager.m */,
+				CA2EF4DE257E63D6002452CA /* UVNetworkManagerType.h */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		CA2EF4E2257E67C2002452CA /* DataRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				CA2EF4EC257E6975002452CA /* Parser */,
+				CA2EF4E3257E67DA002452CA /* UVDataRecognizer.h */,
+				CA2EF4E4257E67DA002452CA /* UVDataRecognizer.m */,
+			);
+			path = DataRecognizer;
+			sourceTree = "<group>";
+		};
+		CA2EF4EC257E6975002452CA /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				CA2EF4ED257E6988002452CA /* UVRSSLinksParser.h */,
+				CA2EF4EE257E6988002452CA /* UVRSSLinksParser.m */,
+				CA2EF4F3257E69B1002452CA /* UVRSSLinksParserType.h */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		CA2EF4FA257E7F19002452CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA2EF4FB257E7F19002452CA /* libxml2.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CAF30C2325701736004A925D /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +613,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B19037D2563FE17006D755E /* Assets.xcassets in Resources */,
+				CA2EF4D0257E5F64002452CA /* Settings.bundle in Resources */,
 				2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,12 +648,16 @@
 				CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */,
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
 				CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */,
+				CA2EF4D7257E63C7002452CA /* UVNetworkManager.m in Sources */,
+				CA2EF4EF257E6988002452CA /* UVRSSLinksParser.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
+				CA2BE099257F954400BC7749 /* RSSSource.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
+				CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */,
 				CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */,
 				2BE0646D256FA9350073601F /* DIContainer.m in Sources */,
 				2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */,

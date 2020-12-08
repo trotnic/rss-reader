@@ -9,12 +9,16 @@
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
 
+#import "UVDataRecognizer.h"
+
 @interface FeedPresenter ()
 
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
 @property (nonatomic, retain) id<FeedProviderType> provider;
 @property (nonatomic, retain) id<ErrorManagerType> errorManager;
+
+@property (nonatomic, retain) UVDataRecognizer *recognizer;
 
 @end
 
@@ -45,9 +49,7 @@
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view toggleActivityIndicator:YES];
-    });
+    [self.view toggleActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
     [self.provider fetchData:^(FeedChannel *channel, RSSError error) {
         switch (error) {
@@ -69,6 +71,13 @@
             }
         }
     }];
+    
+    self.recognizer = [UVDataRecognizer new];
+    
+    [self.recognizer findOnURL:[NSURL URLWithString:@"https://www.tut.by"] withCompletion:^(NSArray<NSString *> *links) {
+            NSLog(@"%@", links);
+    }];
+    
 }
 
 - (void)selectRowAt:(NSInteger)row {
