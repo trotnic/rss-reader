@@ -36,4 +36,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@, %@", self.link, self.title];
+}
+
 @end

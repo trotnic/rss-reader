@@ -8,8 +8,8 @@
 #import "UVDataRecognizer.h"
 
 NSString *const linkTagPattern = @"<link.+type=\"application[/]rss[+]xml\".*>";
-NSString *const hrefAttributePattern = @"(?<=href=\").+(?=\")";
-NSString *const titleAttributePattern = @"(?<=title=\").+(?=\")";
+NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
+NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
 
 @interface UVDataRecognizer ()
 
@@ -62,7 +62,7 @@ NSString *const titleAttributePattern = @"(?<=title=\").+(?=\")";
             
             NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
             NSString *titleString = [linkString substringWithRange:[titleMatch range]];
-            [result addObject:[[RSSSource alloc] initWithTitle:titleString link:hrefString]];
+            [result addObject:[[[RSSSource alloc] initWithTitle:titleString link:hrefString] autorelease]];
         }];
         
         completion([result copy]);
