@@ -146,7 +146,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         case WKNavigationTypeLinkActivated:
             [self.webView loadRequest:navigationAction.request];
             break;
-            
         default:
             break;
     }

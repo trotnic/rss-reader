@@ -8,6 +8,9 @@
 #import <UIKit/UIKit.h>
 #import "FeedPresenter.h"
 #import "FeedChannel.h"
+#import "FeedViewType.h"
+#import "FeedProviderType.h"
+#import "ErrorManagerType.h"
 
 #import "UVDataRecognizer.h"
 
@@ -26,7 +29,6 @@
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
                     errorManager:(id<ErrorManagerType>)manager
-                     feedWebView:(id<FeedItemWebViewType>)webView
 {
     self = [super init];
     if (self) {
