@@ -11,7 +11,6 @@
 #import "FeedViewType.h"
 #import "FeedProviderType.h"
 #import "ErrorManagerType.h"
-#import <UIKit/UIKit.h>
 
 @interface FeedPresenter ()
 

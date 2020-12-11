@@ -26,7 +26,7 @@
 		2BE0646D256FA9350073601F /* DIContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0646C256FA9350073601F /* DIContainer.m */; };
 		2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48F17256E871E007A81E0 /* ErrorManager.m */; };
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
-		CA8FB975257004F500D09F79 /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8FB974257004F500D09F79 /* UIViewController+ErrorPresenter.m */; };
+		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,7 +87,6 @@
 		2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringConvertible.m"; sourceTree = "<group>"; };
 		2BBE8E7E256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+DelegateInitializable.h"; sourceTree = "<group>"; };
 		2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+DelegateInitializable.m"; sourceTree = "<group>"; };
-		2BBE8E90256D486900B31BC5 /* NetworkService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkService.m; sourceTree = "<group>"; };
 		2BE0646A256FA9280073601F /* DIContainerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainerType.h; sourceTree = "<group>"; };
 		2BE0646B256FA9350073601F /* DIContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainer.h; sourceTree = "<group>"; };
 		2BE0646C256FA9350073601F /* DIContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIContainer.m; sourceTree = "<group>"; };
@@ -96,13 +95,8 @@
 		2BF48F17256E871E007A81E0 /* ErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
 		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
+		CA101A652583757B000CCC7C /* LocalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
-		CA8FB968256FEBD600D09F79 /* DIContainerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainerType.h; sourceTree = "<group>"; };
-		CA8FB969256FEBE100D09F79 /* DIContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIContainer.h; sourceTree = "<group>"; };
-		CA8FB96A256FEBE100D09F79 /* DIContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIContainer.m; sourceTree = "<group>"; };
-		CA8FB973257004E200D09F79 /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
-		CA8FB974257004F500D09F79 /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,7 +133,6 @@
 				2B19038B2563FE17006D755E /* rss-readerTests */,
 				2B1903962563FE17006D755E /* rss-readerUITests */,
 				2B19036E2563FE16006D755E /* Products */,
-				CA1C9B9B25790505002364C3 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,7 +184,6 @@
 				2BE06469256FA9150073601F /* DIContainer */,
 				2BF48F6A256E99EF007A81E0 /* Localization */,
 				2BF48F14256E8704007A81E0 /* ErrorManager */,
-				CA8FB953256FEB7C00D09F79 /* DIContainer */,
 				2B1903822563FE17006D755E /* main.m */,
 				2B1903702563FE16006D755E /* AppDelegate.h */,
 				2B1903712563FE16006D755E /* AppDelegate.m */,
@@ -253,8 +245,8 @@
 		2B1903E425640866006D755E /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				2BBE8E37256D37E300B31BC5 /* FeedParserType.h */,
 				2B1903E525640873006D755E /* FeedXMLParser.h */,
+				2BBE8E37256D37E300B31BC5 /* FeedParserType.h */,
 				2B1903E625640873006D755E /* FeedXMLParser.m */,
 			);
 			path = Parser;
@@ -329,7 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				CAF30C2325701736004A925D /* UIViewController */,
-				CA8FB9722570048A00D09F79 /* UIViewController */,
 				2B53014C256E42F000E82D56 /* NSDateFormatter */,
 				2BBE8E7D256D445600B31BC5 /* NSXMLParser */,
 				2BBE8E5F256D393E00B31BC5 /* NSDate */,
@@ -383,18 +374,10 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
-		CA1C9B9B25790505002364C3 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				2BBE8E90256D486900B31BC5 /* NetworkService.m */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		CA243AB72570E5C100B56A7B /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				CA243AB82570E5D600B56A7B /* LocalConstants.h */,
+				CA101A652583757B000CCC7C /* LocalConstants.h */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -405,25 +388,6 @@
 				CA243AC325710D6F00B56A7B /* RSSError.h */,
 			);
 			path = Collections;
-			sourceTree = "<group>";
-		};
-		CA8FB953256FEB7C00D09F79 /* DIContainer */ = {
-			isa = PBXGroup;
-			children = (
-				CA8FB968256FEBD600D09F79 /* DIContainerType.h */,
-				CA8FB969256FEBE100D09F79 /* DIContainer.h */,
-				CA8FB96A256FEBE100D09F79 /* DIContainer.m */,
-			);
-			path = DIContainer;
-			sourceTree = "<group>";
-		};
-		CA8FB9722570048A00D09F79 /* UIViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CA8FB973257004E200D09F79 /* UIViewController+ErrorPresenter.h */,
-				CA8FB974257004F500D09F79 /* UIViewController+ErrorPresenter.m */,
-			);
-			path = UIViewController;
 			sourceTree = "<group>";
 		};
 		CAF30C2325701736004A925D /* UIViewController */ = {
@@ -564,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */,
@@ -578,7 +543,6 @@
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				2BE0646D256FA9350073601F /* DIContainer.m in Sources */,
 				2BF48F18256E871E007A81E0 /* ErrorManager.m in Sources */,
-				CA8FB975257004F500D09F79 /* UIViewController+ErrorPresenter.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,55 +9,35 @@
 #import "FeedXMLParser.h"
 #import "FeedProvider.h"
 #import "FeedPresenter.h"
-#import "DIContainer.h"
 #import "FeedViewController.h"
 #import "ErrorManager.h"
 
 @interface AppDelegate ()
-
-@property (nonatomic, retain) DIContainer *container;
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self configureDependencies];
-    self.window.rootViewController =[[[UINavigationController alloc] initWithRootViewController:[self.container resolveServiceOfType:NSStringFromClass(FeedViewController.class)]] autorelease];
-    [self.window makeKeyAndVisible];
+    [self setupAppearance];
     return YES;
 }
 
 // MARK: -
 
-- (void)configureDependencies {
-    [self.container registerServiceOfType:NSStringFromClass(FeedXMLParser.class)
-                           withCompletion:^id (id<DIContainerType> container) {
-        return [FeedXMLParser new];
-    }];
-    [self.container registerServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType)) withCompletion:^id (id<DIContainerType> container) {
-        return [ErrorManager new];
-    }];
-    [self.container registerServiceOfType:NSStringFromClass(FeedPresenter.class) withCompletion:^id (id<DIContainerType> container) {
-        return [[FeedPresenter alloc] initWithProvider:[container resolveServiceOfType:NSStringFromClass(FeedProvider.class)]
-                                          errorManager:[container resolveServiceOfType:NSStringFromProtocol(@protocol(ErrorManagerType))]];
-    }];
-    [self.container registerServiceOfType:NSStringFromClass(FeedProvider.class) withCompletion:^id (id<DIContainerType> container) {
-        return [[FeedProvider alloc] initWithParser:[container resolveServiceOfType:NSStringFromClass(FeedXMLParser.class)]];
-    }];    
-    [self.container registerServiceOfType:NSStringFromClass(FeedViewController.class) withCompletion:^id (id<DIContainerType> container) {
-        return [[FeedViewController alloc] initWithPresenter:[container resolveServiceOfType:NSStringFromClass(FeedPresenter.class)]];
-    }];
+- (void)setupAppearance {
+    FeedXMLParser *parser = [FeedXMLParser new];
+    FeedProvider *dataProvider = [[FeedProvider alloc] initWithParser:[parser autorelease]];
+    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease] errorManager:[[ErrorManager new] autorelease]];
+    FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    
+    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    [self.window makeKeyAndVisible];
+    
+    [controller release];
 }
 
-// MARK: - Lazy
-
-- (DIContainer *)container {
-    if(!_container) {
-        _container = [DIContainer new];
-    }
-    return _container;
-}
+// MARK: Lazy
 
 - (UIWindow *)window {
     if(!_window) {
@@ -71,7 +51,6 @@
 - (void)dealloc
 {
     [_window release];
-    [_container release];
     [super dealloc];
 }
 
