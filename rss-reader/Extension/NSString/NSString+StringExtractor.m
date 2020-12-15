@@ -11,8 +11,10 @@
 
 - (NSString *)stringBetweenStart:(NSString *)start andFinish:(NSString *)finish {
     NSRange utilityRange = [self rangeOfString:start];
+    if (utilityRange.location == NSNotFound) { return self; }
     NSString *resultString = [self substringFromIndex:utilityRange.location + start.length];
     utilityRange = [resultString rangeOfString:finish];
+    if (utilityRange.location == NSNotFound) { return resultString; }
     resultString = [resultString substringToIndex:utilityRange.location];
     return resultString;
 }

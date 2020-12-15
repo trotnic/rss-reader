@@ -11,6 +11,7 @@
 NSString *const linkTagPattern = @"<link.+type=\"application[/]rss[+]xml\".*>";
 NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
 NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
+NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
 
 @interface UVDataRecognizer ()
 
@@ -20,16 +21,23 @@ NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
 
 // MARK: -
 
-- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(NSArray<RSSSource *> *))completion {
+- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(RSSSource *))completion {
     NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithURL:url
                                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSRegularExpression *hrefReg = [NSRegularExpression expressionWithPattern:hrefAttributePattern];
         NSRegularExpression *titleReg = [NSRegularExpression expressionWithPattern:titleAttributePattern];
         NSRegularExpression *linkReg = [NSRegularExpression expressionWithPattern:linkTagPattern];
+        NSRegularExpression *titleTagReg = [NSRegularExpression expressionWithPattern:titleTagPattern];
         
-        NSMutableArray<RSSSource *> *result = [NSMutableArray array];
+        NSMutableArray<RSSLink *> *result = [NSMutableArray array];
         NSString *string = [NSString stringWithUTF8String:[data bytes]];
         NSArray<NSTextCheckingResult *> *matches = [linkReg matchesInString:string options:0 range:NSMakeRange(0, string.length)];
+        
+
+        
+        NSTextCheckingResult *titleMatch = [titleTagReg firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
+        NSString *sourceTitle = [string substringWithRange:[titleMatch range]];
+        
         [matches enumerateObjectsUsingBlock:^(NSTextCheckingResult *obj, NSUInteger idx, BOOL *stop) {
             NSString *linkString = [string substringWithRange:[obj range]];
             NSRange searchRange = NSMakeRange(0, linkString.length);
@@ -38,10 +46,10 @@ NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
             
             NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
             NSString *titleString = [linkString substringWithRange:[titleMatch range]];
-            [result addObject:[[[RSSSource alloc] initWithTitle:titleString link:hrefString] autorelease]];
+            [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString] autorelease]];
         }];
         
-        completion([result copy]);
+        completion([[RSSSource alloc] initWithTitle:sourceTitle url:url links:result]);
     }];
     
     [task resume];

@@ -7,11 +7,13 @@
 
 #import "FeedProvider.h"
 #import "FeedParserType.h"
+#import "UVSourceManager.h"
 
 NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 @interface FeedProvider ()
 
+@property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 @property (nonatomic, retain) id<FeedParserType> parser;
 
 @end
@@ -32,6 +34,7 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 - (void)dealloc
 {
     [_parser release];
+    [_sourceManager release];
     [super dealloc];
 }
 
@@ -40,7 +43,7 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 - (void)fetchData:(void(^)(FeedChannel *, RSSError))completion {
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
-            [self.parser parseContentsOfURL:[NSURL URLWithString:kFeedURL] withCompletion:^(FeedChannel *channel, NSError *error) {
+            [self.parser parseContentsOfURL:[NSURL URLWithString:[self.sourceManager.selectedLink link]] withCompletion:^(FeedChannel *channel, NSError *error) {
                 if(error) {
                     completion(nil, RSSErrorTypeBadNetwork);
                     return;
@@ -49,6 +52,15 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
             }];
         }
     }];
+}
+
+// MARK: - Lazy
+
+- (id<UVSourceManagerType>)sourceManager {
+    if(!_sourceManager) {
+        _sourceManager = [UVSourceManager.defaultManager retain];
+    }
+    return _sourceManager;
 }
 
 @end

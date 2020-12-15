@@ -11,6 +11,7 @@
 #import "FeedPresenter.h"
 #import "FeedViewController.h"
 #import "ErrorManager.h"
+#import "UVSourceManager.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupAppearance];
+    [NSNotificationCenter.defaultCenter addObserver:UVSourceManager.defaultManager selector:@selector(saveState) name:UIApplicationWillResignActiveNotification object:nil];
     return YES;
 }
 

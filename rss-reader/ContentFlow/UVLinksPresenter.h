@@ -6,12 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVDataRecognizerType.h"
 #import "UVLinksPresenterType.h"
+#import "UVDataRecognizerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UVLinksPresenter : NSObject <UVLinksPresenterType>
+
+@property (nonatomic, retain, readonly) id<UVDataRecognizerType> recognizer;
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer;
 

@@ -11,6 +11,8 @@
 #import "FeedPresenterType.h"
 #import "UIViewController+ErrorPresenter.h"
 #import "FeedItemWebViewController.h"
+#import "UIBarButtonItem+PrettiInitializable.h"
+#import "UVLinksViewController.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
 
@@ -19,7 +21,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
-
+@property (nonatomic, retain) UIBarButtonItem *settingsButton;
 @property (nonatomic, retain) UIViewController<FeedItemWebViewType> *webView;
 
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
@@ -55,12 +57,18 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [super viewDidLoad];
     
     [self setupLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.presenter updateFeed];
 }
 
 - (void)setupLayout {
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.activityIndicator];
+    
+    self.navigationItem.rightBarButtonItem = self.settingsButton;
 
     [NSLayoutConstraint activateConstraints:@[
         [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
@@ -83,6 +91,21 @@ CGFloat const kFadeAnimationDuration = 0.1;
         [_tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
     }
     return _tableView;
+}
+
+- (UIBarButtonItem *)settingsButton {
+    if(!_settingsButton) {
+        _settingsButton = [UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"gear"]
+                                                       target:self
+                                                       action:@selector(dothings)];
+        
+    }
+    return _settingsButton;
+}
+
+- (void)dothings {
+    UVLinksViewController *controller = [UVLinksViewController new];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (UIActivityIndicatorView *)activityIndicator {

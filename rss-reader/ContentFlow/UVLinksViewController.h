@@ -6,10 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVLinksViewType.h"
+#import "UVLinksPresenterType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVLinksViewController : UIViewController
+@interface UVLinksViewController : UIViewController <UVLinksViewType>
+
+@property (nonatomic, retain, readonly) id<UVLinksPresenterType> presenter;
 
 @end
 

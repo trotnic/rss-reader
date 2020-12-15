@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVDataRecognizerType <NSObject>
 
-- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(NSArray<RSSSource *> *))completion;
+- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(RSSSource *))completion;
 
 @end
 
