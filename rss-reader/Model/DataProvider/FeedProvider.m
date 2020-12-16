@@ -40,10 +40,11 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 // MARK: - FeedProviderType
 
-- (void)fetchData:(void(^)(FeedChannel *, RSSError))completion {
+- (void)fetchDataFromURL:(NSURL *)url completion:(void(^)(FeedChannel *, RSSError))completion {
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
-            [self.parser parseContentsOfURL:[NSURL URLWithString:[self.sourceManager.selectedLink link]] withCompletion:^(FeedChannel *channel, NSError *error) {
+            [self.parser parseContentsOfURL:url
+                             withCompletion:^(FeedChannel *channel, NSError *error) {
                 if(error) {
                     completion(nil, RSSErrorTypeBadNetwork);
                     return;
@@ -53,6 +54,21 @@ NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
         }
     }];
 }
+
+//- (void)fetchData:(void(^)(FeedChannel *, RSSError))completion {
+//    [NSThread detachNewThreadWithBlock:^{
+//        @autoreleasepool {
+//            [self.parser parseContentsOfURL:[NSURL URLWithString:[self.sourceManager.selectedLink link]]
+//                             withCompletion:^(FeedChannel *channel, NSError *error) {
+//                if(error) {
+//                    completion(nil, RSSErrorTypeBadNetwork);
+//                    return;
+//                }
+//                completion(channel, RSSErrorTypeNone);
+//            }];
+//        }
+//    }];
+//}
 
 // MARK: - Lazy
 

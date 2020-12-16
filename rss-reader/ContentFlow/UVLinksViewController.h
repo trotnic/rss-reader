@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVLinksViewController : UIViewController <UVLinksViewType>
 
-@property (nonatomic, retain, readonly) id<UVLinksPresenterType> presenter;
+
+- (instancetype)initWithPresenter:(id<UVLinksPresenterType>)presenter;
 
 @end
 

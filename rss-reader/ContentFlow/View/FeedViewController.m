@@ -26,6 +26,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) id<FeedPresenterType> presenter;
 
+@property (nonatomic, copy) void(^rightButtonClickAction)(void);
+
 @end
 
 @implementation FeedViewController
@@ -78,6 +80,12 @@ CGFloat const kFadeAnimationDuration = 0.1;
     ]];
 }
 
+// MARK: -
+
+- (void)setupOnRighButtonClickAction:(void(^)(void))completion {
+    self.rightButtonClickAction = completion;
+}
+
 // MARK: - Lazy Properties
 
 - (UITableView *)tableView {
@@ -98,14 +106,12 @@ CGFloat const kFadeAnimationDuration = 0.1;
         _settingsButton = [UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"gear"]
                                                        target:self
                                                        action:@selector(dothings)];
-        
     }
     return _settingsButton;
 }
 
 - (void)dothings {
-    UVLinksViewController *controller = [UVLinksViewController new];
-    [self.navigationController pushViewController:controller animated:YES];
+    self.rightButtonClickAction();
 }
 
 - (UIActivityIndicatorView *)activityIndicator {

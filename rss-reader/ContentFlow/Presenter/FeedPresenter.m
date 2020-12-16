@@ -10,7 +10,6 @@
 #import "FeedChannel.h"
 #import "FeedViewType.h"
 #import "FeedProviderType.h"
-#import "ErrorManagerType.h"
 #import "UVDataRecognizer.h"
 
 @interface FeedPresenter ()
@@ -18,7 +17,7 @@
 @property (nonatomic, retain) FeedChannel *channel;
 @property (nonatomic, assign) id<FeedViewType> view;
 @property (nonatomic, retain) id<FeedProviderType> provider;
-@property (nonatomic, retain) id<ErrorManagerType> errorManager;
+@property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 
 @end
 
@@ -27,12 +26,12 @@
 // MARK: -
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider
-                    errorManager:(id<ErrorManagerType>)manager
+                   sourceManager:(id<UVSourceManagerType>)sourceManager
 {
     self = [super init];
     if (self) {
         _provider = [provider retain];
-        _errorManager = [manager retain];
+        _sourceManager = [sourceManager retain];
     }
     return self;
 }
@@ -41,7 +40,6 @@
 {
     [_channel release];
     [_provider release];
-    [_errorManager release];
     [super dealloc];
 }
 
@@ -50,7 +48,7 @@
 - (void)updateFeed {
     [self.view toggleActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
-    [self.provider fetchData:^(FeedChannel *channel, RSSError error) {
+    [self.provider fetchDataFromURL:[NSURL URLWithString:self.sourceManager.selectedLink.link] completion:^(FeedChannel *channel, RSSError error) {
         switch (error) {
             case RSSErrorTypeNone: {
                 weakSelf.channel = channel;
@@ -62,8 +60,8 @@
             }
             default: {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.view toggleActivityIndicator:NO];
-                    [weakSelf.errorManager provideErrorOfType:error withCompletion:^(NSError *resultError) {
+                    [weakSelf.view toggleActivityIndicator:NO];
+                    [weakSelf provideErrorOfType:error withCompletion:^(NSError *resultError) {
                         [weakSelf.view presentError:resultError];
                     }];
                 });

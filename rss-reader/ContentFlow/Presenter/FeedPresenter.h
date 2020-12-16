@@ -7,15 +7,16 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
-#import "ErrorManagerType.h"
+#import "ErrorPresenter.h"
 #import "FeedProviderType.h"
+#import "UVSourceManagerType.h"
 #import "FeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FeedPresenter : NSObject <FeedPresenterType>
+@interface FeedPresenter : ErrorPresenter <FeedPresenterType>
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider errorManager:(id<ErrorManagerType>)manager;
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider sourceManager:(id<UVSourceManagerType>)sourceManager;
 - (void)assignView:(id<FeedViewType>)view;
 
 @end

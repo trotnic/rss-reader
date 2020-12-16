@@ -6,12 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVLinksViewType <NSObject>
-
-- (void)updateState;
+@protocol UVLinksViewType <BaseViewType>
 
 @end
 

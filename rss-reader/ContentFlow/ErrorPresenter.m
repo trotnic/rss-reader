@@ -1,16 +1,20 @@
 //
-//  ErrorManager.m
+//  ErrorPresenter.m
 //  rss-reader
 //
-//  Created by Uladzislau on 11/25/20.
+//  Created by Uladzislau Volchyk on 16.12.20.
 //
 
-#import "ErrorManager.h"
+#import "ErrorPresenter.h"
 
 NSInteger const RSSReaderErrorCodeKey = 10000;
 NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
 
-@implementation ErrorManager
+@interface ErrorPresenter ()
+
+@end
+
+@implementation ErrorPresenter
 
 - (void)provideErrorOfType:(RSSError)type
             withCompletion:(ErrorCompletion)completion {
@@ -19,7 +23,7 @@ NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
         case RSSErrorTypeBadNetwork: {
             NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")                
+                NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
             }];
             completion(error);
             break;

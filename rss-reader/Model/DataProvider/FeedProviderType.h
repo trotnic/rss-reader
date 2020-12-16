@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedProviderType <NSObject>
 
-- (void)fetchData:(void(^)(FeedChannel *_Nullable, RSSError))completion;
+- (void)fetchDataFromURL:(NSURL *)url completion:(void(^)(FeedChannel *, RSSError))completion;
 
 @end
 

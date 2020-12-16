@@ -9,6 +9,8 @@
 #import "UIBarButtonItem+PrettiInitializable.h"
 #import "UVLinksPresenter.h"
 
+NSString *const cellReuseIdentifier = @"reuseIdentifier";
+
 @interface UVLinksViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
@@ -20,6 +22,16 @@
 @end
 
 @implementation UVLinksViewController
+
+- (instancetype)initWithPresenter:(id<UVLinksPresenterType>)presenter
+{
+    self = [super init];
+    if (self) {
+        _presenter = [presenter retain];
+        [_presenter assignView:self];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +80,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier forIndexPath:indexPath];
     switch (indexPath.section) {
         case 0:
             [cell.contentView addSubview:self.urlField];
@@ -107,7 +119,7 @@
     if(!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"reuseIdentifier"];
+        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellReuseIdentifier];
         _tableView.dataSource = self;
         _tableView.delegate = self;
     }
@@ -137,14 +149,6 @@
     return _urlConfirmButton;
 }
 
-- (id<UVLinksPresenterType>)presenter {
-    if(!_presenter) {
-        _presenter = [UVLinksPresenter new];
-        [_presenter assignView:self];
-    }
-    return _presenter;
-}
-
 // MARK: -
 
 - (void)urlConfirm {
@@ -153,8 +157,13 @@
 
 // MARK: - UVLinksViewType
 
-- (void)updateState {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+- (void)updatePresentation {
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1]
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)presentError:(NSError *)error {
+    
 }
 
 @end

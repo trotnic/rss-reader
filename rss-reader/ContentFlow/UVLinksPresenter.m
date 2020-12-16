@@ -6,9 +6,7 @@
 //
 
 #import "UVLinksPresenter.h"
-#import "UVDataRecognizer.h"
 #import "NSURL+Util.h"
-#import "UVSourceManager.h"
 
 @interface UVLinksPresenter ()
 
@@ -23,10 +21,12 @@
 @implementation UVLinksPresenter
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                     sourceManager:(id<UVSourceManagerType>)sourceManager
 {
     self = [super init];
     if (self) {
         _recognizer = [recognizer retain];
+        _sourceManager = [sourceManager retain];
     }
     return self;
 }
@@ -39,12 +39,13 @@
         [self.recognizer findOnURL:[NSURL URLWithString:url] withCompletion:^(RSSSource * result) {
             weakSelf.actualSource = result;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view updateState];
+                [weakSelf.view updatePresentation];
             });
         }];
     } else {
-        // TODO: highlight the field || show a message
-        NSLog(@"INVALID");
+        [self provideErrorOfType:RSSErrorTypeBadNetwork withCompletion:^(NSError *resultError) {
+            [self.view presentError:resultError];
+        }];
     }
 }
 
@@ -60,22 +61,6 @@
     // TODO: save intermediate source state somewhere else
     [self.sourceManager setSource:self.actualSource];
     [self.sourceManager selectLink:self.sourceManager.source.rssLinks[index]];
-}
-
-// MARK: - Lazy
-
-- (id<UVDataRecognizerType>)recognizer {
-    if(!_recognizer) {
-        _recognizer = [UVDataRecognizer new];
-    }
-    return _recognizer;
-}
-
-- (id<UVSourceManagerType>)sourceManager {
-    if(!_sourceManager) {
-        _sourceManager = [UVSourceManager.defaultManager retain];
-    }
-    return _sourceManager;
 }
 
 @end

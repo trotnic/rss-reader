@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)selectLink:(RSSLink *)link;
 - (RSSLink *)selectedLink;
+- (BOOL)hasSource;
 - (void)saveState;
 
 @end

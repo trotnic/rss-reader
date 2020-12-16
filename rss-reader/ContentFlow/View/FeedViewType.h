@@ -6,16 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedChannelViewModel;
 
-@protocol FeedViewType <NSObject>
+@protocol FeedViewType <BaseViewType>
 
-- (void)updatePresentation;
 - (void)toggleActivityIndicator:(BOOL)show;
-- (void)presentError:(NSError *)error;
 - (void)presentWebPageOnLink:(NSString *)link;
 
 @end

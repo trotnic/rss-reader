@@ -7,6 +7,8 @@
 
 #import "UVSourceManager.h"
 
+NSString *const kRSSSourceObject = @"rssSource";
+
 @interface UVSourceManager ()
 
 @property (nonatomic, retain) RSSSource *actualSource;
@@ -53,7 +55,11 @@
 
 - (void)saveState {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.actualSource requiringSecureCoding:YES error:nil];
-    [self.userDefaults setObject:data forKey:@"rssSource"];
+    [self.userDefaults setObject:data forKey:kRSSSourceObject];
+}
+
+- (BOOL)hasSource {
+    return _actualSource != nil;
 }
 
 // MARK: - Lazy
@@ -67,7 +73,7 @@
 
 - (RSSSource *)actualSource {
     if(!_actualSource) {
-        NSData *source = [self.userDefaults objectForKey:@"rssSource"];
+        NSData *source = [self.userDefaults objectForKey:kRSSSourceObject];
         if(source) {
             _actualSource = [[NSKeyedUnarchiver unarchivedObjectOfClass:RSSSource.class fromData:source error:nil] retain];
         }

@@ -10,8 +10,11 @@
 #import "FeedProvider.h"
 #import "FeedPresenter.h"
 #import "FeedViewController.h"
-#import "ErrorManager.h"
 #import "UVSourceManager.h"
+#import "UVSourceManager.h"
+#import "UVLinksViewController.h"
+#import "UVLinksPresenter.h"
+#import "UVDataRecognizer.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +24,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupAppearance];
-    [NSNotificationCenter.defaultCenter addObserver:UVSourceManager.defaultManager selector:@selector(saveState) name:UIApplicationWillResignActiveNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:UVSourceManager.defaultManager
+                                           selector:@selector(saveState)
+                                               name:UIApplicationWillResignActiveNotification
+                                             object:nil];
     return YES;
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [NSNotificationCenter.defaultCenter removeObserver:UVSourceManager.defaultManager];
 }
 
 // MARK: -
@@ -31,8 +41,16 @@
     FeedXMLParser *parser = [FeedXMLParser new];
     FeedProvider *dataProvider = [[FeedProvider alloc] initWithParser:[parser autorelease]];
     FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease]
-                                                          errorManager:[[ErrorManager new] autorelease]];
+                                                         sourceManager:UVSourceManager.defaultManager];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    
+    [controller setupOnRighButtonClickAction:^{
+        UVLinksPresenter *presenter = [[UVLinksPresenter alloc] initWithRecognizer:[[UVDataRecognizer new] autorelease]
+                                                                     sourceManager:UVSourceManager.defaultManager];
+        
+        UVLinksViewController *presentedController = [[UVLinksViewController alloc] initWithPresenter:presenter];
+        [controller.navigationController pushViewController:presentedController animated:YES];
+    }];
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];
