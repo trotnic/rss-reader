@@ -13,3 +13,6 @@
 
 "BAD_RSS_FEED_TITLE" = "RSS error";
 "BAD_RSS_FEED_DESCRIPTION" = "Can't recognize RSS feed, use another one";
+
+"BAD_URL_TITLE" = "URL you input is wrong";
+"BAD_URL_DESCRIPTION" = "Check if you type correct and try again";

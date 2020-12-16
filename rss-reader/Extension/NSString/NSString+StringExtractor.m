@@ -19,4 +19,12 @@
     return resultString;
 }
 
+- (NSString *)substringFromString:(NSString *)string {
+    NSString *pattern = [NSString stringWithFormat:@"(?<=%@).+", string];
+    NSRegularExpression *regExp = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+    NSTextCheckingResult *result = [regExp firstMatchInString:self options:0 range:NSMakeRange(0, self.length)];
+    if (result.range.location == NSNotFound || !result) return self;
+    return [self substringWithRange:result.range];
+}
+
 @end

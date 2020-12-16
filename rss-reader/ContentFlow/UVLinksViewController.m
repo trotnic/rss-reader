@@ -7,6 +7,7 @@
 
 #import "UVLinksViewController.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
+#import "UIViewController+ErrorPresenter.h"
 #import "UVLinksPresenter.h"
 
 NSString *const cellReuseIdentifier = @"reuseIdentifier";
@@ -163,7 +164,7 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
 }
 
 - (void)presentError:(NSError *)error {
-    
+    [self showError:error];
 }
 
 @end

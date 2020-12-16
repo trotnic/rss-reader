@@ -7,6 +7,7 @@
 
 #import "UVLinksPresenter.h"
 #import "NSURL+Util.h"
+#import "NSString+StringExtractor.h"
 
 @interface UVLinksPresenter ()
 
@@ -35,15 +36,18 @@
 
 - (void)updateChannelsWithPlainUrl:(NSString *)url {
     if ([NSURL isStringValid:url]) {
+        NSString *newUrl = [NSString stringWithFormat:@"https://%@", [url substringFromString:@"\\/\\/"]];
+        
+        
         __block typeof(self)weakSelf = self;
-        [self.recognizer findOnURL:[NSURL URLWithString:url] withCompletion:^(RSSSource * result) {
+        [self.recognizer findOnURL:[NSURL URLWithString:newUrl] withCompletion:^(RSSSource * result) {
             weakSelf.actualSource = result;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.view updatePresentation];
             });
         }];
     } else {
-        [self provideErrorOfType:RSSErrorTypeBadNetwork withCompletion:^(NSError *resultError) {
+        [self provideErrorOfType:RSSErrorTypeBadURL withCompletion:^(NSError *resultError) {
             [self.view presentError:resultError];
         }];
     }

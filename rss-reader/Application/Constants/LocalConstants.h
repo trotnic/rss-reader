@@ -16,4 +16,7 @@ static NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION = @"BAD_INTERNET_CONN
 static NSString *const BAD_RSS_FEED_TITLE = @"BAD_RSS_FEED_TITLE";
 static NSString *const BAD_RSS_FEED_DESCRIPTION = @"BAD_RSS_FEED_DESCRIPTION";
 
+static NSString *const BAD_URL_TITLE = @"BAD_URL_TITLE";
+static NSString *const BAD_URL_DESCRIPTION = @"BAD_URL_DESCRIPTION";
+
 #endif /* LocaleConstants_h */

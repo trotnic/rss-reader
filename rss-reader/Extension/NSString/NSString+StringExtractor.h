@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSString (StringExtractor)
 
 - (NSString *)stringBetweenStart:(NSString *)start andFinish:(NSString *)finish;
+- (NSString *)substringFromString:(NSString *)string;
 
 @end
 

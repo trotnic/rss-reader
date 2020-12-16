@@ -28,11 +28,18 @@ NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
             completion(error);
             break;
         }
-            
         case RSSErrorTypeParsingError: {
             NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
+            }];
+            completion(error);
+            break;
+        }
+        case RSSErrorTypeBadURL: {
+            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
+                NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_URL_TITLE, ""),
+                NSLocalizedDescriptionKey: NSLocalizedString(BAD_URL_DESCRIPTION, "")
             }];
             completion(error);
             break;

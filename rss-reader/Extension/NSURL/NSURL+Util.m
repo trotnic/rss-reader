@@ -8,7 +8,7 @@
 #import "NSURL+Util.h"
 #import "NSRegularExpression+PrettyInitializable.h"
 
-NSString *const urlMatchPattern = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))";
+NSString *const urlMatchPattern = @"(http|https)*(://)*((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))";
 
 @implementation NSURL (Util)
 
