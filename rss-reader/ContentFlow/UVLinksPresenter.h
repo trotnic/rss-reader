@@ -9,11 +9,11 @@
 #import "UVLinksPresenterType.h"
 #import "UVDataRecognizerType.h"
 #import "UVSourceManagerType.h"
-#import "ErrorPresenter.h"
+#import "BasePresenter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVLinksPresenter : ErrorPresenter <UVLinksPresenterType>
+@interface UVLinksPresenter : BasePresenter <UVLinksPresenterType>
 
 @property (nonatomic, retain, readonly) id<UVDataRecognizerType> recognizer;
 

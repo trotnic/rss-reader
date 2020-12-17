@@ -31,7 +31,7 @@
 		CA2BE0A6257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0A5257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m */; };
 		CA2BE0B3257FAEFF00BC7749 /* UVLinksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0B2257FAEFF00BC7749 /* UVLinksViewController.m */; };
 		CA2BE0BC257FB01300BC7749 /* UVLinksPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0BB257FB01300BC7749 /* UVLinksPresenter.m */; };
-		CA2CDA45258A2939004E80E2 /* ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2CDA44258A2939004E80E2 /* ErrorPresenter.m */; };
+		CA2CDA45258A2939004E80E2 /* BasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2CDA44258A2939004E80E2 /* BasePresenter.m */; };
 		CA2EF4D0257E5F64002452CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA2EF4CF257E5F64002452CA /* Settings.bundle */; };
 		CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2EF4E4257E67DA002452CA /* UVDataRecognizer.m */; };
 		CA8523A825878ACE00430C7C /* RSSSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8523A725878ACE00430C7C /* RSSSource.m */; };
@@ -119,8 +119,8 @@
 		CA2BE0BB257FB01300BC7749 /* UVLinksPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVLinksPresenter.m; path = ContentFlow/UVLinksPresenter.m; sourceTree = "<group>"; };
 		CA2BE0C0257FB03B00BC7749 /* UVDataRecognizerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizerType.h; sourceTree = "<group>"; };
 		CA2BE0C4257FB10900BC7749 /* UVLinksPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVLinksPresenterType.h; path = ContentFlow/UVLinksPresenterType.h; sourceTree = "<group>"; };
-		CA2CDA43258A2939004E80E2 /* ErrorPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ErrorPresenter.h; path = ContentFlow/ErrorPresenter.h; sourceTree = "<group>"; };
-		CA2CDA44258A2939004E80E2 /* ErrorPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ErrorPresenter.m; path = ContentFlow/ErrorPresenter.m; sourceTree = "<group>"; };
+		CA2CDA43258A2939004E80E2 /* BasePresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BasePresenter.h; path = ContentFlow/BasePresenter.h; sourceTree = "<group>"; };
+		CA2CDA44258A2939004E80E2 /* BasePresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BasePresenter.m; path = ContentFlow/BasePresenter.m; sourceTree = "<group>"; };
 		CA2CDA51258A3006004E80E2 /* BaseViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseViewType.h; path = ContentFlow/ViewType/BaseViewType.h; sourceTree = "<group>"; };
 		CA2EF4CF257E5F64002452CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CA2EF4E3257E67DA002452CA /* UVDataRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizer.h; sourceTree = "<group>"; };
@@ -510,8 +510,8 @@
 			isa = PBXGroup;
 			children = (
 				2BF48F15256E8714007A81E0 /* ErrorManagerType.h */,
-				CA2CDA43258A2939004E80E2 /* ErrorPresenter.h */,
-				CA2CDA44258A2939004E80E2 /* ErrorPresenter.m */,
+				CA2CDA43258A2939004E80E2 /* BasePresenter.h */,
+				CA2CDA44258A2939004E80E2 /* BasePresenter.m */,
 			);
 			name = ErrorPresenter;
 			sourceTree = "<group>";
@@ -729,7 +729,7 @@
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
-				CA2CDA45258A2939004E80E2 /* ErrorPresenter.m in Sources */,
+				CA2CDA45258A2939004E80E2 /* BasePresenter.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */,

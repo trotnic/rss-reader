@@ -101,10 +101,20 @@ didStartElement:(NSString *)elementName
     }
     
     if([self.plainTextNodes containsObject:elementName]) {
+        
+        NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:@"(?=<)(.+?)(?:>)" options:0 error:nil];
+        
+        
+        NSString *result = [expression stringByReplacingMatchesInString:self.parsingString options:0 range:NSMakeRange(0, self.parsingString.length) withTemplate:@" "];
+        
+        expression = [NSRegularExpression regularExpressionWithPattern:@"\\s{2,}" options:0 error:nil];
+        result = [expression stringByReplacingMatchesInString:result options:0 range:NSMakeRange(0, result.length) withTemplate:@" "];
+//        NSArray<NSTextCheckingResult *> *results = [expression matchesInString:self.parsingString options:0 range:NSMakeRange(0, self.parsingString.length)];
+        
         if(self.isItem) {
-            self.itemDictionary[elementName] = self.parsingString;
+            self.itemDictionary[elementName] = result;
         } else {
-            self.channelDictionary[elementName] = self.parsingString;
+            self.channelDictionary[elementName] = result;
         }
         
         [_parsingString release];

@@ -5,47 +5,39 @@
 //  Created by Uladzislau Volchyk on 16.12.20.
 //
 
-#import "ErrorPresenter.h"
+#import "BasePresenter.h"
 
 NSInteger const RSSReaderErrorCodeKey = 10000;
 NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
 
-@interface ErrorPresenter ()
+@interface BasePresenter ()
 
 @end
 
-@implementation ErrorPresenter
+@implementation BasePresenter
 
-- (void)provideErrorOfType:(RSSError)type
-            withCompletion:(ErrorCompletion)completion {
-    assert(completion);
+- (NSError *)provideErrorOfType:(RSSError)type {
     switch (type) {
         case RSSErrorTypeBadNetwork: {
-            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
+            return [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
             }];
-            completion(error);
-            break;
         }
         case RSSErrorTypeParsingError: {
-            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
+            return [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
             }];
-            completion(error);
-            break;
         }
         case RSSErrorTypeBadURL: {
-            NSError *error = [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
+            return [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
                 NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_URL_TITLE, ""),
                 NSLocalizedDescriptionKey: NSLocalizedString(BAD_URL_DESCRIPTION, "")
             }];
-            completion(error);
-            break;
         }
         case RSSErrorTypeNone:
-            break;
+            return nil;
     }
 }
 

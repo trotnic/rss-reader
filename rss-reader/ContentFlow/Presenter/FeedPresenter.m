@@ -11,6 +11,7 @@
 #import "FeedViewType.h"
 #import "FeedProviderType.h"
 #import "UVDataRecognizer.h"
+#import "NSURL+Util.h"
 
 @interface FeedPresenter ()
 
@@ -48,7 +49,8 @@
 - (void)updateFeed {
     [self.view toggleActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
-    [self.provider fetchDataFromURL:[NSURL URLWithString:self.sourceManager.selectedLink.link] completion:^(FeedChannel *channel, RSSError error) {
+//    [NSURL URLWithString:self.sourceManager.selectedLink.link]
+    [self.provider fetchDataFromURL:[NSURL URLWithString:@"https://meduza.io/rss/podcasts/tekst-nedeli"] completion:^(FeedChannel *channel, RSSError error) {
         switch (error) {
             case RSSErrorTypeNone: {
                 weakSelf.channel = channel;
@@ -61,9 +63,7 @@
             default: {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.view toggleActivityIndicator:NO];
-                    [weakSelf provideErrorOfType:error withCompletion:^(NSError *resultError) {
-                        [weakSelf.view presentError:resultError];
-                    }];
+                    [weakSelf.view presentError:[weakSelf provideErrorOfType:error]];
                 });
             }
         }

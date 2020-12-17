@@ -8,7 +8,7 @@
 #import "UVDataRecognizer.h"
 #import "NSRegularExpression+PrettyInitializable.h"
 
-NSString *const linkTagPattern = @"<link.+type=\"application[/]rss[+]xml\".*>";
+NSString *const linkTagPattern = @"<link.*type=\"application[/]rss[+]xml\".*>";
 NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
 NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
 NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";

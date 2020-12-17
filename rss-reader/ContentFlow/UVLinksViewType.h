@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVLinksViewType <BaseViewType>
 
+//- (void)
+
 @end
 
 NS_ASSUME_NONNULL_END
