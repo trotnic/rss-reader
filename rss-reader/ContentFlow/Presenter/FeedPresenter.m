@@ -49,8 +49,9 @@
 - (void)updateFeed {
     [self.view toggleActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
-//    [NSURL URLWithString:self.sourceManager.selectedLink.link]
-    [self.provider fetchDataFromURL:[NSURL URLWithString:@"https://meduza.io/rss/podcasts/tekst-nedeli"] completion:^(FeedChannel *channel, RSSError error) {
+    
+    [self.provider fetchDataFromURL:[NSURL URLWithString:self.sourceManager.selectedLink.link]
+                         completion:^(FeedChannel *channel, RSSError error) {
         switch (error) {
             case RSSErrorTypeNone: {
                 weakSelf.channel = channel;

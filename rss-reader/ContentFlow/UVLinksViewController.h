@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVLinksViewController : UIViewController <UVLinksViewType>
 
-
 - (instancetype)initWithPresenter:(id<UVLinksPresenterType>)presenter;
+- (void)setOnChangeButtonClickAction:(void(^)(void))completion;
 
 @end
 

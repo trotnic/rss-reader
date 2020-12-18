@@ -34,7 +34,7 @@ NSString *const kRSSSourceObject = @"rssSource";
 }
 
 - (RSSSource *)source {
-    return _actualSource;
+    return self.actualSource;
 }
 
 - (void)setSource:(RSSSource *)source {

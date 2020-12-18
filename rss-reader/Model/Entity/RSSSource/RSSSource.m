@@ -49,6 +49,10 @@
     return self.title;
 }
 
+- (NSString *)sourceAddress {
+    return self.url.absoluteString;
+}
+
 - (NSArray<id<RSSLinkViewModel>> *)sourceRSSLinks {
     return self.rssLinks;
 }

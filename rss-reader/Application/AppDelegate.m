@@ -15,6 +15,9 @@
 #import "UVLinksViewController.h"
 #import "UVLinksPresenter.h"
 #import "UVDataRecognizer.h"
+#import "UVTextFieldViewController.h"
+#import "UVSourceSearchViewController.h"
+#import "UVSourceSearchPresenter.h"
 
 @interface AppDelegate ()
 
@@ -49,6 +52,14 @@
                                                                      sourceManager:UVSourceManager.defaultManager];
         
         UVLinksViewController *presentedController = [[UVLinksViewController alloc] initWithPresenter:presenter];
+        [presentedController setOnChangeButtonClickAction:^{
+            UVSourceSearchPresenter *presenter = [[UVSourceSearchPresenter alloc] initWithSource:UVSourceManager.defaultManager dataRecognizer:[UVDataRecognizer new]];
+            UVSourceSearchViewController *controller = [[UVSourceSearchViewController alloc] initWithPresenter:presenter];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+            
+            [presentedController presentViewController:navigationController animated:YES completion:nil];
+        }];
+        
         [controller.navigationController pushViewController:presentedController animated:YES];
     }];
     

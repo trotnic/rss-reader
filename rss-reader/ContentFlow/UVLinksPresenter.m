@@ -35,22 +35,10 @@
 // MARK: - UVLinksPresenterType
 
 - (void)updateChannelsWithPlainUrl:(NSString *)url {
-    if ([NSURL isStringValid:url]) {
-        NSString *newUrl = [NSString stringWithFormat:@"https://%@", [url substringFromString:@"\\/\\/"]];
-        __block typeof(self)weakSelf = self;
-        [self.recognizer findOnURL:[NSURL URLWithString:newUrl] withCompletion:^(RSSSource * result) {
-            weakSelf.actualSource = result;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view updatePresentation];
-            });
-        }];
-    } else {
-        [self.view presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
-    }
 }
 
 - (id<RSSSourceViewModel>)source {
-    return self.actualSource;
+    return self.sourceManager.source;
 }
 
 - (void)assignView:(id<UVLinksViewType>)view {

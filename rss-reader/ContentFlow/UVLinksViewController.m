@@ -18,7 +18,11 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
 @property (nonatomic, retain) UITextField *urlField;
 @property (nonatomic, retain) UIButton *urlConfirmButton;
 
+@property (nonatomic, retain) UIBarButtonItem *searchAddressButton;
+
 @property (nonatomic, retain, readwrite) id<UVLinksPresenterType> presenter;
+
+@property (nonatomic, copy) void(^completion)(void);
 
 @end
 
@@ -48,6 +52,8 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
         [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
     ]];
+    
+    self.navigationItem.rightBarButtonItem = self.searchAddressButton;
 }
 
 // MARK: UITableViewDatasource
@@ -84,16 +90,14 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier forIndexPath:indexPath];
     switch (indexPath.section) {
         case 0:
-            [cell.contentView addSubview:self.urlField];
-            [NSLayoutConstraint activateConstraints:@[
-                [self.urlField.leadingAnchor constraintEqualToAnchor:cell.safeAreaLayoutGuide.leadingAnchor constant:16],
-                [self.urlField.topAnchor constraintEqualToAnchor:cell.topAnchor],
-                [self.urlField.trailingAnchor constraintEqualToAnchor:cell.safeAreaLayoutGuide.trailingAnchor constant:-16],
-                [self.urlField.bottomAnchor constraintEqualToAnchor:cell.bottomAnchor]
-            ]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = self.presenter.source.sourceAddress;
             break;
         case 1:
             cell.textLabel.text = self.presenter.source.sourceRSSLinks[indexPath.row].linkTitle;
+            if (self.presenter.source.sourceRSSLinks[indexPath.row].isSelected) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
             break;
     }
     
@@ -108,6 +112,7 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     switch (indexPath.section) {
         case 1:
             [self.presenter selectChannelAtIndex:indexPath.row];
+            [self.navigationController popViewControllerAnimated:YES];
             break;
         default:
             break;
@@ -150,10 +155,30 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     return _urlConfirmButton;
 }
 
+- (UIBarButtonItem *)searchAddressButton {
+    if(!_searchAddressButton) {
+        _searchAddressButton = [[UIBarButtonItem alloc] initWithTitle:@"Change"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(changeAddress)];
+    }
+    return _searchAddressButton;
+}
+
 // MARK: -
 
 - (void)urlConfirm {
     [self.presenter updateChannelsWithPlainUrl:self.urlField.text];
+}
+
+- (void)changeAddress {
+    if(self.completion) {
+        self.completion();
+    }
+}
+
+- (void)setOnChangeButtonClickAction:(void (^)(void))completion {
+    self.completion = completion;
 }
 
 // MARK: - UVLinksViewType

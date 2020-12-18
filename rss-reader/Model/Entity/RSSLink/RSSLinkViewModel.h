@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol RSSLinkViewModel <NSObject>
 
 - (NSString *)linkTitle;
+- (BOOL)isSelected;
 
 @end
 

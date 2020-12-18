@@ -24,6 +24,10 @@
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
+		735AB155258BA6CD001ADB10 /* UVTextFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */; };
+		735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */; };
+		73601660258CFEDF00887C53 /* UVSourceSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7360165F258CFEDF00887C53 /* UVSourceSearchViewController.m */; };
+		7360166B258CFF3300887C53 /* UVSourceSearchPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7360166A258CFF3300887C53 /* UVSourceSearchPresenter.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
@@ -101,6 +105,16 @@
 		2BF48F15256E8714007A81E0 /* ErrorManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorManagerType.h; sourceTree = "<group>"; };
 		2BF48F9F256E9B85007A81E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BF48FA4256E9B88007A81E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		735AB153258BA6CD001ADB10 /* UVTextFieldViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVTextFieldViewController.h; path = ContentFlow/Stuff/TextFieldViewController/UVTextFieldViewController.h; sourceTree = "<group>"; };
+		735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVTextFieldViewController.m; path = ContentFlow/Stuff/TextFieldViewController/UVTextFieldViewController.m; sourceTree = "<group>"; };
+		735AB160258BA830001ADB10 /* UVTextFieldTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		7360165E258CFEDF00887C53 /* UVSourceSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceSearchViewController.h; path = ContentFlow/Links/SourceSearch/View/UVSourceSearchViewController.h; sourceTree = "<group>"; };
+		7360165F258CFEDF00887C53 /* UVSourceSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVSourceSearchViewController.m; path = ContentFlow/Links/SourceSearch/View/UVSourceSearchViewController.m; sourceTree = "<group>"; };
+		73601668258CFF0C00887C53 /* UVSourceSearchViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceSearchViewType.h; path = ContentFlow/Links/SourceSearch/View/UVSourceSearchViewType.h; sourceTree = "<group>"; };
+		73601669258CFF3300887C53 /* UVSourceSearchPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceSearchPresenter.h; path = ContentFlow/Links/SourceSearch/Presenter/UVSourceSearchPresenter.h; sourceTree = "<group>"; };
+		7360166A258CFF3300887C53 /* UVSourceSearchPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVSourceSearchPresenter.m; path = ContentFlow/Links/SourceSearch/Presenter/UVSourceSearchPresenter.m; sourceTree = "<group>"; };
+		7360166F258CFF4700887C53 /* UVSourceSearchPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceSearchPresenterType.h; path = ContentFlow/Links/SourceSearch/Presenter/UVSourceSearchPresenterType.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringExtractor.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+StringExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringExtractor.h"; sourceTree = "<group>"; };
 		CA1C9BC7257916E7002364C3 /* FeedItemWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemWebViewController.h; sourceTree = "<group>"; };
@@ -235,6 +249,7 @@
 		2B1903B52563FEC5006D755E /* ContentFlow */ = {
 			isa = PBXGroup;
 			children = (
+				735AB151258BA4DA001ADB10 /* Stuff */,
 				CA2CDA50258A2FDB004E80E2 /* ViewType */,
 				CA2CDA42258A2917004E80E2 /* ErrorPresenter */,
 				CA2BE0AE257FAEBB00BC7749 /* Feed */,
@@ -405,6 +420,70 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		735AB151258BA4DA001ADB10 /* Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				735AB15E258BA803001ADB10 /* TableCell */,
+				735AB152258BA4F1001ADB10 /* ControllerWithField */,
+			);
+			name = Stuff;
+			sourceTree = "<group>";
+		};
+		735AB152258BA4F1001ADB10 /* ControllerWithField */ = {
+			isa = PBXGroup;
+			children = (
+				735AB153258BA6CD001ADB10 /* UVTextFieldViewController.h */,
+				735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */,
+			);
+			name = ControllerWithField;
+			sourceTree = "<group>";
+		};
+		735AB15E258BA803001ADB10 /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+				735AB15F258BA80D001ADB10 /* TextFieldCell */,
+			);
+			path = TableCell;
+			sourceTree = "<group>";
+		};
+		735AB15F258BA80D001ADB10 /* TextFieldCell */ = {
+			isa = PBXGroup;
+			children = (
+				735AB160258BA830001ADB10 /* UVTextFieldTableViewCell.h */,
+				735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */,
+			);
+			name = TextFieldCell;
+			sourceTree = "<group>";
+		};
+		7360165B258CFEA400887C53 /* SourceSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7360165D258CFEB200887C53 /* Presenter */,
+				7360165C258CFEAE00887C53 /* View */,
+			);
+			name = SourceSearch;
+			sourceTree = "<group>";
+		};
+		7360165C258CFEAE00887C53 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7360165E258CFEDF00887C53 /* UVSourceSearchViewController.h */,
+				7360165F258CFEDF00887C53 /* UVSourceSearchViewController.m */,
+				73601668258CFF0C00887C53 /* UVSourceSearchViewType.h */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		7360165D258CFEB200887C53 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				73601669258CFF3300887C53 /* UVSourceSearchPresenter.h */,
+				7360166A258CFF3300887C53 /* UVSourceSearchPresenter.m */,
+				7360166F258CFF4700887C53 /* UVSourceSearchPresenterType.h */,
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
 		CA0A2BEE2577B4C1003EC17A /* NSString */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +550,7 @@
 		CA2BE0AD257FAEB100BC7749 /* Links */ = {
 			isa = PBXGroup;
 			children = (
+				7360165B258CFEA400887C53 /* SourceSearch */,
 				CA2BE0B0257FAEC900BC7749 /* Presenter */,
 				CA2BE0AF257FAEC300BC7749 /* View */,
 			);
@@ -718,6 +798,7 @@
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
 				CAFBBECA2587B63D0000C272 /* UVSourceManager.m in Sources */,
 				2B1903722563FE16006D755E /* AppDelegate.m in Sources */,
+				7360166B258CFF3300887C53 /* UVSourceSearchPresenter.m in Sources */,
 				CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */,
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
 				CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */,
@@ -726,7 +807,10 @@
 				CA2BE0BC257FB01300BC7749 /* UVLinksPresenter.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
+				73601660258CFEDF00887C53 /* UVSourceSearchViewController.m in Sources */,
+				735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
+				735AB155258BA6CD001ADB10 /* UVTextFieldViewController.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				CA2CDA45258A2939004E80E2 /* BasePresenter.m in Sources */,
