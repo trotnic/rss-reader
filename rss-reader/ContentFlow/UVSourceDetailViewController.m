@@ -30,9 +30,16 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     self = [super init];
     if (self) {
         _presenter = [presenter retain];
-        [_presenter assignView:self];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [_tableView release];
+    [_saveButton release];
+    [_presenter release];
+    [super dealloc];
 }
 
 - (void)viewDidLoad {

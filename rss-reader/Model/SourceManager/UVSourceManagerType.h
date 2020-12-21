@@ -16,9 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertRSSSource:(RSSSource *)source;
 - (void)removeRSSSource:(RSSSource *)source;
 - (void)updateRSSSource:(RSSSource *)source;
-- (RSSSource *)selectedRSSSource;
-
-- (RSSLink *)selectedLink;
+- (RSSSource * _Nullable)selectedRSSSource;
+- (RSSLink * _Nullable)selectedLink;
 - (void)saveState;
 
 @end

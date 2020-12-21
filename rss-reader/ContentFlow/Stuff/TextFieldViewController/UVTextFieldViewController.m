@@ -28,6 +28,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_tableView release];
+    [_textField release];
+    [_initialText release];
+    [_completion release];
+    [super dealloc];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.tableView];

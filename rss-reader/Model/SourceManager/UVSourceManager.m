@@ -34,14 +34,10 @@ NSString *const kRSSSourceObject = @"rssSource";
 }
 
 - (RSSLink *)selectedLink {    
-    for (RSSSource *source in self.rssSources) {
-        if (source.isSelected) {
-            return source.selectedLinks.firstObject;
-        }
-    }
-    return nil;
+    return self.selectedRSSSource.selectedLinks.firstObject;
 }
 
+// TODO:
 - (void)saveState {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.rssSources requiringSecureCoding:YES error:nil];
     [self.userDefaults setObject:data forKey:@"sources"];
@@ -52,38 +48,44 @@ NSString *const kRSSSourceObject = @"rssSource";
 }
 
 - (void)insertRSSSource:(RSSSource *)source {
-    // TODO:
+    for (int i = 0; i < self.rssSources.count; i++) {
+        if ([self.rssSources[i].url isEqual:source.url]) {
+            return;
+        }
+    }
     [self.rssSources addObject:source];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.rssSources requiringSecureCoding:YES error:nil];
-    [self.userDefaults setObject:data forKey:@"sources"];
+    [self saveState];
 }
 
 - (void)updateRSSSource:(RSSSource *)source {
-    if (source.isSelected) {
-        for (int i = 0; i < self.rssSources.count; i++) {
-            if ([self.rssSources[i].url isEqual:source.url]) {
-                for (int j = 0; j < source.rssLinks.count; j++) {
-                    self.rssSources[i].rssLinks[j].selected = source.rssLinks[j].isSelected;
-                }
-            } else {
-                [self.rssSources[i] switchAllLinksSelected:NO];
+    for (int i = 0; i < self.rssSources.count; i++) {
+        if ([self.rssSources[i].url isEqual:source.url]) {
+            for (int j = 0; j < source.rssLinks.count; j++) {
+                self.rssSources[i].rssLinks[j].selected = source.rssLinks[j].isSelected;
             }
-        }
-    } else {
-        for (int i = 0; i < self.rssSources.count; i++) {
-            if ([self.rssSources[i].url isEqual:source.url]) {
-                for (int j = 0; j < source.rssLinks.count; j++) {
-                    self.rssSources[i].rssLinks[j].selected = source.rssLinks[j].isSelected;
-                }
-            }
+        } else if (source.isSelected) {
+            [self.rssSources[i] switchAllLinksSelected:NO];
         }
     }
 }
 
 - (void)removeRSSSource:(RSSSource *)source {
-    // TODO: 
+    for (int i = 0; i < self.rssSources.count; i++) {
+        if ([self.rssSources[i].url isEqual:source.url]) {
+            [self.rssSources removeObjectAtIndex:i];
+            return;
+        }
+    }
 }
 
+- (RSSSource *)selectedRSSSource {
+    for (int i = 0; i < self.rssSources.count; i++) {
+        if (self.rssSources[i].isSelected) {
+            return self.rssSources[i];
+        }
+    }
+    return nil;
+}
 
 // MARK: - Lazy
 

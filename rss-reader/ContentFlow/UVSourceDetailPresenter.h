@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVSourceDetailPresenter : BasePresenter <UVSourceDetailPresenterType>
 
+@property (nonatomic, assign) id<UVSourceDetailViewType> view;
+
 - (instancetype)initWithModel:(RSSSource *)model sourceManager:(id<UVSourceManagerType>)sourceManager;
 
 @end

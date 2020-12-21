@@ -49,7 +49,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [_tableView release];
     [_refreshControl release];
     [_activityIndicator release];
-    [_refreshControl release];
+    [_rightButtonClickAction release];
+    [_settingsButton release];
     [super dealloc];
 }
 

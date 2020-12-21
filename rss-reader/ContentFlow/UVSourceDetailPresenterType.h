@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVSourceDetailPresenterType <NSObject>
 
 - (void)saveSource;
-- (void)assignView:(id<UVSourceDetailViewType>)view;
 - (void)selectChannelAtIndex:(NSInteger)index;
 - (id<RSSSourceViewModel>)source;
 

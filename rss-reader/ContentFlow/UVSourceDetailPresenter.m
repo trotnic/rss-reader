@@ -11,9 +11,7 @@
 
 @interface UVSourceDetailPresenter ()
 
-@property (nonatomic, assign) id<UVSourceDetailViewType> view;
 @property (nonatomic, copy) RSSSource *model;
-
 @property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 
 @end
@@ -31,14 +29,17 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_model release];
+    [_sourceManager release];
+    [super dealloc];
+}
+
 // MARK: - UVLinksPresenterType
 
 - (id<RSSSourceViewModel>)source {
     return self.model;
-}
-
-- (void)assignView:(id<UVSourceDetailViewType>)view {
-    _view = view;
 }
 
 - (void)selectChannelAtIndex:(NSInteger)index {

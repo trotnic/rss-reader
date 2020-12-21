@@ -14,7 +14,7 @@ typedef void(^ErrorCompletion)(NSError *);
 
 @protocol ErrorManagerType <NSObject>
 
-- (NSError *)provideErrorOfType:(RSSError)type;
+- (NSError * _Nullable)provideErrorOfType:(RSSError)type;
 
 @end
 

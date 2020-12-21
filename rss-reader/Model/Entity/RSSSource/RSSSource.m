@@ -108,7 +108,7 @@
     RSSSource *copy = [RSSSource new];
     copy.title = self.title;
     copy.url = self.url;
-    copy.rssLinks = [[NSArray alloc] initWithArray:self.rssLinks copyItems:YES];
+    copy.rssLinks = [[[NSArray alloc] initWithArray:self.rssLinks copyItems:YES] autorelease];
     return copy;
 }
 

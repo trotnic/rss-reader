@@ -47,13 +47,14 @@
     FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease]
                                                          sourceManager:UVSourceManager.defaultManager];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    presenter.view = controller;
 
     [controller setupOnRighButtonClickAction:^{
-        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithSource:UVSourceManager.defaultManager recognizer:[[UVDataRecognizer alloc] init]];
-        UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:presenter];
-        presenter.view = presentedController;
+        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithSource:UVSourceManager.defaultManager
+                                                                                recognizer:[[UVDataRecognizer new] autorelease]];
+        UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:[presenter autorelease]];
+        presenter.view = [presentedController autorelease];
         [controller.navigationController pushViewController:presentedController animated:YES];
-        
     }];
     
     

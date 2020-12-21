@@ -16,7 +16,6 @@
 @interface FeedPresenter ()
 
 @property (nonatomic, retain) FeedChannel *channel;
-@property (nonatomic, assign) id<FeedViewType> view;
 @property (nonatomic, retain) id<FeedProviderType> provider;
 @property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 
@@ -41,6 +40,7 @@
 {
     [_channel release];
     [_provider release];
+    [_sourceManager release];
     [super dealloc];
 }
 

@@ -39,6 +39,7 @@
     [_tableView release];
     [_presenter release];
     [_addSourceButton release];
+    [_searchController release];
     [super dealloc];
 }
 
@@ -121,7 +122,7 @@
 - (void)addSource {
     UINavigationController *navigationController = [UINavigationController new];    
     [navigationController setViewControllers:@[self.searchController]];
-    [self presentViewController:navigationController animated:YES completion:nil];
+    [self presentViewController:[navigationController autorelease] animated:YES completion:nil];
 }
 
 - (void)updatePresentation {
@@ -151,13 +152,13 @@
     }
 }
 
-
 // TODO: 
 - (void)presentDetailWithModel:(RSSSource *)model {
     UVSourceDetailPresenter *presenter = [[UVSourceDetailPresenter alloc] initWithModel:model
                                                                           sourceManager:UVSourceManager.defaultManager];
-    UVSourceDetailViewController *controller = [[UVSourceDetailViewController alloc] initWithPresenter:presenter];
-    [self.navigationController pushViewController:controller animated:YES];
+    UVSourceDetailViewController *controller = [[UVSourceDetailViewController alloc] initWithPresenter:[presenter autorelease]];
+    presenter.view = controller;
+    [self.navigationController pushViewController:[controller autorelease] animated:YES];
 }
 
 @end

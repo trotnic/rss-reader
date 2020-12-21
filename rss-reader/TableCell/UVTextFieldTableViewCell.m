@@ -27,6 +27,14 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_textField release];
+    [super dealloc];
+}
+
+// MARK: -
+
 - (void)setupLayout {
     [self.contentView addSubview:self.textField];
     [NSLayoutConstraint activateConstraints:@[
@@ -37,6 +45,8 @@
     ]];
 }
 
+// MARK: - Lazy
+
 - (UITextField *)textField {
     if(!_textField) {
         _textField = [UITextField new];
@@ -44,5 +54,6 @@
     }
     return _textField;
 }
+
 
 @end

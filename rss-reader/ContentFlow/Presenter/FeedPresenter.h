@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedPresenter : BasePresenter <FeedPresenterType>
 
+@property (nonatomic, assign) id<FeedViewType> view;
+
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider sourceManager:(id<UVSourceManagerType>)sourceManager;
 - (void)assignView:(id<FeedViewType>)view;
 

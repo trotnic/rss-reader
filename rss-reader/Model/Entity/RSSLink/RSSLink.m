@@ -37,6 +37,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_title release];
+    [_link release];
+    [super dealloc];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"%@, %@, %@", self.link, self.title, self.isSelected ? @"YES" : @"NO"];
