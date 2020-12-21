@@ -16,8 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, retain, readonly) NSURL *url;
 @property (nonatomic, retain, readonly) NSArray<RSSLink *> *rssLinks;
+@property (nonatomic, assign, getter=isSelected) BOOL selected;
 
 - (instancetype)initWithTitle:(NSString *)title url:(NSURL *)url links:(NSArray<RSSLink *> *)links;
+- (NSArray<RSSLink *> *)selectedLinks;
 
 @end
 

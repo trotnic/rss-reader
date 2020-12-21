@@ -5,30 +5,27 @@
 //  Created by Uladzislau Volchyk on 8.12.20.
 //
 
-#import "UVLinksViewController.h"
+#import "UVSourceDetailViewController.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 #import "UIViewController+ErrorPresenter.h"
-#import "UVLinksPresenter.h"
+#import "UVSourceDetailPresenter.h"
 
 NSString *const cellReuseIdentifier = @"reuseIdentifier";
 
-@interface UVLinksViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface UVSourceDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) UITextField *urlField;
-@property (nonatomic, retain) UIButton *urlConfirmButton;
 
-@property (nonatomic, retain) UIBarButtonItem *searchAddressButton;
+@property (nonatomic, retain) UIBarButtonItem *saveButton;
 
-@property (nonatomic, retain, readwrite) id<UVLinksPresenterType> presenter;
+@property (nonatomic, retain, readwrite) id<UVSourceDetailPresenterType> presenter;
 
-@property (nonatomic, copy) void(^completion)(void);
 
 @end
 
-@implementation UVLinksViewController
+@implementation UVSourceDetailViewController
 
-- (instancetype)initWithPresenter:(id<UVLinksPresenterType>)presenter
+- (instancetype)initWithPresenter:(id<UVSourceDetailPresenterType>)presenter
 {
     self = [super init];
     if (self) {
@@ -53,7 +50,7 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
     ]];
     
-    self.navigationItem.rightBarButtonItem = self.searchAddressButton;
+    self.navigationItem.rightBarButtonItem = self.saveButton;
 }
 
 // MARK: UITableViewDatasource
@@ -94,6 +91,7 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
             cell.textLabel.text = self.presenter.source.sourceAddress;
             break;
         case 1:
+            cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.text = self.presenter.source.sourceRSSLinks[indexPath.row].linkTitle;
             if (self.presenter.source.sourceRSSLinks[indexPath.row].isSelected) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -112,7 +110,6 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     switch (indexPath.section) {
         case 1:
             [self.presenter selectChannelAtIndex:indexPath.row];
-            [self.navigationController popViewControllerAnimated:YES];
             break;
         default:
             break;
@@ -132,53 +129,21 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
     return _tableView;
 }
 
-- (UITextField *)urlField {
-    if(!_urlField) {
-        _urlField = [UITextField new];
-        _urlField.keyboardType = UIKeyboardTypeURL;
-        _urlField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _urlField.translatesAutoresizingMaskIntoConstraints = NO;
-        _urlField.rightView = self.urlConfirmButton;
-        _urlField.rightViewMode = UITextFieldViewModeAlways;
+- (UIBarButtonItem *)saveButton {
+    if(!_saveButton) {
+        _saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                    style:UIBarButtonItemStylePlain
+                                                   target:self
+                                                   action:@selector(save)];
     }
-    return _urlField;
-}
-
-- (UIButton *)urlConfirmButton {
-    if(!_urlConfirmButton) {
-        _urlConfirmButton = [UIButton new];
-        [_urlConfirmButton setImage:[UIImage imageNamed:@"checkmark"]
-                           forState:UIControlStateNormal];
-        [_urlConfirmButton addTarget:self action:@selector(urlConfirm)
-                    forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _urlConfirmButton;
-}
-
-- (UIBarButtonItem *)searchAddressButton {
-    if(!_searchAddressButton) {
-        _searchAddressButton = [[UIBarButtonItem alloc] initWithTitle:@"Change"
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(changeAddress)];
-    }
-    return _searchAddressButton;
+    return _saveButton;
 }
 
 // MARK: -
 
-- (void)urlConfirm {
-    [self.presenter updateChannelsWithPlainUrl:self.urlField.text];
-}
-
-- (void)changeAddress {
-    if(self.completion) {
-        self.completion();
-    }
-}
-
-- (void)setOnChangeButtonClickAction:(void (^)(void))completion {
-    self.completion = completion;
+- (void)save {
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.presenter saveSource];
 }
 
 // MARK: - UVLinksViewType
@@ -190,6 +155,11 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
 
 - (void)presentError:(NSError *)error {
     [self showError:error];
+}
+
+- (void)updateLinkAtIndex:(NSInteger)index {
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1]
+                  withRowAnimation:UITableViewRowAnimationNone];
 }
 
 @end

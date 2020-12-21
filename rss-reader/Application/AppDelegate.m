@@ -12,12 +12,13 @@
 #import "FeedViewController.h"
 #import "UVSourceManager.h"
 #import "UVSourceManager.h"
-#import "UVLinksViewController.h"
-#import "UVLinksPresenter.h"
+#import "UVSourceDetailViewController.h"
+#import "UVSourceDetailPresenter.h"
 #import "UVDataRecognizer.h"
 #import "UVTextFieldViewController.h"
-#import "UVSourceSearchViewController.h"
-#import "UVSourceSearchPresenter.h"
+#import "UVSearchViewController.h"
+#import "UVSourcesListViewController.h"
+#import "UVSourcesListPresenter.h"
 
 @interface AppDelegate ()
 
@@ -46,22 +47,15 @@
     FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease]
                                                          sourceManager:UVSourceManager.defaultManager];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
-    
+
     [controller setupOnRighButtonClickAction:^{
-        UVLinksPresenter *presenter = [[UVLinksPresenter alloc] initWithRecognizer:[[UVDataRecognizer new] autorelease]
-                                                                     sourceManager:UVSourceManager.defaultManager];
-        
-        UVLinksViewController *presentedController = [[UVLinksViewController alloc] initWithPresenter:presenter];
-        [presentedController setOnChangeButtonClickAction:^{
-            UVSourceSearchPresenter *presenter = [[UVSourceSearchPresenter alloc] initWithSource:UVSourceManager.defaultManager dataRecognizer:[UVDataRecognizer new]];
-            UVSourceSearchViewController *controller = [[UVSourceSearchViewController alloc] initWithPresenter:presenter];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-            
-            [presentedController presentViewController:navigationController animated:YES completion:nil];
-        }];
-        
+        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithSource:UVSourceManager.defaultManager recognizer:[[UVDataRecognizer alloc] init]];
+        UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:presenter];
+        presenter.view = presentedController;
         [controller.navigationController pushViewController:presentedController animated:YES];
+        
     }];
+    
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];

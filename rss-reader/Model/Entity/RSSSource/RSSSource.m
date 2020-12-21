@@ -43,6 +43,32 @@
     return [NSString stringWithFormat:@"\n%@\n%@\n%@", self.title, self.url, self.rssLinks];
 }
 
+- (BOOL)isEqual:(id)other
+{
+    if (other == self) {
+        return YES;
+    } else if (![super isEqual:other]) {
+        return NO;
+    } else {
+        return [self.url isEqual:[other url]];
+    }
+}
+
+// MARK: -
+
+- (BOOL)isSelected {
+    for (RSSLink *link in self.rssLinks) {
+        if (link.isSelected) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSArray<RSSLink *> *)selectedLinks {
+    return [self.rssLinks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selected == YES"]];
+}
+
 // MARK: - RSSSourceViewModel
 
 - (NSString *)sourceTitle {

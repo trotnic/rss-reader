@@ -11,7 +11,7 @@ NSString *const kRSSSourceObject = @"rssSource";
 
 @interface UVSourceManager ()
 
-@property (nonatomic, retain) RSSSource *actualSource;
+@property (nonatomic, retain) NSMutableArray<RSSSource *> *rssSources;
 
 @end
 
@@ -29,37 +29,50 @@ NSString *const kRSSSourceObject = @"rssSource";
 - (void)dealloc
 {
     [_userDefaults release];
-    [_actualSource release];
+    [_rssSources release];
     [super dealloc];
 }
 
 - (RSSSource *)source {
-    return self.actualSource;
+    return nil;
 }
 
 - (void)setSource:(RSSSource *)source {
-    [source retain];
-    [_actualSource release];
-    _actualSource = source;
+    
 }
 
 - (void)selectLink:(RSSLink *)link {
-    for (RSSLink *actualLink in self.actualSource.rssLinks) {
-        actualLink.selected = [actualLink.link isEqualToString:link.link];
-    }
+    
 }
 
 - (RSSLink *)selectedLink {    
-    return [[self.actualSource.rssLinks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isSelected == YES"]] firstObject];
+    for (RSSSource *source in self.rssSources) {
+        if (source.isSelected) {
+            return source.selectedLinks.firstObject;
+        }
+    }
+    return nil;
 }
 
 - (void)saveState {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.actualSource requiringSecureCoding:YES error:nil];
-    [self.userDefaults setObject:data forKey:kRSSSourceObject];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.rssSources requiringSecureCoding:YES error:nil];
+    [self.userDefaults setObject:data forKey:@"sources"];
 }
 
-- (BOOL)hasSource {
-    return _actualSource != nil;
+- (NSArray<RSSSource *> *)origins {
+    return [self.rssSources sortedArrayUsingDescriptors:@[]];
+}
+
+- (void)addRSSSource:(RSSSource *)source {
+    // TODO:
+    [self.rssSources addObject:source];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.rssSources requiringSecureCoding:YES error:nil];
+    [self.userDefaults setObject:data forKey:@"sources"];
+}
+
+- (void)updateRSSSource:(RSSSource *)source {
+    
+    
 }
 
 // MARK: - Lazy
@@ -71,14 +84,18 @@ NSString *const kRSSSourceObject = @"rssSource";
     return _userDefaults;
 }
 
-- (RSSSource *)actualSource {
-    if(!_actualSource) {
-        NSData *source = [self.userDefaults objectForKey:kRSSSourceObject];
-        if(source) {
-            _actualSource = [[NSKeyedUnarchiver unarchivedObjectOfClass:RSSSource.class fromData:source error:nil] retain];
+- (NSMutableArray<RSSSource *> *)rssSources {
+    if(!_rssSources) {
+        NSData *sources = [self.userDefaults dataForKey:@"sources"];
+        if (sources) {
+            _rssSources = [[NSMutableArray arrayWithArray:
+                            [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSSource.class]]
+                                                                fromData:sources error:nil]] retain];
+        } else {
+            _rssSources = [NSMutableArray new];
         }
     }
-    return _actualSource;
+    return _rssSources;
 }
 
 @end

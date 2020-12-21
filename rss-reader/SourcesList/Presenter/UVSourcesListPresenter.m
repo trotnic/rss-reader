@@ -1,30 +1,29 @@
 //
-//  UVSourceSearchPresenter.m
+//  UVSourcesListPresenter.m
 //  rss-reader
 //
-//  Created by Uladzislau Volchyk on 18.12.20.
+//  Created by Uladzislau Volchyk on 20.12.20.
 //
 
-#import "UVSourceSearchPresenter.h"
-#import "NSURL+Util.h"
+#import "UVSourcesListPresenter.h"
 #import "NSString+StringExtractor.h"
+#import "NSURL+Util.h"
 
-@interface UVSourceSearchPresenter ()
+@interface UVSourcesListPresenter ()
 
 @property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 @property (nonatomic, retain) id<UVDataRecognizerType> recognizer;
-@property (nonatomic, assign) id<UVSourceSearchViewType> view;
 
 @end
 
-@implementation UVSourceSearchPresenter
+@implementation UVSourcesListPresenter
 
-- (instancetype)initWithSource:(id<UVSourceManagerType>)soucre
-                dataRecognizer:(id<UVDataRecognizerType>)recognizer
+- (instancetype)initWithSource:(id<UVSourceManagerType>)manager
+                    recognizer:(id<UVDataRecognizerType>)recognizer;
 {
     self = [super init];
     if (self) {
-        _sourceManager = [soucre retain];
+        _sourceManager = [manager retain];
         _recognizer = [recognizer retain];
     }
     return self;
@@ -37,20 +36,21 @@
     [super dealloc];
 }
 
-// MARK: - UVSourceSearchPresenterType
+// MARK: - UVSourcesListPresenterType
 
-- (void)assignView:(id<UVSourceSearchViewType>)view {
-    _view = view;
+- (NSArray<id<RSSSourceViewModel>> *)items {
+    return self.sourceManager.origins;
 }
 
-- (void)searchForAddress:(NSString *)address {
+- (void)parseAddress:(NSString *)address {
     if ([NSURL isStringValid:address]) {
+        // TODO:
         NSString *newUrl = [NSString stringWithFormat:@"https://%@", [address substringFromString:@"\\/\\/"]];
         __block typeof(self)weakSelf = self;
         [self.recognizer findOnURL:[NSURL URLWithString:newUrl] withCompletion:^(RSSSource * result) {
-            [weakSelf.sourceManager setSource:result];
+            [weakSelf.sourceManager addRSSSource:result];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view updatePresentation];
+                [weakSelf.view stopSearchWithUpdate:YES];
             });
         }];
     } else {
@@ -58,8 +58,8 @@
     }
 }
 
-- (NSArray<id<RSSLinkViewModel>> *)items {
-    return self.sourceManager.source.rssLinks;
+- (void)selectItemWithIndex:(NSInteger)index {
+    [self.view presentDetailWithModel:self.sourceManager.origins[index]];
 }
 
 @end

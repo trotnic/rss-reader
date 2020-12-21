@@ -12,7 +12,7 @@
 #import "UIViewController+ErrorPresenter.h"
 #import "FeedItemWebViewController.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
-#import "UVLinksViewController.h"
+#import "UVSourceDetailViewController.h"
 
 CGFloat const kFadeAnimationDuration = 0.1;
 

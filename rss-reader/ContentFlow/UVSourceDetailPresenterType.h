@@ -6,15 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVLinksViewType.h"
+#import "UVSourceDetailViewType.h"
 #import "RSSSourceViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVLinksPresenterType <NSObject>
+@protocol UVSourceDetailPresenterType <NSObject>
 
-- (void)assignView:(id<UVLinksViewType>)view;
-- (void)updateChannelsWithPlainUrl:(NSString *)url;
+- (void)saveSource;
+- (void)assignView:(id<UVSourceDetailViewType>)view;
 - (void)selectChannelAtIndex:(NSInteger)index;
 - (id<RSSSourceViewModel>)source;
 

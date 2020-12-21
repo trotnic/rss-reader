@@ -5,32 +5,22 @@
 //  Created by Uladzislau Volchyk on 18.12.20.
 //
 
-#import "UVSourceSearchViewController.h"
+#import "UVSearchViewController.h"
 #import "UIViewController+ErrorPresenter.h"
 
-@interface UVSourceSearchViewController () <UISearchBarDelegate, UITableViewDataSource>
+@interface UVSearchViewController () <UISearchBarDelegate>
 
-@property (nonatomic, retain) id<UVSourceSearchPresenterType> presenter;
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) UITableView *tableView;
 
 @end
 
-@implementation UVSourceSearchViewController
-
-- (instancetype)initWithPresenter:(id<UVSourceSearchPresenterType>)presenter
-{
-    self = [super init];
-    if (self) {
-        _presenter = [presenter retain];
-        [_presenter assignView:self];
-    }
-    return self;
-}
+@implementation UVSearchViewController
 
 - (void)dealloc
 {
-    [_presenter release];
+    [_searchBar release];
+    [_tableView release];
     [super dealloc];
 }
 
@@ -69,8 +59,6 @@
     if(!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        _tableView.dataSource = self;
-        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"reuseIdentifier"];
     }
     return _tableView;
 }
@@ -78,34 +66,11 @@
 // MARK: - UISearchBarDelegate
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate searchCancelled];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [self.presenter searchForAddress:searchBar.text];
-}
-
-// MARK: - UITableViewDelegate
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.presenter.items.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    cell.textLabel.text = self.presenter.items[indexPath.row].linkTitle;
-    return cell;
-}
-
-// MARK: - UVSourceSearchViewType
-
-- (void)presentError:(NSError *)error {
-    [self showError:error];
-}
-
-- (void)updatePresentation {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
-                  withRowAnimation:UITableViewRowAnimationMiddle];
+    [self.delegate searchAcceptedWithKey:searchBar.text];
 }
 
 @end

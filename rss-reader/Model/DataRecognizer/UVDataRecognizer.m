@@ -30,7 +30,7 @@ NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
         NSRegularExpression *titleTagReg = [NSRegularExpression expressionWithPattern:titleTagPattern];
         
         NSMutableArray<RSSLink *> *result = [NSMutableArray array];
-        NSString *string = [NSString stringWithUTF8String:[data bytes]];
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSArray<NSTextCheckingResult *> *matches = [linkReg matchesInString:string options:0 range:NSMakeRange(0, string.length)];
         
 

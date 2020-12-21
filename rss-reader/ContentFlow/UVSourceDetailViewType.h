@@ -10,9 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVLinksViewType <BaseViewType>
+@protocol UVSourceDetailViewType <BaseViewType>
 
-//- (void)
+- (void)updateLinkAtIndex:(NSInteger)index;
 
 @end
 
