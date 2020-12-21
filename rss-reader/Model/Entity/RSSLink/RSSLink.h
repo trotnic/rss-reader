@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSSLink : NSObject <RSSLinkViewModel, NSSecureCoding>
+@interface RSSLink : NSObject <RSSLinkViewModel, NSSecureCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSString *link;

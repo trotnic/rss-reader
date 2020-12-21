@@ -12,7 +12,7 @@
 @interface UVSourceDetailPresenter ()
 
 @property (nonatomic, assign) id<UVSourceDetailViewType> view;
-@property (nonatomic, retain) RSSSource *model;
+@property (nonatomic, copy) RSSSource *model;
 
 @property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 
@@ -25,7 +25,7 @@
 {
     self = [super init];
     if (self) {
-        _model = [model retain];
+        _model = [model copy];
         _sourceManager = [sourceManager retain];
     }
     return self;
@@ -50,7 +50,7 @@
 }
 
 - (void)saveSource {
-    [self.sourceManager saveState];
+    [self.sourceManager updateRSSSource:self.model];
 }
 
 @end

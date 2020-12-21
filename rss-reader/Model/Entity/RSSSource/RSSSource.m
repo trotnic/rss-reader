@@ -43,17 +43,6 @@
     return [NSString stringWithFormat:@"\n%@\n%@\n%@", self.title, self.url, self.rssLinks];
 }
 
-- (BOOL)isEqual:(id)other
-{
-    if (other == self) {
-        return YES;
-    } else if (![super isEqual:other]) {
-        return NO;
-    } else {
-        return [self.url isEqual:[other url]];
-    }
-}
-
 // MARK: -
 
 - (BOOL)isSelected {
@@ -67,6 +56,12 @@
 
 - (NSArray<RSSLink *> *)selectedLinks {
     return [self.rssLinks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selected == YES"]];
+}
+
+- (void)switchAllLinksSelected:(BOOL)selected {
+    for (int i = 0; i < self.rssLinks.count; i++) {
+        self.rssLinks[i].selected = selected;
+    }
 }
 
 // MARK: - RSSSourceViewModel
@@ -105,6 +100,16 @@
     [coder encodeObject:self.title forKey:@"title"];
     [coder encodeObject:self.url forKey:@"url"];
     [coder encodeObject:self.rssLinks forKey:@"rssLinks"];
+}
+
+// MARK: - NSCopying
+
+- (id)copyWithZone:(struct _NSZone *)zone {
+    RSSSource *copy = [RSSSource new];
+    copy.title = self.title;
+    copy.url = self.url;
+    copy.rssLinks = [[NSArray alloc] initWithArray:self.rssLinks copyItems:YES];
+    return copy;
 }
 
 @end

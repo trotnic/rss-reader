@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSSSource : NSObject <RSSSourceViewModel, NSSecureCoding>
+@interface RSSSource : NSObject <RSSSourceViewModel, NSSecureCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, retain, readonly) NSURL *url;
@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(NSString *)title url:(NSURL *)url links:(NSArray<RSSLink *> *)links;
 - (NSArray<RSSLink *> *)selectedLinks;
+- (void)switchAllLinksSelected:(BOOL)selected;
 
 @end
 

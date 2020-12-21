@@ -39,7 +39,7 @@
 // MARK: - UVSourcesListPresenterType
 
 - (NSArray<id<RSSSourceViewModel>> *)items {
-    return self.sourceManager.origins;
+    return self.sourceManager.sources;
 }
 
 - (void)parseAddress:(NSString *)address {
@@ -48,7 +48,7 @@
         NSString *newUrl = [NSString stringWithFormat:@"https://%@", [address substringFromString:@"\\/\\/"]];
         __block typeof(self)weakSelf = self;
         [self.recognizer findOnURL:[NSURL URLWithString:newUrl] withCompletion:^(RSSSource * result) {
-            [weakSelf.sourceManager addRSSSource:result];
+            [weakSelf.sourceManager insertRSSSource:result];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.view stopSearchWithUpdate:YES];
             });
@@ -59,7 +59,7 @@
 }
 
 - (void)selectItemWithIndex:(NSInteger)index {
-    [self.view presentDetailWithModel:self.sourceManager.origins[index]];
+    [self.view presentDetailWithModel:self.sourceManager.sources[index]];
 }
 
 @end

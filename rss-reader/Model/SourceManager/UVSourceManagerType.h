@@ -12,10 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVSourceManagerType <NSObject>
 
-- (NSArray<RSSSource *> *)origins;
-- (void)addRSSSource:(RSSSource *)source;
+- (NSArray<RSSSource *> *)sources;
+- (void)insertRSSSource:(RSSSource *)source;
+- (void)removeRSSSource:(RSSSource *)source;
 - (void)updateRSSSource:(RSSSource *)source;
-- (void)selectLink:(RSSLink *)link;
+- (RSSSource *)selectedRSSSource;
+
 - (RSSLink *)selectedLink;
 - (void)saveState;
 

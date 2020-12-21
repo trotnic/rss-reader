@@ -72,4 +72,14 @@
     [coder encodeBool:self.isSelected forKey:@"isSelected"];
 }
 
+// MARK: - NSCopying
+
+- (id)copyWithZone:(struct _NSZone *)zone {
+    RSSLink *copy = [RSSLink new];
+    copy.link = self.link;
+    copy.selected = self.isSelected;
+    copy.title = self.title;
+    return copy;
+}
+
 @end
