@@ -30,6 +30,7 @@
 		735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */; };
 		73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7360165F258CFEDF00887C53 /* UVSearchViewController.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
+		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
 		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
@@ -121,6 +122,8 @@
 		73FF085B258FEAFA00B1A496 /* UVSearchViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewControllerDelegate.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringExtractor.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+StringExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringExtractor.h"; sourceTree = "<group>"; };
+		CA1090712590E5D300579204 /* NSArray+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Util.h"; sourceTree = "<group>"; };
+		CA1090722590E5D300579204 /* NSArray+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Util.m"; sourceTree = "<group>"; };
 		CA1C9BC7257916E7002364C3 /* FeedItemWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemWebViewController.h; sourceTree = "<group>"; };
 		CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItemWebViewController.m; sourceTree = "<group>"; };
 		CA1C9BCE257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+PrettiInitializable.h"; sourceTree = "<group>"; };
@@ -386,6 +389,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CA1090702590E5B400579204 /* NSArray */,
 				CAFBBEC02587AB020000C272 /* NSURL */,
 				CA2BE0A3257FA7CB00BC7749 /* NSRegularExpression */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
@@ -506,6 +510,15 @@
 				CA0A2BF02577B4C1003EC17A /* NSString+StringExtractor.h */,
 			);
 			path = NSString;
+			sourceTree = "<group>";
+		};
+		CA1090702590E5B400579204 /* NSArray */ = {
+			isa = PBXGroup;
+			children = (
+				CA1090712590E5D300579204 /* NSArray+Util.h */,
+				CA1090722590E5D300579204 /* NSArray+Util.m */,
+			);
+			path = NSArray;
 			sourceTree = "<group>";
 		};
 		CA1C9BC6257916A5002364C3 /* WebView */ = {
@@ -823,6 +836,7 @@
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */,
 				735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */,
+				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
 				735AB155258BA6CD001ADB10 /* UVTextFieldViewController.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,

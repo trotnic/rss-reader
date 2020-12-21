@@ -6,6 +6,12 @@
 //
 
 #import "RSSSource.h"
+#import "NSArray+Util.h"
+
+NSString *const kTitle = @"title";
+NSString *const kUrl = @"url";
+NSString *const kLinks = @"links";
+NSString *const kSelected = @"selected";
 
 @interface RSSSource ()
 
@@ -17,15 +23,30 @@
 
 @implementation RSSSource
 
++ (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
+    if(!dictionary || !dictionary.count) {
+        NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
+        return nil;
+    }
+    
+    NSArray *links = [dictionary[kLinks] map:^id (NSDictionary *link) { return [RSSLink objectWithDictionary:link]; }];
+    return [[[RSSSource alloc] initWithTitle:dictionary[kTitle]
+                                         url:[NSURL URLWithString:dictionary[kUrl]]
+                                       links:links
+                                    selected:[dictionary[kSelected] boolValue]] autorelease];
+}
+
 - (instancetype)initWithTitle:(NSString *)title
                           url:(NSURL *)url
                         links:(NSArray<RSSLink *> *)links
+                     selected:(BOOL)selected
 {
     self = [super init];
     if (self) {
         _title = [title copy];
         _url = [url retain];
         _rssLinks = [links retain];
+        _selected = selected;
     }
     return self;
 }
@@ -38,9 +59,30 @@
     [super dealloc];
 }
 
+- (NSDictionary *)dictionaryFromObject {
+    NSMutableArray *links = [NSMutableArray array];
+    for (RSSLink *link in self.rssLinks) {
+        [links addObject:link.dictionaryFromObject];
+    }
+    return @{
+        kTitle : self.title,
+        kUrl : self.url.absoluteString,
+        kLinks : links,
+        kSelected : [NSNumber numberWithBool:self.isSelected]
+    };
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"\n%@\n%@\n%@", self.title, self.url, self.rssLinks];
+}
+
+- (BOOL)isEqual:(id)other
+{
+    if (other == self) {
+        return YES;
+    }
+    return [[self url] isEqual:[other url]];
 }
 
 // MARK: -
@@ -88,18 +130,19 @@
 {
     self = [super init];
     if (self) {
-        self.title = [coder decodeObjectOfClass:NSString.class forKey:@"title"];
-        self.url = [coder decodeObjectOfClass:NSURL.class forKey:@"url"];
-        self.rssLinks = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSLink.class]] forKey:@"rssLinks"];
+        self.title = [coder decodeObjectOfClass:NSString.class forKey:kTitle];
+        self.url = [coder decodeObjectOfClass:NSURL.class forKey:kUrl];
+        self.rssLinks = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSLink.class]]
+                                              forKey:kLinks];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {    
-    [coder encodeObject:self.title forKey:@"title"];
-    [coder encodeObject:self.url forKey:@"url"];
-    [coder encodeObject:self.rssLinks forKey:@"rssLinks"];
+    [coder encodeObject:self.title forKey:kTitle];
+    [coder encodeObject:self.url forKey:kUrl];
+    [coder encodeObject:self.rssLinks forKey:kLinks];
 }
 
 // MARK: - NSCopying
@@ -108,7 +151,8 @@
     RSSSource *copy = [RSSSource new];
     copy.title = self.title;
     copy.url = self.url;
-    copy.rssLinks = [[[NSArray alloc] initWithArray:self.rssLinks copyItems:YES] autorelease];
+    copy.rssLinks = [[[NSArray alloc] initWithArray:self.rssLinks
+                                          copyItems:YES] autorelease];
     return copy;
 }
 

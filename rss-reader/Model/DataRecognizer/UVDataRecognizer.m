@@ -46,10 +46,10 @@ NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
             
             NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
             NSString *titleString = [linkString substringWithRange:[titleMatch range]];
-            [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString] autorelease]];
+            [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString selected:NO] autorelease]];
         }];
         
-        completion([[RSSSource alloc] initWithTitle:sourceTitle url:url links:result]);
+        completion([[RSSSource alloc] initWithTitle:sourceTitle url:url links:result selected:NO]);
     }];
     
     [task resume];

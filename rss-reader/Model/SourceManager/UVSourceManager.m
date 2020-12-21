@@ -6,8 +6,9 @@
 //
 
 #import "UVSourceManager.h"
+#import "NSArray+Util.h"
 
-NSString *const kRSSSourceObject = @"rssSource";
+NSString *const kFileName = @"/source.plist";
 
 @interface UVSourceManager ()
 
@@ -37,10 +38,14 @@ NSString *const kRSSSourceObject = @"rssSource";
     return self.selectedRSSSource.selectedLinks.firstObject;
 }
 
-// TODO:
 - (void)saveState {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.rssSources requiringSecureCoding:YES error:nil];
-    [self.userDefaults setObject:data forKey:@"sources"];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                          .firstObject stringByAppendingFormat:kFileName];
+    NSArray *sources = [self.rssSources map:^id(RSSSource *source) { return source.dictionaryFromObject; }];
+    NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:sources
+                                                                   format:NSPropertyListXMLFormat_v1_0
+                                                                  options:0 error:nil];
+    [plistData writeToFile:path atomically:YES];
 }
 
 - (NSArray<RSSSource *> *)sources {
@@ -48,18 +53,15 @@ NSString *const kRSSSourceObject = @"rssSource";
 }
 
 - (void)insertRSSSource:(RSSSource *)source {
-    for (int i = 0; i < self.rssSources.count; i++) {
-        if ([self.rssSources[i].url isEqual:source.url]) {
-            return;
-        }
+    if (![self.rssSources containsObject:source]) {
+        [self.rssSources addObject:source];
+        [self saveState];
     }
-    [self.rssSources addObject:source];
-    [self saveState];
 }
 
 - (void)updateRSSSource:(RSSSource *)source {
     for (int i = 0; i < self.rssSources.count; i++) {
-        if ([self.rssSources[i].url isEqual:source.url]) {
+        if ([self.rssSources[i] isEqual:source]) {
             for (int j = 0; j < source.rssLinks.count; j++) {
                 self.rssSources[i].rssLinks[j].selected = source.rssLinks[j].isSelected;
             }
@@ -70,12 +72,7 @@ NSString *const kRSSSourceObject = @"rssSource";
 }
 
 - (void)removeRSSSource:(RSSSource *)source {
-    for (int i = 0; i < self.rssSources.count; i++) {
-        if ([self.rssSources[i].url isEqual:source.url]) {
-            [self.rssSources removeObjectAtIndex:i];
-            return;
-        }
-    }
+    [self.rssSources removeObject:source];
 }
 
 - (RSSSource *)selectedRSSSource {
@@ -89,20 +86,19 @@ NSString *const kRSSSourceObject = @"rssSource";
 
 // MARK: - Lazy
 
-- (NSUserDefaults *)userDefaults {
-    if(!_userDefaults) {
-        _userDefaults = [NSUserDefaults.standardUserDefaults retain];
-    }
-    return _userDefaults;
-}
-
 - (NSMutableArray<RSSSource *> *)rssSources {
     if(!_rssSources) {
-        NSData *sources = [self.userDefaults dataForKey:@"sources"];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                              .firstObject stringByAppendingFormat:kFileName];
+        NSData *sources = [NSData dataWithContentsOfFile:path];
         if (sources) {
-            _rssSources = [[NSMutableArray arrayWithArray:
-                            [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSSource.class]]
-                                                                fromData:sources error:nil]] retain];
+            _rssSources = [[[NSPropertyListSerialization propertyListWithData:sources
+                                                                      options:0
+                                                                       format:nil
+                                                                        error:nil]
+                            map:^id (NSDictionary *source) {
+                return [RSSSource objectWithDictionary:source];
+            }] mutableCopy];
         } else {
             _rssSources = [NSMutableArray new];
         }

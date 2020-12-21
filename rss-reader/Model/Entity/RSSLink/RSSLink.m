@@ -7,6 +7,10 @@
 
 #import "RSSLink.h"
 
+NSString *const kRSSLinkTitle = @"title";
+NSString *const kRSSLinkLink = @"link";
+NSString *const kRSSLinkSelected = @"selected";
+
 @interface RSSLink ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
@@ -22,17 +26,18 @@
         return nil;
     }
     
-    return [[[RSSLink alloc] initWithTitle:dictionary[@"title"]
-                                        link:dictionary[@"link"]] autorelease];
+    return [[[RSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
+                                      link:dictionary[kRSSLinkLink]
+                                  selected:[dictionary[kRSSLinkSelected] boolValue]] autorelease];
 }
 
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link
+- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected
 {
     self = [super init];
     if (self) {
         _title = [title copy];
         _link = [link copy];
-        _selected = NO;
+        _selected = selected;
     }
     return self;
 }
@@ -42,6 +47,15 @@
     [_title release];
     [_link release];
     [super dealloc];
+}
+
+- (NSDictionary *)dictionaryFromObject {
+    return @{
+        kRSSLinkTitle : self.title,
+        kRSSLinkLink : self.link,
+        kRSSLinkSelected : [NSNumber numberWithBool:self.isSelected]
+    };
+    
 }
 
 - (NSString *)description
@@ -65,18 +79,18 @@
 {
     self = [super init];
     if (self) {
-        self.link = [coder decodeObjectOfClass:NSString.class forKey:@"link"];
-        self.title = [coder decodeObjectOfClass:NSString.class forKey:@"title"];
-        self.selected = [coder decodeBoolForKey:@"isSelected"];
+        self.title = [coder decodeObjectOfClass:NSString.class forKey:kRSSLinkTitle];
+        self.link = [coder decodeObjectOfClass:NSString.class forKey:kRSSLinkLink];
+        self.selected = [coder decodeBoolForKey:kRSSLinkSelected];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:self.link forKey:@"link"];
-    [coder encodeObject:self.title forKey:@"title"];
-    [coder encodeBool:self.isSelected forKey:@"isSelected"];
+    [coder encodeObject:self.title forKey:kRSSLinkTitle];
+    [coder encodeObject:self.link forKey:kRSSLinkLink];
+    [coder encodeBool:self.isSelected forKey:kRSSLinkSelected];
 }
 
 // MARK: - NSCopying

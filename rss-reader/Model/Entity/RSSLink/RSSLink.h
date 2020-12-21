@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
 + (_Nullable instancetype)objectWithDictionary:(NSDictionary *)dictionary;
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link;
+- (NSDictionary *)dictionaryFromObject;
+- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected;
 
 @end
 
