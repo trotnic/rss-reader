@@ -130,7 +130,11 @@
 }
 
 - (void)presentError:(NSError *)error {
-    
+    if (self.searchController.isBeingPresented) {
+        [self.searchController showError:error];
+    } else {
+        [self showError:error];
+    }
 }
 
 // MARK: - UVSearchViewControllerDelegate

@@ -51,6 +51,13 @@ NSString *const kSelected = @"selected";
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title
+                          url:(NSURL *)url
+                        links:(NSArray<RSSLink *> *)links
+{
+    return [self initWithTitle:title url:url links:links selected:NO];
+}
+
 - (void)dealloc
 {
     [_title release];

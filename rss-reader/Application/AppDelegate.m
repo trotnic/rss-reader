@@ -15,10 +15,10 @@
 #import "UVSourceDetailViewController.h"
 #import "UVSourceDetailPresenter.h"
 #import "UVDataRecognizer.h"
-#import "UVTextFieldViewController.h"
 #import "UVSearchViewController.h"
 #import "UVSourcesListViewController.h"
 #import "UVSourcesListPresenter.h"
+#import "KeyConstants.h"
 
 @interface AppDelegate ()
 
@@ -29,9 +29,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupAppearance];
     [NSNotificationCenter.defaultCenter addObserver:UVSourceManager.defaultManager
-                                           selector:@selector(saveState)
+                                           selector:@selector(saveState:)
                                                name:UIApplicationWillResignActiveNotification
                                              object:nil];
+    [NSUserDefaults.standardUserDefaults setObject:kSourcesFileNameValue forKey:kSourcesFileNameKey];
     return YES;
 }
 

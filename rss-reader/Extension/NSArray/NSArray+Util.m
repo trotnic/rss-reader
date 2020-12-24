@@ -14,7 +14,7 @@
     for (id object in self) {
         [array addObject:completion(object)];
     }
-    return [array copy];
+    return [[array copy] autorelease];
 }
 
 @end

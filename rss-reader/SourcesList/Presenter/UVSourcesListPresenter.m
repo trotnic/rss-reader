@@ -47,11 +47,20 @@
         // TODO:
         NSString *newUrl = [NSString stringWithFormat:@"https://%@", [address substringFromString:@"\\/\\/"]];
         __block typeof(self)weakSelf = self;
-        [self.recognizer findOnURL:[NSURL URLWithString:newUrl] withCompletion:^(RSSSource * result) {
-            [weakSelf.sourceManager insertRSSSource:result];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view stopSearchWithUpdate:YES];
-            });
+        [self.recognizer fetchURL:[NSURL URLWithString:newUrl] completion:^(RSSSource * result, RSSError error) {
+            switch (error) {
+                case RSSErrorNoRSSLinks:
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.view presentError:[self provideErrorOfType:RSSErrorNoRSSLinks]];
+                    });
+                    break;
+                default:
+                    [weakSelf.sourceManager insertRSSSource:result];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.view stopSearchWithUpdate:YES];
+                    });
+                    break;
+            }
         }];
     } else {
         [self.view presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];

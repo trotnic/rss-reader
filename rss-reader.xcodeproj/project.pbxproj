@@ -26,15 +26,13 @@
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
 		733C9F4C258FDF640098316C /* UVSourcesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 733C9F4B258FDF640098316C /* UVSourcesListViewController.m */; };
 		733C9F52258FDF740098316C /* UVSourcesListPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 733C9F51258FDF740098316C /* UVSourcesListPresenter.m */; };
-		735AB155258BA6CD001ADB10 /* UVTextFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */; };
-		735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */; };
+		734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 734AEE752591E8FD00CE5716 /* UVSourceRepository.m */; };
 		73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7360165F258CFEDF00887C53 /* UVSearchViewController.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA1C9BC9257916E7002364C3 /* FeedItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BC8257916E7002364C3 /* FeedItemWebViewController.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
 		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
-		CA2BE0A6257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0A5257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m */; };
 		CA2BE0B3257FAEFF00BC7749 /* UVSourceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0B2257FAEFF00BC7749 /* UVSourceDetailViewController.m */; };
 		CA2BE0BC257FB01300BC7749 /* UVSourceDetailPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE0BB257FB01300BC7749 /* UVSourceDetailPresenter.m */; };
 		CA2CDA45258A2939004E80E2 /* BasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2CDA44258A2939004E80E2 /* BasePresenter.m */; };
@@ -113,10 +111,11 @@
 		733C9F51258FDF740098316C /* UVSourcesListPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListPresenter.m; sourceTree = "<group>"; };
 		733C9F56258FDF820098316C /* UVSourcesListPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourcesListPresenterType.h; sourceTree = "<group>"; };
 		733C9F58258FDFA20098316C /* UVSourcesListViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourcesListViewType.h; path = View/UVSourcesListViewType.h; sourceTree = "<group>"; };
-		735AB153258BA6CD001ADB10 /* UVTextFieldViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVTextFieldViewController.h; path = ContentFlow/Stuff/TextFieldViewController/UVTextFieldViewController.h; sourceTree = "<group>"; };
-		735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVTextFieldViewController.m; path = ContentFlow/Stuff/TextFieldViewController/UVTextFieldViewController.m; sourceTree = "<group>"; };
-		735AB160258BA830001ADB10 /* UVTextFieldTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVTextFieldTableViewCell.h; sourceTree = "<group>"; };
-		735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		734AEE742591E8FD00CE5716 /* UVSourceRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourceRepository.h; sourceTree = "<group>"; };
+		734AEE752591E8FD00CE5716 /* UVSourceRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceRepository.m; sourceTree = "<group>"; };
+		734AEE7A2591E90E00CE5716 /* UVSourceRepositoryType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourceRepositoryType.h; sourceTree = "<group>"; };
+		734AEE7C2591EE6800CE5716 /* UVPropertyListConvertible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPropertyListConvertible.h; sourceTree = "<group>"; };
+		7359A808259381D3008105A2 /* KeyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyConstants.h; sourceTree = "<group>"; };
 		7360165E258CFEDF00887C53 /* UVSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewController.h; sourceTree = "<group>"; };
 		7360165F258CFEDF00887C53 /* UVSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSearchViewController.m; sourceTree = "<group>"; };
 		73FF085B258FEAFA00B1A496 /* UVSearchViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -132,8 +131,6 @@
 		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
 		CA2BE098257F954400BC7749 /* RSSLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSSLink.m; sourceTree = "<group>"; };
-		CA2BE0A4257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSRegularExpression+PrettyInitializable.h"; sourceTree = "<group>"; };
-		CA2BE0A5257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSRegularExpression+PrettyInitializable.m"; sourceTree = "<group>"; };
 		CA2BE0B1257FAEFF00BC7749 /* UVSourceDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceDetailViewController.h; path = ContentFlow/UVSourceDetailViewController.h; sourceTree = "<group>"; };
 		CA2BE0B2257FAEFF00BC7749 /* UVSourceDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVSourceDetailViewController.m; path = ContentFlow/UVSourceDetailViewController.m; sourceTree = "<group>"; };
 		CA2BE0BA257FB01300BC7749 /* UVSourceDetailPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceDetailPresenter.h; path = ContentFlow/UVSourceDetailPresenter.h; sourceTree = "<group>"; };
@@ -257,8 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				735AB151258BA4DA001ADB10 /* Stuff */,
-				CA2CDA50258A2FDB004E80E2 /* ViewType */,
-				CA2CDA42258A2917004E80E2 /* ErrorPresenter */,
 				CA2BE0AE257FAEBB00BC7749 /* Feed */,
 				CA2BE0AD257FAEB100BC7749 /* Links */,
 			);
@@ -391,7 +386,6 @@
 			children = (
 				CA1090702590E5B400579204 /* NSArray */,
 				CAFBBEC02587AB020000C272 /* NSURL */,
-				CA2BE0A3257FA7CB00BC7749 /* NSRegularExpression */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
 				CA0A2BEE2577B4C1003EC17A /* NSString */,
 				CAF30C2325701736004A925D /* UIViewController */,
@@ -457,40 +451,33 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		734AEE732591E8E700CE5716 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				734AEE7B2591EE4D00CE5716 /* Type */,
+				734AEE742591E8FD00CE5716 /* UVSourceRepository.h */,
+				734AEE752591E8FD00CE5716 /* UVSourceRepository.m */,
+				734AEE7A2591E90E00CE5716 /* UVSourceRepositoryType.h */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		734AEE7B2591EE4D00CE5716 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				734AEE7C2591EE6800CE5716 /* UVPropertyListConvertible.h */,
+			);
+			path = Type;
+			sourceTree = "<group>";
+		};
 		735AB151258BA4DA001ADB10 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				CA2CDA42258A2917004E80E2 /* ErrorPresenter */,
+				CA2CDA50258A2FDB004E80E2 /* ViewType */,
 				73FF0857258FEAD400B1A496 /* SearchController */,
-				735AB15E258BA803001ADB10 /* TableCell */,
-				735AB152258BA4F1001ADB10 /* ControllerWithField */,
 			);
 			name = Stuff;
-			sourceTree = "<group>";
-		};
-		735AB152258BA4F1001ADB10 /* ControllerWithField */ = {
-			isa = PBXGroup;
-			children = (
-				735AB153258BA6CD001ADB10 /* UVTextFieldViewController.h */,
-				735AB154258BA6CD001ADB10 /* UVTextFieldViewController.m */,
-			);
-			name = ControllerWithField;
-			sourceTree = "<group>";
-		};
-		735AB15E258BA803001ADB10 /* TableCell */ = {
-			isa = PBXGroup;
-			children = (
-				735AB15F258BA80D001ADB10 /* TextFieldCell */,
-			);
-			path = TableCell;
-			sourceTree = "<group>";
-		};
-		735AB15F258BA80D001ADB10 /* TextFieldCell */ = {
-			isa = PBXGroup;
-			children = (
-				735AB160258BA830001ADB10 /* UVTextFieldTableViewCell.h */,
-				735AB161258BA830001ADB10 /* UVTextFieldTableViewCell.m */,
-			);
-			name = TextFieldCell;
 			sourceTree = "<group>";
 		};
 		73FF0857258FEAD400B1A496 /* SearchController */ = {
@@ -544,6 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				CA243AB82570E5D600B56A7B /* LocalConstants.h */,
+				7359A808259381D3008105A2 /* KeyConstants.h */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -564,15 +552,6 @@
 				CAFBBEB9258795330000C272 /* RSSLinkViewModel.h */,
 			);
 			path = RSSLink;
-			sourceTree = "<group>";
-		};
-		CA2BE0A3257FA7CB00BC7749 /* NSRegularExpression */ = {
-			isa = PBXGroup;
-			children = (
-				CA2BE0A4257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.h */,
-				CA2BE0A5257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m */,
-			);
-			path = NSRegularExpression;
 			sourceTree = "<group>";
 		};
 		CA2BE0AD257FAEB100BC7749 /* Links */ = {
@@ -681,6 +660,7 @@
 		CAFBBEC72587B62E0000C272 /* SourceManager */ = {
 			isa = PBXGroup;
 			children = (
+				734AEE732591E8E700CE5716 /* Repository */,
 				CAFBBEC82587B63D0000C272 /* UVSourceManager.h */,
 				CAFBBEC92587B63D0000C272 /* UVSourceManager.m */,
 				CAFBBECE2587B64F0000C272 /* UVSourceManagerType.h */,
@@ -821,7 +801,6 @@
 				CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2B1903E0256406A3006D755E /* FeedItem.m in Sources */,
-				CA2BE0A6257FA7EA00BC7749 /* NSRegularExpression+PrettyInitializable.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */,
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
 				CAFBBECA2587B63D0000C272 /* UVSourceManager.m in Sources */,
@@ -835,15 +814,14 @@
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */,
-				735AB162258BA830001ADB10 /* UVTextFieldTableViewCell.m in Sources */,
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
-				735AB155258BA6CD001ADB10 /* UVTextFieldViewController.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				733C9F52258FDF740098316C /* UVSourcesListPresenter.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */,
 				CA2CDA45258A2939004E80E2 /* BasePresenter.m in Sources */,
 				2B653A0525654EE8008A76A3 /* FeedChannel.m in Sources */,
+				734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */,
 				2B1903E725640873006D755E /* FeedXMLParser.m in Sources */,
 				CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */,
 				CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */,

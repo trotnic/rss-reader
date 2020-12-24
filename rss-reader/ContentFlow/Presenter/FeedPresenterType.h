@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateFeed;
 - (void)selectRowAt:(NSInteger)row;
 - (id<FeedChannelViewModel>)viewModel;
-- (void)assignView:(id<FeedViewType>)view;
 
 @end
 

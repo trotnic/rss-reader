@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) id<FeedViewType> view;
 
 - (instancetype)initWithProvider:(id<FeedProviderType>)provider sourceManager:(id<UVSourceManagerType>)sourceManager;
-- (void)assignView:(id<FeedViewType>)view;
 
 @end
 

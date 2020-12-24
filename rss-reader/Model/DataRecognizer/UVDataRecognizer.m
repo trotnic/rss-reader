@@ -6,7 +6,6 @@
 //
 
 #import "UVDataRecognizer.h"
-#import "NSRegularExpression+PrettyInitializable.h"
 
 NSString *const linkTagPattern = @"<link.*type=\"application[/]rss[+]xml\".*>";
 NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
@@ -15,44 +14,88 @@ NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
 
 @interface UVDataRecognizer ()
 
+@property (nonatomic, retain) NSDictionary<NSString *, NSRegularExpression *> *regExps;
+
 @end
 
 @implementation UVDataRecognizer
 
-// MARK: -
+- (void)dealloc
+{
+    [_regExps release];
+    [super dealloc];
+}
 
-- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(RSSSource *))completion {
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithURL:url
-                                                           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSRegularExpression *hrefReg = [NSRegularExpression expressionWithPattern:hrefAttributePattern];
-        NSRegularExpression *titleReg = [NSRegularExpression expressionWithPattern:titleAttributePattern];
-        NSRegularExpression *linkReg = [NSRegularExpression expressionWithPattern:linkTagPattern];
-        NSRegularExpression *titleTagReg = [NSRegularExpression expressionWithPattern:titleTagPattern];
-        
-        NSMutableArray<RSSLink *> *result = [NSMutableArray array];
-        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSArray<NSTextCheckingResult *> *matches = [linkReg matchesInString:string options:0 range:NSMakeRange(0, string.length)];
-        
+// MARK: - UVDataRecognizerType
 
+- (void)fetchURL:(NSURL *)url completion:(void(^)(RSSSource *, RSSError))completion {
+    [NSThread detachNewThreadWithBlock:^{
+        @autoreleasepool {
+            NSError *error = nil;
+            NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+            if (error) {
+                completion(nil, RSSErrorTypeBadURL);
+                return;
+            }
+            [self processRawData:data url:url completion:completion];
+        }
+    }];
+}
+
+// MARK: - Private
+
+- (NSArray<RSSLink *> *)findLinks:(NSString *)html {
+    NSMutableArray<RSSLink *> *result = [NSMutableArray array];
+    NSArray<NSTextCheckingResult *> *matches = [self.regExps[@"link"] matchesInString:html
+                                                                              options:0
+                                                                                range:NSMakeRange(0, html.length)];
+    if (!matches.count) {
+        return [[result copy] autorelease];
+    }
+    
+    [matches enumerateObjectsUsingBlock:^(NSTextCheckingResult *obj, NSUInteger idx, BOOL *stop) {
+        NSString *linkString = [html substringWithRange:[obj range]];
+        NSRange searchRange = NSMakeRange(0, linkString.length);
+        NSTextCheckingResult *hrefMatch = [self.regExps[@"href"] firstMatchInString:linkString options:0 range:searchRange];
+        NSTextCheckingResult *titleMatch = [self.regExps[@"title"] firstMatchInString:linkString options:0 range:searchRange];
         
-        NSTextCheckingResult *titleMatch = [titleTagReg firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
-        NSString *sourceTitle = [string substringWithRange:[titleMatch range]];
-        
-        [matches enumerateObjectsUsingBlock:^(NSTextCheckingResult *obj, NSUInteger idx, BOOL *stop) {
-            NSString *linkString = [string substringWithRange:[obj range]];
-            NSRange searchRange = NSMakeRange(0, linkString.length);
-            NSTextCheckingResult *hrefMatch = [hrefReg firstMatchInString:linkString options:0 range:searchRange];
-            NSTextCheckingResult *titleMatch = [titleReg firstMatchInString:linkString options:0 range:searchRange];
-            
-            NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
-            NSString *titleString = [linkString substringWithRange:[titleMatch range]];
-            [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString selected:NO] autorelease]];
-        }];
-        
-        completion([[RSSSource alloc] initWithTitle:sourceTitle url:url links:result selected:NO]);
+        NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
+        NSString *titleString = [linkString substringWithRange:[titleMatch range]];
+        [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString selected:NO] autorelease]];
     }];
     
-    [task resume];
+    return [[result copy] autorelease];
+}
+
+- (NSString *)findTitle:(NSString *)html {
+    NSTextCheckingResult *titleMatch = [self.regExps[@"titleTag"] firstMatchInString:html
+                                                                             options:0
+                                                                               range:NSMakeRange(0, html.length)];
+    NSString *sourceTitle = [html substringWithRange:[titleMatch range]];
+    return sourceTitle;
+}
+
+- (void)processRawData:(NSData *)data url:(NSURL *)url completion:(void(^)(RSSSource *, RSSError))completion {
+    NSString *html = [NSString stringWithUTF8String:data.bytes];
+    NSArray<RSSLink *> *links = [self findLinks:html];
+    NSString *title = [self findTitle:html];
+    RSSSource *source = [[[RSSSource alloc] initWithTitle:title url:url links:links] autorelease];
+    
+    completion(source, RSSErrorTypeNone);
+}
+
+// MARK: - Lazy
+
+- (NSDictionary *)regExps {
+    if(!_regExps) {
+        _regExps = [@{
+            @"link" : [NSRegularExpression regularExpressionWithPattern:linkTagPattern options:NSRegularExpressionCaseInsensitive error:nil],
+            @"titleTag" : [NSRegularExpression regularExpressionWithPattern:titleTagPattern options:NSRegularExpressionCaseInsensitive error:nil],
+            @"title" : [NSRegularExpression regularExpressionWithPattern:titleAttributePattern options:NSRegularExpressionCaseInsensitive error:nil],
+            @"href" : [NSRegularExpression regularExpressionWithPattern:hrefAttributePattern options:NSRegularExpressionCaseInsensitive error:nil]
+        } retain];
+    }
+    return _regExps;
 }
 
 @end

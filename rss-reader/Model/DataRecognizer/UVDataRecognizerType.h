@@ -7,12 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import "RSSSource.h"
+#import "RSSError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVDataRecognizerType <NSObject>
 
-- (void)findOnURL:(NSURL *)url withCompletion:(void(^)(RSSSource *))completion;
+- (void)fetchURL:(NSURL *)url completion:(void(^)(RSSSource *, RSSError))completion;
 
 @end
 

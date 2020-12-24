@@ -15,7 +15,6 @@ NSString *const cellReuseIdentifier = @"reuseIdentifier";
 @interface UVSourceDetailViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
-
 @property (nonatomic, retain) UIBarButtonItem *saveButton;
 
 @property (nonatomic, retain, readwrite) id<UVSourceDetailPresenterType> presenter;

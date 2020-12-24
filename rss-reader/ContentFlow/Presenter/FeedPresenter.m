@@ -79,8 +79,4 @@
     return self.channel;
 }
 
-- (void)assignView:(id<FeedViewType>)view {
-    _view = view;
-}
-
 @end

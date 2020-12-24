@@ -6,24 +6,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UVPropertyListConvertible.h"
 #import "RSSSourceViewModel.h"
 #import "RSSLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSSSource : NSObject <RSSSourceViewModel, NSSecureCoding, NSCopying>
+@interface RSSSource : NSObject <RSSSourceViewModel, NSSecureCoding, NSCopying, UVPropertyListConvertible>
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, retain, readonly) NSURL *url;
 @property (nonatomic, retain, readonly) NSArray<RSSLink *> *rssLinks;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
-+ (instancetype)objectWithDictionary:(NSDictionary *)dictionary;
-- (NSDictionary *)dictionaryFromObject;
 - (instancetype)initWithTitle:(NSString *)title
                           url:(NSURL *)url
                         links:(NSArray<RSSLink *> *)links
                      selected:(BOOL)selected;
+
+- (instancetype)initWithTitle:(NSString *)title
+                          url:(NSURL *)url
+                        links:(NSArray<RSSLink *> *)links;
 - (NSArray<RSSLink *> *)selectedLinks;
 - (void)switchAllLinksSelected:(BOOL)selected;
 

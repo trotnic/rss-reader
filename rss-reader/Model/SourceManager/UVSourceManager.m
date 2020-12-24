@@ -7,12 +7,14 @@
 
 #import "UVSourceManager.h"
 #import "NSArray+Util.h"
-
-NSString *const kFileName = @"/source.plist";
+#import "UVSourceRepositoryType.h"
+#import "UVSourceRepository.h"
+#import "KeyConstants.h"
 
 @interface UVSourceManager ()
 
 @property (nonatomic, retain) NSMutableArray<RSSSource *> *rssSources;
+@property (nonatomic, retain) id<UVSourceRepositoryType> repository;
 
 @end
 
@@ -29,8 +31,9 @@ NSString *const kFileName = @"/source.plist";
 
 - (void)dealloc
 {
-    [_userDefaults release];
+    [_repository release];
     [_rssSources release];
+    [_userDefaults release];
     [super dealloc];
 }
 
@@ -38,14 +41,10 @@ NSString *const kFileName = @"/source.plist";
     return self.selectedRSSSource.selectedLinks.firstObject;
 }
 
-- (void)saveState {
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                          .firstObject stringByAppendingFormat:kFileName];
+- (BOOL)saveState:(out NSError **)error {
     NSArray *sources = [self.rssSources map:^id(RSSSource *source) { return source.dictionaryFromObject; }];
-    NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:sources
-                                                                   format:NSPropertyListXMLFormat_v1_0
-                                                                  options:0 error:nil];
-    [plistData writeToFile:path atomically:YES];
+    [self.repository updateData:sources error:error];
+    return YES;
 }
 
 - (NSArray<RSSSource *> *)sources {
@@ -55,7 +54,9 @@ NSString *const kFileName = @"/source.plist";
 - (void)insertRSSSource:(RSSSource *)source {
     if (![self.rssSources containsObject:source]) {
         [self.rssSources addObject:source];
-        [self saveState];
+        // TODO:
+        NSError *error = nil;
+        [self saveState:&error];
     }
 }
 
@@ -69,6 +70,9 @@ NSString *const kFileName = @"/source.plist";
             [self.rssSources[i] switchAllLinksSelected:NO];
         }
     }
+    // TODO:
+    NSError *error = nil;
+    [self saveState:&error];
 }
 
 - (void)removeRSSSource:(RSSSource *)source {
@@ -88,22 +92,35 @@ NSString *const kFileName = @"/source.plist";
 
 - (NSMutableArray<RSSSource *> *)rssSources {
     if(!_rssSources) {
-        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                              .firstObject stringByAppendingFormat:kFileName];
-        NSData *sources = [NSData dataWithContentsOfFile:path];
-        if (sources) {
-            _rssSources = [[[NSPropertyListSerialization propertyListWithData:sources
-                                                                      options:0
-                                                                       format:nil
-                                                                        error:nil]
-                            map:^id (NSDictionary *source) {
-                return [RSSSource objectWithDictionary:source];
-            }] mutableCopy];
+        // TODO: 
+        NSError *error = nil;
+        NSArray *sources = [self.repository fetchData:&error];
+        if (sources && !error) {
+            _rssSources = [[sources map:^id (id source) { return [RSSSource objectWithDictionary:source]; }] mutableCopy];
         } else {
             _rssSources = [NSMutableArray new];
         }
     }
     return _rssSources;
 }
+
+- (id<UVSourceRepositoryType>)repository {
+    if(!_repository) {
+        
+        NSString *fileName = [self.userDefaults objectForKey:kSourcesFileNameKey];
+        NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                           .firstObject stringByAppendingString:fileName] copy];
+        _repository = [[UVSourceRepository alloc] initWithPath:[path autorelease]];
+    }
+    return _repository;
+}
+
+- (NSUserDefaults *)userDefaults {
+    if(!_userDefaults) {
+        _userDefaults = [NSUserDefaults.standardUserDefaults retain];
+    }
+    return _userDefaults;
+}
+
 
 @end
