@@ -20,13 +20,13 @@
 		2BBE8E1F256D37A400B31BC5 /* FeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E1C256D37A400B31BC5 /* FeedPresenter.m */; };
 		2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E2A256D37C200B31BC5 /* FeedTableViewCell.m */; };
 		2BBE8E33256D37CE00B31BC5 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E31256D37CE00B31BC5 /* FeedViewController.m */; };
-		2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E59256D390F00B31BC5 /* FeedProvider.m */; };
 		2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */; };
 		2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE8E7F256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m */; };
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
 		733C9F4C258FDF640098316C /* UVSourcesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 733C9F4B258FDF640098316C /* UVSourcesListViewController.m */; };
 		733C9F52258FDF740098316C /* UVSourcesListPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 733C9F51258FDF740098316C /* UVSourcesListPresenter.m */; };
 		734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 734AEE752591E8FD00CE5716 /* UVSourceRepository.m */; };
+		735129FD259893E6009917A6 /* UVNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 735129FC259893E6009917A6 /* UVNetwork.m */; };
 		73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7360165F258CFEDF00887C53 /* UVSearchViewController.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
@@ -95,9 +95,6 @@
 		2BBE8E31256D37CE00B31BC5 /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = ContentFlow/View/FeedViewController.m; sourceTree = "<group>"; };
 		2BBE8E32256D37CE00B31BC5 /* FeedViewType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewType.h; path = ContentFlow/View/FeedViewType.h; sourceTree = "<group>"; };
 		2BBE8E37256D37E300B31BC5 /* FeedParserType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedParserType.h; sourceTree = "<group>"; };
-		2BBE8E57256D390F00B31BC5 /* FeedProviderType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedProviderType.h; sourceTree = "<group>"; };
-		2BBE8E58256D390F00B31BC5 /* FeedProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedProvider.h; sourceTree = "<group>"; };
-		2BBE8E59256D390F00B31BC5 /* FeedProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedProvider.m; sourceTree = "<group>"; };
 		2BBE8E60256D395500B31BC5 /* NSDate+StringConvertible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+StringConvertible.h"; sourceTree = "<group>"; };
 		2BBE8E61256D395500B31BC5 /* NSDate+StringConvertible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringConvertible.m"; sourceTree = "<group>"; };
 		2BBE8E7E256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+DelegateInitializable.h"; sourceTree = "<group>"; };
@@ -115,6 +112,9 @@
 		734AEE752591E8FD00CE5716 /* UVSourceRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceRepository.m; sourceTree = "<group>"; };
 		734AEE7A2591E90E00CE5716 /* UVSourceRepositoryType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourceRepositoryType.h; sourceTree = "<group>"; };
 		734AEE7C2591EE6800CE5716 /* UVPropertyListConvertible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPropertyListConvertible.h; sourceTree = "<group>"; };
+		735129FA259893DB009917A6 /* UVNetworkManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNetworkManagerType.h; sourceTree = "<group>"; };
+		735129FB259893E6009917A6 /* UVNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNetwork.h; sourceTree = "<group>"; };
+		735129FC259893E6009917A6 /* UVNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVNetwork.m; sourceTree = "<group>"; };
 		7359A808259381D3008105A2 /* KeyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyConstants.h; sourceTree = "<group>"; };
 		7360165E258CFEDF00887C53 /* UVSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewController.h; sourceTree = "<group>"; };
 		7360165F258CFEDF00887C53 /* UVSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSearchViewController.m; sourceTree = "<group>"; };
@@ -285,8 +285,8 @@
 		2B1903BE2563FEE9006D755E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				735129F9259893C3009917A6 /* NetworkManager */,
 				CAFBBEC72587B62E0000C272 /* SourceManager */,
-				2BBE8E4F256D38D600B31BC5 /* DataProvider */,
 				CA2EF4E2257E67C2002452CA /* DataRecognizer */,
 				2B653A0125654ED6008A76A3 /* Entity */,
 				2B1903E425640866006D755E /* Parser */,
@@ -369,16 +369,6 @@
 				2B7F5DF625654FFB00656FC7 /* MediaContent.m */,
 			);
 			path = Content;
-			sourceTree = "<group>";
-		};
-		2BBE8E4F256D38D600B31BC5 /* DataProvider */ = {
-			isa = PBXGroup;
-			children = (
-				2BBE8E58256D390F00B31BC5 /* FeedProvider.h */,
-				2BBE8E59256D390F00B31BC5 /* FeedProvider.m */,
-				2BBE8E57256D390F00B31BC5 /* FeedProviderType.h */,
-			);
-			path = DataProvider;
 			sourceTree = "<group>";
 		};
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
@@ -468,6 +458,16 @@
 				734AEE7C2591EE6800CE5716 /* UVPropertyListConvertible.h */,
 			);
 			path = Type;
+			sourceTree = "<group>";
+		};
+		735129F9259893C3009917A6 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				735129FA259893DB009917A6 /* UVNetworkManagerType.h */,
+				735129FB259893E6009917A6 /* UVNetwork.h */,
+				735129FC259893E6009917A6 /* UVNetwork.m */,
+			);
+			path = NetworkManager;
 			sourceTree = "<group>";
 		};
 		735AB151258BA4DA001ADB10 /* Stuff */ = {
@@ -809,10 +809,10 @@
 				2BBE8E2C256D37C200B31BC5 /* FeedTableViewCell.m in Sources */,
 				CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */,
 				CA8523A825878ACE00430C7C /* RSSSource.m in Sources */,
+				735129FD259893E6009917A6 /* UVNetwork.m in Sources */,
 				CA2BE0B3257FAEFF00BC7749 /* UVSourceDetailViewController.m in Sources */,
 				CA2BE0BC257FB01300BC7749 /* UVSourceDetailPresenter.m in Sources */,
 				2B7F5DF725654FFB00656FC7 /* MediaContent.m in Sources */,
-				2BBE8E5A256D390F00B31BC5 /* FeedProvider.m in Sources */,
 				73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */,
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,

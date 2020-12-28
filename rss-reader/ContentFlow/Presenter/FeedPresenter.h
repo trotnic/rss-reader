@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
 #import "BasePresenter.h"
-#import "FeedProviderType.h"
+#import "UVDataRecognizerType.h"
 #import "UVSourceManagerType.h"
 #import "FeedViewType.h"
 
@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) id<FeedViewType> view;
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider sourceManager:(id<UVSourceManagerType>)sourceManager;
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                     sourceManager:(id<UVSourceManagerType>)sourceManager;
 
 @end
 

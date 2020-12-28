@@ -16,3 +16,6 @@
 
 "BAD_URL_TITLE" = "Неправильный адрес";
 "BAD_URL_DESCRIPTION" = "Введите верный адрес и попробуйте снова";
+
+"NO_RSS_LINKS_TITLE" = "Нет RSS лент";
+"NO_RSS_LINKS_DESCRIPTION" = "Попробуйте ввести другой адрес";

@@ -113,6 +113,8 @@ NSInteger const kTitleNumberOfLines = 0;
     return _titleLabel;
 }
 
+// MARK: --
+
 - (UILabel *)descriptionLabel {
     if(!_descriptionLabel) {
         _descriptionLabel = [UILabel new];
@@ -122,6 +124,7 @@ NSInteger const kTitleNumberOfLines = 0;
     }
     return _descriptionLabel;
 }
+// MARK: --
 
 - (UILabel *)dateLabel {
     if(!_dateLabel) {
@@ -191,6 +194,7 @@ NSInteger const kTitleNumberOfLines = 0;
     self.titleLabel.text = [self.viewModel articleTitle];
     self.categoryLabel.text = [self.viewModel articleCategory];
     self.descriptionLabel.text = [self.viewModel articleDescription];
+    [self layoutIfNeeded];
     self.descriptionLabel.hidden = !self.viewModel.isExpand;
 }
 

@@ -8,7 +8,7 @@
 #import "UVSourcesListViewController.h"
 #import "UVSearchViewController.h"
 #import "UIViewController+ErrorPresenter.h"
-// TODO:
+
 #import "UVSourceDetailPresenter.h"
 #import "UVSourceDetailViewController.h"
 #import "UVSourceManager.h"
@@ -73,7 +73,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    cell.textLabel.text = self.presenter.items[indexPath.row].sourceTitle;
+    cell.textLabel.text = self.presenter.items[indexPath.row].sourceAddress;
     cell.textLabel.numberOfLines = 0;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -101,7 +101,7 @@
 
 - (UIBarButtonItem *)addSourceButton {
     if(!_addSourceButton) {
-        _addSourceButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"plus"]
+        _addSourceButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus"]
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(addSource)];
@@ -130,11 +130,13 @@
 }
 
 - (void)presentError:(NSError *)error {
-    if (self.searchController.isBeingPresented) {
-        [self.searchController showError:error];
-    } else {
-        [self showError:error];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.searchController.isBeingPresented) {
+            [self.searchController showError:error];
+        } else {
+            [self showError:error];
+        }
+    });
 }
 
 // MARK: - UVSearchViewControllerDelegate
@@ -156,7 +158,6 @@
     }
 }
 
-// TODO: 
 - (void)presentDetailWithModel:(RSSSource *)model {
     UVSourceDetailPresenter *presenter = [[UVSourceDetailPresenter alloc] initWithModel:model
                                                                           sourceManager:UVSourceManager.defaultManager];

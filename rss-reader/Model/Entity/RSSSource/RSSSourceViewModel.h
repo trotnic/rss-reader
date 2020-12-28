@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol RSSSourceViewModel <NSObject>
 
-- (NSString *)sourceTitle;
 - (NSString *)sourceAddress;
 - (NSArray<id<RSSLinkViewModel>> *)sourceRSSLinks;
 

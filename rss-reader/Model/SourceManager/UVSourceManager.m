@@ -54,9 +54,6 @@
 - (void)insertRSSSource:(RSSSource *)source {
     if (![self.rssSources containsObject:source]) {
         [self.rssSources addObject:source];
-        // TODO:
-        NSError *error = nil;
-        [self saveState:&error];
     }
 }
 
@@ -70,9 +67,6 @@
             [self.rssSources[i] switchAllLinksSelected:NO];
         }
     }
-    // TODO:
-    NSError *error = nil;
-    [self saveState:&error];
 }
 
 - (void)removeRSSSource:(RSSSource *)source {
@@ -92,7 +86,6 @@
 
 - (NSMutableArray<RSSSource *> *)rssSources {
     if(!_rssSources) {
-        // TODO: 
         NSError *error = nil;
         NSArray *sources = [self.repository fetchData:&error];
         if (sources && !error) {

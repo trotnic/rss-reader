@@ -19,4 +19,7 @@ static NSString *const BAD_RSS_FEED_DESCRIPTION = @"BAD_RSS_FEED_DESCRIPTION";
 static NSString *const BAD_URL_TITLE = @"BAD_URL_TITLE";
 static NSString *const BAD_URL_DESCRIPTION = @"BAD_URL_DESCRIPTION";
 
+static NSString *const NO_RSS_LINKS_TITLE = @"NO_RSS_LINKS_TITLE";
+static NSString *const NO_RSS_LINKS_DESCRIPTION = @"NO_RSS_LINKS_DESCRIPTION";
+
 #endif /* LocaleConstants_h */

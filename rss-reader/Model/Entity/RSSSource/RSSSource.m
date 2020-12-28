@@ -8,14 +8,12 @@
 #import "RSSSource.h"
 #import "NSArray+Util.h"
 
-NSString *const kTitle = @"title";
 NSString *const kUrl = @"url";
 NSString *const kLinks = @"links";
 NSString *const kSelected = @"selected";
 
 @interface RSSSource ()
 
-@property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, retain, readwrite) NSURL *url;
 @property (nonatomic, retain, readwrite) NSArray<RSSLink *> *rssLinks;
 
@@ -30,20 +28,17 @@ NSString *const kSelected = @"selected";
     }
     
     NSArray *links = [dictionary[kLinks] map:^id (NSDictionary *link) { return [RSSLink objectWithDictionary:link]; }];
-    return [[[RSSSource alloc] initWithTitle:dictionary[kTitle]
-                                         url:[NSURL URLWithString:dictionary[kUrl]]
-                                       links:links
-                                    selected:[dictionary[kSelected] boolValue]] autorelease];
+    return [[[RSSSource alloc] initWithURL:[NSURL URLWithString:dictionary[kUrl]]
+                                     links:links
+                                  selected:[dictionary[kSelected] boolValue]] autorelease];
 }
 
-- (instancetype)initWithTitle:(NSString *)title
-                          url:(NSURL *)url
-                        links:(NSArray<RSSLink *> *)links
-                     selected:(BOOL)selected
+- (instancetype)initWithURL:(NSURL *)url
+                      links:(NSArray<RSSLink *> *)links
+                   selected:(BOOL)selected
 {
     self = [super init];
     if (self) {
-        _title = [title copy];
         _url = [url retain];
         _rssLinks = [links retain];
         _selected = selected;
@@ -51,16 +46,14 @@ NSString *const kSelected = @"selected";
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title
-                          url:(NSURL *)url
-                        links:(NSArray<RSSLink *> *)links
+- (instancetype)initWithURL:(NSURL *)url
+                      links:(NSArray<RSSLink *> *)links
 {
-    return [self initWithTitle:title url:url links:links selected:NO];
+    return [self initWithURL:url links:links selected:NO];
 }
 
 - (void)dealloc
 {
-    [_title release];
     [_url release];
     [_rssLinks release];
     [super dealloc];
@@ -72,7 +65,6 @@ NSString *const kSelected = @"selected";
         [links addObject:link.dictionaryFromObject];
     }
     return @{
-        kTitle : self.title,
         kUrl : self.url.absoluteString,
         kLinks : links,
         kSelected : [NSNumber numberWithBool:self.isSelected]
@@ -81,7 +73,7 @@ NSString *const kSelected = @"selected";
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"\n%@\n%@\n%@", self.title, self.url, self.rssLinks];
+    return [NSString stringWithFormat:@"\n%@\n%@", self.url, self.rssLinks];
 }
 
 - (BOOL)isEqual:(id)other
@@ -115,10 +107,6 @@ NSString *const kSelected = @"selected";
 
 // MARK: - RSSSourceViewModel
 
-- (NSString *)sourceTitle {
-    return self.title;
-}
-
 - (NSString *)sourceAddress {
     return self.url.absoluteString;
 }
@@ -137,7 +125,6 @@ NSString *const kSelected = @"selected";
 {
     self = [super init];
     if (self) {
-        self.title = [coder decodeObjectOfClass:NSString.class forKey:kTitle];
         self.url = [coder decodeObjectOfClass:NSURL.class forKey:kUrl];
         self.rssLinks = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSLink.class]]
                                               forKey:kLinks];
@@ -146,8 +133,7 @@ NSString *const kSelected = @"selected";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder
-{    
-    [coder encodeObject:self.title forKey:kTitle];
+{
     [coder encodeObject:self.url forKey:kUrl];
     [coder encodeObject:self.rssLinks forKey:kLinks];
 }
@@ -156,7 +142,6 @@ NSString *const kSelected = @"selected";
 
 - (id)copyWithZone:(struct _NSZone *)zone {
     RSSSource *copy = [RSSSource new];
-    copy.title = self.title;
     copy.url = self.url;
     copy.rssLinks = [[[NSArray alloc] initWithArray:self.rssLinks
                                           copyItems:YES] autorelease];

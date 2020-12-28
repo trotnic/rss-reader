@@ -7,7 +7,6 @@
 
 #import "AppDelegate.h"
 #import "FeedXMLParser.h"
-#import "FeedProvider.h"
 #import "FeedPresenter.h"
 #import "FeedViewController.h"
 #import "UVSourceManager.h"
@@ -43,16 +42,15 @@
 // MARK: -
 
 - (void)setupAppearance {
-    FeedXMLParser *parser = [FeedXMLParser new];
-    FeedProvider *dataProvider = [[FeedProvider alloc] initWithParser:[parser autorelease]];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease]
-                                                         sourceManager:UVSourceManager.defaultManager];
+    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
+    FeedPresenter *presenter = [[FeedPresenter alloc] initWithRecognizer:recognizer
+                                                           sourceManager:UVSourceManager.defaultManager];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
     presenter.view = controller;
-
+    
     [controller setupOnRighButtonClickAction:^{
         UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithSource:UVSourceManager.defaultManager
-                                                                                recognizer:[[UVDataRecognizer new] autorelease]];
+                                                                                recognizer:recognizer];
         UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:[presenter autorelease]];
         presenter.view = [presentedController autorelease];
         [controller.navigationController pushViewController:presentedController animated:YES];

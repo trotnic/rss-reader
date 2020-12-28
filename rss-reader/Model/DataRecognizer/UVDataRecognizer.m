@@ -7,10 +7,12 @@
 
 #import "UVDataRecognizer.h"
 
-NSString *const linkTagPattern = @"<link.*type=\"application[/]rss[+]xml\".*>";
+NSString *const linkTagPattern = @"<link[^>]+type=\"application[/]rss[+]xml\".*>";
 NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
 NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
 NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
+
+NSString *const rssTagPattern = @"(?=\\<\\?xml).+(?>)";
 
 @interface UVDataRecognizer ()
 
@@ -28,18 +30,33 @@ NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
 
 // MARK: - UVDataRecognizerType
 
-- (void)fetchURL:(NSURL *)url completion:(void(^)(RSSSource *, RSSError))completion {
-    [NSThread detachNewThreadWithBlock:^{
-        @autoreleasepool {
-            NSError *error = nil;
-            NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
-            if (error) {
-                completion(nil, RSSErrorTypeBadURL);
-                return;
-            }
-            [self processRawData:data url:url completion:completion];
+- (void)processData:(NSData *)data
+             parser:(id<FeedParserType>)parser
+         completion:(void (^)(FeedChannel *, RSSError))completion {
+    [parser retain];
+    
+    [parser parseData:data withCompletion:^(FeedChannel *result, NSError *error) {
+        if (error) {
+            completion(nil, RSSErrorTypeParsingError);
+            [parser release];
+            return;
         }
+        completion(result, RSSErrorTypeNone);
+        [parser release];
     }];
+}
+
+- (void)processData:(NSData *)data
+         completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion {
+    NSString *html = [NSString stringWithUTF8String:data.bytes];
+    NSArray *links = [self findLinks:html];
+    
+    if (!links.count) {
+        completion(nil, RSSErrorNoRSSLinks);
+        return;
+    }
+    
+    completion(links, RSSErrorTypeNone);
 }
 
 // MARK: - Private
@@ -67,32 +84,15 @@ NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
     return [[result copy] autorelease];
 }
 
-- (NSString *)findTitle:(NSString *)html {
-    NSTextCheckingResult *titleMatch = [self.regExps[@"titleTag"] firstMatchInString:html
-                                                                             options:0
-                                                                               range:NSMakeRange(0, html.length)];
-    NSString *sourceTitle = [html substringWithRange:[titleMatch range]];
-    return sourceTitle;
-}
-
-- (void)processRawData:(NSData *)data url:(NSURL *)url completion:(void(^)(RSSSource *, RSSError))completion {
-    NSString *html = [NSString stringWithUTF8String:data.bytes];
-    NSArray<RSSLink *> *links = [self findLinks:html];
-    NSString *title = [self findTitle:html];
-    RSSSource *source = [[[RSSSource alloc] initWithTitle:title url:url links:links] autorelease];
-    
-    completion(source, RSSErrorTypeNone);
-}
-
 // MARK: - Lazy
 
 - (NSDictionary *)regExps {
     if(!_regExps) {
         _regExps = [@{
             @"link" : [NSRegularExpression regularExpressionWithPattern:linkTagPattern options:NSRegularExpressionCaseInsensitive error:nil],
-            @"titleTag" : [NSRegularExpression regularExpressionWithPattern:titleTagPattern options:NSRegularExpressionCaseInsensitive error:nil],
             @"title" : [NSRegularExpression regularExpressionWithPattern:titleAttributePattern options:NSRegularExpressionCaseInsensitive error:nil],
-            @"href" : [NSRegularExpression regularExpressionWithPattern:hrefAttributePattern options:NSRegularExpressionCaseInsensitive error:nil]
+            @"href" : [NSRegularExpression regularExpressionWithPattern:hrefAttributePattern options:NSRegularExpressionCaseInsensitive error:nil],
+            @"rssTag" : [NSRegularExpression regularExpressionWithPattern:rssTagPattern options:NSRegularExpressionCaseInsensitive error:nil]
         } retain];
     }
     return _regExps;

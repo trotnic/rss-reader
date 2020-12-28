@@ -52,6 +52,11 @@
 
 - (void)saveSource {
     [self.sourceManager updateRSSSource:self.model];
+    NSError *error = nil;
+    [self.sourceManager saveState:&error];
+    if(error) {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 @end

@@ -10,4 +10,6 @@
 
 @interface FeedXMLParser : NSObject <FeedParserType>
 
++ (instancetype)parser;
+
 @end

@@ -38,8 +38,8 @@ NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
         }
         case RSSErrorNoRSSLinks: {
             return [NSError errorWithDomain:RSSReaderDomainKey code:RSSReaderErrorCodeKey userInfo:@{
-                NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_URL_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(BAD_URL_DESCRIPTION, "")
+                NSLocalizedFailureReasonErrorKey: NSLocalizedString(NO_RSS_LINKS_TITLE, ""),
+                NSLocalizedDescriptionKey: NSLocalizedString(NO_RSS_LINKS_DESCRIPTION, "")
             }];
         }
         case RSSErrorTypeNone:

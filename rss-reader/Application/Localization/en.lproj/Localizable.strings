@@ -16,3 +16,6 @@
 
 "BAD_URL_TITLE" = "URL you input is wrong";
 "BAD_URL_DESCRIPTION" = "Check if you type correct and try again";
+
+"NO_RSS_LINKS_TITLE" = "No RSS feeds";
+"NO_RSS_LINKS_DESCRIPTION" = "Try to input another site address";

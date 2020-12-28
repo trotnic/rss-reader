@@ -19,7 +19,9 @@ NSString *const kRSSItemPubDate = @"pubDate";
 NSString *const kDatePresentationFormat = @"dd.MM.yyyy HH:mm";
 NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
-@interface FeedItem ()
+@interface FeedItem () {
+    NSString *_realDescription;
+}
 
 @property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *link;
@@ -57,7 +59,7 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 {
     [_link release];
     [_title release];
-    [_summary release];    
+    [_summary release];
     [_pubDate release];
     [_category release];
     [_mediaContent release];
@@ -84,7 +86,7 @@ NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 }
 
 - (NSString *)articleDescription {
-    return [self.summary stringBetweenStart:@" />" andFinish:@"<br"];
+    return self.summary;
 }
 
 @end

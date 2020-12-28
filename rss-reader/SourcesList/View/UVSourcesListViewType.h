@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVSourcesListViewType <NSObject, BaseViewType>
 
 - (void)stopSearchWithUpdate:(BOOL)update;
-// TODO:
 - (void)presentDetailWithModel:(RSSSource *)model;
 
 @end

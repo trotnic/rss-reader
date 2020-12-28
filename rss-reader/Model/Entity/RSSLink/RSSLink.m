@@ -66,7 +66,7 @@ NSString *const kRSSLinkSelected = @"selected";
 // MARK: - RSSLinkViewModel
 
 - (NSString *)linkTitle {
-    return self.title;
+    return self.title.length != 0 ? self.title : self.link;
 }
 
 // MARK: - NSCoding

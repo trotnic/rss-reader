@@ -7,12 +7,15 @@
 
 #import "UVSourcesListPresenter.h"
 #import "NSString+StringExtractor.h"
+#import "UVNetwork.h"
 #import "NSURL+Util.h"
 
 @interface UVSourcesListPresenter ()
 
 @property (nonatomic, retain) id<UVSourceManagerType> sourceManager;
 @property (nonatomic, retain) id<UVDataRecognizerType> recognizer;
+
+@property (nonatomic, retain) id<UVNetworkManagerType> network;
 
 @end
 
@@ -33,6 +36,7 @@
 {
     [_sourceManager release];
     [_recognizer release];
+    [_network release];
     [super dealloc];
 }
 
@@ -43,32 +47,55 @@
 }
 
 - (void)parseAddress:(NSString *)address {
-    if ([NSURL isStringValid:address]) {
-        // TODO:
-        NSString *newUrl = [NSString stringWithFormat:@"https://%@", [address substringFromString:@"\\/\\/"]];
-        __block typeof(self)weakSelf = self;
-        [self.recognizer fetchURL:[NSURL URLWithString:newUrl] completion:^(RSSSource * result, RSSError error) {
+    NSURL *url = [NSURL URLWithString:@"" relativeToURL:[NSURL URLWithString:address]].absoluteURL;
+    
+    if ([url.scheme isEqualToString:@"http"] || !url.scheme) {
+        NSURLComponents *comps = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+        comps.scheme = @"https";
+        url = comps.URL;
+    }
+    
+    NSURLComponents *urlCompsCopy = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+    urlCompsCopy.path = @"";
+    __block typeof(self)weakSelf = self;
+    [self.network fetchDataOnURL:urlCompsCopy.URL.absoluteURL completion:^(NSData *data, NSError *error) {
+        if (error) {
+            [weakSelf.view presentError:[weakSelf provideErrorOfType:RSSErrorTypeBadNetwork]];
+            return;
+        }
+        [weakSelf.recognizer processData:data completion:^(NSArray<RSSLink *> *links, RSSError error) {
             switch (error) {
-                case RSSErrorNoRSSLinks:
+                case RSSErrorTypeNone: {
+                    RSSSource *source = [[[RSSSource alloc] initWithURL:url links:links] autorelease];
+                    [weakSelf.sourceManager insertRSSSource:source];
+                    NSError *error = nil;
+                    [weakSelf.sourceManager saveState:&error];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.view presentError:[self provideErrorOfType:RSSErrorNoRSSLinks]];
+                        [weakSelf.view stopSearchWithUpdate:error == nil];
                     });
-                    break;
-                default:
-                    [weakSelf.sourceManager insertRSSSource:result];
+                }
+                default: {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view stopSearchWithUpdate:YES];
+                        [weakSelf.view stopSearchWithUpdate:NO];
+                        [weakSelf.view presentError:[weakSelf provideErrorOfType:error]];
                     });
-                    break;
+                }
             }
         }];
-    } else {
-        [self.view presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
-    }
+    }];
 }
 
 - (void)selectItemWithIndex:(NSInteger)index {
     [self.view presentDetailWithModel:self.sourceManager.sources[index]];
+}
+
+// MARK: - Lazy
+
+- (id<UVNetworkManagerType>)network {
+    if(!_network) {
+        _network = [UVNetwork.shared retain];
+    }
+    return _network;
 }
 
 @end
