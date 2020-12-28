@@ -31,6 +31,10 @@ NSString *const kRSSLinkSelected = @"selected";
                                   selected:[dictionary[kRSSLinkSelected] boolValue]] autorelease];
 }
 
+- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link {
+    return [self initWithTitle:title link:link selected:NO];
+}
+
 - (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected
 {
     self = [super init];

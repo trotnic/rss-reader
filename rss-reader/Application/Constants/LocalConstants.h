@@ -8,6 +8,12 @@
 #ifndef LocalConstants_h
 #define LocalConstants_h
 
+// PLACEHOLDERS
+
+static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER = @"SEARCH_RSS_SOURCE_PLACEHOLDER";
+
+// ALERTS
+
 static NSString *const ALERT_OK_BUTTON_TITLE = @"ALERT_OK_BUTTON_TITLE";
 
 static NSString *const BAD_INTERNET_CONNECTION_TITLE = @"BAD_INTERNET_CONNECTION_TITLE";

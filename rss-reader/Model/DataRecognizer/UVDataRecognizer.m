@@ -6,13 +6,14 @@
 //
 
 #import "UVDataRecognizer.h"
+#import "UVRSSLinkXMLParser.h"
 
 NSString *const linkTagPattern = @"<link[^>]+type=\"application[/]rss[+]xml\".*>";
 NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
 NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
 NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
 
-NSString *const rssTagPattern = @"(?=\\<\\?xml).+(?>)";
+NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
 
 @interface UVDataRecognizer ()
 
@@ -49,6 +50,16 @@ NSString *const rssTagPattern = @"(?=\\<\\?xml).+(?>)";
 - (void)processData:(NSData *)data
          completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion {
     NSString *html = [NSString stringWithUTF8String:data.bytes];
+    NSRegularExpression *rssRegEx = [NSRegularExpression regularExpressionWithPattern:rssTagPattern
+                                                                              options:NSRegularExpressionCaseInsensitive
+                                                                                error:nil];
+    NSTextCheckingResult *checkingResult = [rssRegEx firstMatchInString:html options:0 range:NSMakeRange(0, html.length)];
+    if (checkingResult != nil) {
+        [UVRSSLinkXMLParser.parser parseData:data completion:^(RSSLink *link, NSError *error) {
+            completion(@[link], RSSErrorTypeNone);
+        }];
+        return;
+    }
     NSArray *links = [self findLinks:html];
     
     if (!links.count) {
@@ -67,7 +78,7 @@ NSString *const rssTagPattern = @"(?=\\<\\?xml).+(?>)";
                                                                               options:0
                                                                                 range:NSMakeRange(0, html.length)];
     if (!matches.count) {
-        return [[result copy] autorelease];
+        return @[];
     }
     
     [matches enumerateObjectsUsingBlock:^(NSTextCheckingResult *obj, NSUInteger idx, BOOL *stop) {
@@ -78,7 +89,7 @@ NSString *const rssTagPattern = @"(?=\\<\\?xml).+(?>)";
         
         NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
         NSString *titleString = [linkString substringWithRange:[titleMatch range]];
-        [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString selected:NO] autorelease]];
+        [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString] autorelease]];
     }];
     
     return [[result copy] autorelease];

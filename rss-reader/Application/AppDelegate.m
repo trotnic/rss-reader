@@ -11,8 +11,6 @@
 #import "FeedViewController.h"
 #import "UVSourceManager.h"
 #import "UVSourceManager.h"
-#import "UVSourceDetailViewController.h"
-#import "UVSourceDetailPresenter.h"
 #import "UVDataRecognizer.h"
 #import "UVSearchViewController.h"
 #import "UVSourcesListViewController.h"

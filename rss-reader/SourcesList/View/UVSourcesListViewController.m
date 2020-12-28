@@ -9,10 +9,6 @@
 #import "UVSearchViewController.h"
 #import "UIViewController+ErrorPresenter.h"
 
-#import "UVSourceDetailPresenter.h"
-#import "UVSourceDetailViewController.h"
-#import "UVSourceManager.h"
-
 @interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
@@ -72,10 +68,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    cell.textLabel.text = self.presenter.items[indexPath.row].sourceAddress;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)
+                                                            forIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.text = self.presenter.items[indexPath.row].linkTitle;
     cell.textLabel.numberOfLines = 0;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (self.presenter.items[indexPath.row].isSelected) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
     return cell;
 }
 
@@ -94,7 +94,7 @@
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"reuseIdentifier"];
+        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     }
     return _tableView;
 }
@@ -120,23 +120,15 @@
 // MARK: -
 
 - (void)addSource {
-    UINavigationController *navigationController = [UINavigationController new];    
-    [navigationController setViewControllers:@[self.searchController]];
-    [self presentViewController:[navigationController autorelease] animated:YES completion:nil];
+    [self.navigationController pushViewController:self.searchController animated:YES];
 }
 
 - (void)updatePresentation {
-    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)presentError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.searchController.isBeingPresented) {
-            [self.searchController showError:error];
-        } else {
-            [self showError:error];
-        }
-    });
+    [self.navigationController.topViewController showError:error];
 }
 
 // MARK: - UVSearchViewControllerDelegate
@@ -145,25 +137,13 @@
     [self.presenter parseAddress:key];
 }
 
-- (void)searchCancelled {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 // MARK: - UVSourcesListViewType
 
 - (void)stopSearchWithUpdate:(BOOL)update {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
     if (update) {
         [self.tableView reloadData];
     }
-}
-
-- (void)presentDetailWithModel:(RSSSource *)model {
-    UVSourceDetailPresenter *presenter = [[UVSourceDetailPresenter alloc] initWithModel:model
-                                                                          sourceManager:UVSourceManager.defaultManager];
-    UVSourceDetailViewController *controller = [[UVSourceDetailViewController alloc] initWithPresenter:[presenter autorelease]];
-    presenter.view = controller;
-    [self.navigationController pushViewController:[controller autorelease] animated:YES];
 }
 
 @end

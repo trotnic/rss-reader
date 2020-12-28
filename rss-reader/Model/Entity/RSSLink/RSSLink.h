@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (_Nullable instancetype)objectWithDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)dictionaryFromObject;
 - (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected;
+- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link;
 
 @end
 

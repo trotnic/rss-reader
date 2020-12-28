@@ -6,6 +6,12 @@
   
 */
 
+// PLACEHOLDERS
+
+"SEARCH_RSS_SOURCE_PLACEHOLDER" = "Адрес ленты";
+
+// ALERTS
+
 "ALERT_OK_BUTTON_TITLE" = " ОК";
 
 "BAD_INTERNET_CONNECTION_TITLE" = "Ошибка сети";

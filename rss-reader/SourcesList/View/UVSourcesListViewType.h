@@ -7,14 +7,12 @@
 
 #import <Foundation/Foundation.h>
 #import "BaseViewType.h"
-#import "RSSSource.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVSourcesListViewType <NSObject, BaseViewType>
 
 - (void)stopSearchWithUpdate:(BOOL)update;
-- (void)presentDetailWithModel:(RSSSource *)model;
 
 @end
 

@@ -7,6 +7,7 @@
 
 #import "UVSearchViewController.h"
 #import "UIViewController+ErrorPresenter.h"
+#import "LocalConstants.h"
 
 @interface UVSearchViewController () <UISearchBarDelegate>
 
@@ -29,6 +30,11 @@
     [self setupLayout];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.searchBar becomeFirstResponder];
+}
+
 // MARK: -
 
 - (void)setupLayout {
@@ -47,9 +53,8 @@
 - (UISearchBar *)searchBar {
     if(!_searchBar) {
         _searchBar = [UISearchBar new];
-        _searchBar.showsCancelButton = YES;
         _searchBar.delegate = self;
-        _searchBar.placeholder = @"Address";
+        _searchBar.placeholder = NSLocalizedString(SEARCH_RSS_SOURCE_PLACEHOLDER, "");
         _searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
     return _searchBar;
@@ -64,10 +69,6 @@
 }
 
 // MARK: - UISearchBarDelegate
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    [self.delegate searchCancelled];
-}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.delegate searchAcceptedWithKey:searchBar.text];

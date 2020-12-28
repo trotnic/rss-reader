@@ -9,6 +9,7 @@
 #import "NSString+StringExtractor.h"
 #import "UVNetwork.h"
 #import "NSURL+Util.h"
+#import "NSArray+Util.h"
 
 @interface UVSourcesListPresenter ()
 
@@ -42,25 +43,25 @@
 
 // MARK: - UVSourcesListPresenterType
 
-- (NSArray<id<RSSSourceViewModel>> *)items {
-    return self.sourceManager.sources;
+- (NSArray<id<RSSLinkViewModel>> *)items {
+    return self.sourceManager.links;
 }
 
 - (void)parseAddress:(NSString *)address {
     NSURL *url = [NSURL URLWithString:@"" relativeToURL:[NSURL URLWithString:address]].absoluteURL;
     
-    if ([url.scheme isEqualToString:@"http"] || !url.scheme) {
+    if (!url.scheme) {
         NSURLComponents *comps = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
         comps.scheme = @"https";
         url = comps.URL;
     }
     
-    NSURLComponents *urlCompsCopy = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
-    urlCompsCopy.path = @"";
     __block typeof(self)weakSelf = self;
-    [self.network fetchDataOnURL:urlCompsCopy.URL.absoluteURL completion:^(NSData *data, NSError *error) {
+    [self.network fetchDataOnURL:url completion:^(NSData *data, NSError *error) {
         if (error) {
-            [weakSelf.view presentError:[weakSelf provideErrorOfType:RSSErrorTypeBadNetwork]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.view presentError:[weakSelf provideErrorOfType:RSSErrorTypeBadURL]];
+            });
             return;
         }
         [weakSelf.recognizer processData:data completion:^(NSArray<RSSLink *> *links, RSSError error) {
@@ -73,6 +74,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf.view stopSearchWithUpdate:error == nil];
                     });
+                    break;
                 }
                 default: {
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -86,7 +88,18 @@
 }
 
 - (void)selectItemWithIndex:(NSInteger)index {
-    [self.view presentDetailWithModel:self.sourceManager.sources[index]];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        [self.sourceManager selectLink:self.sourceManager.links[index]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.view updatePresentation];
+        });
+        NSError *error = nil;
+        [self.sourceManager saveState:&error];
+        if(error) {
+            [self.sourceManager saveState:&error];
+            NSLog(@"%@", error);
+        }
+    });
 }
 
 // MARK: - Lazy

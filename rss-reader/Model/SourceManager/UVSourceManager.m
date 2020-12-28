@@ -37,6 +37,26 @@
     [super dealloc];
 }
 
+// MARK: -
+
+- (NSArray<RSSLink *> *)links {
+    NSMutableArray *links = [NSMutableArray array];
+    for (RSSSource *source in self.rssSources) {
+        for (RSSLink *link in source.rssLinks) {
+            [links addObject:link];
+        }
+    }
+    
+    return [[links copy] autorelease];
+}
+
+- (void)selectLink:(RSSLink *)link {
+    for (int i = 0; i < self.rssSources.count; i++) {
+        [self.rssSources[i] switchAllLinksSelected:NO];
+    }
+    link.selected = YES;
+}
+
 - (RSSLink *)selectedLink {    
     return self.selectedRSSSource.selectedLinks.firstObject;
 }

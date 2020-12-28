@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVSearchViewControllerDelegate <NSObject>
 
-- (void)searchCancelled;
 - (void)searchAcceptedWithKey:(NSString *)key;
 
 @end

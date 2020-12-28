@@ -25,13 +25,14 @@
 - (void)fetchDataOnURL:(NSURL *)url completion:(void (^)(NSData *, NSError *))completion {
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
-            NSError *error = nil;
-            NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
-            if (error) {
-                completion(nil, error);
-                return;
-            }
-            completion(data, nil);
+            [[NSURLSession.sharedSession dataTaskWithURL:url
+                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                if (error) {
+                    completion(nil, error);
+                    return;
+                }
+                completion(data, nil);
+            }] resume];
         }
     }];
 }
