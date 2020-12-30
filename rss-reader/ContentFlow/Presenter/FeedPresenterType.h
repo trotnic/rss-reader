@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedChannelViewModel.h"
-#import "FeedViewType.h"
+#import "UVChannelFeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedPresenterType <NSObject>
 
 - (void)updateFeed;
-- (void)selectRowAt:(NSInteger)row;
+- (void)showDetailAt:(NSInteger)row;
 - (id<FeedChannelViewModel>)viewModel;
 
 @end

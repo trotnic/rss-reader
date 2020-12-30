@@ -7,32 +7,23 @@
 
 #import "UVSourceManager.h"
 #import "NSArray+Util.h"
-#import "UVSourceRepositoryType.h"
+#import "UVPListRepositoryType.h"
 #import "UVSourceRepository.h"
 #import "KeyConstants.h"
 
 @interface UVSourceManager ()
 
-@property (nonatomic, retain) NSMutableArray<RSSSource *> *rssSources;
-@property (nonatomic, retain) id<UVSourceRepositoryType> repository;
+@property (nonatomic, retain) NSMutableArray<RSSSource *> *sources;
+@property (nonatomic, retain) id<UVPListRepositoryType> repository;
 
 @end
 
 @implementation UVSourceManager
 
-+ (instancetype)defaultManager {
-    static dispatch_once_t pred = 0;
-    static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [self new];
-    });
-    return _sharedObject;
-}
-
 - (void)dealloc
 {
     [_repository release];
-    [_rssSources release];
+    [_sources release];
     [_userDefaults release];
     [super dealloc];
 }
@@ -41,89 +32,84 @@
 
 - (NSArray<RSSLink *> *)links {
     NSMutableArray *links = [NSMutableArray array];
-    for (RSSSource *source in self.rssSources) {
-        for (RSSLink *link in source.rssLinks) {
-            [links addObject:link];
-        }
-    }
-    
+    [self.sources forEach:^(RSSSource *source) {
+        [links addObjectsFromArray:source.rssLinks];
+    }];
     return [[links copy] autorelease];
 }
 
-- (void)selectLink:(RSSLink *)link {
-    for (int i = 0; i < self.rssSources.count; i++) {
-        [self.rssSources[i] switchAllLinksSelected:NO];
+- (RSSSource *)buildObjectWithURL:(NSURL *)url
+                            links:(NSArray<RSSLink *> *)links {
+    return [[[RSSSource alloc] initWithURL:url links:links] autorelease];
+}
+
+- (void)insertObject:(RSSSource *)source {
+    if (![self.sources containsObject:source]) {
+        [self.sources addObject:source];
     }
+}
+
+- (void)removeObject:(RSSSource *)source {
+    [self.sources removeObject:source];
+}
+
+- (void)updateObject:(RSSSource *)source {
+    __block typeof(self)weakSelf = self;
+    [self.sources enumerateObjectsUsingBlock:^(RSSSource *obj, NSUInteger idx, BOOL *stop) {
+        if([obj isEqual:source]) {
+            weakSelf.sources[idx] = source;
+        } else if (source.isSelected) {
+            [obj switchAllLinksSelected:NO];
+        }
+    }];
+}
+
+- (void)selectLink:(RSSLink *)link {
+    [self.sources forEach:^(RSSSource *source) {
+        [source switchAllLinksSelected:NO];
+    }];
     link.selected = YES;
 }
 
-- (RSSLink *)selectedLink {    
-    return self.selectedRSSSource.selectedLinks.firstObject;
+- (RSSSource *)selectedSource {
+    return [self.sources find:^BOOL(RSSSource *source) {
+        return source.isSelected;
+    }];
+}
+
+- (RSSLink *)selectedLink {
+    return self.selectedSource.selectedLinks.firstObject;
 }
 
 - (BOOL)saveState:(out NSError **)error {
-    NSArray *sources = [self.rssSources map:^id(RSSSource *source) { return source.dictionaryFromObject; }];
+    NSArray *sources = [self.sources map:^id(RSSSource *source) {
+        return source.dictionaryFromObject;
+    }];
     [self.repository updateData:sources error:error];
     return YES;
 }
 
-- (NSArray<RSSSource *> *)sources {
-    return [self.rssSources sortedArrayUsingDescriptors:@[]];
-}
-
-- (void)insertRSSSource:(RSSSource *)source {
-    if (![self.rssSources containsObject:source]) {
-        [self.rssSources addObject:source];
-    }
-}
-
-- (void)updateRSSSource:(RSSSource *)source {
-    for (int i = 0; i < self.rssSources.count; i++) {
-        if ([self.rssSources[i] isEqual:source]) {
-            for (int j = 0; j < source.rssLinks.count; j++) {
-                self.rssSources[i].rssLinks[j].selected = source.rssLinks[j].isSelected;
-            }
-        } else if (source.isSelected) {
-            [self.rssSources[i] switchAllLinksSelected:NO];
-        }
-    }
-}
-
-- (void)removeRSSSource:(RSSSource *)source {
-    [self.rssSources removeObject:source];
-}
-
-- (RSSSource *)selectedRSSSource {
-    for (int i = 0; i < self.rssSources.count; i++) {
-        if (self.rssSources[i].isSelected) {
-            return self.rssSources[i];
-        }
-    }
-    return nil;
-}
-
 // MARK: - Lazy
 
-- (NSMutableArray<RSSSource *> *)rssSources {
-    if(!_rssSources) {
+- (NSMutableArray<RSSSource *> *)sources {
+    if(!_sources) {
         NSError *error = nil;
         NSArray *sources = [self.repository fetchData:&error];
         if (sources && !error) {
-            _rssSources = [[sources map:^id (id source) { return [RSSSource objectWithDictionary:source]; }] mutableCopy];
+            _sources = [[sources map:^id (NSDictionary *rawSource) {
+                return [RSSSource objectWithDictionary:rawSource];
+            }] mutableCopy];
         } else {
-            _rssSources = [NSMutableArray new];
+            _sources = [NSMutableArray new];
         }
     }
-    return _rssSources;
+    return _sources;
 }
 
-- (id<UVSourceRepositoryType>)repository {
+- (id<UVPListRepositoryType>)repository {
     if(!_repository) {
-        
-        NSString *fileName = [self.userDefaults objectForKey:kSourcesFileNameKey];
-        NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                           .firstObject stringByAppendingString:fileName] copy];
-        _repository = [[UVSourceRepository alloc] initWithPath:[path autorelease]];
+        NSString *path = [self.userDefaults objectForKey:kSourcesFilePathKey];
+        _repository = [[UVSourceRepository alloc] initWithPath:path];
     }
     return _repository;
 }

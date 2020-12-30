@@ -26,6 +26,15 @@
     return [[UVRSSLinkXMLParser new] autorelease];
 }
 
+- (void)dealloc
+{
+    [_parser release];
+    [_linkDictionary release];
+    [_parsingString release];
+    [_completion release];
+    [super dealloc];
+}
+
 - (void)parseData:(NSData *)data
        completion:(void (^)(RSSLink *, NSError *))completion {
     self.completion = completion;

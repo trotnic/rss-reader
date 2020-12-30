@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIBarButtonItem (PrettiInitializable)
 
-+ (instancetype)plainItemWithImage:(UIImage *)image target:(id)target action:(SEL)action;
 + (instancetype)fillerItem;
 
 @end

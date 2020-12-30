@@ -108,7 +108,8 @@ NSInteger const kTitleNumberOfLines = 0;
         _titleLabel = [UILabel new];
         _titleLabel.numberOfLines = kTitleNumberOfLines;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
-        _titleLabel.font = [UIFont systemFontOfSize:kMainTitleFontSize weight:UIFontWeightBold];
+        _titleLabel.font = [UIFont systemFontOfSize:kMainTitleFontSize
+                                             weight:UIFontWeightBold];
     }
     return _titleLabel;
 }
@@ -120,7 +121,8 @@ NSInteger const kTitleNumberOfLines = 0;
         _descriptionLabel = [UILabel new];
         _descriptionLabel.numberOfLines = kTitleNumberOfLines;
         _descriptionLabel.textAlignment = NSTextAlignmentLeft;
-        _descriptionLabel.font = [UIFont systemFontOfSize:kMainTextFontSize weight:UIFontWeightRegular];
+        _descriptionLabel.font = [UIFont systemFontOfSize:kMainTextFontSize
+                                                   weight:UIFontWeightRegular];
     }
     return _descriptionLabel;
 }
@@ -138,7 +140,8 @@ NSInteger const kTitleNumberOfLines = 0;
     if(!_expandButton) {
         _expandButton = [UIButton new];
         [_expandButton setImage:[UIImage imageNamed:@"ellipsis"] forState:UIControlStateNormal];
-        [_expandButton addTarget:self action:@selector(toggleDescription) forControlEvents:UIControlEventTouchUpInside];
+        [_expandButton addTarget:self action:@selector(toggleDescription)
+                forControlEvents:UIControlEventTouchUpInside];
     }
     return _expandButton;
 }
@@ -186,7 +189,7 @@ NSInteger const kTitleNumberOfLines = 0;
 // MARK: -
 
 - (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel
-          reloadCompletion:(void(^)(BOOL))completion {
+          reloadBlock:(void(^)(BOOL))completion {
     self.viewModel = viewModel;
     self.viewModel.frame = self.frame;
     self.setupCompletion = completion;

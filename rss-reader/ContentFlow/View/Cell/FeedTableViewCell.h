@@ -17,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) UILabel *categoryLabel;
 
 @property (nonatomic, retain, readonly) UILabel *descriptionLabel;
-@property (nonatomic, retain, readonly) UITextView *descriptionView;
 
 + (NSString *)cellIdentifier;
-- (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel reloadCompletion:(void(^)(BOOL toExpand))completion;
+- (void)setupWithViewModel:(id<FeedItemViewModel>)viewModel
+               reloadBlock:(void(^)(BOOL toExpand))completion;
 
 @end
 

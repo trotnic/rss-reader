@@ -6,11 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVSourceRepositoryType.h"
+#import "UVPListRepositoryType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVSourceRepository : NSObject <UVSourceRepositoryType>
+@interface UVSourceRepository : NSObject <UVPListRepositoryType>
 
 - (instancetype)initWithPath:(NSString *)path;
 

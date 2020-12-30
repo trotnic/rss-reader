@@ -7,14 +7,15 @@
 
 #import "AppDelegate.h"
 #import "FeedXMLParser.h"
-#import "FeedPresenter.h"
-#import "FeedViewController.h"
+#import "UVChannelFeedPresenter.h"
+#import "UVChanngelFeedViewController.h"
 #import "UVSourceManager.h"
 #import "UVSourceManager.h"
 #import "UVDataRecognizer.h"
 #import "UVSearchViewController.h"
 #import "UVSourcesListViewController.h"
 #import "UVSourcesListPresenter.h"
+#import "UVNetwork.h"
 #import "KeyConstants.h"
 
 @interface AppDelegate ()
@@ -24,36 +25,38 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setupAppearance];
-    [NSNotificationCenter.defaultCenter addObserver:UVSourceManager.defaultManager
-                                           selector:@selector(saveState:)
-                                               name:UIApplicationWillResignActiveNotification
-                                             object:nil];
-    [NSUserDefaults.standardUserDefaults setObject:kSourcesFileNameValue forKey:kSourcesFileNameKey];
+    [self setupComponents];
+    [self setupSourcesFilePath];
     return YES;
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [NSNotificationCenter.defaultCenter removeObserver:UVSourceManager.defaultManager];
 }
 
 // MARK: -
 
-- (void)setupAppearance {
+- (void)setupSourcesFilePath {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                      .firstObject stringByAppendingString:kSourcesFileNameValue];
+    [NSUserDefaults.standardUserDefaults setObject:path forKey:kSourcesFilePathKey];
+}
+
+- (void)setupComponents {
     UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithRecognizer:recognizer
-                                                           sourceManager:UVSourceManager.defaultManager];
-    FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    UVSourceManager *sourceManager = [[UVSourceManager new] autorelease];
+    
+    UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
+                                                                             sourceManager:sourceManager
+                                                                                   network:UVNetwork.shared];
+    UVChanngelFeedViewController *controller = [[UVChanngelFeedViewController alloc] initWithPresenter:[presenter autorelease]];
     presenter.view = controller;
     
     [controller setupOnRighButtonClickAction:^{
-        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithSource:UVSourceManager.defaultManager
-                                                                                recognizer:recognizer];
+        
+        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
+                                                                                 sourceManager:sourceManager
+                                                                                       network:UVNetwork.shared];
         UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:[presenter autorelease]];
         presenter.view = [presentedController autorelease];
         [controller.navigationController pushViewController:presentedController animated:YES];
     }];
-    
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];

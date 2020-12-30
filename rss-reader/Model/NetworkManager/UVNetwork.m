@@ -26,7 +26,7 @@
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
             [[NSURLSession.sharedSession dataTaskWithURL:url
-                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 if (error) {
                     completion(nil, error);
                     return;

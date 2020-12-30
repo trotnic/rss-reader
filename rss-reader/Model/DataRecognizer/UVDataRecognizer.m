@@ -7,13 +7,18 @@
 
 #import "UVDataRecognizer.h"
 #import "UVRSSLinkXMLParser.h"
+#import "NSArray+Util.h"
 
-NSString *const linkTagPattern = @"<link[^>]+type=\"application[/]rss[+]xml\".*>";
-NSString *const hrefAttributePattern = @"(?<=\\bhref=\")[^\"]*";
-NSString *const titleAttributePattern = @"(?<=\\btitle=\")[^\"]*";
-NSString *const titleTagPattern = @"(?<=<title>).*(?=<\\/title>)";
+#define LINK_TAG_PATTERN    @"<link[^>]+type=\"application[/]rss[+]xml\".*>"
+#define HREF_ATTR_PATTERN   @"(?<=\\bhref=\")[^\"]*"
+#define TITLE_ATTR_PATTERN  @"(?<=\\btitle=\")[^\"]*"
+#define TITLE_TAG_PATTERN   @"(?<=<title>).*(?=<\\/title>)"
+#define RSS_TAG_PATTERN     @"<rss.*version=\"\\d.\\d\""
 
-NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
+#define KEY_TITLE           @"title"
+#define KEY_HREF            @"href"
+#define KEY_LINK            @"link"
+#define KEY_RSSTAG          @"rssTag"
 
 @interface UVDataRecognizer ()
 
@@ -31,12 +36,13 @@ NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
 
 // MARK: - UVDataRecognizerType
 
-- (void)processData:(NSData *)data
-             parser:(id<FeedParserType>)parser
-         completion:(void (^)(FeedChannel *, RSSError))completion {
+- (void)discoverChannel:(NSData *)data
+                 parser:(id<FeedParserType>)parser
+             completion:(void (^)(FeedChannel *, RSSError))completion {
     [parser retain];
     
-    [parser parseData:data withCompletion:^(FeedChannel *result, NSError *error) {
+    [parser parseData:data
+           completion:^(FeedChannel *result, NSError *error) {
         if (error) {
             completion(nil, RSSErrorTypeParsingError);
             [parser release];
@@ -47,15 +53,14 @@ NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
     }];
 }
 
-- (void)processData:(NSData *)data
-         completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion {
-    NSString *html = [NSString stringWithUTF8String:data.bytes];
-    NSRegularExpression *rssRegEx = [NSRegularExpression regularExpressionWithPattern:rssTagPattern
-                                                                              options:NSRegularExpressionCaseInsensitive
-                                                                                error:nil];
-    NSTextCheckingResult *checkingResult = [rssRegEx firstMatchInString:html options:0 range:NSMakeRange(0, html.length)];
-    if (checkingResult != nil) {
-        [UVRSSLinkXMLParser.parser parseData:data completion:^(RSSLink *link, NSError *error) {
+- (void)discoverLinks:(NSData *)data
+           completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion {
+    NSString *html = [[[NSString alloc] initWithData:data
+                                            encoding:NSUTF8StringEncoding] autorelease];
+    
+    if ([self isRSS:html]) {
+        [UVRSSLinkXMLParser.parser parseData:data
+                                  completion:^(RSSLink *link, NSError *error) {
             completion(@[link], RSSErrorTypeNone);
         }];
         return;
@@ -72,23 +77,27 @@ NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
 
 // MARK: - Private
 
+- (BOOL)isRSS:(NSString *)html {
+    NSRange matchRange = [self.regExps[KEY_RSSTAG] rangeOfFirstMatchInString:html
+                                                                     options:0
+                                                                       range:NSMakeRange(0, html.length)];
+    return matchRange.location != NSNotFound;
+}
+
 - (NSArray<RSSLink *> *)findLinks:(NSString *)html {
     NSMutableArray<RSSLink *> *result = [NSMutableArray array];
-    NSArray<NSTextCheckingResult *> *matches = [self.regExps[@"link"] matchesInString:html
-                                                                              options:0
-                                                                                range:NSMakeRange(0, html.length)];
-    if (!matches.count) {
-        return @[];
-    }
     
-    [matches enumerateObjectsUsingBlock:^(NSTextCheckingResult *obj, NSUInteger idx, BOOL *stop) {
+    [self.regExps[KEY_LINK] enumerateMatchesInString:html
+                                             options:0
+                                               range:NSMakeRange(0, html.length)
+                                          usingBlock:^(NSTextCheckingResult *obj, NSMatchingFlags flags, BOOL *stop) {
         NSString *linkString = [html substringWithRange:[obj range]];
         NSRange searchRange = NSMakeRange(0, linkString.length);
-        NSTextCheckingResult *hrefMatch = [self.regExps[@"href"] firstMatchInString:linkString options:0 range:searchRange];
-        NSTextCheckingResult *titleMatch = [self.regExps[@"title"] firstMatchInString:linkString options:0 range:searchRange];
+        NSRange hrefRange = [self.regExps[KEY_HREF] rangeOfFirstMatchInString:linkString options:0 range:searchRange];
+        NSRange titleRange = [self.regExps[KEY_TITLE] rangeOfFirstMatchInString:linkString options:0 range:searchRange];
         
-        NSString *hrefString = [linkString substringWithRange:[hrefMatch range]];
-        NSString *titleString = [linkString substringWithRange:[titleMatch range]];
+        NSString *hrefString = [linkString substringWithRange:hrefRange];
+        NSString *titleString = [linkString substringWithRange:titleRange];
         [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString] autorelease]];
     }];
     
@@ -100,10 +109,10 @@ NSString *const rssTagPattern = @"<rss.*version=\"\\d.\\d\"";
 - (NSDictionary *)regExps {
     if(!_regExps) {
         _regExps = [@{
-            @"link" : [NSRegularExpression regularExpressionWithPattern:linkTagPattern options:NSRegularExpressionCaseInsensitive error:nil],
-            @"title" : [NSRegularExpression regularExpressionWithPattern:titleAttributePattern options:NSRegularExpressionCaseInsensitive error:nil],
-            @"href" : [NSRegularExpression regularExpressionWithPattern:hrefAttributePattern options:NSRegularExpressionCaseInsensitive error:nil],
-            @"rssTag" : [NSRegularExpression regularExpressionWithPattern:rssTagPattern options:NSRegularExpressionCaseInsensitive error:nil]
+            KEY_LINK : [NSRegularExpression regularExpressionWithPattern:LINK_TAG_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
+            KEY_TITLE : [NSRegularExpression regularExpressionWithPattern:TITLE_ATTR_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
+            KEY_HREF : [NSRegularExpression regularExpressionWithPattern:HREF_ATTR_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
+            KEY_RSSTAG : [NSRegularExpression regularExpressionWithPattern:RSS_TAG_PATTERN options:NSRegularExpressionCaseInsensitive error:nil]
         } retain];
     }
     return _regExps;

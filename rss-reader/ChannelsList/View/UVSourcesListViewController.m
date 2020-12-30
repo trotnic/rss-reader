@@ -83,7 +83,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.presenter selectItemWithIndex:indexPath.row];
+    [self.presenter selectItemAtIndex:indexPath.row];
 }
 
 // MARK: - Lazy
@@ -94,7 +94,8 @@
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
+        [_tableView registerClass:UITableViewCell.class
+           forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     }
     return _tableView;
 }
@@ -124,7 +125,8 @@
 }
 
 - (void)updatePresentation {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)presentError:(NSError *)error {
@@ -134,7 +136,7 @@
 // MARK: - UVSearchViewControllerDelegate
 
 - (void)searchAcceptedWithKey:(NSString *)key {
-    [self.presenter parseAddress:key];
+    [self.presenter discoverAddress:key];
 }
 
 // MARK: - UVSourcesListViewType

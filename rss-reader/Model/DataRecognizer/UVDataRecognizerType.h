@@ -15,8 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVDataRecognizerType <NSObject>
 
-- (void)processData:(NSData *)data completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion;
-- (void)processData:(NSData *)data parser:(id<FeedParserType>)parser completion:(void(^)(FeedChannel *, RSSError))completion;
+- (void)discoverLinks:(NSData *)data
+           completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion;
+
+- (void)discoverChannel:(NSData *)data
+                 parser:(id<FeedParserType>)parser
+             completion:(void(^)(FeedChannel *, RSSError))completion;
 
 @end
 

@@ -9,12 +9,9 @@
 
 @implementation UIBarButtonItem (PrettiInitializable)
 
-+ (instancetype)plainItemWithImage:(UIImage *)image target:(id)target action:(SEL)action {
-    return [[[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:target action:action] autorelease];
-}
-
 + (instancetype)fillerItem {
-    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                          target:nil action:nil] autorelease];
 }
 
 @end

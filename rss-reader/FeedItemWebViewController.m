@@ -36,8 +36,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.toolbarHidden = YES;
+}
+
+// MARK: -
+
+- (void)setupLayout {
     self.view.backgroundColor = UIColor.whiteColor;
-    
     [self.view addSubview:self.webView];
     [NSLayoutConstraint activateConstraints:@[
         [self.webView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
@@ -59,14 +74,11 @@
     ];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationController.toolbarHidden = YES;
+- (UIBarButtonItem *)webBarButtonItemWithImage:(UIImage *)image action:(SEL)selector {
+    return [[[UIBarButtonItem alloc] initWithImage:image
+                                             style:UIBarButtonItemStylePlain
+                                            target:self.webView
+                                            action:selector] autorelease];
 }
 
 // MARK: - Lazy
@@ -82,26 +94,23 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
-                                                      target:self.webView
-                                                      action:@selector(goBack)] retain];
+        _goBackButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
+                                                  action:@selector(goBack)] retain];
     }
     return _goBackButton;
 }
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
-                                                         target:self.webView
-                                                         action:@selector(goForward)] retain];
+        _goForwardButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
+                                                     action:@selector(goForward)] retain];
     }
     return _goForwardButton;
 }
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"refresh"]
-                                                         target:self.webView
+        _reloadWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"refresh"]
                                                          action:@selector(reload)] retain];
     }
     return _reloadWebPageButton;
@@ -109,18 +118,16 @@
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        _closeWebPageButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"xmark"]
-                                                            target:self
-                                                            action:@selector(closeWebPage)] retain];
+        _closeWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"xmark"]
+                                                        action:@selector(closeWebPage)] retain];
     }
     return _closeWebPageButton;
 }
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        _openInBrowserButton = [[UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"safari"]
-                                                             target:self
-                                                             action:@selector(openInBrowser)] retain];
+        _openInBrowserButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"safari"]
+                                                         action:@selector(openInBrowser)] retain];
     }
     return _openInBrowserButton;
 }
@@ -132,15 +139,16 @@
 }
 
 - (void)openInBrowser {
-    [UIApplication.sharedApplication openURL:self.webView.URL options:@{} completionHandler:^(BOOL success) {
+    [UIApplication.sharedApplication openURL:self.webView.URL
+                                     options:@{}
+                           completionHandler:^(BOOL success) {
         [self closeWebPage];
     }];
 }
 
 // MARK: - WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView
-decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     switch (navigationAction.navigationType) {
         case WKNavigationTypeLinkActivated:

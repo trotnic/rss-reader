@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVSourcesListPresenterType <NSObject>
 
 - (NSArray<id<RSSLinkViewModel>> *)items;
-- (void)parseAddress:(NSString *)address;
-- (void)selectItemWithIndex:(NSInteger)index;
+- (void)discoverAddress:(NSString *)address;
+- (void)selectItemAtIndex:(NSInteger)index;
 
 @end
 

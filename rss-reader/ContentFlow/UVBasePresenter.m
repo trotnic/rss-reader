@@ -5,16 +5,44 @@
 //  Created by Uladzislau Volchyk on 16.12.20.
 //
 
-#import "BasePresenter.h"
+#import "UVBasePresenter.h"
+#import "UVNetwork.h"
 
 NSInteger const RSSReaderErrorCodeKey = 10000;
-NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
+NSString *const RSSReaderDomainKey =    @"com.rss-reader.uvolchyk";
 
-@interface BasePresenter ()
+@interface UVBasePresenter ()
+
+@property (nonatomic, retain, readwrite) id<UVDataRecognizerType> dataRecognizer;
+@property (nonatomic, retain, readwrite) id<UVSourceManagerType> sourceManager;
+@property (nonatomic, retain, readwrite) id<UVNetworkManagerType> network;
 
 @end
 
-@implementation BasePresenter
+@implementation UVBasePresenter
+
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                     sourceManager:(id<UVSourceManagerType>)manager
+                           network:(id<UVNetworkManagerType>)network
+{
+    self = [super init];
+    if (self) {
+        _dataRecognizer = [recognizer retain];
+        _sourceManager = [manager retain];
+        _network = [network retain];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_dataRecognizer release];
+    [_sourceManager release];
+    [_network release];
+    [super dealloc];
+}
+
+// MARK: -
 
 - (NSError *)provideErrorOfType:(RSSError)type {
     switch (type) {

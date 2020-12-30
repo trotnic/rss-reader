@@ -5,7 +5,7 @@
 //  Created by Uladzislau on 11/17/20.
 //
 
-#import "FeedViewController.h"
+#import "UVChanngelFeedViewController.h"
 #import "FeedChannelViewModel.h"
 #import "FeedTableViewCell.h"
 #import "FeedPresenterType.h"
@@ -15,7 +15,7 @@
 
 CGFloat const kFadeAnimationDuration = 0.1;
 
-@interface FeedViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface UVChanngelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
@@ -29,7 +29,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @end
 
-@implementation FeedViewController
+@implementation UVChanngelFeedViewController
 
 - (instancetype)initWithPresenter:(id<FeedPresenterType>)presenter
 {
@@ -70,7 +70,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
     [self.view addSubview:self.activityIndicator];
     
     self.navigationItem.rightBarButtonItem = self.settingsButton;
-
+    
     [NSLayoutConstraint activateConstraints:@[
         [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -95,21 +95,23 @@ CGFloat const kFadeAnimationDuration = 0.1;
         _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tableView registerClass:FeedTableViewCell.class forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
+        [_tableView registerClass:FeedTableViewCell.class
+           forCellReuseIdentifier:FeedTableViewCell.cellIdentifier];
     }
     return _tableView;
 }
 
 - (UIBarButtonItem *)settingsButton {
     if(!_settingsButton) {
-        _settingsButton = [UIBarButtonItem plainItemWithImage:[UIImage imageNamed:@"gear"]
-                                                       target:self
-                                                       action:@selector(dothings)];
+        _settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
+                                                           style:UIBarButtonItemStylePlain
+                                                          target:self
+                                                          action:@selector(settingsButtonClick)];
     }
     return _settingsButton;
 }
 
-- (void)dothings {
+- (void)settingsButtonClick {
     self.rightButtonClickAction();
 }
 
@@ -125,7 +127,8 @@ CGFloat const kFadeAnimationDuration = 0.1;
 - (UIRefreshControl *)refreshControl {
     if(!_refreshControl) {
         _refreshControl = [UIRefreshControl new];
-        [_refreshControl addTarget:self.presenter action:@selector(updateFeed) forControlEvents:UIControlEventValueChanged];
+        [_refreshControl addTarget:self.presenter action:@selector(updateFeed)
+                  forControlEvents:UIControlEventValueChanged];
     }
     return _refreshControl;
 }
@@ -140,14 +143,19 @@ CGFloat const kFadeAnimationDuration = 0.1;
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^(BOOL toExpand) {
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedTableViewCell.cellIdentifier
+                                                              forIndexPath:indexPath];
+    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row]
+                 reloadBlock:^(BOOL toExpand) {
         CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
         if (!CGRectContainsRect(tableView.bounds, cellRect)) {
-            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];            
+            [tableView scrollToRowAtIndexPath:indexPath
+                             atScrollPosition:UITableViewScrollPositionTop
+                                     animated:YES];
         }
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadRowsAtIndexPaths:@[indexPath]
+                         withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
     }];
     
@@ -167,7 +175,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.presenter selectRowAt:indexPath.row];
+    [self.presenter showDetailAt:indexPath.row];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {

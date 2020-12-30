@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedChannelViewModel;
-
-@protocol FeedViewType <BaseViewType>
+@protocol UVChannelFeedViewType <BaseViewType>
 
 - (void)toggleActivityIndicator:(BOOL)show;
 - (void)presentWebPageOnLink:(NSString *)link;

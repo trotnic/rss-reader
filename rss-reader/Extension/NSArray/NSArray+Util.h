@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSArray (Util)
 
 - (NSArray *)map:(id(^)(id))completion;
+- (void)forEach:(void(^)(id))completion;
+- (id _Nullable)find:(BOOL(^)(id))completion;
 
 @end
 

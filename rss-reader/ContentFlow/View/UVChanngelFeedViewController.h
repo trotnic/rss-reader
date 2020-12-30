@@ -6,14 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FeedViewType.h"
+#import "UVChannelFeedViewType.h"
 #import "FeedItemWebViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol FeedPresenterType;
 
-@interface FeedViewController : UIViewController <FeedViewType>
+@interface UVChanngelFeedViewController : UIViewController <UVChannelFeedViewType>
 
 - (instancetype)initWithPresenter:(id<FeedPresenterType>)presenter;
 - (void)setupOnRighButtonClickAction:(void(^)(void))completion;

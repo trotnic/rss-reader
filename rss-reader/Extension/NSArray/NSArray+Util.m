@@ -17,4 +17,19 @@
     return [[array copy] autorelease];
 }
 
+- (void)forEach:(void (^)(id _Nonnull))completion {
+    for (id obj in self) {
+        completion(obj);
+    }
+}
+
+- (id)find:(BOOL (^)(id _Nonnull))completion {
+    for (id obj in self) {
+        if (completion(obj)) {
+            return obj;
+        }
+    }
+    return nil;
+}
+
 @end

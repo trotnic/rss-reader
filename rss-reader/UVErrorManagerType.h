@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^ErrorCompletion)(NSError *);
-
-@protocol ErrorManagerType <NSObject>
+@protocol UVErrorManagerType <NSObject>
 
 - (NSError * _Nullable)provideErrorOfType:(RSSError)type;
 

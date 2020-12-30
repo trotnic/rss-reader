@@ -43,12 +43,13 @@
                                                        error:error];
 }
 
-- (void)updateData:(NSArray<NSDictionary *> *)data error:(out NSError **)error {
+- (BOOL)updateData:(NSArray<NSDictionary *> *)data error:(out NSError **)error {
     NSData *plist = [NSPropertyListSerialization dataWithPropertyList:data
                                                                format:NSPropertyListXMLFormat_v1_0
                                                               options:0
                                                                 error:error];
     [plist writeToFile:self.path atomically:YES];
+    return YES;
 }
 
 @end
