@@ -31,7 +31,6 @@ CGFloat const kFadeAnimationDuration = 0.1;
     self = [super init];
     if (self) {
         _presenter = [presenter retain];
-        [_presenter assignView:self];
     }
     return self;
 }
@@ -120,7 +119,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.presenter selectRowAt:indexPath.row];
+    [self.presenter openArticleAt:indexPath.row];
 }
 
 // MARK: - FeedViewType

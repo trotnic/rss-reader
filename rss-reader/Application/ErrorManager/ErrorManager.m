@@ -13,7 +13,7 @@ NSString *const RSSReaderDomainKey = @"com.rss-reader.uvolchyk";
 @implementation ErrorManager
 
 - (void)provideErrorOfType:(RSSError)type
-            withCompletion:(ErrorCompletion)completion {
+                completion:(ErrorCompletion)completion {
     assert(completion);
     switch (type) {
         case RSSErrorTypeBadNetwork: {

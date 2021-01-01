@@ -7,10 +7,10 @@
 
 #import "FeedTableViewCell.h"
 
-NSInteger const kPadding = 20;
-NSInteger const kFontSize = 17;
-NSInteger const kTextSpacing = 20;
-NSInteger const kTitleNumberOfLines = 0;
+static NSInteger const kPadding = 20;
+static NSInteger const kFontSize = 17;
+static NSInteger const kTextSpacing = 20;
+static NSInteger const kTitleNumberOfLines = 0;
 
 @interface FeedTableViewCell ()
 

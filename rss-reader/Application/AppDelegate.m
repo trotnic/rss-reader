@@ -7,10 +7,11 @@
 
 #import "AppDelegate.h"
 #import "FeedXMLParser.h"
-#import "FeedProvider.h"
+#import "UVFeedProvider.h"
 #import "FeedPresenter.h"
 #import "FeedViewController.h"
 #import "ErrorManager.h"
+#import "UVNetwork.h"
 
 @interface AppDelegate ()
 
@@ -26,10 +27,11 @@
 // MARK: -
 
 - (void)setupAppearance {
-    FeedXMLParser *parser = [FeedXMLParser new];
-    FeedProvider *dataProvider = [[FeedProvider alloc] initWithParser:[parser autorelease]];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease] errorManager:[[ErrorManager new] autorelease]];
+    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
+                                                          errorManager:[[ErrorManager new] autorelease]
+                                                               network:[[UVNetwork new] autorelease]];
     FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    presenter.view = controller;
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];

@@ -36,13 +36,13 @@
 
 // MARK: FeedParserType
 
-- (void)parseData:(NSData *)data withCompletion:(ParseHandler)completion {
+- (void)parseData:(NSData *)data completion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
 }
 
-- (void)parseContentsOfURL:(NSURL *)url withCompletion:(ParseHandler)completion {
+- (void)parseContentsOfURL:(NSURL *)url completion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];

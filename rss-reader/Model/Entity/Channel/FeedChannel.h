@@ -11,11 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString *const kRSSChannel;
-FOUNDATION_EXPORT NSString *const kRSSChannelLink;
-FOUNDATION_EXPORT NSString *const kRSSChannelTitle;
-FOUNDATION_EXPORT NSString *const kRSSChannelDescription;
-FOUNDATION_EXPORT NSString *const kRSSChannelItems;
+extern NSString *const kRSSChannel;
+extern NSString *const kRSSChannelLink;
+extern NSString *const kRSSChannelTitle;
+extern NSString *const kRSSChannelDescription;
+extern NSString *const kRSSChannelItems;
 
 @interface FeedChannel : NSObject <FeedChannelViewModel>
 

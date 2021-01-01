@@ -6,15 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FeedParserType.h"
+#import "FeedChannel.h"
 #import "RSSError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FeedChannel;
-
 @protocol FeedProviderType <NSObject>
 
-- (void)fetchData:(void(^)(FeedChannel *_Nullable, RSSError))completion;
+- (void)discoverChannel:(NSData *)data
+                 parser:(id<FeedParserType>)parser
+             completion:(void(^)(FeedChannel *, RSSError))completion;
 
 @end
 

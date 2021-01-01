@@ -7,18 +7,20 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedPresenterType.h"
+#import "UVNetworkType.h"
+#import "FeedViewType.h"
+#import "FeedProviderType.h"
+#import "ErrorManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedViewType;
-@protocol FeedProviderType;
-@protocol ErrorManagerType;
-
 @interface FeedPresenter : NSObject <FeedPresenterType>
 
-- (instancetype)initWithProvider:(id<FeedProviderType>)provider errorManager:(id<ErrorManagerType>)manager;
+@property (nonatomic, assign) id<FeedViewType> view;
 
-- (void)assignView:(id<FeedViewType>)view;
+- (instancetype)initWithProvider:(id<FeedProviderType>)provider
+                    errorManager:(id<ErrorManagerType>)manager
+                         network:(id<UVNetworkType>)network;
 
 @end
 

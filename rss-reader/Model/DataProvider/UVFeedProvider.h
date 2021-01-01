@@ -10,11 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FeedParserType;
-
-@interface FeedProvider : NSObject <FeedProviderType>
-
-- (instancetype)initWithParser:(id<FeedParserType>)parser;
+@interface UVFeedProvider : NSObject <FeedProviderType>
 
 @end
 
