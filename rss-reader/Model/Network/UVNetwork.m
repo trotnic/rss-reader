@@ -9,12 +9,20 @@
 
 @implementation UVNetwork
 
+- (void)dealloc
+{
+    [_session release];
+    [super dealloc];
+}
+
+// MARK: -
+
 - (void)fetchDataFromURL:(NSURL *)url
               completion:(void (^)(NSData *, NSError *))completion {
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
-            [[NSURLSession.sharedSession dataTaskWithURL:url
-                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            [[self.session dataTaskWithURL:url
+                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 if(error) {
                     completion(nil, error);
                     return;
@@ -23,6 +31,15 @@
             }] resume];
         }
     }];
+}
+
+// MARK: - Lazy
+
+- (NSURLSession *)session {
+    if(!_session) {
+        _session = [NSURLSession.sharedSession retain];
+    }
+    return _session;
 }
 
 @end

@@ -6,11 +6,10 @@
 //
 
 #import "AppDelegate.h"
-#import "FeedXMLParser.h"
+#import "UVFeedXMLParser.h"
 #import "UVFeedProvider.h"
-#import "FeedPresenter.h"
-#import "FeedViewController.h"
-#import "ErrorManager.h"
+#import "UVFeedPresenter.h"
+#import "UVFeedViewController.h"
 #import "UVNetwork.h"
 
 @interface AppDelegate ()
@@ -27,10 +26,9 @@
 // MARK: -
 
 - (void)setupAppearance {
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
-                                                          errorManager:[[ErrorManager new] autorelease]
-                                                               network:[[UVNetwork new] autorelease]];
-    FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
+    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
+                                                                   network:[[UVNetwork new] autorelease]];
+    UVFeedViewController *controller = [[UVFeedViewController alloc] initWithPresenter:[presenter autorelease]];
     presenter.view = controller;
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];

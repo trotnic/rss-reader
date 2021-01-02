@@ -1,12 +1,13 @@
 //
-//  FeedProvider.m
+//  UVFeedProvider.m
 //  rss-reader
 //
 //  Created by Uladzislau on 11/24/20.
 //
 
 #import "UVFeedProvider.h"
-#import "FeedParserType.h"
+#import "UVFeedParserType.h"
+#import "UVErrorDomain.h"
 
 @interface UVFeedProvider ()
 
@@ -17,19 +18,29 @@
 // MARK: - FeedProviderType
 
 - (void)discoverChannel:(NSData *)data
-                 parser:(id<FeedParserType>)parser
-             completion:(void(^)(FeedChannel *, RSSError))completion {
+                 parser:(id<UVFeedParserType>)parser
+             completion:(void(^)(UVFeedChannel *, NSError *))completion {
+    if(!data) {
+        completion(nil, [self discoveringError]);
+        return;
+    }
     [parser retain];
     [parser parseData:data
-           completion:^(FeedChannel *channel, NSError *error) {
+           completion:^(UVFeedChannel *channel, NSError *error) {
         if(error) {
-            completion(nil, RSSErrorTypeParsingError);
+            completion(nil, error);
             [parser release];
             return;
         }
-        completion(channel, RSSErrorTypeNone);
+        completion(channel, nil);
         [parser release];
     }];
+}
+
+// MARK: - Private
+
+- (NSError *)discoveringError {
+    return [NSError errorWithDomain:UVNullDataErrorDomain code:1000 userInfo:nil];
 }
 
 @end

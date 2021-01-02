@@ -1,16 +1,16 @@
 //
-//  FeedProvider.h
+//  UVFeedProvider.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/24/20.
 //
 
 #import <Foundation/Foundation.h>
-#import "FeedProviderType.h"
+#import "UVFeedProviderType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVFeedProvider : NSObject <FeedProviderType>
+@interface UVFeedProvider : NSObject <UVFeedProviderType>
 
 @end
 
