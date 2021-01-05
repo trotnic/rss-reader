@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVFeedViewController : UIViewController <UVFeedViewType>
 
-- (instancetype)initWithPresenter:(id<UVFeedPresenterType>)presenter;
+@property (nonatomic, retain) id<UVFeedPresenterType> presenter;
 
 @end
 

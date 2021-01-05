@@ -45,9 +45,6 @@
 
 - (BOOL)isEqual:(id)other
 {
-    if (other == self) {
-        return YES;
-    }
     return [self.link isEqualToString:[other link]];
 }
 

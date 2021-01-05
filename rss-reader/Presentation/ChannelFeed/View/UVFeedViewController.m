@@ -18,22 +18,11 @@ CGFloat const kFadeAnimationDuration = 0.1;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 
-@property (nonatomic, retain) id<UVFeedPresenterType> presenter;
-
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 
 @end
 
 @implementation UVFeedViewController
-
-- (instancetype)initWithPresenter:(id<UVFeedPresenterType>)presenter
-{
-    self = [super init];
-    if (self) {
-        _presenter = [presenter retain];
-    }
-    return self;
-}
 
 - (void)dealloc
 {

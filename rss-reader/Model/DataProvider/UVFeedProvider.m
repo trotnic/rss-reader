@@ -27,12 +27,7 @@
     [parser retain];
     [parser parseData:data
            completion:^(UVFeedChannel *channel, NSError *error) {
-        if(error) {
-            completion(nil, error);
-            [parser release];
-            return;
-        }
-        completion(channel, nil);
+        completion(channel, error);
         [parser release];
     }];
 }

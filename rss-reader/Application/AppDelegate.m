@@ -26,11 +26,11 @@
 // MARK: -
 
 - (void)setupAppearance {
-    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
-                                                                   network:[[UVNetwork new] autorelease]];
-    UVFeedViewController *controller = [[UVFeedViewController alloc] initWithPresenter:[presenter autorelease]];
-    presenter.view = controller;
-    
+    UVFeedViewController *controller = [UVFeedViewController new];
+    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithView:controller
+                                                              provider:[[UVFeedProvider new] autorelease]
+                                                               network:[[UVNetwork new] autorelease]];
+    controller.presenter = [presenter autorelease];
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];
     

@@ -27,7 +27,6 @@
 		732E3A9625A07B100016A887 /* RSSFeeDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 732E3A9525A07B100016A887 /* RSSFeeDataFactory.m */; };
 		732E3AB025A07C8A0016A887 /* SwissKnife.m in Sources */ = {isa = PBXBuildFile; fileRef = 732E3AAF25A07C8A0016A887 /* SwissKnife.m */; };
 		73B3764925A0947B00C97B03 /* UVFeedPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B3764825A0947B00C97B03 /* UVFeedPresenterTests.m */; };
-		73B3765925A0A29000C97B03 /* UVBasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B3765825A0A29000C97B03 /* UVBasePresenter.m */; };
 		73B3766625A0A2D000C97B03 /* UVFeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B3766425A0A2D000C97B03 /* UVFeedPresenter.m */; };
 		73B3767025A0A2E100C97B03 /* UVFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B3766D25A0A2E100C97B03 /* UVFeedViewController.m */; };
 		73B3767625A0A2F300C97B03 /* UVFeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B3767525A0A2F300C97B03 /* UVFeedTableViewCell.m */; };
@@ -97,7 +96,6 @@
 		732E3A70259FBF770016A887 /* AtomKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomKeys.h; sourceTree = "<group>"; };
 		732E3A71259FBFCB0016A887 /* TagAttributeKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagAttributeKeys.h; sourceTree = "<group>"; };
 		732E3A73259FC2290016A887 /* TagKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagKeys.h; sourceTree = "<group>"; };
-		732E3A77259FCDE00016A887 /* MediaKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaKeys.h; sourceTree = "<group>"; };
 		732E3A7E25A071840016A887 /* UVFeedProviderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedProviderTests.m; sourceTree = "<group>"; };
 		732E3A8725A079DB0016A887 /* MockParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockParser.h; sourceTree = "<group>"; };
 		732E3A8825A079DB0016A887 /* MockParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockParser.m; sourceTree = "<group>"; };
@@ -107,8 +105,6 @@
 		732E3AAF25A07C8A0016A887 /* SwissKnife.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwissKnife.m; sourceTree = "<group>"; };
 		73B3764825A0947B00C97B03 /* UVFeedPresenterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedPresenterTests.m; sourceTree = "<group>"; };
 		73B3764D25A099FE00C97B03 /* UVErrorDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVErrorDomain.h; sourceTree = "<group>"; };
-		73B3765725A0A29000C97B03 /* UVBasePresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVBasePresenter.h; path = Presentation/Stuff/BasePresenter/UVBasePresenter.h; sourceTree = "<group>"; };
-		73B3765825A0A29000C97B03 /* UVBasePresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVBasePresenter.m; path = Presentation/Stuff/BasePresenter/UVBasePresenter.m; sourceTree = "<group>"; };
 		73B3766325A0A2D000C97B03 /* UVFeedPresenterType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedPresenterType.h; path = Presentation/ChannelFeed/Presenter/UVFeedPresenterType.h; sourceTree = "<group>"; };
 		73B3766425A0A2D000C97B03 /* UVFeedPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVFeedPresenter.m; path = Presentation/ChannelFeed/Presenter/UVFeedPresenter.m; sourceTree = "<group>"; };
 		73B3766525A0A2D000C97B03 /* UVFeedPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedPresenter.h; path = Presentation/ChannelFeed/Presenter/UVFeedPresenter.h; sourceTree = "<group>"; };
@@ -117,7 +113,6 @@
 		73B3766F25A0A2E100C97B03 /* UVFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedViewController.h; path = Presentation/ChannelFeed/View/UVFeedViewController.h; sourceTree = "<group>"; };
 		73B3767425A0A2F300C97B03 /* UVFeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedTableViewCell.h; path = Presentation/ChannelFeed/View/Cell/UVFeedTableViewCell.h; sourceTree = "<group>"; };
 		73B3767525A0A2F300C97B03 /* UVFeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVFeedTableViewCell.m; path = Presentation/ChannelFeed/View/Cell/UVFeedTableViewCell.m; sourceTree = "<group>"; };
-		73B3768425A0A67500C97B03 /* UVBaseViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVBaseViewType.h; path = Presentation/Stuff/BaseView/UVBaseViewType.h; sourceTree = "<group>"; };
 		73B3768F25A0BB8100C97B03 /* UVNetworkMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNetworkMock.h; sourceTree = "<group>"; };
 		73B3769025A0BB8100C97B03 /* UVNetworkMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVNetworkMock.m; sourceTree = "<group>"; };
 		73B3769925A0BBE600C97B03 /* UVFeedProviderMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedProviderMock.h; sourceTree = "<group>"; };
@@ -228,7 +223,6 @@
 		2B1903B52563FEC5006D755E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				73B3765225A0A22100C97B03 /* Stuff */,
 				73B3765125A0A21300C97B03 /* ChannelFeed */,
 			);
 			name = Presentation;
@@ -464,32 +458,6 @@
 			name = ChannelFeed;
 			sourceTree = "<group>";
 		};
-		73B3765225A0A22100C97B03 /* Stuff */ = {
-			isa = PBXGroup;
-			children = (
-				73B3768325A0A65800C97B03 /* BaseView */,
-				73B3765325A0A22500C97B03 /* BasePresenter */,
-			);
-			name = Stuff;
-			sourceTree = "<group>";
-		};
-		73B3765325A0A22500C97B03 /* BasePresenter */ = {
-			isa = PBXGroup;
-			children = (
-				73B3765725A0A29000C97B03 /* UVBasePresenter.h */,
-				73B3765825A0A29000C97B03 /* UVBasePresenter.m */,
-			);
-			name = BasePresenter;
-			sourceTree = "<group>";
-		};
-		73B3768325A0A65800C97B03 /* BaseView */ = {
-			isa = PBXGroup;
-			children = (
-				73B3768425A0A67500C97B03 /* UVBaseViewType.h */,
-			);
-			name = BaseView;
-			sourceTree = "<group>";
-		};
 		73B3768E25A0BB7100C97B03 /* UVNetwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,7 +501,6 @@
 				732E3A70259FBF770016A887 /* AtomKeys.h */,
 				732E3A71259FBFCB0016A887 /* TagAttributeKeys.h */,
 				732E3A73259FC2290016A887 /* TagKeys.h */,
-				732E3A77259FCDE00016A887 /* MediaKeys.h */,
 				73B3764D25A099FE00C97B03 /* UVErrorDomain.h */,
 			);
 			path = Constants;
@@ -696,7 +663,6 @@
 				732E3A41259F86990016A887 /* UVNetwork.m in Sources */,
 				2BBE8E5A256D390F00B31BC5 /* UVFeedProvider.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
-				73B3765925A0A29000C97B03 /* UVBasePresenter.m in Sources */,
 				2B653A0525654EE8008A76A3 /* UVFeedChannel.m in Sources */,
 				73B3767025A0A2E100C97B03 /* UVFeedViewController.m in Sources */,
 				2B1903E725640873006D755E /* UVFeedXMLParser.m in Sources */,

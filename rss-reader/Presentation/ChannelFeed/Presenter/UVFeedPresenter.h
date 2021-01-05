@@ -10,16 +10,14 @@
 #import "UVNetworkType.h"
 #import "UVFeedViewType.h"
 #import "UVFeedProviderType.h"
-#import "UVBasePresenter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVFeedPresenter : UVBasePresenter <UVFeedPresenterType>
+@interface UVFeedPresenter : NSObject <UVFeedPresenterType>
 
-@property (nonatomic, assign) id<UVFeedViewType> view;
-
-- (instancetype)initWithProvider:(id<UVFeedProviderType>)provider
-                         network:(id<UVNetworkType>)network;
+- (instancetype)initWithView:(id<UVFeedViewType>)view
+                    provider:(id<UVFeedProviderType>)provider
+                     network:(id<UVNetworkType>)network;
 
 @end
 

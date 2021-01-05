@@ -6,14 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVBaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVFeedViewType <UVBaseViewType>
+@protocol UVFeedViewType <NSObject>
 
 - (void)updatePresentation;
 - (void)rotateActivityIndicator:(BOOL)show;
+- (void)presentError:(NSError *)error;
 
 @end
 

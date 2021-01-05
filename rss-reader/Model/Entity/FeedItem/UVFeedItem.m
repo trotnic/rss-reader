@@ -57,9 +57,6 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 - (BOOL)isEqual:(id)other
 {
-    if (other == self) {
-        return YES;
-    }
     return [self.link isEqualToString:[other link]];
 }
 

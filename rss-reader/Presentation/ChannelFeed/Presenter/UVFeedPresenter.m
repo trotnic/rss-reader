@@ -7,10 +7,14 @@
 
 #import <UIKit/UIKit.h>
 #import "UVFeedPresenter.h"
-#import "UVFeedChannel.h"
 #import "UVFeedViewType.h"
-#import "UVFeedProviderType.h"
+
+#import "UVFeedChannel.h"
 #import "UVFeedXMLParser.h"
+
+#import "RSSError.h"
+#import "LocalConstants.h"
+#import "UVErrorDomain.h"
 
 static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
@@ -21,20 +25,22 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 @property (nonatomic, retain) id<UVNetworkType> network;
 
 @property (nonatomic, assign) UIApplication *application;
+@property (nonatomic, assign) id<UVFeedViewType> view;
 
 @end
 
 @implementation UVFeedPresenter
 
-@synthesize view;
-
 // MARK: -
 
-- (instancetype)initWithProvider:(id<UVFeedProviderType>)provider
-                         network:(id<UVNetworkType>)network
+
+- (instancetype)initWithView:(id<UVFeedViewType>)view
+                    provider:(id<UVFeedProviderType>)provider
+                     network:(id<UVNetworkType>)network
 {
     self = [super init];
     if (self) {
+        _view = view;
         _provider = [provider retain];
         _network = [network retain];
     }
@@ -56,7 +62,7 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
     __block typeof(self)weakSelf = self;
     [self.network fetchDataFromURL:[NSURL URLWithString:kFeedURL]
                         completion:^(NSData *data, NSError *error) {
-        if(error) {
+        if (error) {
             [weakSelf showError:RSSErrorTypeBadNetwork];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.view rotateActivityIndicator:NO];
@@ -104,6 +110,31 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 - (NSURL *)urlForItemAt:(NSInteger)row {
     return [NSURL URLWithString:self.channel.items[row].link];
+}
+
+- (void)showError:(RSSError)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view presentError:[self provideErrorOfType:error]];
+    });
+}
+
+- (NSError *)provideErrorOfType:(RSSError)type {
+    switch (type) {
+        case RSSErrorTypeBadNetwork: {
+            return [NSError errorWithDomain:UVPresentationErrorDomain
+                                       code:UVRSSReaderErrorCodeKey userInfo:@{
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
+                                           NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
+                                       }];
+        }
+        case RSSErrorTypeParsingError: {
+            return [NSError errorWithDomain:UVPresentationErrorDomain
+                                       code:UVRSSReaderErrorCodeKey userInfo:@{
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
+                                           NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
+                                       }];
+        }
+    }
 }
 
 // MARK: - Lazy

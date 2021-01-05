@@ -30,8 +30,7 @@
     _view = [UVFeedViewMock new];
     _network = [UVNetworkMock new];
     _provider = [UVFeedProviderMock new];
-    _sut = [[UVFeedPresenter alloc] initWithProvider:self.provider network:self.network];
-    _sut.view = _view;
+    _sut = [[UVFeedPresenter alloc] initWithView:self.view provider:self.provider network:self.network];
     _application = [UIApplicationMock new];
 }
 
