@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<RSSLink *> *links;
 
+- (BOOL)insertSourceWithURL:(NSURL *)url links:(NSArray<NSDictionary *> *)links error:(out NSError **)error;
 - (RSSSource *)buildObjectWithURL:(NSURL *)url links:(NSArray<RSSLink *> *)links;
-- (void)insertObject:(RSSSource *)source;
 - (void)removeObject:(RSSSource *)source;
 - (void)updateObject:(RSSSource *)source;
 - (void)selectLink:(RSSLink *)link;

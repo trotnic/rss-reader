@@ -6,14 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSLinkViewModel.h"
+#import "UVRSSLinkViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol RSSSourceViewModel <NSObject>
 
 - (NSString *)sourceAddress;
-- (NSArray<id<RSSLinkViewModel>> *)sourceRSSLinks;
+- (NSArray<id<UVRSSLinkViewModel>> *)sourceRSSLinks;
 
 @end
 

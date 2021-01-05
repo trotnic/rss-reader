@@ -1,25 +1,24 @@
 //
-//  FeedPresenter.m
+//  UVChannelFeedPresenter.m
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
 //
 
-#import <UIKit/UIKit.h>
 #import "UVChannelFeedPresenter.h"
-#import "FeedChannel.h"
 #import "UVChannelFeedViewType.h"
-#import "UVDataRecognizer.h"
-#import "FeedXMLParser.h"
-#import "UVNetwork.h"
+#import "UVFeedXMLParser.h"
+#import "UVFeedChannel.h"
 
 @interface UVChannelFeedPresenter ()
 
-@property (nonatomic, retain) FeedChannel *channel;
+@property (nonatomic, retain) UVFeedChannel *channel;
 
 @end
 
 @implementation UVChannelFeedPresenter
+
+@synthesize view;
 
 // MARK: -
 
@@ -29,60 +28,64 @@
     [super dealloc];
 }
 
-// MARK: - FeedPresenterType
+// MARK: - UVChannelFeedPresenterType
 
 - (void)updateFeed {
-    [self.view toggleActivityIndicator:YES];
-    NSURL *url = [self buildURL];
+    [self.view rotateActivityIndicator:YES];
+    NSURL *url = self.sourceManager.selectedLink.url;
     if (!url) {
-        [self.view presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
+        [self.view rotateActivityIndicator:NO];
+        [self showError:RSSErrorTypeBadURL];
         return;
     }
     __block typeof(self)weakSelf = self;
-    [self.network fetchDataOnURL:url.absoluteURL
-                      completion:^(NSData *data, NSError *error) {
+    [self.network fetchDataFromURL:url
+                        completion:^(NSData *data, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view toggleActivityIndicator:NO];
-                [weakSelf.view presentError:[weakSelf provideErrorOfType:RSSErrorNoRSSLinks]];
+                [weakSelf.view rotateActivityIndicator:NO];
+                [weakSelf showError:RSSErrorNoRSSLinks];
             });
             return;
         }
-        [weakSelf.dataRecognizer discoverChannel:data parser:FeedXMLParser.parser
-                                      completion:^(FeedChannel *channel, RSSError error) {
-            switch (error) {
-                case RSSErrorTypeNone: {
-                    weakSelf.channel = channel;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view toggleActivityIndicator:NO];
-                        [weakSelf.view updatePresentation];
-                    });
-                    break;
-                }
-                default: {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view toggleActivityIndicator:NO];
-                        [weakSelf.view presentError:[weakSelf provideErrorOfType:error]];
-                    });
-                }
-            }
-        }];
+        [weakSelf discoverChannel:data];
     }];
 }
 
-- (void)showDetailAt:(NSInteger)row {
-    [self.view presentWebPageOnLink:self.channel.items[row].link];
+- (void)openArticleAt:(NSInteger)row {
+    NSURL *url = self.channel.items[row].url;
+    if (!url) {
+        [self showError:RSSErrorTypeBadURL];
+        return;
+    }
+    [self.view presentWebPageOnURL:url];
 }
 
-- (id<FeedChannelViewModel>)viewModel {
+- (id<UVFeedChannelViewModel>)viewModel {
     return self.channel;
 }
 
 // MARK: - Private
 
-- (NSURL *)buildURL {
-    return [NSURL URLWithString:self.sourceManager.selectedLink.link
-                  relativeToURL:self.sourceManager.selectedSource.url];
+- (void)discoverChannel:(NSData *)data {
+    if(!data) {
+        [self showError:RSSErrorTypeParsingError];
+        return;
+    }
+    __block typeof(self)weakSelf = self;
+    [self.dataRecognizer discoverChannel:data parser:[[UVFeedXMLParser new] autorelease]
+                              completion:^(NSDictionary *channel, NSError *error) {
+        if(error) {
+            [weakSelf showError:RSSErrorNoRSSLinks];
+            return;
+        }
+        
+        weakSelf.channel = [UVFeedChannel objectWithDictionary:channel];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.view rotateActivityIndicator:NO];
+            [weakSelf.view updatePresentation];
+        });
+    }];
 }
 
 @end

@@ -6,14 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSLinkViewModel.h"
+#import "UVRSSLinkViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVSourcesListPresenterType <NSObject>
 
-- (NSArray<id<RSSLinkViewModel>> *)items;
 - (void)discoverAddress:(NSString *)address;
+- (NSArray<id<UVRSSLinkViewModel>> *)items;
 - (void)selectItemAtIndex:(NSInteger)index;
 
 @end

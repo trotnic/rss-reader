@@ -1,0 +1,89 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+	<title>TUT.BY: Новости ТУТ - Главные новости</title>
+	<link>https://news.tut.by/</link>
+	<description>Последние новости образования, здравоохранения, транспорта, ЖКХ и других сфер. Новости экономики и политики в мире, происшествия и др.</description>
+	<language>ru</language>
+	<image>
+		<url>https://img.tyt.by/i/rss/news/logo.gif</url>
+		<title>TUT.BY: Новости ТУТ - Главные новости</title>
+		<link>https://news.tut.by/</link>
+	</image>
+	<pubDate>Fri, 01 Jan 2021 20:39:16 +0300</pubDate>
+	<lastBuildDate>Fri, 01 Jan 2021 17:56:27 +0300</lastBuildDate>
+	<ttl>10</ttl>
+	<atom:link href="https://news.tut.by/rss/index.rss" rel="self" type="application/rss+xml" />
+	<item>
+		<title>В Докшицком районе столкнулись легковушка и маршрутка. Погибли двое детей - 7 и 10 лет</title>
+		<link>https://auto.tut.by/news/accidents/713474.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</link>
+		<description>&#x3C;img src="https://img.tyt.by/thumbnails/n/05/7/photo_2021-01-01_17-07-54.jpg" width="72" height="41" alt="Фото: пресс-служба СК" border="0" align="left" hspace="5" /&#x3E;Водитель и еще один пассажир Skoda госпитализированы, пассажиры и водитель микроавтобуса не пострадали.&#x3C;br clear="all" /&#x3E;</description>
+		<atom:author>
+			<atom:name>TUT.BY</atom:name>
+			<atom:uri>https://news.tut.by/author/490~613.html</atom:uri>
+		</atom:author>
+		<category domain="https://auto.tut.by/rubric/accidents/">Происшествия</category>
+		<enclosure url="https://img.tyt.by/n/05/7/photo_2021-01-01_17-07-54.jpg" type="image/jpeg" length="93592" />
+		<guid isPermaLink="true">https://auto.tut.by/news/accidents/713474.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</guid>
+		<pubDate>Fri, 01 Jan 2021 16:47:00 +0300</pubDate>
+		<media:content url="https://img.tyt.by/n/05/7/photo_2021-01-01_17-07-54.jpg" type="image/jpeg" medium="image" height="720" width="1280" fileSize="93592" />
+		<media:content url="https://img.tyt.by/n/08/4/photo_2021-01-01_17-07-55.jpg" type="image/jpeg" medium="image" height="720" width="1280" fileSize="91013" />
+	</item>
+	<item>
+		<title>Местным властям разрешили ввести сбор за выезд за границу на машине</title>
+		<link>https://auto.tut.by/news/road/713455.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</link>
+		<description>&#x3C;img src="https://img.tyt.by/thumbnails/n/avto/08/f/tamozhnya_brest_20171222_ski_tutby_pshl_5757.jpg" width="72" height="48" alt="Фото: Инга Шкелер, TUT.BY" border="0" align="left" hspace="5" /&#x3E;В Беларуси местным властям разрешили ввести сбор для тех, кто пересекает границу на машине. В качестве обоснования приводится консолидация расходов бюджета для борьбы с COVID-19.&#x3C;br clear="all" /&#x3E;</description>
+		<atom:author>
+			<atom:name>TUT.BY</atom:name>
+			<atom:uri>https://news.tut.by/author/490~613.html</atom:uri>
+		</atom:author>
+		<category domain="https://auto.tut.by/rubric/road/">Дорога</category>
+		<enclosure url="https://img.tyt.by/n/avto/08/f/tamozhnya_brest_20171222_ski_tutby_pshl_5757.jpg" type="image/jpeg" length="852963" />
+		<guid isPermaLink="true">https://auto.tut.by/news/road/713455.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</guid>
+		<pubDate>Fri, 01 Jan 2021 12:38:00 +0300</pubDate>
+		<media:content url="https://img.tyt.by/n/avto/08/f/tamozhnya_brest_20171222_ski_tutby_pshl_5757.jpg" type="image/jpeg" medium="image" height="800" width="1200" fileSize="852963" />
+	</item>
+	<item>
+		<title>Внимание, автовладельцы! Официально ввели транспортный налог и отвязали его от техосмотра</title>
+		<link>https://auto.tut.by/news/road/713454.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</link>
+		<description>&#x3C;img src="https://img.tyt.by/thumbnails/n/avto/0e/7/parkovki_probki_20171229_ski_tutby_pshl_6481.jpg" width="72" height="48" alt="Фото: Инга Шкелер, TUT.BY" border="0" align="left" hspace="5" /&#x3E;Ставки налога в сравнении с госпошлиной снизятся. Размер транспортного налога будет зависеть от веса и фактического времени владения машиной.&#x3C;br clear="all" /&#x3E;</description>
+		<atom:author>
+			<atom:name>AUTO.TUT.BY</atom:name>
+			<atom:uri>https://auto.tut.by/</atom:uri>
+		</atom:author>
+		<category domain="https://auto.tut.by/rubric/road/">Дорога</category>
+		<enclosure url="https://img.tyt.by/n/avto/0e/7/parkovki_probki_20171229_ski_tutby_pshl_6481.jpg" type="image/jpeg" length="743436" />
+		<guid isPermaLink="true">https://auto.tut.by/news/road/713454.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</guid>
+		<pubDate>Fri, 01 Jan 2021 11:52:00 +0300</pubDate>
+		<media:content url="https://img.tyt.by/n/avto/0e/7/parkovki_probki_20171229_ski_tutby_pshl_6481.jpg" type="image/jpeg" medium="image" height="800" width="1200" fileSize="743436" />
+		<media:content url="https://img.tyt.by/n/avto/07/10/tehosmotr_peugeot307sw_2017_9.jpg" type="image/jpeg" medium="image" height="674" width="1200" fileSize="353992" />
+	</item>
+	<item>
+		<title>В Беларуси с 1 января выросла базовая величина. А вместе с ней - пособия, выплаты и штрафы</title>
+		<link>https://finance.tut.by/news713451.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</link>
+		<description>&#x3C;img src="https://img.tyt.by/thumbnails/n/finansy/09/a/001_20200523_kvita_dengi_6_.jpg" width="72" height="48" alt="Фото: Александра Квиткевич" border="0" align="left" hspace="5" /&#x3E;В соответствии с документом размер базовой величины составит 29 рублей. В последний раз ее повышали 1 января 2020 года - с 25,5 до 27 рублей.&#x3C;br clear="all" /&#x3E;</description>
+		<atom:author>
+			<atom:name>FINANCE.TUT.BY</atom:name>
+			<atom:uri>https://finance.tut.by/</atom:uri>
+		</atom:author>
+		<category domain="https://finance.tut.by/rubric/prices/">Личный счет</category>
+		<enclosure url="https://img.tyt.by/n/finansy/09/a/001_20200523_kvita_dengi_6_.jpg" type="image/jpeg" length="730815" />
+		<guid isPermaLink="true">https://finance.tut.by/news713451.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</guid>
+		<pubDate>Fri, 01 Jan 2021 11:04:00 +0300</pubDate>
+		<media:content url="https://img.tyt.by/n/finansy/09/a/001_20200523_kvita_dengi_6_.jpg" type="image/jpeg" medium="image" height="800" width="1200" fileSize="730815" />
+	</item>
+	<item>
+		<title>Экс-президент Украины взял на себя ответственность за операцию «33 боевика из ЧВК Вагнера в Беларуси»</title>
+		<link>https://news.tut.by/economics/713450.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</link>
+		<description>&#x3C;img src="https://img.tyt.by/thumbnails/n/0b/e/poroshenko-zastavka-provody.jpg" width="72" height="55" alt="Фото: пресс-служба президента Украины" border="0" align="left" hspace="5" /&#x3E;Он также призвал привлечь к ответственности виновных в срыве операции. Он заявил, что не позволит обесценить «подвиг десятков украинских героев, которые готовили операцию по задержанию тех, кто причастен к крушению самолета MH17».&#x3C;br clear="all" /&#x3E;</description>
+		<atom:author>
+			<atom:name>TUT.BY</atom:name>
+			<atom:uri>https://news.tut.by/author/490~613.html</atom:uri>
+		</atom:author>
+		<category domain="https://news.tut.by/economics/">Деньги и власть</category>
+		<enclosure url="https://img.tyt.by/n/0b/e/poroshenko-zastavka-provody.jpg" type="image/jpeg" length="298009" />
+		<guid isPermaLink="true">https://news.tut.by/economics/713450.html?utm_campaign=news-feed&#x26;utm_medium=rss&#x26;utm_source=rss-news</guid>
+		<pubDate>Fri, 01 Jan 2021 10:43:00 +0300</pubDate>
+		<media:content url="https://img.tyt.by/n/0b/e/poroshenko-zastavka-provody.jpg" type="image/jpeg" medium="image" height="920" width="1200" fileSize="298009" />
+	</item>
+</channel>
+</rss>

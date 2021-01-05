@@ -12,8 +12,7 @@ typedef NS_ENUM(NSInteger, RSSError) {
     RSSErrorTypeBadNetwork,
     RSSErrorTypeBadURL,
     RSSErrorTypeParsingError,
-    RSSErrorNoRSSLinks,
-    RSSErrorTypeNone
+    RSSErrorNoRSSLinks
 };
 
 #endif /* RSSErrorType_h */

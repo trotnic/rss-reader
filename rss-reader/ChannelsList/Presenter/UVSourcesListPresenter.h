@@ -7,8 +7,6 @@
 
 #import "UVBasePresenter.h"
 #import "UVSourcesListPresenterType.h"
-#import "UVSourceManagerType.h"
-#import "UVDataRecognizerType.h"
 #import "UVSourcesListViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN

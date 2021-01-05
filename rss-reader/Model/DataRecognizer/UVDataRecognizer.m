@@ -7,22 +7,26 @@
 
 #import "UVDataRecognizer.h"
 #import "UVRSSLinkXMLParser.h"
+#import "UVErrorDomain.h"
 #import "NSArray+Util.h"
 
-#define LINK_TAG_PATTERN    @"<link[^>]+type=\"application[/]rss[+]xml\".*>"
-#define HREF_ATTR_PATTERN   @"(?<=\\bhref=\")[^\"]*"
-#define TITLE_ATTR_PATTERN  @"(?<=\\btitle=\")[^\"]*"
-#define TITLE_TAG_PATTERN   @"(?<=<title>).*(?=<\\/title>)"
-#define RSS_TAG_PATTERN     @"<rss.*version=\"\\d.\\d\""
+#import "UVRSSLinkKeys.h"
+#import "UVRSSSourceKeys.h"
 
-#define KEY_TITLE           @"title"
-#define KEY_HREF            @"href"
-#define KEY_LINK            @"link"
-#define KEY_RSSTAG          @"rssTag"
+static NSString *const LINK_TAG_PATTERN     = @"<link[^>]+type=\"application[/]rss[+]xml\".*>";
+static NSString *const HREF_ATTR_PATTERN    = @"(?<=\\bhref=\")[^\"]*";
+static NSString *const TITLE_ATTR_PATTERN   = @"(?<=\\btitle=\")[^\"]*";
+static NSString *const RSS_TAG_PATTERN      = @"<rss.*version=\"\\d.\\d\"";
+
+static NSString *const KEY_LINK             = @"link";
+static NSString *const KEY_RSSTAG           = @"rssTag";
+
+static NSString *const EMPTY_STRING         = @"";
 
 @interface UVDataRecognizer ()
 
 @property (nonatomic, retain) NSDictionary<NSString *, NSRegularExpression *> *regExps;
+@property (nonatomic, retain) id<UVRSSLinkXMLParserType> linkXMLParser;
 
 @end
 
@@ -31,77 +35,93 @@
 - (void)dealloc
 {
     [_regExps release];
+    [_linkXMLParser release];
     [super dealloc];
 }
 
 // MARK: - UVDataRecognizerType
 
 - (void)discoverChannel:(NSData *)data
-                 parser:(id<FeedParserType>)parser
-             completion:(void (^)(FeedChannel *, RSSError))completion {
+                 parser:(id<UVFeedParserType>)parser
+             completion:(void (^)(NSDictionary *, NSError *))completion {
     [parser retain];
     
     [parser parseData:data
-           completion:^(FeedChannel *result, NSError *error) {
+           completion:^(NSDictionary *result, NSError *error) {
         if (error) {
-            completion(nil, RSSErrorTypeParsingError);
+            completion(nil, error);
             [parser release];
             return;
         }
-        completion(result, RSSErrorTypeNone);
+        completion(result, nil);
         [parser release];
     }];
 }
 
 - (void)discoverLinks:(NSData *)data
-           completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion {
+           completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
     NSString *html = [[[NSString alloc] initWithData:data
                                             encoding:NSUTF8StringEncoding] autorelease];
-    
     if ([self isRSS:html]) {
-        [UVRSSLinkXMLParser.parser parseData:data
-                                  completion:^(RSSLink *link, NSError *error) {
-            completion(@[link], RSSErrorTypeNone);
+        [self.linkXMLParser parseData:data
+                           completion:^(NSDictionary *link, NSError *error) {
+            if (error) {
+                completion(nil, error);
+                return;
+            }
+            completion(@[link], nil);
         }];
         return;
     }
-    NSArray *links = [self findLinks:html];
+    NSMutableArray<NSDictionary *> *links = [self findLinks:html];
     
     if (!links.count) {
-        completion(nil, RSSErrorNoRSSLinks);
+        completion(nil, [self recognitionError]);
         return;
     }
     
-    completion(links, RSSErrorTypeNone);
+    completion([[links copy] autorelease], nil);
 }
 
 // MARK: - Private
 
 - (BOOL)isRSS:(NSString *)html {
-    NSRange matchRange = [self.regExps[KEY_RSSTAG] rangeOfFirstMatchInString:html
-                                                                     options:0
-                                                                       range:NSMakeRange(0, html.length)];
-    return matchRange.location != NSNotFound;
+    return [self.regExps[KEY_RSSTAG] numberOfMatchesInString:html
+                                                     options:0
+                                                       range:NSMakeRange(0, html.length)] != 0;
 }
 
-- (NSArray<RSSLink *> *)findLinks:(NSString *)html {
-    NSMutableArray<RSSLink *> *result = [NSMutableArray array];
+- (NSMutableArray<NSDictionary *> *)findLinks:(NSString *)html {
+    NSMutableArray<NSDictionary *> *results = [NSMutableArray array];
     
     [self.regExps[KEY_LINK] enumerateMatchesInString:html
                                              options:0
                                                range:NSMakeRange(0, html.length)
-                                          usingBlock:^(NSTextCheckingResult *obj, NSMatchingFlags flags, BOOL *stop) {
-        NSString *linkString = [html substringWithRange:[obj range]];
-        NSRange searchRange = NSMakeRange(0, linkString.length);
-        NSRange hrefRange = [self.regExps[KEY_HREF] rangeOfFirstMatchInString:linkString options:0 range:searchRange];
-        NSRange titleRange = [self.regExps[KEY_TITLE] rangeOfFirstMatchInString:linkString options:0 range:searchRange];
+                                          usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        NSString *linkString = [html substringWithRange:[result range]];
         
-        NSString *hrefString = [linkString substringWithRange:hrefRange];
-        NSString *titleString = [linkString substringWithRange:titleRange];
-        [result addObject:[[[RSSLink alloc] initWithTitle:titleString link:hrefString] autorelease]];
+        NSRange hrefRange = [linkString rangeOfString:HREF_ATTR_PATTERN options:NSRegularExpressionSearch];
+        NSRange titleRange = [linkString rangeOfString:TITLE_ATTR_PATTERN options:NSRegularExpressionSearch];
+        
+        [results addObject:@{
+            kRSSLinkTitle : titleRange.location == NSNotFound ? EMPTY_STRING : [linkString substringWithRange:titleRange],
+            kRSSLinkURL : hrefRange.location == NSNotFound ? EMPTY_STRING : [linkString substringWithRange:hrefRange]
+        }];
     }];
     
-    return [[result copy] autorelease];
+    return results;
+}
+
+// MARK: - Private
+
+- (NSError *)recognitionError {
+    return [NSError errorWithDomain:UVNullDataErrorDomain code:1000 userInfo:nil];
+}
+
+- (NSRegularExpression *)regExpWithPattern:(NSString *)pattern {
+    return [NSRegularExpression regularExpressionWithPattern:pattern
+                                                     options:NSRegularExpressionCaseInsensitive
+                                                       error:nil];
 }
 
 // MARK: - Lazy
@@ -109,13 +129,18 @@
 - (NSDictionary *)regExps {
     if(!_regExps) {
         _regExps = [@{
-            KEY_LINK : [NSRegularExpression regularExpressionWithPattern:LINK_TAG_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
-            KEY_TITLE : [NSRegularExpression regularExpressionWithPattern:TITLE_ATTR_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
-            KEY_HREF : [NSRegularExpression regularExpressionWithPattern:HREF_ATTR_PATTERN options:NSRegularExpressionCaseInsensitive error:nil],
-            KEY_RSSTAG : [NSRegularExpression regularExpressionWithPattern:RSS_TAG_PATTERN options:NSRegularExpressionCaseInsensitive error:nil]
+            KEY_LINK : [self regExpWithPattern:LINK_TAG_PATTERN],
+            KEY_RSSTAG : [self regExpWithPattern:RSS_TAG_PATTERN]
         } retain];
     }
     return _regExps;
+}
+
+- (id<UVRSSLinkXMLParserType>)linkXMLParser {
+    if(!_linkXMLParser) {
+        _linkXMLParser = [UVRSSLinkXMLParser new];
+    }
+    return _linkXMLParser;
 }
 
 @end

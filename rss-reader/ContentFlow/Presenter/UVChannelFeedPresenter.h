@@ -1,20 +1,18 @@
 //
-//  FeedPresenter.h
+//  UVChannelFeedPresenter.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
 //
 
 #import <Foundation/Foundation.h>
-#import "FeedPresenterType.h"
 #import "UVBasePresenter.h"
-#import "UVDataRecognizerType.h"
-#import "UVSourceManagerType.h"
+#import "UVChannelFeedPresenterType.h"
 #import "UVChannelFeedViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVChannelFeedPresenter : UVBasePresenter <FeedPresenterType>
+@interface UVChannelFeedPresenter : UVBasePresenter <UVChannelFeedPresenterType>
 
 @property (nonatomic, assign) id<UVChannelFeedViewType> view;
 

@@ -7,10 +7,7 @@
 
 #import "RSSSource.h"
 #import "NSArray+Util.h"
-
-NSString *const kUrl = @"url";
-NSString *const kLinks = @"links";
-NSString *const kSelected = @"selected";
+#import "UVRSSSourceKeys.h"
 
 @interface RSSSource ()
 
@@ -27,10 +24,17 @@ NSString *const kSelected = @"selected";
         return nil;
     }
     
-    NSArray *links = [dictionary[kLinks] map:^id (NSDictionary *link) { return [RSSLink objectWithDictionary:link]; }];
-    return [[[RSSSource alloc] initWithURL:[NSURL URLWithString:dictionary[kUrl]]
+    NSURL *url = [NSURL URLWithString:dictionary[kRSSSourceURL]];
+    
+    NSArray<RSSLink *> *links = [dictionary[kRSSSourceLinks] map:^RSSLink *(NSDictionary *rawLink) {
+        RSSLink *link = [RSSLink objectWithDictionary:rawLink];
+        [link configureURLRelativeToURL:url];
+        return link;
+    }];
+    
+    return [[[RSSSource alloc] initWithURL:url
                                      links:links
-                                  selected:[dictionary[kSelected] boolValue]] autorelease];
+                                  selected:[dictionary[kRSSSourceSelected] boolValue]] autorelease];
 }
 
 - (instancetype)initWithURL:(NSURL *)url
@@ -60,14 +64,10 @@ NSString *const kSelected = @"selected";
 }
 
 - (NSDictionary *)dictionaryFromObject {
-    NSMutableArray *links = [NSMutableArray array];
-    for (RSSLink *link in self.rssLinks) {
-        [links addObject:link.dictionaryFromObject];
-    }
     return @{
-        kUrl : self.url.absoluteString,
-        kLinks : links,
-        kSelected : [NSNumber numberWithBool:self.isSelected]
+        kRSSSourceURL : self.url.absoluteString,
+        kRSSSourceLinks : [self.rssLinks map:^id _Nonnull(RSSLink *link) { return link.dictionaryFromObject; }],
+        kRSSSourceSelected : [NSNumber numberWithBool:self.isSelected]
     };
 }
 
@@ -78,9 +78,6 @@ NSString *const kSelected = @"selected";
 
 - (BOOL)isEqual:(id)other
 {
-    if (other == self) {
-        return YES;
-    }
     return [[self url] isEqual:[other url]];
 }
 
@@ -111,7 +108,7 @@ NSString *const kSelected = @"selected";
     return self.url.absoluteString;
 }
 
-- (NSArray<id<RSSLinkViewModel>> *)sourceRSSLinks {
+- (NSArray<id<UVRSSLinkViewModel>> *)sourceRSSLinks {
     return self.rssLinks;
 }
 
@@ -125,17 +122,17 @@ NSString *const kSelected = @"selected";
 {
     self = [super init];
     if (self) {
-        self.url = [coder decodeObjectOfClass:NSURL.class forKey:kUrl];
+        self.url = [coder decodeObjectOfClass:NSURL.class forKey:kRSSSourceURL];
         self.rssLinks = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, RSSLink.class]]
-                                              forKey:kLinks];
+                                              forKey:kRSSSourceLinks];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:self.url forKey:kUrl];
-    [coder encodeObject:self.rssLinks forKey:kLinks];
+    [coder encodeObject:self.url forKey:kRSSSourceURL];
+    [coder encodeObject:self.rssLinks forKey:kRSSSourceLinks];
 }
 
 // MARK: - NSCopying

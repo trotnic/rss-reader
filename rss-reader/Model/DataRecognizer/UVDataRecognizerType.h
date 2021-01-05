@@ -6,9 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSLink.h"
-#import "RSSError.h"
-#import "FeedParserType.h"
+#import "UVFeedParserType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,11 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVDataRecognizerType <NSObject>
 
 - (void)discoverLinks:(NSData *)data
-           completion:(void (^)(NSArray<RSSLink *> *, RSSError))completion;
+           completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion;
 
 - (void)discoverChannel:(NSData *)data
-                 parser:(id<FeedParserType>)parser
-             completion:(void(^)(FeedChannel *, RSSError))completion;
+                 parser:(id<UVFeedParserType>)parser
+             completion:(void(^)(NSDictionary *, NSError *))completion;
 
 @end
 

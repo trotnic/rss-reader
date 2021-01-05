@@ -6,20 +6,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSLinkViewModel.h"
+#import "UVRSSLinkViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSSLink : NSObject <RSSLinkViewModel, NSSecureCoding, NSCopying>
+@interface RSSLink : NSObject <UVRSSLinkViewModel, NSSecureCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, copy, readonly) NSString *link;
+@property (nonatomic, retain, readonly) NSURL *url;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
-+ (_Nullable instancetype)objectWithDictionary:(NSDictionary *)dictionary;
++ (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)dictionaryFromObject;
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected;
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link;
+- (instancetype)initWithTitle:(NSString *)title url:(NSURL *)url selected:(BOOL)selected;
+- (instancetype)initWithTitle:(NSString *)title url:(NSURL *)url;
+
+- (void)configureURLRelativeToURL:(NSURL *)url;
 
 @end
 

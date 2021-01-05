@@ -8,9 +8,15 @@
 #import "UVRSSLinkXMLParser.h"
 #import "NSXMLParser+DelegateInitializable.h"
 
+#import "UVRSSLinkKeys.h"
+
+#import "AtomKeys.h"
+#import "TagKeys.h"
+#import "TagAttributeKeys.h"
+
 @interface UVRSSLinkXMLParser () <NSXMLParserDelegate>
 
-@property (nonatomic, copy) void(^completion)(RSSLink *, NSError *);
+@property (nonatomic, copy) void(^completion)(NSDictionary *, NSError *);
 @property (nonatomic, retain) NSXMLParser *parser;
 
 
@@ -22,10 +28,6 @@
 
 @implementation UVRSSLinkXMLParser
 
-+ (instancetype)parser {
-    return [[UVRSSLinkXMLParser new] autorelease];
-}
-
 - (void)dealloc
 {
     [_parser release];
@@ -36,7 +38,7 @@
 }
 
 - (void)parseData:(NSData *)data
-       completion:(void (^)(RSSLink *, NSError *))completion {
+       completion:(void (^)(NSDictionary *, NSError *))completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
@@ -45,7 +47,7 @@
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    
+    self.completion(nil, parseError);
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
@@ -59,8 +61,8 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:@"atom:link"]) {
-        self.linkDictionary[@"link"] = attributeDict[@"href"];
+    if([elementName isEqualToString:atomLink]) {
+        self.linkDictionary[kRSSLinkURL] = attributeDict[hrefAttr];
     }
     self.parsingString = [NSMutableString string];
 }
@@ -70,8 +72,8 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
     
-    if([elementName isEqualToString:@"title"] && !self.isEndChannel) {
-        self.linkDictionary[@"title"] = self.parsingString;
+    if([elementName isEqualToString:titleTag] && !self.isEndChannel) {
+        self.linkDictionary[kRSSLinkTitle] = self.parsingString;
     }
 }
 
@@ -80,9 +82,7 @@ didStartElement:(NSString *)elementName
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    RSSLink *link = [[[RSSLink alloc] initWithTitle:self.linkDictionary[@"title"]
-                                               link:self.linkDictionary[@"link"]] autorelease];
-    self.completion(link, nil);
+    self.completion(self.linkDictionary, nil);
 }
 
 @end

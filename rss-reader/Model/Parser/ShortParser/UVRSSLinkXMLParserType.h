@@ -6,13 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVRSSLinkXMLParserType <NSObject>
 
-- (void)parseData:(NSData *)data completion:(void(^)(RSSLink *, NSError *))completion;
+- (void)parseData:(NSData *)data completion:(void(^)(NSDictionary * _Nullable, NSError * _Nullable))completion;
 
 @end
 

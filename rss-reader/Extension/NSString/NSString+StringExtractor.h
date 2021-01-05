@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)stringBetweenStart:(NSString *)start andFinish:(NSString *)finish;
 - (NSString *)substringFromString:(NSString *)string;
+- (NSString *)stringByStrippingHTML;
 
 @end
 

@@ -6,14 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseViewType.h"
+#import "UVBaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVChannelFeedViewType <BaseViewType>
+@protocol UVChannelFeedViewType <UVBaseViewType>
 
-- (void)toggleActivityIndicator:(BOOL)show;
-- (void)presentWebPageOnLink:(NSString *)link;
+- (void)rotateActivityIndicator:(BOOL)show;
+- (void)presentWebPageOnURL:(NSURL *)url;
 
 @end
 

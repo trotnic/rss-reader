@@ -6,9 +6,11 @@
 //
 
 #import "UVSourceManager.h"
-#import "NSArray+Util.h"
-#import "UVPListRepositoryType.h"
 #import "UVSourceRepository.h"
+
+#import "NSArray+Util.h"
+
+#import "UVErrorDomain.h"
 #import "KeyConstants.h"
 
 @interface UVSourceManager ()
@@ -43,10 +45,31 @@
     return [[[RSSSource alloc] initWithURL:url links:links] autorelease];
 }
 
-- (void)insertObject:(RSSSource *)source {
-    if (![self.sources containsObject:source]) {
-        [self.sources addObject:source];
+- (BOOL)insertSourceWithURL:(NSURL *)url
+                      links:(NSArray<NSDictionary *> *)links
+                      error:(out NSError **)error {
+    if (!url || !links || !links.count) {
+        [self provideErrorForReference:error];
+        return NO;
     }
+    
+    NSArray<RSSLink *> *actualLinks = [links map:^RSSLink *(NSDictionary *rawLink) {
+        return [RSSLink objectWithDictionary:rawLink];
+    }];
+    
+    if (!actualLinks || !actualLinks.count) {
+        [self provideErrorForReference:error];
+        return NO;
+    }
+    
+    RSSSource *source = [[[RSSSource alloc] initWithURL:url links:actualLinks] autorelease];
+    
+    if (!source) {
+        [self provideErrorForReference:error];
+        return NO;
+    }
+    [self insertObject:source];
+    return YES;
 }
 
 - (void)removeObject:(RSSSource *)source {
@@ -86,6 +109,25 @@
         return source.dictionaryFromObject;
     }];
     [self.repository updateData:sources error:error];
+    return YES;
+}
+
+// MARK: - Private
+
+- (void)insertObject:(RSSSource *)source {
+    if (![self.sources containsObject:source]) {
+        [self.sources addObject:source];
+    }
+}
+
+- (NSError *)sourceError {
+    return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
+}
+
+- (BOOL)provideErrorForReference:(out NSError **)error {
+    if (error) {
+        *error = [self sourceError];
+    }
     return YES;
 }
 

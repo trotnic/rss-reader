@@ -6,15 +6,12 @@
 //
 
 #import "RSSLink.h"
-
-NSString *const kRSSLinkTitle = @"title";
-NSString *const kRSSLinkLink = @"link";
-NSString *const kRSSLinkSelected = @"selected";
+#import "UVRSSLinkKeys.h"
 
 @interface RSSLink ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, copy, readwrite) NSString *link;
+@property (nonatomic, retain, readwrite) NSURL *url;
 
 @end
 
@@ -27,20 +24,23 @@ NSString *const kRSSLinkSelected = @"selected";
     }
     
     return [[[RSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
-                                      link:dictionary[kRSSLinkLink]
+                                       url:[NSURL URLWithString:dictionary[kRSSLinkURL]]
                                   selected:[dictionary[kRSSLinkSelected] boolValue]] autorelease];
 }
 
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link {
-    return [self initWithTitle:title link:link selected:NO];
+- (instancetype)initWithTitle:(NSString *)title
+                          url:(NSURL *)url {
+    return [self initWithTitle:title url:url selected:NO];
 }
 
-- (instancetype)initWithTitle:(NSString *)title link:(NSString *)link selected:(BOOL)selected
+- (instancetype)initWithTitle:(NSString *)title
+                          url:(NSURL *)url
+                     selected:(BOOL)selected
 {
     self = [super init];
     if (self) {
         _title = [title copy];
-        _link = [link copy];
+        _url = [url retain];
         _selected = selected;
     }
     return self;
@@ -49,14 +49,14 @@ NSString *const kRSSLinkSelected = @"selected";
 - (void)dealloc
 {
     [_title release];
-    [_link release];
+    [_url release];
     [super dealloc];
 }
 
 - (NSDictionary *)dictionaryFromObject {
     return @{
         kRSSLinkTitle : self.title,
-        kRSSLinkLink : self.link,
+        kRSSLinkURL : self.url.absoluteString,
         kRSSLinkSelected : [NSNumber numberWithBool:self.isSelected]
     };
     
@@ -64,13 +64,20 @@ NSString *const kRSSLinkSelected = @"selected";
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@, %@", self.link, self.title, self.isSelected ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"%@, %@, %@", self.url, self.title, self.isSelected ? @"YES" : @"NO"];
+}
+
+// MARK: -
+
+- (void)configureURLRelativeToURL:(NSURL *)url {
+    self.url = [NSURL URLWithString:self.url.absoluteString
+                      relativeToURL:url].absoluteURL;
 }
 
 // MARK: - RSSLinkViewModel
 
 - (NSString *)linkTitle {
-    return self.title.length != 0 ? self.title : self.link;
+    return self.title.length != 0 ? self.title : self.url.absoluteString;
 }
 
 // MARK: - NSCoding
@@ -84,7 +91,7 @@ NSString *const kRSSLinkSelected = @"selected";
     self = [super init];
     if (self) {
         self.title = [coder decodeObjectOfClass:NSString.class forKey:kRSSLinkTitle];
-        self.link = [coder decodeObjectOfClass:NSString.class forKey:kRSSLinkLink];
+        self.url = [coder decodeObjectOfClass:NSURL.class forKey:kRSSLinkURL];
         self.selected = [coder decodeBoolForKey:kRSSLinkSelected];
     }
     return self;
@@ -93,7 +100,7 @@ NSString *const kRSSLinkSelected = @"selected";
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:self.title forKey:kRSSLinkTitle];
-    [coder encodeObject:self.link forKey:kRSSLinkLink];
+    [coder encodeObject:self.url forKey:kRSSLinkURL];
     [coder encodeBool:self.isSelected forKey:kRSSLinkSelected];
 }
 
@@ -101,7 +108,7 @@ NSString *const kRSSLinkSelected = @"selected";
 
 - (id)copyWithZone:(struct _NSZone *)zone {
     RSSLink *copy = [RSSLink new];
-    copy.link = self.link;
+    copy.url = self.url;
     copy.selected = self.isSelected;
     copy.title = self.title;
     return copy;

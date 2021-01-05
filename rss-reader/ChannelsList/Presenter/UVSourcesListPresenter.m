@@ -6,8 +6,6 @@
 //
 
 #import "UVSourcesListPresenter.h"
-#import "NSString+StringExtractor.h"
-#import "UVNetwork.h"
 #import "NSArray+Util.h"
 
 @interface UVSourcesListPresenter ()
@@ -16,46 +14,32 @@
 
 @implementation UVSourcesListPresenter
 
+@synthesize view;
+
 // MARK: - UVSourcesListPresenterType
 
-- (NSArray<id<RSSLinkViewModel>> *)items {
-    return self.sourceManager.links;
-}
-
 - (void)discoverAddress:(NSString *)address {
-    NSURL *url = [self buildURLFromAddress:address];
+    NSError *error = nil;
+    NSURL *url = [self.network validateAddress:address error:&error];
+    
+    if (error || !url) {
+        [self showError:RSSErrorTypeBadURL];
+        return;
+    }
     
     __block typeof(self)weakSelf = self;
-    [self.network fetchDataOnURL:url
-                      completion:^(NSData *data, NSError *error) {
+    [self.network fetchDataFromURL:url
+                        completion:^(NSData *data, NSError *error) {
         if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view presentError:[weakSelf provideErrorOfType:RSSErrorTypeBadURL]];
-            });
+            [weakSelf showError:RSSErrorTypeBadURL];
             return;
         }
-        [weakSelf.dataRecognizer discoverLinks:data
-                                    completion:^(NSArray<RSSLink *> *links, RSSError error) {
-            switch (error) {
-                case RSSErrorTypeNone: {
-                    RSSSource *source = [weakSelf.sourceManager buildObjectWithURL:url links:links];
-                    [weakSelf.sourceManager insertObject:source];
-                    NSError *error = nil;
-                    [weakSelf.sourceManager saveState:&error];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view stopSearchWithUpdate:error == nil];
-                    });
-                    break;
-                }
-                default: {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view stopSearchWithUpdate:NO];
-                        [weakSelf.view presentError:[weakSelf provideErrorOfType:error]];
-                    });
-                }
-            }
-        }];
+        [weakSelf discoverLinks:data url:url];
     }];
+}
+
+- (NSArray<id<UVRSSLinkViewModel>> *)items {
+    return self.sourceManager.links;
 }
 
 - (void)selectItemAtIndex:(NSInteger)index {
@@ -64,28 +48,53 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view updatePresentation];
         });
-        NSError *error = nil;
-        [self.sourceManager saveState:&error];
-        if(error) {
-            [self.sourceManager saveState:&error];
-            NSLog(@"%@", error);
-        }
+        [self saveState];
     });
 }
 
 // MARK: - Private
 
-- (NSURL *)buildURLFromAddress:(NSString *)address {
-    NSURL *url = [NSURL URLWithString:@""
-                        relativeToURL:[NSURL URLWithString:address]].absoluteURL;
-    
-    if (!url.scheme) {
-        NSURLComponents *comps = [NSURLComponents componentsWithURL:url
-                                            resolvingAgainstBaseURL:YES];
-        comps.scheme = @"https";
-        url = comps.URL;
+- (void)discoverLinks:(NSData *)data url:(NSURL *)url {
+    __block typeof(self)weakSelf = self;
+    [self.dataRecognizer discoverLinks:data
+                            completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.view stopSearchWithUpdate:NO];
+                [weakSelf showError:RSSErrorNoRSSLinks];
+            });
+            return;
+        }
+        
+        NSError *insertError = nil;
+        [weakSelf.sourceManager insertSourceWithURL:url
+                                              links:rawLinks
+                                              error:&insertError];
+        
+        if (insertError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.view stopSearchWithUpdate:NO];
+                [weakSelf showError:RSSErrorNoRSSLinks];
+            });
+        }
+        
+        NSError *saveError = nil;
+        [weakSelf.sourceManager saveState:&error];
+        // TODO: -
+        BOOL shouldUpdateResults = saveError == nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.view stopSearchWithUpdate:shouldUpdateResults];
+        });
+    }];
+}
+
+- (void)saveState {
+    NSError *error = nil;
+    [self.sourceManager saveState:&error];
+    if(error) {
+        [self.sourceManager saveState:&error];
+        NSLog(@"%@", error);
     }
-    return url;
 }
 
 @end

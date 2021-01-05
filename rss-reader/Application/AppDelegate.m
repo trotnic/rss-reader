@@ -6,9 +6,9 @@
 //
 
 #import "AppDelegate.h"
-#import "FeedXMLParser.h"
+#import "UVFeedXMLParser.h"
 #import "UVChannelFeedPresenter.h"
-#import "UVChanngelFeedViewController.h"
+#import "UVChannelFeedViewController.h"
 #import "UVSourceManager.h"
 #import "UVSourceManager.h"
 #import "UVDataRecognizer.h"
@@ -17,6 +17,9 @@
 #import "UVSourcesListPresenter.h"
 #import "UVNetwork.h"
 #import "KeyConstants.h"
+#import "UVFeedXMLParser.h"
+#import "UVChannelFeedViewController.h"
+#import "UVNetwork.h"
 
 @interface AppDelegate ()
 
@@ -41,18 +44,19 @@
 - (void)setupComponents {
     UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
     UVSourceManager *sourceManager = [[UVSourceManager new] autorelease];
+    UVNetwork *network = [[UVNetwork new] autorelease];
     
     UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
                                                                              sourceManager:sourceManager
-                                                                                   network:UVNetwork.shared];
-    UVChanngelFeedViewController *controller = [[UVChanngelFeedViewController alloc] initWithPresenter:[presenter autorelease]];
+                                                                                   network:network];
+    UVChannelFeedViewController *controller = [[UVChannelFeedViewController alloc] initWithPresenter:[presenter autorelease]];
     presenter.view = controller;
     
     [controller setupOnRighButtonClickAction:^{
         
         UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
                                                                                  sourceManager:sourceManager
-                                                                                       network:UVNetwork.shared];
+                                                                                       network:network];
         UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:[presenter autorelease]];
         presenter.view = [presentedController autorelease];
         [controller.navigationController pushViewController:presentedController animated:YES];

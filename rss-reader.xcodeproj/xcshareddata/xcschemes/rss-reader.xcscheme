@@ -26,7 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -35,16 +36,6 @@
                BlueprintIdentifier = "2B1903872563FE17006D755E"
                BuildableName = "rss-readerTests.xctest"
                BlueprintName = "rss-readerTests"
-               ReferencedContainer = "container:rss-reader.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2B1903922563FE17006D755E"
-               BuildableName = "rss-readerUITests.xctest"
-               BlueprintName = "rss-readerUITests"
                ReferencedContainer = "container:rss-reader.xcodeproj">
             </BuildableReference>
          </TestableReference>

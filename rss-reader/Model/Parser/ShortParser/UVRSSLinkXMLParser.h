@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVRSSLinkXMLParser : NSObject <UVRSSLinkXMLParserType>
 
-+ (instancetype)parser;
-
 @end
 
 NS_ASSUME_NONNULL_END
