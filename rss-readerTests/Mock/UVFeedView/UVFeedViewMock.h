@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isCalled;
 @property (nonatomic, assign) BOOL isActivityShown;
 @property (nonatomic, retain) NSError *error;
+@property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
 
 @end
 

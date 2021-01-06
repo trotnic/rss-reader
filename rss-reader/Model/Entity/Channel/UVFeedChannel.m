@@ -48,13 +48,13 @@
     return [self.link isEqualToString:[other link]];
 }
 
-// MARK: - FeedChannelViewModel
+// MARK: - UVFeedChannelDisplayModel
 
 - (NSString *)channelTitle {
     return [[self.title copy] autorelease];
 }
 
-- (NSArray<id<UVFeedItemViewModel>> *)channelItems {
+- (NSArray<id<UVFeedItemDisplayModel>> *)channelItems {
     return self.items;
 }
 

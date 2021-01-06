@@ -70,12 +70,12 @@
 		2B1903DF256406A3006D755E /* UVFeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedItem.m; sourceTree = "<group>"; };
 		2B1903E525640873006D755E /* UVFeedXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedXMLParser.h; sourceTree = "<group>"; };
 		2B1903E625640873006D755E /* UVFeedXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedXMLParser.m; sourceTree = "<group>"; };
-		2B4259142566B49A0084C0A4 /* UVFeedChannelViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelViewModel.h; sourceTree = "<group>"; };
+		2B4259142566B49A0084C0A4 /* UVFeedChannelDisplayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelDisplayModel.h; sourceTree = "<group>"; };
 		2B53014D256E430200E82D56 /* NSDateFormatter+FormatInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+FormatInitializable.h"; sourceTree = "<group>"; };
 		2B53014E256E430200E82D56 /* NSDateFormatter+FormatInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+FormatInitializable.m"; sourceTree = "<group>"; };
 		2B653A0325654EE8008A76A3 /* UVFeedChannel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedChannel.h; sourceTree = "<group>"; };
 		2B653A0425654EE8008A76A3 /* UVFeedChannel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedChannel.m; sourceTree = "<group>"; };
-		2BB54D152565183F00960B3F /* UVFeedItemViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedItemViewModel.h; sourceTree = "<group>"; };
+		2BB54D152565183F00960B3F /* UVFeedItemDisplayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedItemDisplayModel.h; sourceTree = "<group>"; };
 		2BBE8E37256D37E300B31BC5 /* UVFeedParserType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedParserType.h; sourceTree = "<group>"; };
 		2BBE8E57256D390F00B31BC5 /* UVFeedProviderType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedProviderType.h; sourceTree = "<group>"; };
 		2BBE8E58256D390F00B31BC5 /* UVFeedProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedProvider.h; sourceTree = "<group>"; };
@@ -242,9 +242,9 @@
 		2B1903BD2563FEE4006D755E /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				73B3766325A0A2D000C97B03 /* UVFeedPresenterType.h */,
 				73B3766525A0A2D000C97B03 /* UVFeedPresenter.h */,
 				73B3766425A0A2D000C97B03 /* UVFeedPresenter.m */,
+				73B3766325A0A2D000C97B03 /* UVFeedPresenterType.h */,
 			);
 			name = Presenter;
 			sourceTree = "<group>";
@@ -265,7 +265,7 @@
 			children = (
 				2B1903DE256406A3006D755E /* UVFeedItem.h */,
 				2B1903DF256406A3006D755E /* UVFeedItem.m */,
-				2BB54D152565183F00960B3F /* UVFeedItemViewModel.h */,
+				2BB54D152565183F00960B3F /* UVFeedItemDisplayModel.h */,
 				732E3A6C259FB0960016A887 /* UVFeedItemKeys.h */,
 			);
 			path = FeedItem;
@@ -313,7 +313,7 @@
 			children = (
 				2B653A0325654EE8008A76A3 /* UVFeedChannel.h */,
 				2B653A0425654EE8008A76A3 /* UVFeedChannel.m */,
-				2B4259142566B49A0084C0A4 /* UVFeedChannelViewModel.h */,
+				2B4259142566B49A0084C0A4 /* UVFeedChannelDisplayModel.h */,
 				732E3A68259FA9A50016A887 /* UVFeedChannelKeys.h */,
 			);
 			path = Channel;

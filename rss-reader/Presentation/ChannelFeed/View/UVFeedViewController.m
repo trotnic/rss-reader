@@ -6,12 +6,12 @@
 //
 
 #import "UVFeedViewController.h"
-#import "UVFeedChannelViewModel.h"
 #import "UVFeedTableViewCell.h"
-#import "UVFeedPresenterType.h"
+#import "UVFeedChannelDisplayModel.h"
+
 #import "UIViewController+ErrorPresenter.h"
 
-CGFloat const kFadeAnimationDuration = 0.1;
+static CGFloat const kFadeAnimationDuration = 0.1;
 
 @interface UVFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -20,12 +20,15 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 
+@property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
+
 @end
 
 @implementation UVFeedViewController
 
 - (void)dealloc
 {
+    [_channel release];
     [_presenter release];
     [_tableView release];
     [_refreshControl release];
@@ -90,7 +93,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row]];
+    [cell setupWithModel:self.channel.channelItems[indexPath.row]];
     
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
@@ -101,7 +104,7 @@ CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.presenter.viewModel.channelItems.count;
+    return self.channel.channelItems.count;
 }
 
 // MARK: - UITableViewDelegate
@@ -113,9 +116,10 @@ CGFloat const kFadeAnimationDuration = 0.1;
 
 // MARK: - FeedViewType
 
-- (void)updatePresentation {
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel {
+    self.channel = channel;
     [self.tableView reloadData];
-    self.navigationItem.title = [self.presenter.viewModel channelTitle];
+    self.navigationItem.title = [self.channel channelTitle];
     [self.refreshControl endRefreshing];
 }
 

@@ -6,12 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UVFeedChannelDisplayModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedViewType <NSObject>
 
-- (void)updatePresentation;
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel;
 - (void)rotateActivityIndicator:(BOOL)show;
 - (void)presentError:(NSError *)error;
 

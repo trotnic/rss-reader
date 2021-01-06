@@ -60,7 +60,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
     return [self.link isEqualToString:[other link]];
 }
 
-// MARK: - UVFeedItemViewModel
+// MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {
     return [[self.title copy] autorelease];

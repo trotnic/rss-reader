@@ -5,9 +5,7 @@
 //  Created by Uladzislau on 11/18/20.
 //
 
-#import <UIKit/UIKit.h>
 #import "UVFeedPresenter.h"
-#import "UVFeedViewType.h"
 
 #import "UVFeedChannel.h"
 #import "UVFeedXMLParser.h"
@@ -25,7 +23,6 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 @property (nonatomic, retain) id<UVNetworkType> network;
 
 @property (nonatomic, assign) UIApplication *application;
-@property (nonatomic, assign) id<UVFeedViewType> view;
 
 @end
 
@@ -33,14 +30,11 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 // MARK: -
 
-
-- (instancetype)initWithView:(id<UVFeedViewType>)view
-                    provider:(id<UVFeedProviderType>)provider
-                     network:(id<UVNetworkType>)network
+- (instancetype)initWithProvider:(id<UVFeedProviderType>)provider
+                         network:(id<UVNetworkType>)network
 {
     self = [super init];
     if (self) {
-        _view = view;
         _provider = [provider retain];
         _network = [network retain];
     }
@@ -58,14 +52,14 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
-    [self.view rotateActivityIndicator:YES];
+    [self.viewDelegate rotateActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
     [self.network fetchDataFromURL:[NSURL URLWithString:kFeedURL]
                         completion:^(NSData *data, NSError *error) {
         if (error) {
             [weakSelf showError:RSSErrorTypeBadNetwork];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view rotateActivityIndicator:NO];
+                [weakSelf.viewDelegate rotateActivityIndicator:NO];
             });
             return;
         }
@@ -79,10 +73,6 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
             completionHandler:^(BOOL success) {
         NSLog(@"%@", success ? @" is opened" : @" isn't opened");
     }];
-}
-
-- (id<UVFeedChannelViewModel>)viewModel {
-    return self.channel;
 }
 
 // MARK: - Private
@@ -102,8 +92,8 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
         }
         weakSelf.channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.view rotateActivityIndicator:NO];
-            [weakSelf.view updatePresentation];
+            [weakSelf.viewDelegate rotateActivityIndicator:NO];
+            [weakSelf.viewDelegate updatePresentationWithChannel:weakSelf.channel];
         });
     }];
 }
@@ -114,7 +104,7 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 - (void)showError:(RSSError)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view presentError:[self provideErrorOfType:error]];
+        [self.viewDelegate presentError:[self provideErrorOfType:error]];
     });
 }
 

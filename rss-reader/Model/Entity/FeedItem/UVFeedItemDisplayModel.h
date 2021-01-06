@@ -1,5 +1,5 @@
 //
-//  UVFeedItemViewModel.h
+//  UVFeedItemDisplayModel.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVFeedItemViewModel <NSObject>
+@protocol UVFeedItemDisplayModel <NSObject>
 
 - (NSString *)articleTitle;
 - (NSString *)articleCategory;

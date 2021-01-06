@@ -27,9 +27,9 @@
 
 - (void)setupAppearance {
     UVFeedViewController *controller = [UVFeedViewController new];
-    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithView:controller
-                                                              provider:[[UVFeedProvider new] autorelease]
-                                                               network:[[UVNetwork new] autorelease]];
+    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
+                                                                   network:[[UVNetwork new] autorelease]];
+    presenter.viewDelegate = controller;
     controller.presenter = [presenter autorelease];
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];

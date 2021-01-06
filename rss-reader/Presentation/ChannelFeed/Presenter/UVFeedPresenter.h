@@ -5,7 +5,7 @@
 //  Created by Uladzislau on 11/18/20.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "UVFeedPresenterType.h"
 #import "UVNetworkType.h"
 #import "UVFeedViewType.h"
@@ -15,9 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVFeedPresenter : NSObject <UVFeedPresenterType>
 
-- (instancetype)initWithView:(id<UVFeedViewType>)view
-                    provider:(id<UVFeedProviderType>)provider
-                     network:(id<UVNetworkType>)network;
+@property (nonatomic, assign) UIViewController<UVFeedViewType> *viewDelegate;
+
+- (instancetype)initWithProvider:(id<UVFeedProviderType>)provider
+                         network:(id<UVNetworkType>)network;
 
 @end
 

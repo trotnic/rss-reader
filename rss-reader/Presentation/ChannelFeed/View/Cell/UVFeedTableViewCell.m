@@ -131,10 +131,10 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 // MARK: -
 
-- (void)setupWithViewModel:(id<UVFeedItemViewModel>)viewModel {
-    self.dateLabel.text = [viewModel articleDate];
-    self.titleLabel.text = [viewModel articleTitle];
-    self.categoryLabel.text = [viewModel articleCategory];
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model {
+    self.dateLabel.text = [model articleDate];
+    self.titleLabel.text = [model articleTitle];
+    self.categoryLabel.text = [model articleCategory];
 }
 
 @end

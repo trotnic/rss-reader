@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVFeedItemViewModel.h"
+#import "UVFeedItemDisplayModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) UILabel *categoryLabel;
 
 + (NSString *)cellIdentifier;
-- (void)setupWithViewModel:(id<UVFeedItemViewModel>)viewModel;
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model;
 
 @end
 

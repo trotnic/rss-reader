@@ -19,8 +19,9 @@
     self.isActivityShown = show;
 }
 
-- (void)updatePresentation {
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel {
     self.isCalled = YES;
+    self.channel = channel;
 }
 
 @end
