@@ -42,7 +42,7 @@
 
 - (void)showError:(RSSError)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view presentError:[self provideErrorOfType:error]];
+        [self.viewDelegate presentError:[self provideErrorOfType:error]];
     });
 }
 

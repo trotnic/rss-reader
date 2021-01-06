@@ -28,9 +28,9 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 @property (nonatomic, retain) UIButton *expandButton;
 
-@property (nonatomic, copy) void(^setupCompletion)(BOOL);
+@property (nonatomic, copy) void(^setupCompletion)(void);
 
-@property (nonatomic, retain) id<UVFeedItemViewModel> viewModel;
+@property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
 
 @end
 
@@ -59,7 +59,7 @@ static NSInteger const kTitleNumberOfLines = 0;
     [_expandButton release];
     [_descriptionLabel release];
     [_setupCompletion release];
-    [_viewModel release];
+    [_model release];
     
     [_supplementaryTextStack release];
     [_supplementaryButtonStack release];
@@ -182,24 +182,24 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 // MARK: -
 
-- (void)setupWithViewModel:(id<UVFeedItemViewModel>)viewModel
-          reloadCompletion:(void(^)(BOOL))completion {
-    self.viewModel = viewModel;
-    self.viewModel.frame = self.frame;
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model
+      reloadCompletion:(void (^)(void))completion {
+    self.model = model;
+    self.model.frame = self.frame;
     self.setupCompletion = completion;
-    self.dateLabel.text = [self.viewModel articleDate];
-    self.titleLabel.text = [self.viewModel articleTitle];
-    self.categoryLabel.text = [self.viewModel articleCategory];
-    self.descriptionLabel.text = [self.viewModel articleDescription];
-    self.descriptionLabel.hidden = !self.viewModel.isExpand;
+    self.dateLabel.text = [self.model articleDate];
+    self.titleLabel.text = [self.model articleTitle];
+    self.categoryLabel.text = [self.model articleCategory];
+    self.descriptionLabel.text = [self.model articleDescription];
+    self.descriptionLabel.hidden = !self.model.isExpand;
 }
 
 // MARK: -
 - (void)toggleDescription {
-    self.viewModel.expand = !self.viewModel.isExpand;
-    self.descriptionLabel.hidden = self.viewModel.isExpand;
-    self.viewModel.frame = self.bounds;
-    self.setupCompletion(self.viewModel.isExpand);
+    self.model.expand = !self.model.isExpand;
+    self.descriptionLabel.hidden = self.model.isExpand;
+    self.model.frame = self.bounds;
+    self.setupCompletion();
 }
 
 @end

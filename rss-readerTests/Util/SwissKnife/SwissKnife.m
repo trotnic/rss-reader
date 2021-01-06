@@ -13,4 +13,8 @@
     return [NSError errorWithDomain:@"uvolchyk.testsuite" code:200000 userInfo:nil];
 }
 
++ (NSURL *)mockURL {
+    return [NSURL URLWithString:@"https://tut.by"];
+}
+
 @end

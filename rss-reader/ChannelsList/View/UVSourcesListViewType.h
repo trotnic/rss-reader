@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVSourcesListViewType <NSObject, UVBaseViewType>
+@protocol UVSourcesListViewType <UVBaseViewType>
 
 - (void)stopSearchWithUpdate:(BOOL)update;
 

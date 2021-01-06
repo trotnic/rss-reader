@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelFeedViewController : UIViewController <UVChannelFeedViewType>
 
-- (instancetype)initWithPresenter:(id<UVChannelFeedPresenterType>)presenter;
+@property (nonatomic, retain) id<UVChannelFeedPresenterType> presenter;
+
 - (void)setupOnRighButtonClickAction:(void(^)(void))completion;
 
 @end

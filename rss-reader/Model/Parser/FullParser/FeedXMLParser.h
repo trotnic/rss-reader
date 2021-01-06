@@ -6,9 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FeedParserType.h"
+#import "UVFeedParserType.h"
 
-@interface FeedXMLParser : NSObject <FeedParserType>
+@interface UVFeedXMLParser : NSObject <UVFeedParserType>
 
 + (instancetype)parser;
 

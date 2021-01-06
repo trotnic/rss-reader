@@ -13,26 +13,15 @@ static NSString *const kStubRelativePath = @"";
 
 @implementation UVNetwork
 
-- (void)dealloc
-{
-    [_session release];
-    [super dealloc];
-}
-
 // MARK: -
 
 - (void)fetchDataFromURL:(NSURL *)url
               completion:(void (^)(NSData *, NSError *))completion {
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
-            [[self.session dataTaskWithURL:url
-                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                if(error) {
-                    completion(nil, error);
-                    return;
-                }
-                completion(data, nil);
-            }] resume];
+            NSError *error = nil;
+            NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+            completion(data, error);
         }
     }];
 }
@@ -84,15 +73,6 @@ static NSString *const kStubRelativePath = @"";
         url = comps.URL;
     }
     return url;
-}
-
-// MARK: - Lazy
-
-- (NSURLSession *)session {
-    if(!_session) {
-        _session = [NSURLSession.sharedSession retain];
-    }
-    return _session;
 }
 
 @end

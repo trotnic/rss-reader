@@ -17,7 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isCalled;
 @property (nonatomic, retain) NSMutableArray<RSSSource *> *sourcesToReturn;
 @property (nonatomic, retain) RSSLink *linkToReturn;
-@property (nonatomic, retain) NSError *errorToReturn;
+@property (nonatomic, retain) NSError *insertionError;
+@property (nonatomic, retain) NSError *savingError;
+
+@property (nonatomic, retain) NSURL *providedURL;
+@property (nonatomic, retain) NSArray<NSDictionary *> *providedLinks;
+@property (nonatomic, assign) BOOL validationResultToReturn;
 
 @end
 

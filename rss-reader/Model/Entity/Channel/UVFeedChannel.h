@@ -6,12 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedChannelViewModel.h"
+#import "UVFeedChannelDisplayModel.h"
+#import "UVFeedChannelKeys.h"
 #import "UVFeedItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVFeedChannel : NSObject <UVFeedChannelViewModel>
+@interface UVFeedChannel : NSObject <UVFeedChannelDisplayModel>
 
 @property (nonatomic, copy, readonly) NSString *link;
 @property (nonatomic, copy, readonly) NSString *title;

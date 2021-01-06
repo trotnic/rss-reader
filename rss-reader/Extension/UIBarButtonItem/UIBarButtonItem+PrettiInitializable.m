@@ -7,7 +7,7 @@
 
 #import "UIBarButtonItem+PrettiInitializable.h"
 
-@implementation UIBarButtonItem (PrettiInitializable)
+@implementation UIBarButtonItem (PrettyInitializable)
 
 + (instancetype)fillerItem {
     return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace

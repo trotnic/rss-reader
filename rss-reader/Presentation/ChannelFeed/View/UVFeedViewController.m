@@ -5,17 +5,30 @@
 //  Created by Uladzislau on 11/17/20.
 //
 
+<<<<<<< HEAD:rss-reader/ContentFlow/View/UVChannelFeedViewController.m
 #import "UVChannelFeedViewController.h"
+#import "UVFeedChannelViewModel.h"
 #import "UVFeedTableViewCell.h"
 #import "UVChannelFeedPresenterType.h"
-#import "UVFeedItemWebViewController.h"
-
 #import "UIViewController+ErrorPresenter.h"
+#import "UVFeedItemWebViewController.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
 static CGFloat const kFadeAnimationDuration = 0.1;
 
 @interface UVChannelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
+=======
+#import "UVFeedViewController.h"
+#import "UVFeedTableViewCell.h"
+#import "UVFeedChannelDisplayModel.h"
+
+#import "UIViewController+ErrorPresenter.h"
+#import "UVFeedItemWebViewController.h"
+
+static CGFloat const kFadeAnimationDuration = 0.1;
+
+@interface UVFeedViewController () <UITableViewDelegate, UITableViewDataSource>
+>>>>>>> develop_v1.2:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
@@ -23,15 +36,37 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 @property (nonatomic, retain) UIBarButtonItem *settingsButton;
 @property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
 
+<<<<<<< HEAD:rss-reader/ContentFlow/View/UVChannelFeedViewController.m
+@property (nonatomic, retain) id<UVChannelFeedPresenterType> presenter;
+
 @property (nonatomic, copy) void(^rightButtonClickAction)(void);
 
 @end
 
 @implementation UVChannelFeedViewController
 
+- (instancetype)initWithPresenter:(id<UVChannelFeedPresenterType>)presenter
+{
+    self = [super init];
+    if (self) {
+        _presenter = [presenter retain];
+    }
+    return self;
+}
+=======
+@property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
+
+@property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
+
+@end
+
+@implementation UVFeedViewController
+>>>>>>> develop_v1.2:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
+
 - (void)dealloc
 {
     [_webView release];
+    [_channel release];
     [_presenter release];
     [_tableView release];
     [_refreshControl release];
@@ -58,8 +93,11 @@ static CGFloat const kFadeAnimationDuration = 0.1;
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.activityIndicator];
     
+<<<<<<< HEAD:rss-reader/ContentFlow/View/UVChannelFeedViewController.m
     self.navigationItem.rightBarButtonItem = self.settingsButton;
     
+=======
+>>>>>>> develop_v1.2:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
     [NSLayoutConstraint activateConstraints:@[
         [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -84,7 +122,12 @@ static CGFloat const kFadeAnimationDuration = 0.1;
         _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+<<<<<<< HEAD:rss-reader/ContentFlow/View/UVChannelFeedViewController.m
+        [_tableView registerClass:UVFeedTableViewCell.class
+           forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
+=======
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
+>>>>>>> develop_v1.2:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
     }
     return _tableView;
 }
@@ -131,8 +174,15 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+<<<<<<< HEAD:rss-reader/ContentFlow/View/UVChannelFeedViewController.m
+    UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier
+                                                              forIndexPath:indexPath];
+    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row]
+            reloadCompletion:^(BOOL toExpand) {
+=======
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row] reloadCompletion:^ {
+    [cell setupWithModel:self.channel.channelItems[indexPath.row] reloadCompletion:^ {
+>>>>>>> develop_v1.2:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
         CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
         if (!CGRectContainsRect(tableView.bounds, cellRect)) {
@@ -154,7 +204,7 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.presenter.channel.channelItems.count;
+    return self.channel.channelItems.count;
 }
 
 // MARK: - UITableViewDelegate
@@ -165,14 +215,15 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.presenter.channel.channelItems[indexPath.row].frame.size.height;
+    return self.channel.channelItems[indexPath.row].frame.size.height;
 }
 
 // MARK: - FeedViewType
 
-- (void)updatePresentation {
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel {
+    self.channel = channel;
     [self.tableView reloadData];
-    self.navigationItem.title = [self.presenter.channel channelTitle];
+    self.navigationItem.title = [self.channel channelTitle];
     [self.refreshControl endRefreshing];
 }
 

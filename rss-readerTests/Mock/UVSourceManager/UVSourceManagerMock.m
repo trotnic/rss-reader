@@ -22,11 +22,6 @@
     return self.sourceToReturn;
 }
 
-- (void)insertObject:(RSSSource *)source {
-    self.isCalled = YES;
-    [self.sourcesToReturn addObject:source];
-}
-
 - (void)removeObject:(nonnull RSSSource *)source {
     self.isCalled = YES;
     [self.sourcesToReturn removeObject:source];
@@ -34,7 +29,9 @@
 
 - (BOOL)saveState:(out NSError **)error {
     self.isCalled = YES;
-    *error = self.errorToReturn;
+    if (error) {
+        *error = self.savingError;
+    }
     return YES;
 }
 
@@ -55,5 +52,18 @@
 - (void)updateObject:(RSSSource *)source {
     self.isCalled = YES;
 }
+
+- (BOOL)insertSourceWithURL:(nonnull NSURL *)url
+                      links:(nonnull NSArray<NSDictionary *> *)links
+                      error:(out NSError * _Nullable * _Nullable)error {
+    self.isCalled = YES;
+    self.providedURL = url;
+    self.providedLinks = links;
+    if (error) {
+        *error = self.insertionError;
+    }
+    return self.validationResultToReturn;
+}
+
 
 @end

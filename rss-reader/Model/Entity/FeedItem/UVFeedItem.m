@@ -15,7 +15,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @interface UVFeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, copy, readwrite) NSURL *url;
+@property (nonatomic, retain, readwrite) NSURL *url;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, copy, readwrite) NSString *category;
 @property (nonatomic, retain, readwrite) NSDate *pubDate;
@@ -64,7 +64,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
     return [self.url isEqual:[other url]];
 }
 
-// MARK: - UVFeedItemViewModel
+// MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {
     return [[self.title copy] autorelease];

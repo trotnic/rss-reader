@@ -49,17 +49,20 @@
     UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
                                                                              sourceManager:sourceManager
                                                                                    network:network];
-    UVChannelFeedViewController *controller = [[UVChannelFeedViewController alloc] initWithPresenter:[presenter autorelease]];
-    presenter.view = controller;
+    
+    UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
+    presenter.viewDelegate = controller;
+    controller.presenter = [presenter autorelease];
     
     [controller setupOnRighButtonClickAction:^{
         
         UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
                                                                                  sourceManager:sourceManager
                                                                                        network:network];
-        UVSourcesListViewController *presentedController = [[UVSourcesListViewController alloc] initWithPresenter:[presenter autorelease]];
-        presenter.view = [presentedController autorelease];
-        [controller.navigationController pushViewController:presentedController animated:YES];
+        UVSourcesListViewController *controller = [UVSourcesListViewController new];
+        presenter.viewDelegate = [controller autorelease];
+        controller.presenter = presenter;
+        [controller.navigationController pushViewController:controller animated:YES];
     }];
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];

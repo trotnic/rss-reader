@@ -5,8 +5,8 @@
 //  Created by Uladzislau Volchyk on 11/27/20.
 //
 
-#ifndef RSSErrorType_h
-#define RSSErrorType_h
+#ifndef RSSError_h
+#define RSSError_h
 
 typedef NS_ENUM(NSInteger, RSSError) {
     RSSErrorTypeBadNetwork,
@@ -15,4 +15,4 @@ typedef NS_ENUM(NSInteger, RSSError) {
     RSSErrorNoRSSLinks
 };
 
-#endif /* RSSErrorType_h */
+#endif /* RSSError_h */

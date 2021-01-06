@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVSourcesListViewController : UIViewController <UVSourcesListViewType>
 
-- (instancetype)initWithPresenter:(id<UVSourcesListPresenterType>)presenter;
+@property (nonatomic, retain) id<UVSourcesListPresenterType> presenter;
 
 @end
 

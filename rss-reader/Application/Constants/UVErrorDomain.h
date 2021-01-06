@@ -8,7 +8,7 @@
 #ifndef UVErrorDomain_h
 #define UVErrorDomain_h
 
-static NSInteger const UVRSSReaderErrorCodeKey = 10000;
+static NSInteger const UVRSSReaderErrorCodeKey      = 10000;
 
 static NSString *const UVNetworkErrorDomain         = @"com.uvolchyk.networkerror";
 static NSString *const UVNullDataErrorDomain        = @"com.uvolchyk.nulldataerror";

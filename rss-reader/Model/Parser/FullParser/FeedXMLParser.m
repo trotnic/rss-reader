@@ -1,28 +1,31 @@
 //
-//  FeedXMLParser.m
+//  UVFeedXMLParser.m
 //  rss-reader
 //
 //  Created by Uladzislau on 11/17/20.
 //
 
-#import "FeedXMLParser.h"
-#import "FeedChannel.h"
-#import "MediaContent.h"
+#import "UVFeedXMLParser.h"
+#import "UVFeedChannel.h"
 #import "NSXMLParser+DelegateInitializable.h"
+#import "TagKeys.h"
+#import "TagAttributeKeys.h"
+#import "AtomKeys.h"
 
-@interface FeedXMLParser () <NSXMLParserDelegate>
+typedef void(^ParseHandler)(UVFeedChannel *_Nullable, NSError *_Nullable);
+
+@interface UVFeedXMLParser () <NSXMLParserDelegate>
 
 @property (nonatomic, copy) ParseHandler completion;
 
 // MARK: - Channel
-@property (nonatomic, retain) FeedChannel *channel;
+@property (nonatomic, retain) UVFeedChannel *channel;
 @property (nonatomic, retain) NSMutableDictionary *channelDictionary;
-@property (nonatomic, retain) NSMutableArray<FeedItem *> *items;
+@property (nonatomic, retain) NSMutableArray<UVFeedItem *> *items;
 
 // MARK: - Item
 @property (nonatomic, retain) NSMutableDictionary *itemDictionary;
 @property (nonatomic, retain) NSMutableString *parsingString;
-@property (nonatomic, retain) NSMutableArray<MediaContent *> *mediaContent;
 
 // MARK: - Util
 @property (nonatomic, assign) BOOL isItem;
@@ -32,7 +35,7 @@
 
 @end
 
-@implementation FeedXMLParser
+@implementation UVFeedXMLParser
 
 + (instancetype)parser {
     return [[FeedXMLParser new] autorelease];
@@ -44,12 +47,20 @@
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
+    if(!data) {
+        completion(nil, self.parser.parserError);
+        [self.parser abortParsing];
+    }
 }
 
 - (void)parseContentsOfURL:(NSURL *)url completion:(ParseHandler)completion {
     self.completion = completion;
     self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
+    if(!url) {
+        completion(nil, self.parser.parserError);
+        [self.parser abortParsing];
+    }
 }
 
 // MARK: - NSXMLParserDelegate
@@ -58,27 +69,26 @@
     self.completion(nil, parseError);
 }
 
-- (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if ([elementName isEqualToString:kRSSItem]) {
+    if([elementName isEqualToString:channelTag]) {
+        self.isItem = NO;
+    }
+    
+    if([elementName isEqualToString:atomLink]) {
+        self.channelDictionary[kRSSChannelLink] = attributeDict[hrefAttr];
+    }
+    
+    if([elementName isEqualToString:itemTag]) {
         self.isItem = YES;
         self.itemDictionary = [NSMutableDictionary dictionary];
-        self.mediaContent = [NSMutableArray array];
     }
     
     if([self.plainTextNodes containsObject:elementName]) {
         self.parsingString = [NSMutableString string];
-    }
-    
-    if([elementName isEqualToString:kRSSMediaContent]) {
-        MediaContent *content = [MediaContent objectWithDictionary:attributeDict];
-        if(content) {
-            [self.mediaContent addObject:content];
-        }
     }
 }
 
@@ -90,10 +100,10 @@ didStartElement:(NSString *)elementName
  didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
-    
-    if([elementName isEqualToString:kRSSChannel]) {
+
+    if([elementName isEqualToString:channelTag]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
-        FeedChannel *channel = [FeedChannel objectWithDictionary:self.channelDictionary];
+        UVFeedChannel *channel = [UVFeedChannel objectWithDictionary:self.channelDictionary];
         if(channel) {
             self.channel = channel;
         } else {
@@ -120,8 +130,7 @@ didStartElement:(NSString *)elementName
     }
     
     if([elementName isEqualToString:kRSSItem]) {
-        [self.itemDictionary setValue:self.mediaContent forKey:kRSSMediaContent];
-        FeedItem *item = [FeedItem objectWithDictionary:self.itemDictionary];
+        UVFeedItem *item = [UVFeedItem objectWithDictionary:self.itemDictionary];
         if(item) {
             [self.items addObject:item];
         }
@@ -140,8 +149,6 @@ didStartElement:(NSString *)elementName
         _channel = nil;
         [_completion release];
         _completion = nil;
-        [_mediaContent release];
-        _mediaContent = nil;
         [_parsingString release];
         _parsingString = nil;
         [_itemDictionary release];
@@ -153,7 +160,7 @@ didStartElement:(NSString *)elementName
 
 // MARK: - Lazy
 
-- (NSMutableArray<FeedItem *> *)items {
+- (NSMutableArray<UVFeedItem *> *)items {
     if(!_items) {
         _items = [NSMutableArray new];
     }
@@ -170,13 +177,12 @@ didStartElement:(NSString *)elementName
 - (NSSet<NSString *> *)plainTextNodes {
     if(!_plainTextNodes) {
         _plainTextNodes = [[NSSet setWithArray:@[
-            kRSSItemTitle,
-            kRSSItemLink,
+            titleTag,
+            linkTag,
             kRSSItemCategory,
             kRSSItemPubDate,
             kRSSItemSummary,
             kRSSChannelTitle,
-            kRSSChannelLink,
             kRSSChannelDescription
         ]] retain];
     }
@@ -193,8 +199,6 @@ didStartElement:(NSString *)elementName
     _channel = nil;
     [_completion release];
     _completion = nil;
-    [_mediaContent release];
-    _mediaContent = nil;
     [_parsingString release];
     _parsingString = nil;
     [_itemDictionary release];

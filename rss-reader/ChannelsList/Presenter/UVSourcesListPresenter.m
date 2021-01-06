@@ -14,7 +14,7 @@
 
 @implementation UVSourcesListPresenter
 
-@synthesize view;
+@synthesize viewDelegate;
 
 // MARK: - UVSourcesListPresenterType
 
@@ -46,7 +46,7 @@
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         [self.sourceManager selectLink:self.sourceManager.links[index]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.view updatePresentation];
+            [self.viewDelegate updatePresentation];
         });
         [self saveState];
     });
@@ -55,12 +55,17 @@
 // MARK: - Private
 
 - (void)discoverLinks:(NSData *)data url:(NSURL *)url {
+    if (!data) {
+        [self showError:RSSErrorNoRSSLinks];
+        return;
+    }
+    
     __block typeof(self)weakSelf = self;
     [self.dataRecognizer discoverLinks:data
                             completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view stopSearchWithUpdate:NO];
+                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
                 [weakSelf showError:RSSErrorNoRSSLinks];
             });
             return;
@@ -73,17 +78,18 @@
         
         if (insertError) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view stopSearchWithUpdate:NO];
+                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
                 [weakSelf showError:RSSErrorNoRSSLinks];
             });
+            return;
         }
         
         NSError *saveError = nil;
-        [weakSelf.sourceManager saveState:&error];
+        [weakSelf.sourceManager saveState:&saveError];
         // TODO: -
-        BOOL shouldUpdateResults = saveError == nil;
+        BOOL shouldUpdateResults = (saveError == nil);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.view stopSearchWithUpdate:shouldUpdateResults];
+            [weakSelf.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
         });
     }];
 }

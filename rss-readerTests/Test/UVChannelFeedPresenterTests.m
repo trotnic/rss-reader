@@ -34,7 +34,7 @@
     _sut = [[UVChannelFeedPresenter alloc] initWithRecognizer:self.dataRecognizer
                                                 sourceManager:self.sourceManager
                                                       network:self.network];
-    _sut.view = _view;
+    _sut.viewDelegate = self.view;
 }
 
 - (void)tearDown {
@@ -42,13 +42,15 @@
 }
 
 - (void)testNoURLProvidedError {
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.error != nil && !self.view.isActivityShown;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
+    [self waitForExpectations:@[expectation] timeout:2];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertFalse(self.network.isCalled);
@@ -56,14 +58,17 @@
 
 - (void)testNetworkErrorOccuredPresented {
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
-    self.network.error = SwissKnife.mockError;
+    self.network.requestError = SwissKnife.mockError;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.error != nil && !self.view.isActivityShown;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
+    [self waitForExpectations:@[expectation] timeout:2];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -72,13 +77,16 @@
 - (void)testNilDataFromNetworkErrorPresented {
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
     self.network.data = RSSDataFactory.rawDataNil;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.error != nil && !self.view.isActivityShown;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
+    [self waitForExpectations:@[expectation] timeout:2];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -88,13 +96,16 @@
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
     self.network.data = RSSDataFactory.rawData;
     self.dataRecognizer.error = SwissKnife.mockError;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.error != nil && !self.view.isActivityShown;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
+    [self waitForExpectations:@[expectation] timeout:2];
     
     XCTAssertTrue(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -105,13 +116,16 @@
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
     self.network.data = RSSDataFactory.rawData;
     self.dataRecognizer.rawChannel = RSSDataFactory.rawChannel;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.error == nil && !self.view.isActivityShown;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertNil(self.view.error);
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertTrue(self.view.isCalled);
-    });
+    [self waitForExpectations:@[expectation] timeout:2];
     
     XCTAssertTrue(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);

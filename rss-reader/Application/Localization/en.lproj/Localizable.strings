@@ -8,20 +8,22 @@
 
 // PLACEHOLDERS
 
-"SEARCH_RSS_SOURCE_PLACEHOLDER" = "Feed address";
+"Feed address" = "Feed address";
 
 // ALERTS
 
-"ALERT_OK_BUTTON_TITLE" = "OK";
+"OK" = "OK";
 
-"BAD_INTERNET_CONNECTION_TITLE" = "Connection error";
-"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Check your network connection and try to reload a feed";
+"Connection error" = "Connection error";
+"Check your network connection and try to reload a feed" = "Check your network connection and try to reload a feed";
 
-"BAD_RSS_FEED_TITLE" = "RSS error";
-"BAD_RSS_FEED_DESCRIPTION" = "Can't recognize RSS feed, use another one";
+"RSS error" = "RSS error";
+"Can't recognize RSS feed, use another one" = "Can't recognize RSS feed, use another one";
 
-"BAD_URL_TITLE" = "URL you input is wrong";
-"BAD_URL_DESCRIPTION" = "Check if you type correct and try again";
+"URL you input is wrong" = "URL you input is wrong";
+"Check if you type correct and try again" = "Check if you type correct and try again";
 
-"NO_RSS_LINKS_TITLE" = "No RSS feeds";
-"NO_RSS_LINKS_DESCRIPTION" = "Try to input another site address";
+"No RSS feeds" = "No RSS feeds";
+"Try to input another site address" = "Try to input another site address";
+
+

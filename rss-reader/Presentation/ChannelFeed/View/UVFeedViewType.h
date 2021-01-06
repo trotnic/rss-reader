@@ -1,5 +1,5 @@
 //
-//  FeedViewType.h
+//  UVFeedViewType.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
@@ -7,14 +7,15 @@
 
 #import <Foundation/Foundation.h>
 #import "UVFeedChannelDisplayModel.h"
-#import "UVBaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVChannelFeedViewType <UVBaseViewType>
+@protocol UVFeedViewType <NSObject>
 
-- (void)rotateActivityIndicator:(BOOL)show;
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel;
 - (void)presentWebPageOnURL:(NSURL *)url;
+- (void)rotateActivityIndicator:(BOOL)show;
+- (void)presentError:(NSError *)error;
 
 @end
 

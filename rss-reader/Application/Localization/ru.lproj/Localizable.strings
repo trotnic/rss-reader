@@ -8,20 +8,21 @@
 
 // PLACEHOLDERS
 
-"SEARCH_RSS_SOURCE_PLACEHOLDER" = "Адрес ленты";
+"Feed address" = "Адрес ленты";
 
 // ALERTS
 
-"ALERT_OK_BUTTON_TITLE" = " ОК";
+"OK" = " ОК";
 
-"BAD_INTERNET_CONNECTION_TITLE" = "Ошибка сети";
-"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Проверьте подключение к интернету и попробуйте обновить ленту";
+"Connection error" = "Ошибка сети";
+"Check your network connection and try to reload a feed" = "Проверьте подключение к интернету и попробуйте обновить ленту";
 
-"BAD_RSS_FEED_TITLE" = "Ошибка RSS";
-"BAD_RSS_FEED_DESCRIPTION" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";
+"RSS error" = "Ошибка RSS";
+"Can't recognize RSS feed, use another one" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";
 
-"BAD_URL_TITLE" = "Неправильный адрес";
-"BAD_URL_DESCRIPTION" = "Введите верный адрес и попробуйте снова";
+"URL you input is wrong" = "Неправильный адрес";
+"Check if you type correct and try again" = "Введите верный адрес и попробуйте снова";
 
-"NO_RSS_LINKS_TITLE" = "Нет RSS лент";
-"NO_RSS_LINKS_DESCRIPTION" = "Попробуйте ввести другой адрес";
+"No RSS feeds" = "Нет RSS лент";
+"Try to input another site address" = "Попробуйте ввести другой адрес";
+

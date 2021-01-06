@@ -6,15 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedChannelDisplayModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVChannelFeedPresenterType <NSObject>
+@protocol UVFeedPresenterType <NSObject>
 
 - (void)updateFeed;
 - (void)openArticleAt:(NSInteger)row;
-- (id<UVFeedChannelDisplayModel>)channel;
 
 @end
 

@@ -5,7 +5,7 @@
 //  Created by Uladzislau Volchyk on 2.01.21.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "UVBaseViewType.h"
 #import "UVSourceManagerType.h"
 #import "UVDataRecognizerType.h"
@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) id<UVSourceManagerType> sourceManager;
 @property (nonatomic, retain, readonly) id<UVNetworkType> network;
 
+@property (nonatomic, assign) UIViewController<UVBaseViewType> *viewDelegate;
+
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
                      sourceManager:(id<UVSourceManagerType>)manager
                            network:(id<UVNetworkType>)network;
-
-@property (nonatomic, assign) id<UVBaseViewType> view;
 
 - (void)showError:(RSSError)error;
 

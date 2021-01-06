@@ -7,6 +7,7 @@
 
 #import "UVSourcesListViewController.h"
 #import "UVSearchViewController.h"
+
 #import "UIViewController+ErrorPresenter.h"
 
 @interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
@@ -15,20 +16,9 @@
 @property (nonatomic, retain) UIBarButtonItem *addSourceButton;
 @property (nonatomic, retain) UVSearchViewController *searchController;
 
-@property (nonatomic, retain) id<UVSourcesListPresenterType> presenter;
-
 @end
 
 @implementation UVSourcesListViewController
-
-- (instancetype)initWithPresenter:(id<UVSourcesListPresenterType>)presenter
-{
-    self = [super init];
-    if (self) {
-        _presenter = [presenter retain];
-    }
-    return self;
-}
 
 - (void)dealloc
 {

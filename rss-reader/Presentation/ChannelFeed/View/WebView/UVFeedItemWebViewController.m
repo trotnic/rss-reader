@@ -126,8 +126,10 @@
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        _openInBrowserButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"safari"]
-                                                         action:@selector(openInBrowser)] retain];
+        _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"safari"]
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(openInBrowser)];
     }
     return _openInBrowserButton;
 }

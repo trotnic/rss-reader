@@ -18,7 +18,7 @@
 
 @implementation UVChannelFeedPresenter
 
-@synthesize view;
+@synthesize viewDelegate;
 
 // MARK: -
 
@@ -31,10 +31,10 @@
 // MARK: - UVChannelFeedPresenterType
 
 - (void)updateFeed {
-    [self.view rotateActivityIndicator:YES];
+    [self.viewDelegate rotateActivityIndicator:YES];
     NSURL *url = self.sourceManager.selectedLink.url;
     if (!url) {
-        [self.view rotateActivityIndicator:NO];
+        [self.viewDelegate rotateActivityIndicator:NO];
         [self showError:RSSErrorTypeBadURL];
         return;
     }
@@ -43,7 +43,7 @@
                         completion:^(NSData *data, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view rotateActivityIndicator:NO];
+                [weakSelf.viewDelegate rotateActivityIndicator:NO];
                 [weakSelf showError:RSSErrorNoRSSLinks];
             });
             return;
@@ -58,11 +58,7 @@
         [self showError:RSSErrorTypeBadURL];
         return;
     }
-    [self.view presentWebPageOnURL:url];
-}
-
-- (id<UVFeedChannelViewModel>)viewModel {
-    return self.channel;
+    [self.viewDelegate presentWebPageOnURL:url];
 }
 
 // MARK: - Private
@@ -82,10 +78,17 @@
         
         weakSelf.channel = [UVFeedChannel objectWithDictionary:channel];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.view rotateActivityIndicator:NO];
-            [weakSelf.view updatePresentation];
+            [weakSelf.viewDelegate rotateActivityIndicator:NO];
+            [weakSelf.viewDelegate updatePresentation];
         });
     }];
+}
+
+- (void)showError:(RSSError)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewDelegate rotateActivityIndicator:NO];
+    });
+    [super showError:error];
 }
 
 @end

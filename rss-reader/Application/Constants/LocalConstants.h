@@ -10,22 +10,22 @@
 
 // PLACEHOLDERS
 
-static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"SEARCH_RSS_SOURCE_PLACEHOLDER";
+static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"Feed address";
 
 // ALERTS
 
-static NSString *const ALERT_OK_BUTTON_TITLE                = @"ALERT_OK_BUTTON_TITLE";
+static NSString *const ALERT_OK_BUTTON_TITLE                = @"OK";
 
-static NSString *const BAD_INTERNET_CONNECTION_TITLE        = @"BAD_INTERNET_CONNECTION_TITLE";
-static NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION  = @"BAD_INTERNET_CONNECTION_DESCRIPTION";
+static NSString *const BAD_INTERNET_CONNECTION_TITLE        = @"Connection error";
+static NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION  = @"Check your network connection and try to reload a feed";
 
-static NSString *const BAD_RSS_FEED_TITLE                   = @"BAD_RSS_FEED_TITLE";
-static NSString *const BAD_RSS_FEED_DESCRIPTION             = @"BAD_RSS_FEED_DESCRIPTION";
+static NSString *const BAD_RSS_FEED_TITLE                   = @"RSS error";
+static NSString *const BAD_RSS_FEED_DESCRIPTION             = @"Can't recognize RSS feed, use another one";
 
-static NSString *const BAD_URL_TITLE                        = @"BAD_URL_TITLE";
-static NSString *const BAD_URL_DESCRIPTION                  = @"BAD_URL_DESCRIPTION";
+static NSString *const BAD_URL_TITLE                        = @"URL you input is wrong";
+static NSString *const BAD_URL_DESCRIPTION                  = @"Check if you type correct and try again";
 
-static NSString *const NO_RSS_LINKS_TITLE                   = @"NO_RSS_LINKS_TITLE";
-static NSString *const NO_RSS_LINKS_DESCRIPTION             = @"NO_RSS_LINKS_DESCRIPTION";
+static NSString *const NO_RSS_LINKS_TITLE                   = @"No RSS feeds";
+static NSString *const NO_RSS_LINKS_DESCRIPTION             = @"Try to input another site address";
 
 #endif /* LocaleConstants_h */

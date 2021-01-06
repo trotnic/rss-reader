@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isCalled;
 @property (nonatomic, retain) NSData *data;
-@property (nonatomic, retain) NSError *error;
+@property (nonatomic, retain) NSError *validationError;
+@property (nonatomic, retain) NSError *requestError;
+@property (nonatomic, retain) NSURL *url;
 
 @end
 
