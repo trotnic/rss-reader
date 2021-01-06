@@ -1,19 +1,19 @@
 //
-//  UVFeedChannelViewModel.h
+//  UVFeedChannelDisplayModel.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/19/20.
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedItemViewModel.h"
+#import "UVFeedItemDisplayModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVFeedChannelViewModel <NSObject>
+@protocol UVFeedChannelDisplayModel <NSObject>
 
 - (NSString *)channelTitle;
-- (NSArray<id<UVFeedItemViewModel>> *)channelItems;
+- (NSArray<id<UVFeedItemDisplayModel>> *)channelItems;
 
 @end
 

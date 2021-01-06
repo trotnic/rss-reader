@@ -6,9 +6,9 @@
 //
 
 #import "UVFeedViewController.h"
-#import "UVFeedChannelViewModel.h"
 #import "UVFeedTableViewCell.h"
-#import "UVFeedPresenterType.h"
+#import "UVFeedChannelDisplayModel.h"
+
 #import "UIViewController+ErrorPresenter.h"
 #import "UVFeedItemWebViewController.h"
 
@@ -20,25 +20,18 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 
-@property (nonatomic, retain) id<UVFeedPresenterType> presenter;
 @property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
+
+@property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
 
 @end
 
 @implementation UVFeedViewController
 
-- (instancetype)initWithPresenter:(id<UVFeedPresenterType>)presenter
-{
-    self = [super init];
-    if (self) {
-        _presenter = [presenter retain];
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     [_webView release];
+    [_channel release];
     [_presenter release];
     [_tableView release];
     [_refreshControl release];
@@ -59,7 +52,7 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 - (void)setupLayout {
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.activityIndicator];
-
+    
     [NSLayoutConstraint activateConstraints:@[
         [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -111,7 +104,7 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithViewModel:self.presenter.viewModel.channelItems[indexPath.row] reloadCompletion:^(BOOL toExpand) {
+    [cell setupWithModel:self.channel.channelItems[indexPath.row] reloadCompletion:^ {
         CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
         if (!CGRectContainsRect(tableView.bounds, cellRect)) {
@@ -130,7 +123,7 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.presenter.viewModel.channelItems.count;
+    return self.channel.channelItems.count;
 }
 
 // MARK: - UITableViewDelegate
@@ -141,14 +134,15 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.presenter.viewModel.channelItems[indexPath.row].frame.size.height;
+    return self.channel.channelItems[indexPath.row].frame.size.height;
 }
 
 // MARK: - FeedViewType
 
-- (void)updatePresentation {
+- (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel {
+    self.channel = channel;
     [self.tableView reloadData];
-    self.navigationItem.title = [self.presenter.viewModel channelTitle];
+    self.navigationItem.title = [self.channel channelTitle];
     [self.refreshControl endRefreshing];
 }
 

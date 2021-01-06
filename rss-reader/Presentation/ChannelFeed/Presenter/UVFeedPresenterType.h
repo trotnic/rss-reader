@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedChannelViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateFeed;
 - (void)openArticleAt:(NSInteger)row;
-- (id<UVFeedChannelViewModel>)viewModel;
 
 @end
 

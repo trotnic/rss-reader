@@ -29,7 +29,7 @@
     _network = [UVNetworkMock new];
     _provider = [UVFeedProviderMock new];
     _sut = [[UVFeedPresenter alloc] initWithProvider:self.provider network:self.network];
-    _sut.view = _view;
+    _sut.viewDelegate = self.view;
 }
 
 - (void)tearDown {
@@ -40,13 +40,15 @@
 - (void)testNetworkErrorOccuredPresented {
     self.network.error = SwissKnife.mockError;
     [self.sut updateFeed];
-    XCTAssertTrue(self.network.isCalled);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         XCTAssertFalse(self.view.isActivityShown);
         XCTAssertNotNil(self.view.error);
         XCTAssertTrue(self.view.isCalled);
     });
+    
+    XCTAssertTrue(self.network.isCalled);
+    XCTAssertFalse(self.provider.isCalled);
 }
 
 - (void)testNilDataErrorPresented {
@@ -59,19 +61,24 @@
         XCTAssertNotNil(self.view.error);
         XCTAssertTrue(self.view.isCalled);
     });
+    
+    XCTAssertTrue(self.network.isCalled);
+    XCTAssertFalse(self.provider.isCalled);
 }
 
 - (void)testProviderErrorPresented {
     self.network.data = RSSFeeDataFactory.rawData;
     self.provider.error = SwissKnife.mockError;
     [self.sut updateFeed];
-    XCTAssertTrue(self.provider.isCalled);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         XCTAssertFalse(self.view.isActivityShown);
         XCTAssertNotNil(self.view.error);
         XCTAssertTrue(self.view.isCalled);
     });
+    
+    XCTAssertTrue(self.network.isCalled);
+    XCTAssertTrue(self.provider.isCalled);
 }
 
 - (void)testChannelIsPresented {
@@ -79,12 +86,22 @@
     self.provider.channel = RSSFeeDataFactory.channel;
     [self.sut updateFeed];
     
-    XCTAssertEqualObjects(self.provider.channel, [self.sut performSelector:@selector(channel)]);
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"channel != nil"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        return self.view.channel == self.provider.channel;
+    }];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         XCTAssertFalse(self.view.isActivityShown);
         XCTAssertNil(self.view.error);
         XCTAssertTrue(self.view.isCalled);
     });
+    
+    [self waitForExpectations:@[expectation] timeout:2];
+    
+    XCTAssertTrue(self.network.isCalled);
+    XCTAssertTrue(self.provider.isCalled);
 }
 
 - (void)testArticleIsPresentedForSafari {

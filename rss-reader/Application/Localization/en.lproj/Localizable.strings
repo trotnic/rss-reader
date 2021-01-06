@@ -6,10 +6,10 @@
   
 */
 
-"ALERT_OK_BUTTON_TITLE" = "OK";
+"OK" = "OK";
 
-"BAD_INTERNET_CONNECTION_TITLE" = "Connection error";
-"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Check your network connection and try to reload a feed";
+"Connection error" = "Connection error";
+"Check your network connection and try to reload a feed" = "Check your network connection and try to reload a feed";
 
-"BAD_RSS_FEED_TITLE" = "RSS error";
-"BAD_RSS_FEED_DESCRIPTION" = "Can't recognize RSS feed, use another one";
+"RSS error" = "RSS error";
+"Can't recognize RSS feed, use another one" = "Can't recognize RSS feed, use another one";

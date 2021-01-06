@@ -6,10 +6,10 @@
   
 */
 
-"ALERT_OK_BUTTON_TITLE" = " ОК";
+"OK" = " ОК";
 
-"BAD_INTERNET_CONNECTION_TITLE" = "Ошибка сети";
-"BAD_INTERNET_CONNECTION_DESCRIPTION" = "Проверьте подключение к интернету и попробуйте обновить ленту";
+"Connection error" = "Ошибка сети";
+"Check your network connection and try to reload a feed" = "Проверьте подключение к интернету и попробуйте обновить ленту";
 
-"BAD_RSS_FEED_TITLE" = "Ошибка RSS";
-"BAD_RSS_FEED_DESCRIPTION" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";
+"RSS error" = "Ошибка RSS";
+"Can't recognize RSS feed, use another one" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";

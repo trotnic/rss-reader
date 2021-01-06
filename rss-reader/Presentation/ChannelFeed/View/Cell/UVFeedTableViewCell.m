@@ -28,9 +28,9 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 @property (nonatomic, retain) UIButton *expandButton;
 
-@property (nonatomic, copy) void(^setupCompletion)(BOOL);
+@property (nonatomic, copy) void(^setupCompletion)(void);
 
-@property (nonatomic, retain) id<UVFeedItemViewModel> viewModel;
+@property (nonatomic, retain) id<UVFeedItemDisplayModel> viewModel;
 
 @end
 
@@ -182,9 +182,9 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 // MARK: -
 
-- (void)setupWithViewModel:(id<UVFeedItemViewModel>)viewModel
-          reloadCompletion:(void(^)(BOOL))completion {
-    self.viewModel = viewModel;
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model
+      reloadCompletion:(void (^)(void))completion {
+    self.viewModel = model;
     self.viewModel.frame = self.frame;
     self.setupCompletion = completion;
     self.dateLabel.text = [self.viewModel articleDate];
@@ -199,7 +199,7 @@ static NSInteger const kTitleNumberOfLines = 0;
     self.viewModel.expand = !self.viewModel.isExpand;
     self.descriptionLabel.hidden = self.viewModel.isExpand;
     self.viewModel.frame = self.bounds;
-    self.setupCompletion(self.viewModel.isExpand);
+    self.setupCompletion();
 }
 
 @end

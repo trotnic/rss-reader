@@ -5,12 +5,14 @@
 //  Created by Uladzislau on 11/18/20.
 //
 
-#import <UIKit/UIKit.h>
 #import "UVFeedPresenter.h"
+
 #import "UVFeedChannel.h"
-#import "UVFeedViewType.h"
-#import "UVFeedProviderType.h"
 #import "UVFeedXMLParser.h"
+
+#import "RSSError.h"
+#import "LocalConstants.h"
+#import "UVErrorDomain.h"
 
 static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
@@ -23,8 +25,6 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 @end
 
 @implementation UVFeedPresenter
-
-@synthesize view;
 
 // MARK: -
 
@@ -50,14 +50,14 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 // MARK: - FeedPresenterType
 
 - (void)updateFeed {
-    [self.view rotateActivityIndicator:YES];
+    [self.viewDelegate rotateActivityIndicator:YES];
     __block typeof(self)weakSelf = self;
     [self.network fetchDataFromURL:[NSURL URLWithString:kFeedURL]
                         completion:^(NSData *data, NSError *error) {
-        if(error) {
+        if (error) {
             [weakSelf showError:RSSErrorTypeBadNetwork];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.view rotateActivityIndicator:NO];
+                [weakSelf.viewDelegate rotateActivityIndicator:NO];
             });
             return;
         }
@@ -66,11 +66,7 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 }
 
 - (void)openArticleAt:(NSInteger)row {
-    [self.view presentWebPageOnURL:[self urlForItemAt:row]];
-}
-
-- (id<UVFeedChannelViewModel>)viewModel {
-    return self.channel;
+    [self.viewDelegate presentWebPageOnURL:[self urlForItemAt:row]];
 }
 
 // MARK: - Private
@@ -90,14 +86,39 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
         }
         weakSelf.channel = channel;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.view rotateActivityIndicator:NO];
-            [weakSelf.view updatePresentation];
+            [weakSelf.viewDelegate rotateActivityIndicator:NO];
+            [weakSelf.viewDelegate updatePresentationWithChannel:weakSelf.channel];
         });
     }];
 }
 
 - (NSURL *)urlForItemAt:(NSInteger)row {
     return [NSURL URLWithString:self.channel.items[row].link];
+}
+
+- (void)showError:(RSSError)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewDelegate presentError:[self provideErrorOfType:error]];
+    });
+}
+
+- (NSError *)provideErrorOfType:(RSSError)type {
+    switch (type) {
+        case RSSErrorTypeBadNetwork: {
+            return [NSError errorWithDomain:UVPresentationErrorDomain
+                                       code:UVRSSReaderErrorCodeKey userInfo:@{
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
+                                           NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
+                                       }];
+        }
+        case RSSErrorTypeParsingError: {
+            return [NSError errorWithDomain:UVPresentationErrorDomain
+                                       code:UVRSSReaderErrorCodeKey userInfo:@{
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
+                                           NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
+                                       }];
+        }
+    }
 }
 
 @end

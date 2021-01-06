@@ -6,12 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedItemViewModel.h"
+#import "UVFeedItemDisplayModel.h"
 #import "UVFeedItemKeys.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVFeedItem : NSObject <UVFeedItemViewModel>
+@interface UVFeedItem : NSObject <UVFeedItemDisplayModel>
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSString *link;

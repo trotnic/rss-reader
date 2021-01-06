@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVNetwork : NSObject <UVNetworkType>
 
-@property (nonatomic, retain) NSURLSession *session;
-
 @end
 
 NS_ASSUME_NONNULL_END

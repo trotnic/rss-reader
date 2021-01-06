@@ -32,7 +32,6 @@
 		73FE22AC25A0E59800522F8C /* UVNetworkMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE229C25A0E59700522F8C /* UVNetworkMock.m */; };
 		73FE22AD25A0E59800522F8C /* SwissKnife.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22A025A0E59700522F8C /* SwissKnife.m */; };
 		73FE22CA25A0E5AE00522F8C /* UVFeedPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22BA25A0E5AE00522F8C /* UVFeedPresenter.m */; };
-		73FE22CD25A0E5AE00522F8C /* UVBasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22C825A0E5AE00522F8C /* UVBasePresenter.m */; };
 		73FE22D325A0E5D900522F8C /* UVFeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22D225A0E5D900522F8C /* UVFeedXMLParser.m */; };
 		73FE22DF25A0E61A00522F8C /* UVFeedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22DD25A0E61A00522F8C /* UVFeedProvider.m */; };
 		73FE22EF25A0E64100522F8C /* UVNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FE22ED25A0E64000522F8C /* UVNetwork.m */; };
@@ -82,10 +81,8 @@
 		731BBF3D25A0F270008F27C1 /* UVFeedItemWebViewType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedItemWebViewType.h; path = Presentation/ChannelFeed/View/WebView/UVFeedItemWebViewType.h; sourceTree = "<group>"; };
 		731BBF3E25A0F271008F27C1 /* UVFeedItemWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVFeedItemWebViewController.h; path = Presentation/ChannelFeed/View/WebView/UVFeedItemWebViewController.h; sourceTree = "<group>"; };
 		731BBFFF25A10498008F27C1 /* UVFeedChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedChannel.m; sourceTree = "<group>"; };
-		731BC00025A10498008F27C1 /* UVFeedChannelViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelViewModel.h; sourceTree = "<group>"; };
 		731BC00125A10498008F27C1 /* UVFeedChannelKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelKeys.h; sourceTree = "<group>"; };
 		731BC00325A10499008F27C1 /* UVFeedChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannel.h; sourceTree = "<group>"; };
-		731BC00B25A104AC008F27C1 /* UVFeedItemViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemViewModel.h; sourceTree = "<group>"; };
 		731BC00C25A104AC008F27C1 /* UVFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItem.h; sourceTree = "<group>"; };
 		731BC00E25A104AC008F27C1 /* UVFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedItem.m; sourceTree = "<group>"; };
 		731BC00F25A104AC008F27C1 /* UVFeedItemKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemKeys.h; sourceTree = "<group>"; };
@@ -118,9 +115,6 @@
 		73FE22A225A0E59700522F8C /* SwithKnife.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwithKnife.h; sourceTree = "<group>"; };
 		73FE22BA25A0E5AE00522F8C /* UVFeedPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedPresenter.m; sourceTree = "<group>"; };
 		73FE22BC25A0E5AE00522F8C /* UVFeedPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedPresenter.h; sourceTree = "<group>"; };
-		73FE22C625A0E5AE00522F8C /* UVBaseViewType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseViewType.h; sourceTree = "<group>"; };
-		73FE22C825A0E5AE00522F8C /* UVBasePresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBasePresenter.m; sourceTree = "<group>"; };
-		73FE22C925A0E5AE00522F8C /* UVBasePresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBasePresenter.h; sourceTree = "<group>"; };
 		73FE22D125A0E5D900522F8C /* UVFeedXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedXMLParser.h; sourceTree = "<group>"; };
 		73FE22D225A0E5D900522F8C /* UVFeedXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedXMLParser.m; sourceTree = "<group>"; };
 		73FE22DD25A0E61A00522F8C /* UVFeedProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedProvider.m; sourceTree = "<group>"; };
@@ -128,13 +122,14 @@
 		73FE22E325A0E63300522F8C /* UVErrorDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVErrorDomain.h; sourceTree = "<group>"; };
 		73FE22E425A0E63300522F8C /* TagAttributeKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagAttributeKeys.h; sourceTree = "<group>"; };
 		73FE22E525A0E63300522F8C /* TagKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagKeys.h; sourceTree = "<group>"; };
-		73FE22E625A0E63300522F8C /* MediaKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaKeys.h; sourceTree = "<group>"; };
 		73FE22E725A0E63300522F8C /* AtomKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomKeys.h; sourceTree = "<group>"; };
 		73FE22EC25A0E64000522F8C /* UVNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNetwork.h; sourceTree = "<group>"; };
 		73FE22ED25A0E64000522F8C /* UVNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNetwork.m; sourceTree = "<group>"; };
 		73FE22EE25A0E64000522F8C /* UVNetworkType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNetworkType.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringExtractor.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+StringExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringExtractor.h"; sourceTree = "<group>"; };
+		CA11C14C25A5E274002019F4 /* UVFeedItemDisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemDisplayModel.h; sourceTree = "<group>"; };
+		CA11C14D25A5E27B002019F4 /* UVFeedChannelDisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelDisplayModel.h; sourceTree = "<group>"; };
 		CA1C9BCE257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+PrettiInitializable.h"; sourceTree = "<group>"; };
 		CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+PrettiInitializable.m"; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
@@ -253,7 +248,7 @@
 				731BC00C25A104AC008F27C1 /* UVFeedItem.h */,
 				731BC00E25A104AC008F27C1 /* UVFeedItem.m */,
 				731BC00F25A104AC008F27C1 /* UVFeedItemKeys.h */,
-				731BC00B25A104AC008F27C1 /* UVFeedItemViewModel.h */,
+				CA11C14C25A5E274002019F4 /* UVFeedItemDisplayModel.h */,
 			);
 			path = FeedItem;
 			sourceTree = "<group>";
@@ -292,7 +287,7 @@
 				731BC00325A10499008F27C1 /* UVFeedChannel.h */,
 				731BBFFF25A10498008F27C1 /* UVFeedChannel.m */,
 				731BC00125A10498008F27C1 /* UVFeedChannelKeys.h */,
-				731BC00025A10498008F27C1 /* UVFeedChannelViewModel.h */,
+				CA11C14D25A5E27B002019F4 /* UVFeedChannelDisplayModel.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -460,7 +455,6 @@
 			isa = PBXGroup;
 			children = (
 				73FE22B825A0E5AE00522F8C /* ChannelFeed */,
-				73FE22C425A0E5AE00522F8C /* Stuff */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -503,32 +497,6 @@
 				731BC02B25A105C7008F27C1 /* UVFeedTableViewCell.m */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		73FE22C425A0E5AE00522F8C /* Stuff */ = {
-			isa = PBXGroup;
-			children = (
-				73FE22C525A0E5AE00522F8C /* BaseView */,
-				73FE22C725A0E5AE00522F8C /* BasePresenter */,
-			);
-			path = Stuff;
-			sourceTree = "<group>";
-		};
-		73FE22C525A0E5AE00522F8C /* BaseView */ = {
-			isa = PBXGroup;
-			children = (
-				73FE22C625A0E5AE00522F8C /* UVBaseViewType.h */,
-			);
-			path = BaseView;
-			sourceTree = "<group>";
-		};
-		73FE22C725A0E5AE00522F8C /* BasePresenter */ = {
-			isa = PBXGroup;
-			children = (
-				73FE22C825A0E5AE00522F8C /* UVBasePresenter.m */,
-				73FE22C925A0E5AE00522F8C /* UVBasePresenter.h */,
-			);
-			path = BasePresenter;
 			sourceTree = "<group>";
 		};
 		73FE22EB25A0E64000522F8C /* Network */ = {
@@ -574,7 +542,6 @@
 			isa = PBXGroup;
 			children = (
 				73FE22E725A0E63300522F8C /* AtomKeys.h */,
-				73FE22E625A0E63300522F8C /* MediaKeys.h */,
 				73FE22E425A0E63300522F8C /* TagAttributeKeys.h */,
 				73FE22E525A0E63300522F8C /* TagKeys.h */,
 				73FE22E325A0E63300522F8C /* UVErrorDomain.h */,
@@ -732,7 +699,6 @@
 			files = (
 				CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
-				73FE22CD25A0E5AE00522F8C /* UVBasePresenter.m in Sources */,
 				73FE22EF25A0E64100522F8C /* UVNetwork.m in Sources */,
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
 				731BC00425A10499008F27C1 /* UVFeedChannel.m in Sources */,
