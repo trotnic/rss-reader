@@ -8,6 +8,8 @@
 #import "UVDataRecognizer.h"
 #import "UVRSSLinkXMLParser.h"
 #import "UVErrorDomain.h"
+
+#import "NSString+Util.h"
 #import "NSArray+Util.h"
 
 #import "UVRSSLinkKeys.h"
@@ -17,9 +19,9 @@ static NSString *const LINK_TAG_PATTERN     = @"<link[^>]+type=\"application[/]r
 static NSString *const HREF_ATTR_PATTERN    = @"(?<=\\bhref=\")[^\"]*";
 static NSString *const TITLE_ATTR_PATTERN   = @"(?<=\\btitle=\")[^\"]*";
 static NSString *const RSS_TAG_PATTERN      = @"<rss.*version=\"\\d.\\d\"";
+static NSString *const HTML_TAG_PATTERN     = @"<html.*";
 
 static NSString *const KEY_LINK             = @"link";
-static NSString *const KEY_RSSTAG           = @"rssTag";
 
 static NSString *const EMPTY_STRING         = @"";
 
@@ -44,51 +46,66 @@ static NSString *const EMPTY_STRING         = @"";
 - (void)discoverChannel:(NSData *)data
                  parser:(id<UVFeedParserType>)parser
              completion:(void (^)(NSDictionary *, NSError *))completion {
+    if (!data || !parser) {
+        completion(nil, [self recognitionError]);
+        return;
+    }
+    
     [parser retain];
     
     [parser parseData:data
            completion:^(NSDictionary *result, NSError *error) {
-        if (error) {
-            completion(nil, error);
-            [parser release];
-            return;
-        }
-        completion(result, nil);
+        completion(result, error);
         [parser release];
     }];
 }
 
 - (void)discoverLinks:(NSData *)data
            completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
-    NSString *html = [[[NSString alloc] initWithData:data
-                                            encoding:NSUTF8StringEncoding] autorelease];
-    if ([self isRSS:html]) {
-        [self.linkXMLParser parseData:data
-                           completion:^(NSDictionary *link, NSError *error) {
-            if (error) {
-                completion(nil, error);
-                return;
-            }
-            completion(@[link], nil);
-        }];
-        return;
-    }
-    NSMutableArray<NSDictionary *> *links = [self findLinks:html];
-    
-    if (!links.count) {
+    if (!data) {
         completion(nil, [self recognitionError]);
         return;
     }
     
-    completion([[links copy] autorelease], nil);
+    NSString *html = [NSString htmlStringFromData:data];
+    
+    if (!html || !html.length || [html isEqualToString:EMPTY_STRING]) {
+        completion(nil, [self recognitionError]);
+        return;
+    }
+    
+    if ([self isRSS:html]) {
+        [self.linkXMLParser parseData:data
+                           completion:^(NSDictionary *link, NSError *error) {
+            NSArray<NSDictionary *> *result = link == nil ? nil : @[link];
+            completion(result, error);
+        }];
+        return;
+    }
+    
+    if ([self isHTML:html]) {
+        NSMutableArray<NSDictionary *> *links = [self findLinks:html];
+        
+        if (!links.count || !links) {
+            completion(nil, [self recognitionError]);
+            return;
+        }
+        
+        completion([[links copy] autorelease], nil);
+        return;
+    }
+    
+    completion(nil, [self recognitionError]);
 }
 
 // MARK: - Private
 
-- (BOOL)isRSS:(NSString *)html {
-    return [self.regExps[KEY_RSSTAG] numberOfMatchesInString:html
-                                                     options:0
-                                                       range:NSMakeRange(0, html.length)] != 0;
+- (BOOL)isRSS:(NSString *)string {
+    return [string rangeOfString:RSS_TAG_PATTERN options:NSRegularExpressionSearch].location != NSNotFound;
+}
+
+- (BOOL)isHTML:(NSString *)string {
+    return [string rangeOfString:HTML_TAG_PATTERN options:NSRegularExpressionSearch].location != NSNotFound;
 }
 
 - (NSMutableArray<NSDictionary *> *)findLinks:(NSString *)html {
@@ -129,8 +146,7 @@ static NSString *const EMPTY_STRING         = @"";
 - (NSDictionary *)regExps {
     if(!_regExps) {
         _regExps = [@{
-            KEY_LINK : [self regExpWithPattern:LINK_TAG_PATTERN],
-            KEY_RSSTAG : [self regExpWithPattern:RSS_TAG_PATTERN]
+            KEY_LINK : [self regExpWithPattern:LINK_TAG_PATTERN]
         } retain];
     }
     return _regExps;

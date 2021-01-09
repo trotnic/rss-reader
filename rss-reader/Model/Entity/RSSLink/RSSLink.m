@@ -18,7 +18,7 @@
 @implementation RSSLink
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary || !dictionary.count) {
+    if(!dictionary || !dictionary.count || ![dictionary isKindOfClass:NSDictionary.class]) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
@@ -65,6 +65,11 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"%@, %@, %@", self.url, self.title, self.isSelected ? @"YES" : @"NO"];
+}
+
+- (BOOL)isEqual:(id)other
+{
+    return [self.url isEqual:[other url]];
 }
 
 // MARK: -

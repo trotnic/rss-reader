@@ -7,7 +7,7 @@
 
 #import "UVFeedItem.h"
 #import "NSDate+StringConvertible.h"
-#import "NSString+StringExtractor.h"
+#import "NSString+Util.h"
 
 static NSString *const kDatePresentationFormat = @"dd.MM.yyyy HH:mm";
 static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";

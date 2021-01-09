@@ -9,11 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString (StringExtractor)
+@interface NSString (Util)
 
 - (NSString *)stringBetweenStart:(NSString *)start andFinish:(NSString *)finish;
 - (NSString *)substringFromString:(NSString *)string;
 - (NSString *)stringByStrippingHTML;
++ (NSString *)htmlStringFromData:(NSData *)data;
 
 @end
 

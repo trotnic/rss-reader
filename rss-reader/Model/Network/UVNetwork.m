@@ -8,8 +8,8 @@
 #import "UVNetwork.h"
 #import "UVErrorDomain.h"
 
-static NSString *const kSecureScheme = @"https";
-static NSString *const kStubRelativePath = @"";
+static NSString *const SECURE_SCHEME = @"https";
+static NSString *const STUB_RELATIVE_PATH = @"";
 
 @implementation UVNetwork
 
@@ -31,18 +31,24 @@ static NSString *const kStubRelativePath = @"";
         [self provideErrorForReference:error];
         return nil;
     }
-    NSURL *newURL = [NSURL URLWithString:kStubRelativePath
+    NSURL *newURL = [NSURL URLWithString:STUB_RELATIVE_PATH
                            relativeToURL:[NSURL URLWithString:address]].absoluteURL;
+    
+    if (!newURL.host) {
+        [self provideErrorForReference:error];
+        return nil;
+    }
+    
     return [self enhanceSchemeOfURL:newURL error:error];
 }
 
 
 - (NSURL *)validateURL:(NSURL *)url error:(out NSError **)error {
-    if(!url) {
+    if(!url || !url.absoluteString.length) {
         *error = [self urlError];
         return nil;
     }
-    NSURL *newURL = [NSURL URLWithString:kStubRelativePath
+    NSURL *newURL = [NSURL URLWithString:STUB_RELATIVE_PATH
                            relativeToURL:url].absoluteURL;
     return [self enhanceSchemeOfURL:newURL error:error];
     
@@ -69,7 +75,7 @@ static NSString *const kStubRelativePath = @"";
     if (!url.scheme) {
         NSURLComponents *comps = [NSURLComponents componentsWithURL:url
                                             resolvingAgainstBaseURL:YES];
-        comps.scheme = kSecureScheme;
+        comps.scheme = SECURE_SCHEME;
         url = comps.URL;
     }
     return url;

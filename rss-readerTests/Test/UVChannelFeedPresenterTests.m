@@ -14,6 +14,8 @@
 #import "SwissKnife.h"
 #import "RSSDataFactory.h"
 
+static NSInteger const TIMEOUT = 4;
+
 @interface UVChannelFeedPresenterTests : XCTestCase
 
 @property (nonatomic, retain) UVChannelFeedPresenter *sut;
@@ -50,7 +52,7 @@
     
     [self.sut updateFeed];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertFalse(self.network.isCalled);
@@ -68,7 +70,7 @@
     
     [self.sut updateFeed];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -86,7 +88,7 @@
     
     [self.sut updateFeed];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
     
     XCTAssertFalse(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -94,7 +96,7 @@
 
 - (void)testRecognitionErrorPresented {
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     self.dataRecognizer.error = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
@@ -105,7 +107,7 @@
     
     [self.sut updateFeed];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
     
     XCTAssertTrue(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);
@@ -114,7 +116,7 @@
 - (void)testChannelNormallyPresented {
     UVFeedChannel *expected = RSSDataFactory.channel;
     self.sourceManager.linkToReturn = [RSSDataFactory linkSelected:YES];
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     self.dataRecognizer.rawChannel = RSSDataFactory.rawChannel;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
@@ -125,7 +127,7 @@
     
     [self.sut updateFeed];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
     
     XCTAssertTrue(self.dataRecognizer.isCalled);
     XCTAssertTrue(self.network.isCalled);

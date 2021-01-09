@@ -15,8 +15,22 @@
 
 @implementation RSSDataFactory
 
-+ (NSData *)rawData {
++ (NSData *)rawGarbageData {
+    return [NSData dataWithBytes:(unsigned char[]){0x00} length:1];
+}
+
++ (NSData *)rawXMLData {
     NSString *file = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingString:@"/tutbyfeed.xml"];
+    return [NSData dataWithContentsOfFile:file];
+}
+
++ (NSData *)rawHTMLDataNoRSS {
+    NSString *file = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingString:@"/tutbynorss.html"];
+    return [NSData dataWithContentsOfFile:file];
+}
+
++ (NSData *)rawHTMLData {
+    NSString *file = [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingString:@"/tutby.html"];
     return [NSData dataWithContentsOfFile:file];
 }
 
@@ -127,11 +141,11 @@
     return [RSSLink objectWithDictionary:rawLink];
 }
 
-+ (RSSSource *)sourceNoLinksSelectedNO {
++ (RSSSource *)sourceNoLinksSelected:(BOOL)selected {
     NSDictionary *rawSource = @{
         kRSSSourceURL : @"https://www.tut.by",
         kRSSSourceLinks : @[],
-        kRSSSourceSelected : @(0)
+        kRSSSourceSelected : [NSNumber numberWithBool:selected]
     };
     return [RSSSource objectWithDictionary:rawSource];
 }
@@ -161,25 +175,165 @@
     return [RSSSource objectWithDictionary:rawSource];
 }
 
++ (NSDictionary *)rawSourceFromHTML {
+    return @{
+        kRSSSourceURL : @"https://www.tut.by",
+        kRSSSourceLinks : @[
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+                    kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Новости компаний",
+                    kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Все новости за день",
+                    kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+                }
+        ],
+        kRSSSourceSelected : @(0)
+    };
+}
+
++ (NSDictionary *)rawLinkFromXML {
+    return @{
+        kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+        kRSSLinkURL : @"https://news.tut.by/rss/index.rss"
+    };
+}
+
++ (NSDictionary *)rawSourceFromPlistSelectedYES {
+    return @{
+        kRSSSourceURL : @"https://www.tut.by",
+        kRSSSourceLinks : @[
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+                    kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Новости компаний",
+                    kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Все новости за день",
+                    kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+                    kRSSLinkSelected : @(1)
+                }
+        ],
+        kRSSSourceSelected : @(1)
+    };
+}
+
++ (NSDictionary *)rawSourceFromPlistSelectedNO {
+    return @{
+        kRSSSourceURL : @"https://www.tut.by",
+        kRSSSourceLinks : @[
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+                    kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Новости компаний",
+                    kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Все новости за день",
+                    kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+                    kRSSLinkSelected : @(0)
+                }
+        ],
+        kRSSSourceSelected : @(0)
+    };
+}
+
++ (RSSSource *)sourceFromPlistSelectedYES {
+    NSDictionary *rawSource = @{
+        kRSSSourceURL : @"https://www.tut.by",
+        kRSSSourceLinks : @[
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+                    kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Новости компаний",
+                    kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Все новости за день",
+                    kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+                    kRSSLinkSelected : @(1)
+                }
+        ],
+        kRSSSourceSelected : @(1)
+    };
+    return [RSSSource objectWithDictionary:rawSource];
+}
+
++ (RSSSource *)sourceFromPlistSelectedNO {
+    NSDictionary *rawSource = @{
+        kRSSSourceURL : @"https://www.tut.by",
+        kRSSSourceLinks : @[
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+                    kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Новости компаний",
+                    kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+                    kRSSLinkSelected : @(0)
+                },
+                @{
+                    kRSSLinkTitle : @"TUT.BY - Все новости за день",
+                    kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+                    kRSSLinkSelected : @(0)
+                }
+        ],
+        kRSSSourceSelected : @(0)
+    };
+    return [RSSSource objectWithDictionary:rawSource];
+}
+
++ (NSArray<NSDictionary *> *)rawLinksFromHTML {
+    return @[
+        @{
+            kRSSLinkTitle : @"TUT.BY - Главные новости недели",
+            kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
+        },
+        @{
+            kRSSLinkTitle : @"TUT.BY - Новости компаний",
+            kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
+        },
+        @{
+            kRSSLinkTitle : @"TUT.BY - Все новости за день",
+            kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
+        }
+    ];
+}
+
 + (NSArray<RSSLink *> *)links {
     NSArray<NSDictionary *> *rawLinks = @[
         @{
             kRSSLinkTitle : @"TUT.BY - Главные новости недели",
             kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
-            kRSSLinkSelected : @(0)
         },
         @{
             kRSSLinkTitle : @"TUT.BY - Новости компаний",
             kRSSLinkURL : @"https://news.tut.by/rss/press.rss",
-            kRSSLinkSelected : @(1)
         },
         @{
             kRSSLinkTitle : @"TUT.BY - Все новости за день",
             kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
-            kRSSLinkSelected : @(0)
         }
     ];
-    return [[rawLinks map:^id _Nonnull(NSDictionary *rawLink) {
+    return [[rawLinks map:^id(NSDictionary *rawLink) {
         return [RSSLink objectWithDictionary:rawLink];
     }] autorelease];
 }

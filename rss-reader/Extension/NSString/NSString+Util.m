@@ -5,9 +5,9 @@
 //  Created by Uladzislau Volchyk on 12/1/20.
 //
 
-#import "NSString+StringExtractor.h"
+#import "NSString+Util.h"
 
-@implementation NSString (StringExtractor)
+@implementation NSString (Util)
 
 - (NSString *)stringBetweenStart:(NSString *)start andFinish:(NSString *)finish {
     NSRange utilityRange = [self rangeOfString:start];
@@ -33,6 +33,10 @@
    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
      s = [s stringByReplacingCharactersInRange:r withString:@""];
    return s;
+}
+
++ (NSString *)htmlStringFromData:(NSData *)data {
+    return [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 }
 
 @end

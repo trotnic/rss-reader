@@ -9,6 +9,7 @@
 #import "NSXMLParser+DelegateInitializable.h"
 
 #import "UVRSSLinkKeys.h"
+#import "UVErrorDomain.h"
 
 #import "AtomKeys.h"
 #import "TagKeys.h"
@@ -19,10 +20,10 @@
 @property (nonatomic, copy) void(^completion)(NSDictionary *, NSError *);
 @property (nonatomic, retain) NSXMLParser *parser;
 
-
 @property (nonatomic, retain) NSMutableDictionary *linkDictionary;
 @property (nonatomic, retain) NSMutableString *parsingString;
 @property (nonatomic, assign) BOOL isEndChannel;
+@property (nonatomic, assign) BOOL isItem;
 
 @end
 
@@ -39,9 +40,18 @@
 
 - (void)parseData:(NSData *)data
        completion:(void (^)(NSDictionary *, NSError *))completion {
+    if (!data) {
+        completion(nil, [self parsingError]);
+        return;
+    }
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
+    if (self.parser.parserError != nil) {
+        [self.parser abortParsing];
+        completion(nil, self.parser.parserError);
+        return;
+    }
 }
 
 // MARK: - NSXMLParserDelegate
@@ -61,8 +71,11 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:atomLink]) {
-        self.linkDictionary[kRSSLinkURL] = attributeDict[hrefAttr];
+    if([elementName isEqualToString:ATOM_LINK]) {
+        self.linkDictionary[kRSSLinkURL] = attributeDict[ATTR_HREF];
+    }
+    if([elementName isEqualToString:TAG_ITEM]) {
+        self.isItem = YES;
     }
     self.parsingString = [NSMutableString string];
 }
@@ -72,8 +85,11 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
     
-    if([elementName isEqualToString:titleTag] && !self.isEndChannel) {
+    if([elementName isEqualToString:TAG_TITLE] && !self.isEndChannel && !self.isItem) {
         self.linkDictionary[kRSSLinkTitle] = self.parsingString;
+    }
+    if([elementName isEqualToString:TAG_ITEM]) {
+        self.isItem = NO;
     }
 }
 
@@ -83,6 +99,12 @@ didStartElement:(NSString *)elementName
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     self.completion(self.linkDictionary, nil);
+}
+
+// MARK: - Private
+
+- (NSError *)parsingError {
+    return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
 }
 
 @end

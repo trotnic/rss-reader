@@ -20,7 +20,7 @@
 
 - (void)setUp {
     _sut = [UVFeedXMLParser new];
-    self.rawData = RSSDataFactory.rawData;
+    self.rawData = RSSDataFactory.rawXMLData;
 }
 
 - (void)tearDown {
@@ -40,10 +40,22 @@
     [self waitForExpectations:@[expectation] timeout:1];
 }
 
-- (void)testParserIsFailed {
-    NSData *rawData = nil;
+- (void)testXMLnilDataProvidedErrorOccures {
+    NSData *data = RSSDataFactory.rawDataNil;
     XCTestExpectation *expectation = [self expectationWithDescription:@"Raw data is parsed"];
-    [self.sut parseData:rawData
+    [self.sut parseData:data
+             completion:^(NSDictionary *rawChannel, NSError *error) {
+        XCTAssertNil(rawChannel);
+        XCTAssertNotNil(error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectations:@[expectation] timeout:1];
+}
+
+- (void)testNotXMLDataProvidedErrorOccures {
+    NSData *data = RSSDataFactory.rawGarbageData;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Raw data is parsed"];
+    [self.sut parseData:data
              completion:^(NSDictionary *rawChannel, NSError *error) {
         XCTAssertNil(rawChannel);
         XCTAssertNotNil(error);

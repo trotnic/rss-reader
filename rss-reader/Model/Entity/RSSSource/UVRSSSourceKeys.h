@@ -9,7 +9,7 @@
 #define UVRSSSourceKeys_h
 
 static NSString *const kRSSSourceURL         = @"url";
-static NSString *const kRSSSourceLinks       = @"links";
+static NSString *const kRSSSourceLinks       = @"urls";
 static NSString *const kRSSSourceSelected    = @"selected";
 
 #endif /* UVRSSSourceKeys_h */

@@ -17,6 +17,27 @@
     return [[array copy] autorelease];
 }
 
+- (NSArray *)compactMap:(id  _Nonnull (^)(id _Nonnull))completion {
+    NSMutableArray *array = [NSMutableArray array];
+    for (id object in self) {
+        id result = completion(object);
+        if (result) {
+            [array addObject:result];
+        }
+    }
+    return [[array copy] autorelease];
+}
+
+- (NSArray *)filter:(BOOL (^)(id _Nonnull))completion {
+    NSMutableArray *array = [NSMutableArray array];
+    for (id object in self) {
+        if (completion(object)) {
+            [array addObject:object];
+        }
+    }
+    return [[array copy] autorelease];
+}
+
 - (void)forEach:(void (^)(id _Nonnull))completion {
     for (id obj in self) {
         completion(obj);

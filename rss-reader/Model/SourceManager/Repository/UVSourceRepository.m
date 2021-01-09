@@ -49,7 +49,7 @@
                                                               options:0
                                                                 error:error];
     [plist writeToFile:self.path atomically:YES];
-    return YES;
+    return error == nil;
 }
 
 @end

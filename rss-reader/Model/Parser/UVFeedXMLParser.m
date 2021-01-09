@@ -7,7 +7,7 @@
 
 #import "UVFeedXMLParser.h"
 
-#import "NSString+StringExtractor.h"
+#import "NSString+Util.h"
 #import "NSXMLParser+DelegateInitializable.h"
 #import "UVErrorDomain.h"
 
@@ -53,6 +53,11 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
+    if (self.parser.parserError != nil) {
+        completion(nil, self.parser.parserError);
+        [self.parser abortParsing];
+        return;
+    }
 }
 
 - (void)parseContentsOfURL:(NSURL *)url
@@ -64,6 +69,11 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
     self.completion = completion;
     self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
+    if (self.parser.parserError != nil) {
+        completion(nil, self.parser.parserError);
+        [self.parser abortParsing];
+        return;
+    }
 }
 
 // MARK: - NSXMLParserDelegate
@@ -77,15 +87,15 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:channelTag]) {
+    if([elementName isEqualToString:TAG_CHANNEL]) {
         self.isItem = NO;
     }
     
-    if([elementName isEqualToString:atomLink]) {
-        self.channelDictionary[kRSSChannelLink] = attributeDict[hrefAttr];
+    if([elementName isEqualToString:ATOM_LINK]) {
+        self.channelDictionary[kRSSChannelLink] = attributeDict[ATTR_HREF];
     }
     
-    if([elementName isEqualToString:itemTag]) {
+    if([elementName isEqualToString:TAG_ITEM]) {
         self.isItem = YES;
     }
     
@@ -103,7 +113,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
 
-    if([elementName isEqualToString:channelTag]) {
+    if([elementName isEqualToString:TAG_CHANNEL]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
     }
     
@@ -118,7 +128,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         _parsingString = nil;
     }
     
-    if([elementName isEqualToString:itemTag]) {
+    if([elementName isEqualToString:TAG_ITEM]) {
         [self.items addObject:self.itemDictionary];
         self.isItem = NO;
         
@@ -177,11 +187,11 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 - (NSSet<NSString *> *)plainTextNodes {
     if(!_plainTextNodes) {
         _plainTextNodes = [[NSSet setWithArray:@[
-            titleTag,
-            linkTag,
-            categoryTag,
-            publicationDateTag,
-            descriptionTag
+            TAG_TITLE,
+            TAG_LINK,
+            TAG_CATEGORY,
+            TAG_PUBLICATION_DATE,
+            TAG_DESCRIPTION
         ]] retain];
     }
     return _plainTextNodes;

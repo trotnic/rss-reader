@@ -8,12 +8,12 @@
 #ifndef TagKeys_h
 #define TagKeys_h
 
-static NSString *const titleTag             = @"title";
-static NSString *const linkTag              = @"link";
-static NSString *const descriptionTag       = @"description";
-static NSString *const itemTag              = @"item";
-static NSString *const publicationDateTag   = @"pubDate";
-static NSString *const channelTag           = @"channel";
-static NSString *const categoryTag          = @"category";
+static NSString *const TAG_TITLE                = @"title";
+static NSString *const TAG_LINK                 = @"link";
+static NSString *const TAG_DESCRIPTION          = @"description";
+static NSString *const TAG_ITEM                 = @"item";
+static NSString *const TAG_PUBLICATION_DATE     = @"pubDate";
+static NSString *const TAG_CHANNEL              = @"channel";
+static NSString *const TAG_CATEGORY             = @"category";
 
 #endif /* TagKeys_h */

@@ -19,7 +19,7 @@
 @implementation RSSSource
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
-    if(!dictionary || !dictionary.count) {
+    if(!dictionary || !dictionary.count || ![dictionary isKindOfClass:NSDictionary.class]) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }

@@ -117,7 +117,7 @@
 
 - (void)testRecognitionErrorPresented {
     self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     self.dataRecognizer.error = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
@@ -137,7 +137,7 @@
 
 - (void)testInsertionErrorPresented {
     self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     self.sourceManager.insertionError = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
@@ -158,7 +158,7 @@
 
 - (void)testSavingErrorOccured {
     self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     self.sourceManager.savingError = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
@@ -179,7 +179,7 @@
 
 - (void)testNewLinksProvidedNormally {
     self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawData;
+    self.network.data = RSSDataFactory.rawXMLData;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view

@@ -8,6 +8,6 @@
 #ifndef AtomKeys_h
 #define AtomKeys_h
 
-static NSString *const atomLink = @"atom:link";
+static NSString *const ATOM_LINK = @"atom:link";
 
 #endif /* AtomKeys_h */

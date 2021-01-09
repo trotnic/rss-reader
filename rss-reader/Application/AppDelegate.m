@@ -59,10 +59,10 @@
         UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
                                                                                  sourceManager:sourceManager
                                                                                        network:network];
-        UVSourcesListViewController *controller = [UVSourcesListViewController new];
-        presenter.viewDelegate = [controller autorelease];
-        controller.presenter = presenter;
-        [controller.navigationController pushViewController:controller animated:YES];
+        UVSourcesListViewController *presentedController = [UVSourcesListViewController new];
+        presenter.viewDelegate = [presentedController autorelease];
+        presentedController.presenter = presenter;
+        [controller.navigationController pushViewController:presentedController animated:YES];
     }];
     
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];

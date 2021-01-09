@@ -8,9 +8,9 @@
 #ifndef TagAttributeKeys_h
 #define TagAttributeKeys_h
 
-static NSString *const hrefAttr     = @"href";
-static NSString *const relAttr      = @"rel";
-static NSString *const typeAttr     = @"type";
-static NSString *const titleAttr    = @"title";
+static NSString *const ATTR_HREF     = @"href";
+static NSString *const ATTR_REL      = @"rel";
+static NSString *const ATTR_TYPE     = @"type";
+static NSString *const ATTR_TITLE    = @"title";
 
 #endif /* TagAttributeKeys_h */

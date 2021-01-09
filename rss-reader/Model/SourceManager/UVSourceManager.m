@@ -49,23 +49,26 @@
                       links:(NSArray<NSDictionary *> *)links
                       error:(out NSError **)error {
     if (!url || !links || !links.count) {
-        [self provideErrorForReference:error];
+        [self provideErrorForPointer:error];
         return NO;
     }
     
-    NSArray<RSSLink *> *actualLinks = [links map:^RSSLink *(NSDictionary *rawLink) {
+    NSArray<RSSLink *> *actualLinks = [[links filter:^BOOL(id rawLink) {
+        return [rawLink isKindOfClass:NSDictionary.class];
+    }] compactMap:^RSSLink *(NSDictionary *rawLink) {
         return [RSSLink objectWithDictionary:rawLink];
     }];
     
     if (!actualLinks || !actualLinks.count) {
-        [self provideErrorForReference:error];
+        [self provideErrorForPointer:error];
         return NO;
     }
     
-    RSSSource *source = [[[RSSSource alloc] initWithURL:url links:actualLinks] autorelease];
+    RSSSource *source = [[[RSSSource alloc] initWithURL:url
+                                                  links:actualLinks] autorelease];
     
     if (!source) {
-        [self provideErrorForReference:error];
+        [self provideErrorForPointer:error];
         return NO;
     }
     [self insertObject:source];
@@ -108,8 +111,7 @@
     NSArray *sources = [self.sources map:^id(RSSSource *source) {
         return source.dictionaryFromObject;
     }];
-    [self.repository updateData:sources error:error];
-    return YES;
+    return [self.repository updateData:sources error:error];
 }
 
 // MARK: - Private
@@ -124,7 +126,7 @@
     return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
 }
 
-- (BOOL)provideErrorForReference:(out NSError **)error {
+- (BOOL)provideErrorForPointer:(out NSError **)error {
     if (error) {
         *error = [self sourceError];
     }
