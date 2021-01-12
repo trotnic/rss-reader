@@ -39,10 +39,6 @@ static NSInteger const TIMEOUT = 4;
     _sut.viewDelegate = self.view;
 }
 
-- (void)tearDown {
-    [_network release];
-}
-
 - (void)testNoSelectedLinkProvidedErrorOccuredPresented {
     self.sourceManager.linksToReturn = RSSDataFactory.linksEmptyList;
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]

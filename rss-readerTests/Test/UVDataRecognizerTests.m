@@ -30,12 +30,6 @@ static NSInteger const TIMEOUT = 1;
     _linksParser = [UVRSSLinkXMLParserMock new];
 }
 
-- (void)tearDown {
-    [_sut release];
-    [_feedParser release];
-    [_linksParser release];
-}
-
 - (void)testXMLChannelDiscoveringNilDataProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawDataNil;
     XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];

@@ -23,9 +23,9 @@
         return nil;
     }
     
-    return [[[RSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
-                                       url:[NSURL URLWithString:dictionary[kRSSLinkURL]]
-                                  selected:[dictionary[kRSSLinkSelected] boolValue]] autorelease];
+    return [[RSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
+                                      url:[NSURL URLWithString:dictionary[kRSSLinkURL]]
+                                 selected:[dictionary[kRSSLinkSelected] boolValue]];
 }
 
 - (instancetype)initWithTitle:(NSString *)title
@@ -40,17 +40,10 @@
     self = [super init];
     if (self) {
         _title = [title copy];
-        _url = [url retain];
+        _url = url;
         _selected = selected;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [_title release];
-    [_url release];
-    [super dealloc];
 }
 
 - (NSDictionary *)dictionaryFromObject {

@@ -30,18 +30,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 @implementation UVChannelFeedViewController
 
-- (void)dealloc
-{
-    [_webView release];
-    [_presenter release];
-    [_tableView release];
-    [_refreshControl release];
-    [_activityIndicator release];
-    [_rightButtonClickAction release];
-    [_settingsButton release];
-    [super dealloc];
-}
-
 // MARK: -
 
 - (void)viewDidLoad {
@@ -69,6 +57,12 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     ]];
 }
 
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        [self.presenter updateFeed];
+    }
+}
+
 // MARK: -
 
 - (void)setupOnRighButtonClickAction:(void(^)(void))completion {
@@ -83,7 +77,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.refreshControl = self.refreshControl;
-        _tableView.tableFooterView = [[UIView new] autorelease];
+        _tableView.tableFooterView = [UIView new];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
     }

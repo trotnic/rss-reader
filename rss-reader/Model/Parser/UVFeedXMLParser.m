@@ -112,7 +112,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
  didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
-
+    
     if([elementName isEqualToString:TAG_CHANNEL]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
     }
@@ -123,8 +123,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         } else {
             self.channelDictionary[elementName] = self.parsingString;
         }
-        
-        [_parsingString release];
         _parsingString = nil;
     }
     
@@ -132,7 +130,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         [self.items addObject:self.itemDictionary];
         self.isItem = NO;
         
-        [_itemDictionary release];
         _itemDictionary = nil;
     }
 }
@@ -140,17 +137,11 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
         self.completion(self.channelDictionary, nil);
-        [_items release];
         _items = nil;
-        [_parser release];
         _parser = nil;
-        [_completion release];
         _completion = nil;
-        [_parsingString release];
         _parsingString = nil;
-        [_itemDictionary release];
         _itemDictionary = nil;
-        [_channelDictionary release];
         _channelDictionary = nil;
     }
 }
@@ -186,34 +177,15 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (NSSet<NSString *> *)plainTextNodes {
     if(!_plainTextNodes) {
-        _plainTextNodes = [[NSSet setWithArray:@[
+        _plainTextNodes = [NSSet setWithArray:@[
             TAG_TITLE,
             TAG_LINK,
             TAG_CATEGORY,
             TAG_PUBLICATION_DATE,
             TAG_DESCRIPTION
-        ]] retain];
+        ]];
     }
     return _plainTextNodes;
-}
-
-- (void)dealloc
-{    
-    [_items release];
-    _items = nil;
-    [_parser release];
-    _parser = nil;
-    [_completion release];
-    _completion = nil;
-    [_parsingString release];
-    _parsingString = nil;
-    [_itemDictionary release];
-    _itemDictionary = nil;
-    [_channelDictionary release];
-    _channelDictionary = nil;
-    [_plainTextNodes release];
-    _plainTextNodes = nil;
-    [super dealloc];
 }
 
 @end

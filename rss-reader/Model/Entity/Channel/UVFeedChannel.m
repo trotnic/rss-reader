@@ -35,16 +35,7 @@
         return [UVFeedItem objectWithDictionary:rawItem];        
     }];
     
-    return [object autorelease];
-}
-
-- (void)dealloc
-{
-    [_link release];
-    [_title release];
-    [_items release];
-    [_summary release];
-    [super dealloc];
+    return object;
 }
 
 - (BOOL)isEqual:(id)other
@@ -55,7 +46,7 @@
 // MARK: - UVFeedChannelDisplayModel
 
 - (NSString *)channelTitle {
-    return [[self.title copy] autorelease];
+    return [self.title copy];
 }
 
 - (NSArray<id<UVFeedItemDisplayModel>> *)channelItems {

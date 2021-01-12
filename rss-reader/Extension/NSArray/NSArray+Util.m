@@ -14,7 +14,7 @@
     for (id object in self) {
         [array addObject:completion(object)];
     }
-    return [[array copy] autorelease];
+    return [array copy];
 }
 
 - (NSArray *)compactMap:(id  _Nonnull (^)(id _Nonnull))completion {
@@ -25,7 +25,7 @@
             [array addObject:result];
         }
     }
-    return [[array copy] autorelease];
+    return [array copy];
 }
 
 - (NSArray *)filter:(BOOL (^)(id _Nonnull))completion {
@@ -35,7 +35,7 @@
             [array addObject:object];
         }
     }
-    return [[array copy] autorelease];
+    return [array copy];
 }
 
 - (void)forEach:(void (^)(id _Nonnull))completion {

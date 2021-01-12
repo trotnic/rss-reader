@@ -50,23 +50,6 @@ static NSInteger const kTitleNumberOfLines = 0;
     return self;
 }
 
-- (void)dealloc
-{
-    [_mainStack release];
-    [_dateLabel release];
-    [_titleLabel release];
-    [_categoryLabel release];
-    [_expandButton release];
-    [_descriptionLabel release];
-    [_setupCompletion release];
-    [_model release];
-    
-    [_supplementaryTextStack release];
-    [_supplementaryButtonStack release];
-    [_supplementarySectionStack release];
-    [super dealloc];
-}
-
 // MARK: -
 
 - (void)setupLayout {

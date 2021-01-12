@@ -42,9 +42,9 @@
 }
 
 - (void)setupComponents {
-    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
-    UVSourceManager *sourceManager = [[UVSourceManager new] autorelease];
-    UVNetwork *network = [[UVNetwork new] autorelease];
+    UVDataRecognizer *recognizer = [UVDataRecognizer new];
+    UVSourceManager *sourceManager = [UVSourceManager new];
+    UVNetwork *network = [UVNetwork new];
     
     UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
                                                                              sourceManager:sourceManager
@@ -52,7 +52,7 @@
     
     UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
     presenter.viewDelegate = controller;
-    controller.presenter = [presenter autorelease];
+    controller.presenter = presenter;
     
     [controller setupOnRighButtonClickAction:^{
         
@@ -60,15 +60,13 @@
                                                                                  sourceManager:sourceManager
                                                                                        network:network];
         UVSourcesListViewController *presentedController = [UVSourcesListViewController new];
-        presenter.viewDelegate = [presentedController autorelease];
+        presenter.viewDelegate = presentedController;
         presentedController.presenter = presenter;
         [controller.navigationController pushViewController:presentedController animated:YES];
     }];
     
-    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self.window makeKeyAndVisible];
-    
-    [controller release];
 }
 
 // MARK: Lazy
@@ -78,14 +76,6 @@
         _window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     }
     return _window;
-}
-
-// MARK: -
-
-- (void)dealloc
-{
-    [_window release];
-    [super dealloc];
 }
 
 @end

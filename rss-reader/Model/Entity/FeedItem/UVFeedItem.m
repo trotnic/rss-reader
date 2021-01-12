@@ -41,17 +41,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
     
-    return [object autorelease];
-}
-
-- (void)dealloc
-{
-    [_url release];
-    [_title release];
-    [_summary release];    
-    [_pubDate release];
-    [_category release];
-    [super dealloc];
+    return object;
 }
 
 - (NSString *)description
@@ -67,11 +57,11 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 // MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {
-    return [[self.title copy] autorelease];
+    return [self.title copy];
 }
 
 - (NSString *)articleCategory {
-    return [[self.category copy] autorelease];
+    return [self.category copy];
 }
 
 - (NSString *)articleDate {

@@ -20,10 +20,6 @@
     _sut = [UVNetwork new];
 }
 
-- (void)tearDown {
-    [_sut release];
-}
-
 - (void)testValidateEmptyAddressErrorOccures {
     NSString *address = @"";
     NSError *error = nil;

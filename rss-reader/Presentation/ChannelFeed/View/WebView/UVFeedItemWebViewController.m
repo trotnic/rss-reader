@@ -23,17 +23,6 @@
 
 @implementation UVFeedItemWebViewController
 
-- (void)dealloc
-{
-    [_webView release];
-    [_goBackButton release];
-    [_goForwardButton release];
-    [_reloadWebPageButton release];
-    [_closeWebPageButton release];
-    [_openInBrowserButton release];
-    [super dealloc];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupLayout];
@@ -75,10 +64,10 @@
 }
 
 - (UIBarButtonItem *)webBarButtonItemWithImage:(UIImage *)image action:(SEL)selector {
-    return [[[UIBarButtonItem alloc] initWithImage:image
-                                             style:UIBarButtonItemStylePlain
-                                            target:self.webView
-                                            action:selector] autorelease];
+    return [[UIBarButtonItem alloc] initWithImage:image
+                                            style:UIBarButtonItemStylePlain
+                                           target:self.webView
+                                           action:selector];
 }
 
 // MARK: - Lazy
@@ -94,32 +83,32 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
-                                                  action:@selector(goBack)] retain];
+        _goBackButton = [self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
+                                                 action:@selector(goBack)];
     }
     return _goBackButton;
 }
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
-                                                     action:@selector(goForward)] retain];
+        _goForwardButton = [self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
+                                                    action:@selector(goForward)];
     }
     return _goForwardButton;
 }
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"refresh"]
-                                                         action:@selector(reload)] retain];
+        _reloadWebPageButton = [self webBarButtonItemWithImage:[UIImage imageNamed:@"refresh"]
+                                                        action:@selector(reload)];
     }
     return _reloadWebPageButton;
 }
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        _closeWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"xmark"]
-                                                        action:@selector(closeWebPage)] retain];
+        _closeWebPageButton = [self webBarButtonItemWithImage:[UIImage imageNamed:@"xmark"]
+                                                       action:@selector(closeWebPage)];
     }
     return _closeWebPageButton;
 }
