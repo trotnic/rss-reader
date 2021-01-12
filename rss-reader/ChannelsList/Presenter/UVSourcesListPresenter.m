@@ -71,12 +71,12 @@
             return;
         }
         
-        NSError *insertError = nil;
+        NSError *insertionError = nil;
         [weakSelf.sourceManager insertSourceWithURL:url
                                               links:rawLinks
-                                              error:&insertError];
+                                              error:&insertionError];
         
-        if (insertError) {
+        if (insertionError) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.viewDelegate stopSearchWithUpdate:NO];
                 [weakSelf showError:RSSErrorNoRSSLinks];

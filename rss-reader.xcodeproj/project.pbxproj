@@ -468,9 +468,9 @@
 		733C9F48258FDF2E0098316C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				733C9F58258FDFA20098316C /* UVSourcesListViewType.h */,
 				733C9F4A258FDF640098316C /* UVSourcesListViewController.h */,
 				733C9F4B258FDF640098316C /* UVSourcesListViewController.m */,
-				733C9F58258FDFA20098316C /* UVSourcesListViewType.h */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -478,9 +478,9 @@
 		733C9F49258FDF330098316C /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				733C9F56258FDF820098316C /* UVSourcesListPresenterType.h */,
 				733C9F50258FDF740098316C /* UVSourcesListPresenter.h */,
 				733C9F51258FDF740098316C /* UVSourcesListPresenter.m */,
-				733C9F56258FDF820098316C /* UVSourcesListPresenterType.h */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";

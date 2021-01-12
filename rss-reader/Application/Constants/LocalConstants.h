@@ -8,6 +8,10 @@
 #ifndef LocalConstants_h
 #define LocalConstants_h
 
+// TITLES
+
+static NSString *const RSS_LINKS_TITLE                      = @"RSS feeds";
+
 // PLACEHOLDERS
 
 static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"Feed address";

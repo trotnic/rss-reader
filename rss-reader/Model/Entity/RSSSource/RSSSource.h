@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
                       links:(NSArray<RSSLink *> *)links
                    selected:(BOOL)selected;
 
-- (instancetype)initWithURL:(NSURL *)url
-                      links:(NSArray<RSSLink *> *)links;
++ (instancetype)sourceWithURL:(NSURL *)url links:(NSArray<RSSLink *> *)links;
+
 - (NSArray<RSSLink *> *)selectedLinks;
 - (void)switchAllLinksSelected:(BOOL)selected;
 

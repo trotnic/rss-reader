@@ -42,7 +42,7 @@
 
 - (RSSSource *)buildObjectWithURL:(NSURL *)url
                             links:(NSArray<RSSLink *> *)links {
-    return [[[RSSSource alloc] initWithURL:url links:links] autorelease];
+    return [RSSSource sourceWithURL:url links:links];
 }
 
 - (BOOL)insertSourceWithURL:(NSURL *)url
@@ -64,8 +64,7 @@
         return NO;
     }
     
-    RSSSource *source = [[[RSSSource alloc] initWithURL:url
-                                                  links:actualLinks] autorelease];
+    RSSSource *source = [RSSSource sourceWithURL:url links:actualLinks];
     
     if (!source) {
         [self provideErrorForPointer:error];
@@ -108,8 +107,10 @@
 }
 
 - (BOOL)saveState:(out NSError **)error {
-    NSArray *sources = [self.sources map:^id(RSSSource *source) {
+    NSArray *sources = [[self.sources map:^id(RSSSource *source) {
         return source.dictionaryFromObject;
+    }] filter:^BOOL(id obj) {
+        return obj != nil;
     }];
     return [self.repository updateData:sources error:error];
 }

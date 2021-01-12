@@ -45,7 +45,7 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 
 - (NSURL *)validateURL:(NSURL *)url error:(out NSError **)error {
     if(!url || !url.absoluteString.length) {
-        *error = [self urlError];
+        [self provideErrorForReference:error];
         return nil;
     }
     NSURL *newURL = [NSURL URLWithString:STUB_RELATIVE_PATH

@@ -40,7 +40,7 @@
 - (void)testSourceObjectBuiltNormally {
     NSURL *url = SwissKnife.mockURL;
     NSArray *links = @[];
-    RSSSource *expected = [[RSSSource alloc] initWithURL:url links:links];
+    RSSSource *expected = [RSSSource sourceWithURL:url links:links];
     
     RSSSource *obtained = [self.sut buildObjectWithURL:url links:links];
     

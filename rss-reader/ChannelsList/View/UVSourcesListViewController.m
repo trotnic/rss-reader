@@ -8,6 +8,8 @@
 #import "UVSourcesListViewController.h"
 #import "UVSearchViewController.h"
 
+#import "LocalConstants.h"
+
 #import "UIViewController+ErrorPresenter.h"
 
 @interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
@@ -46,6 +48,7 @@
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ]];
     
+    self.navigationItem.title = NSLocalizedString(RSS_LINKS_TITLE, "");
     self.navigationItem.rightBarButtonItem = self.addSourceButton;
     
     self.tableView.tableFooterView = [[UIView new] autorelease];

@@ -50,10 +50,19 @@
     return self;
 }
 
-- (instancetype)initWithURL:(NSURL *)url
-                      links:(NSArray<RSSLink *> *)links
-{
-    return [self initWithURL:url links:links selected:NO];
++ (instancetype)sourceWithURL:(NSURL *)url links:(NSArray<RSSLink *> *)links {
+    RSSSource *source = [RSSSource new];
+    NSArray<RSSLink *> *actualLinks = [links map:^RSSLink *(RSSLink *link) {
+        if (!link.url) {
+            RSSLink *newLink = [[RSSLink alloc] initWithTitle:link.title url:url];
+            return [newLink autorelease];
+        }
+        return link;
+    }];
+    source.url = url;
+    source.rssLinks = actualLinks;
+    source.selected = NO;
+    return [source autorelease];
 }
 
 - (void)dealloc

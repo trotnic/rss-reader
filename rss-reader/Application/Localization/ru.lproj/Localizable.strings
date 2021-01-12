@@ -6,6 +6,10 @@
   
 */
 
+// TITLES
+
+"RSS feeds" = "RSS ленты";
+
 // PLACEHOLDERS
 
 "Feed address" = "Адрес ленты";
