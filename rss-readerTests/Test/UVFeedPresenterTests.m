@@ -14,6 +14,8 @@
 #import "RSSFeeDataFactory.h"
 #import "UIApplicationMock.h"
 
+static NSInteger const TIMEOUT = 2;
+
 @interface UVFeedPresenterTests : XCTestCase
 
 @property (nonatomic, retain) UVFeedPresenter *sut;
@@ -43,46 +45,58 @@
 
 - (void)testNetworkErrorOccuredPresented {
     self.network.error = SwissKnife.mockError;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.provider.isCalled);
+        XCTAssertNotNil(self.view.error);
+        XCTAssertFalse(self.view.isActivityShown);
+        return YES;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.provider.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testNilDataErrorPresented {
     NSData *rawData = nil;
     self.network.data = rawData;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.provider.isCalled);
+        XCTAssertNotNil(self.view.error);
+        XCTAssertFalse(self.view.isActivityShown);
+        return YES;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.provider.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testProviderErrorPresented {
     self.network.data = RSSFeeDataFactory.rawData;
     self.provider.error = SwissKnife.mockError;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.provider.isCalled);
+        XCTAssertNotNil(self.view.error);
+        XCTAssertFalse(self.view.isActivityShown);
+        return YES;
+    }];
+    
     [self.sut updateFeed];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        XCTAssertFalse(self.view.isActivityShown);
-        XCTAssertNotNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.provider.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testChannelIsPresented {
@@ -93,19 +107,14 @@
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"channel != nil"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
-        return self.view.channel == self.provider.channel;
-    }];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.provider.isCalled);
         XCTAssertFalse(self.view.isActivityShown);
         XCTAssertNil(self.view.error);
-        XCTAssertTrue(self.view.isCalled);
-    });
+        return [self.view.channel isEqual:self.provider.channel];
+    }];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.provider.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testArticleIsPresentedForSafari {
