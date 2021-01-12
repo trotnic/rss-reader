@@ -56,9 +56,6 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
                         completion:^(NSData *data, NSError *error) {
         if (error) {
             [weakSelf showError:RSSErrorTypeBadNetwork];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate rotateActivityIndicator:NO];
-            });
             return;
         }
         [weakSelf discoverChannel:data];
@@ -98,6 +95,7 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 
 - (void)showError:(RSSError)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewDelegate rotateActivityIndicator:NO];
         [self.viewDelegate presentError:[self provideErrorOfType:error]];
     });
 }
