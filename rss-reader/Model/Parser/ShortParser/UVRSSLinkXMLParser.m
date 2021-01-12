@@ -11,7 +11,6 @@
 #import "UVRSSLinkKeys.h"
 #import "UVErrorDomain.h"
 
-#import "AtomKeys.h"
 #import "TagKeys.h"
 #import "TagAttributeKeys.h"
 
@@ -65,15 +64,11 @@
     self.linkDictionary = [NSMutableDictionary dictionary];
 }
 
-- (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:ATOM_LINK]) {
-        self.linkDictionary[kRSSLinkURL] = attributeDict[ATTR_HREF];
-    }
     if([elementName isEqualToString:TAG_ITEM]) {
         self.isItem = YES;
     }

@@ -33,7 +33,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
         return nil;
     }
     
-    UVFeedItem *object = [UVFeedItem new];
+    UVFeedItem *object = [[UVFeedItem alloc] init];
     
     object.title = dictionary[kRSSItemTitle];
     object.url = [NSURL URLWithString:dictionary[kRSSItemLink]];

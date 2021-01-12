@@ -10,7 +10,7 @@
 
 #import "LocalConstants.h"
 
-#import "UIViewController+ErrorPresenter.h"
+#import "UIViewController+Util.h"
 
 @interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
 
@@ -36,6 +36,11 @@
     [self setupLayout];
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
+}
+
 // MARK: -
 
 - (void)setupLayout {
@@ -49,7 +54,7 @@
     ]];
     
     self.navigationItem.title = NSLocalizedString(RSS_LINKS_TITLE, "");
-    self.navigationItem.rightBarButtonItem = self.addSourceButton;
+    self.navigationItem.rightBarButtonItems = @[self.editButtonItem, self.addSourceButton];
     
     self.tableView.tableFooterView = [[UIView new] autorelease];
 }
@@ -70,6 +75,13 @@
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.presenter deleteItemAtIndex:indexPath.row];
+    }
 }
 
 // MARK: - UITableViewDelegate

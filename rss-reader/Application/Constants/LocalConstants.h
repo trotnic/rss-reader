@@ -29,7 +29,14 @@ static NSString *const BAD_RSS_FEED_DESCRIPTION             = @"Can't recognize 
 static NSString *const BAD_URL_TITLE                        = @"URL you input is wrong";
 static NSString *const BAD_URL_DESCRIPTION                  = @"Check if you type correct and try again";
 
-static NSString *const NO_RSS_LINKS_TITLE                   = @"No RSS feeds";
-static NSString *const NO_RSS_LINKS_DESCRIPTION             = @"Try to input another site address";
+static NSString *const NO_RSS_LINKS_DISCOVERED_TITLE        = @"No RSS feeds";
+static NSString *const NO_RSS_LINKS_DISCOVERED_DESCRIPTION  = @"Try to input another site address";
+
+static NSString *const NO_RSS_LINK_SELECTED_TITLE           = @"No RSS feed selected";
+static NSString *const NO_RSS_LINK_SELECTED_DESCRIPTION     = @"Provide a URL of RSS feed and select it in settings";
+
+// MESSAGES
+
+static NSString *const NO_CONTENTS_MESSAGE                  = @"No contents to show 🙃";
 
 #endif /* LocaleConstants_h */

@@ -32,20 +32,30 @@
 
 - (void)updateFeed {
     [self.viewDelegate rotateActivityIndicator:YES];
+    if (!self.sourceManager.links.count) {
+        self.channel = nil;
+        [self.viewDelegate clearState];
+        [self showError:RSSErrorNoRSSLinkSelected];
+        return;
+    }
+    
     NSURL *url = self.sourceManager.selectedLink.url;
     if (!url) {
-        [self.viewDelegate rotateActivityIndicator:NO];
+        self.channel = nil;
+        [self.viewDelegate clearState];
         [self showError:RSSErrorTypeBadURL];
         return;
     }
+    
     __block typeof(self)weakSelf = self;
     [self.network fetchDataFromURL:url
                         completion:^(NSData *data, NSError *error) {
         if(error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate rotateActivityIndicator:NO];
-                [weakSelf showError:RSSErrorNoRSSLinks];
+                self.channel = nil;
+                [self.viewDelegate clearState];
             });
+            [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
             return;
         }
         [weakSelf discoverChannel:data];
@@ -72,7 +82,7 @@
     [self.dataRecognizer discoverChannel:data parser:[[UVFeedXMLParser new] autorelease]
                               completion:^(NSDictionary *channel, NSError *error) {
         if(error) {
-            [weakSelf showError:RSSErrorNoRSSLinks];
+            [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
             return;
         }
         

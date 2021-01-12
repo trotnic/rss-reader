@@ -12,6 +12,8 @@
 #import "RSSDataFactory.h"
 #import "SwissKnife.h"
 
+static NSInteger const TIMEOUT = 1;
+
 @interface UVDataRecognizerTests : XCTestCase
 
 @property (nonatomic, retain) UVDataRecognizer *sut;
@@ -34,10 +36,10 @@
     [_linksParser release];
 }
 
-- (void)testXMLnilDataProvidedErrorOccures {
+- (void)testXMLChannelDiscoveringNilDataProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawDataNil;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error occured"];
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+
     [self.sut discoverChannel:data
                        parser:self.feedParser
                    completion:^(NSDictionary *result, NSError *error) {
@@ -46,31 +48,32 @@
         XCTAssertFalse(self.feedParser.isCalled);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testXMLParserNoProvidedErrorOccures {
+- (void)testXMLChannelDiscoveringNilPraserProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawXMLData;
     id<UVFeedParserType> parser = nil;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"nil parser error occured"];
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil parser error didn't occure"];
+
     [self.sut discoverChannel:data
                        parser:parser
                    completion:^(NSDictionary *result, NSError *error) {
         XCTAssertNil(result);
         XCTAssertNotNil(error);
+        XCTAssertFalse(self.feedParser.isCalled);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testXMLParserInternalErrorOccures {
+- (void)testXMLChannelDiscoveringParserInternalErrorOccures {
     NSData *data = RSSDataFactory.rawXMLData;
     self.feedParser.errorToReturn = SwissKnife.mockError;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"parser internal error occured"];
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"parser internal error didn't occure"];
+
     [self.sut discoverChannel:data
                        parser:self.feedParser
                    completion:^(NSDictionary *result, NSError *error) {
@@ -79,16 +82,15 @@
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
 
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testXMLDataProcessedChannelProvided {
+- (void)testXMLChannelDiscoveringDataProcessedChannelProvidedNormally {
     NSData *data = RSSDataFactory.rawXMLData;
     self.feedParser.dictionaryToReturn = RSSDataFactory.rawChannel;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"channel raw data parsed"];
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"channel raw data isn't parsed"];
+
     [self.sut discoverChannel:data
                        parser:self.feedParser
                    completion:^(NSDictionary *result, NSError *error) {
@@ -97,107 +99,191 @@
         XCTAssertNil(error);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testHTMLnilDataProvidedErrorOccures {
+- (void)testHTMLLinksDiscoveringNilDataProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawDataNil;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error occured"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
     
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+    [self.sut discoverLinksFromHTML:data
+                         completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertNil(result);
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testNotHTMLDataProvidedErrorOccures {
+- (void)testNotHTMLLinksDiscoveringDataProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawGarbageData;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error occured"];
-    
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+
+    [self.sut discoverLinksFromHTML:data
+                         completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertNil(result);
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testHTMLDataContainsNoRSSLinksErrorOccures {
+- (void)testHTMLLinksDiscoveringDataContainsNoRSSLinksErrorOccures {
     NSData *data = RSSDataFactory.rawHTMLDataNoRSS;
     XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
-    
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+
+    [self.sut discoverLinksFromHTML:data
+                         completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertNil(result);
         XCTAssertNotNil(error);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testHTMLDataRSSLinksNormallyProvided {
+- (void)testHTMLLinksDiscoveringDataRSSLinksNormallyProvided {
     NSData *data = RSSDataFactory.rawHTMLData;
-    NSArray *expected = RSSDataFactory.sourceWithLinksSelectedYES.rssLinks;
-    XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
-    
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+    NSArray *expected = RSSDataFactory.rawLinksFromHTML;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error didn't occure"];
+
+    [self.sut discoverLinksFromHTML:data completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertNotNil(result);
         XCTAssertNil(error);
         XCTAssertEqual(expected.count, result.count);
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testXMLDataParserInternalErrorOccures {
+- (void)testXMLLinksDiscoveringNoDataProvidedErrorOccures {
+    NSData *data = RSSDataFactory.rawDataNil;
+    NSURL *url = SwissKnife.mockURL;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no data provided error didn't occure"];
+    [self.sut discoverLinksFromXML:data
+                               url:url
+                        completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+        XCTAssertFalse(self.linksParser.isCalled);
+        XCTAssertNil(result);
+        XCTAssertNotNil(error);
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testXMLLinksDiscoveringNoURLProvidedErrorOccures {
     NSData *data = RSSDataFactory.rawXMLData;
+    NSURL *url = nil;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no url provided error didn't occure"];
+    [self.sut discoverLinksFromXML:data
+                               url:url
+                        completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+        XCTAssertFalse(self.linksParser.isCalled);
+        XCTAssertNil(result);
+        XCTAssertNotNil(error);
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testXMLLinksDiscoveringDataParserInternalErrorOccures {
+    NSData *data = RSSDataFactory.rawXMLData;
+    NSURL *url = SwissKnife.mockURL;
     self.linksParser.errorToReturn = SwissKnife.mockError;
     [self.sut setValue:self.linksParser forKey:@"linkXMLParser"];
-    
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
-    
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+
+    [self.sut discoverLinksFromXML:data url:url completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertTrue(self.linksParser.isCalled);
         XCTAssertNotNil(error);
         XCTAssertNil(result);
-        
+
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:1];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testXMLDataParserLinksProvided {
+- (void)testXMLLinksDiscoveringDataParserLinksProvided {
     NSData *data = RSSDataFactory.rawXMLData;
+    NSURL *url = SwissKnife.mockURL;
     self.linksParser.dictionaryToReturn = RSSDataFactory.rawLinkFromXML;
-    NSArray<NSDictionary *> *expected = @[RSSDataFactory.rawLinkFromXML];
-    
+
     [self.sut setValue:self.linksParser forKey:@"linkXMLParser"];
-    
+
     XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
-    
-    [self.sut discoverLinks:data
-                 completion:^(NSArray<NSDictionary *> *result, NSError *error) {
+
+    [self.sut discoverLinksFromXML:data url:url completion:^(NSArray<NSDictionary *> *result, NSError *error) {
         XCTAssertTrue(self.linksParser.isCalled);
         XCTAssertNil(error);
         XCTAssertNotNil(result);
-        XCTAssertEqual(expected.count, result.count);
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testContentTypeDiscoveringNilDataProvidedErrorOccures {
+    NSData *data = RSSDataFactory.rawDataNil;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+    
+    [self.sut discoverContentType:data
+                       completion:^(UVRawContentType type, NSError *error) {
+        XCTAssertEqual(UVRawContentUndefined, type);
+        XCTAssertNotNil(error);
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:1];
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
+- (void)testContentTypeDiscoveringXMLTypeReturnedFromData {
+    NSData *data = RSSDataFactory.rawXMLData;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+    
+    [self.sut discoverContentType:data
+                       completion:^(UVRawContentType type, NSError *error) {
+        XCTAssertEqual(UVRawContentXML, type);
+        XCTAssertNil(error);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testContentTypeDiscoveringHTMLTypeReturnedFromData {
+    NSData *data = RSSDataFactory.rawHTMLData;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+    
+    [self.sut discoverContentType:data
+                       completion:^(UVRawContentType type, NSError *error) {
+        XCTAssertEqual(UVRawContentHTML, type);
+        XCTAssertNil(error);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testContentTypeDiscoveringUndefinedTypeReturnedFromData {
+    NSData *data = RSSDataFactory.rawGarbageData;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"nil data error didn't occure"];
+    
+    [self.sut discoverContentType:data
+                       completion:^(UVRawContentType type, NSError *error) {
+        XCTAssertEqual(UVRawContentUndefined, type);
+        XCTAssertNil(error);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
 
 @end

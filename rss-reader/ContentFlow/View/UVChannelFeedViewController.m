@@ -10,10 +10,11 @@
 #import "UVChannelFeedPresenterType.h"
 #import "UVFeedItemWebViewController.h"
 
-#import "UIViewController+ErrorPresenter.h"
+#import "UIViewController+Util.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
-static CGFloat const kFadeAnimationDuration = 0.1;
+static CGFloat const FADE_ANIMATION_DURATION    = 0.1;
+static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 @interface UVChannelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -146,7 +147,7 @@ static CGFloat const kFadeAnimationDuration = 0.1;
     }];
     
     cell.alpha = 0;
-    [UIView animateWithDuration:kFadeAnimationDuration animations:^{
+    [UIView animateWithDuration:FADE_ANIMATION_DURATION animations:^{
         cell.alpha = 1;
     }];
     
@@ -168,9 +169,10 @@ static CGFloat const kFadeAnimationDuration = 0.1;
     return self.presenter.channel.channelItems[indexPath.row].frame.size.height;
 }
 
-// MARK: - FeedViewType
+// MARK: - UVChannelFeedViewType
 
 - (void)updatePresentation {
+    [self hidePlaceholderMessage];
     [self.tableView reloadData];
     self.navigationItem.title = [self.presenter.channel channelTitle];
     [self.refreshControl endRefreshing];
@@ -185,12 +187,23 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 }
 
 - (void)presentError:(NSError *)error {
+    if (self.refreshControl.isRefreshing) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(REFRESH_ENDING_DELAY * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+        });
+    }
     [self showError:error];
 }
 
 - (void)presentWebPageOnURL:(NSURL *)url {
     [self.webView openURL:url];
     [self.navigationController pushViewController:self.webView animated:YES];
+}
+
+- (void)clearState {
+    [self showPlaceholderMessage:NSLocalizedString(NO_CONTENTS_MESSAGE, "")];
+    self.navigationItem.title = nil;
+    [self.tableView reloadData];
 }
 
 @end

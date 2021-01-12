@@ -9,10 +9,11 @@
 #import "UVChannelFeedViewType.h"
 #import "UVFeedItemWebViewType.h"
 #import "UVChannelFeedPresenterType.h"
+#import "UVBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVChannelFeedViewController : UIViewController <UVChannelFeedViewType>
+@interface UVChannelFeedViewController : UVBaseViewController <UVChannelFeedViewType>
 
 @property (nonatomic, retain) id<UVChannelFeedPresenterType> presenter;
 

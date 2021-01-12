@@ -13,13 +13,35 @@
                  parser:(id<UVFeedParserType>)parser
              completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.rawChannel, self.error);
+    self.providedParser = parser;
+    completion(self.rawChannelToReturn, self.discoverChannelErrorToReturn);
 }
 
-- (void)discoverLinks:(NSData *)data
-           completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
+- (void)discoverContentType:(NSData *)data
+                 completion:(void (^)(UVRawContentType, NSError *))completion {
     self.isCalled = YES;
-    completion(self.rawLinks, self.error);
+    self.providedContentData = data;
+    completion(self.contentTypeToReturn, self.discoverContentErrorToReturn);
 }
+
+
+- (void)discoverLinksFromHTML:(NSData *)data
+                   completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
+    self.isCalled = YES;
+    self.providedHTMLData = data;
+    completion(self.rawLinksHTMLToReturn, self.discoverHTMLErrorToReturn);
+    
+}
+
+
+- (void)discoverLinksFromXML:(NSData *)data
+                         url:(NSURL *)url
+                  completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
+    self.isCalled = YES;
+    self.providedXMLData = data;
+    self.providedURL = url;
+    completion(self.rawLinksXMLToReturn, self.discoverXMLErrorToReturn);
+}
+
 
 @end

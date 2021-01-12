@@ -37,104 +37,72 @@
     [_defaults release];
 }
 
-- (void)testSourceObjectBuiltNormally {
+- (void)testInsertLinksUncontainedBySourceInsertionSuccessful {
+    NSInteger initialSize = 0;
+    NSArray<NSDictionary *> *expectedLinks = RSSDataFactory.rawLinksFromHTML;
     NSURL *url = SwissKnife.mockURL;
-    NSArray *links = @[];
-    RSSSource *expected = [RSSSource sourceWithURL:url links:links];
+    self.repository.fetchedToReturn = @[];
     
-    RSSSource *obtained = [self.sut buildObjectWithURL:url links:links];
-    
-    XCTAssertEqualObjects(expected, obtained);
+    XCTAssertEqual(initialSize, self.sut.links.count);
+    [self.sut insertLinks:expectedLinks relativeToURL:url];
+    XCTAssertEqual(expectedLinks.count, self.sut.links.count);
 }
 
-- (void)testEmptyLinksArrayObtainedNormally {
-    NSArray *expected = [RSSDataFactory sourceNoLinksSelected:NO].rssLinks;
-    NSArray *obtained = [self.sut links];
-    
-    XCTAssertEqualObjects(expected, obtained);
-    XCTAssertEqual(expected.count, obtained.count);
-}
-
-- (void)testNoEmptyLinksArrayObtainedNormally {
-    NSArray<RSSLink *> *expected = RSSDataFactory.sourceFromPlistSelectedNO.rssLinks;
-    self.repository.fetchedToReturn = @[RSSDataFactory.rawSourceFromPlistSelectedNO];
-    NSArray<RSSLink *> *obtained = self.sut.links;
-    
-    XCTAssertEqualObjects(expected, obtained);
-    XCTAssertEqual(expected.count, obtained.count);
-}
-
-- (void)testAttemptToInsertObjectWithNilURLErrorOccures {
-    NSError *error = nil;
-    NSURL *url = nil;
-    NSArray<NSDictionary *> *links = @[RSSDataFactory.rawLinkFromXML];
-    BOOL isInserted = [self.sut insertSourceWithURL:url links:links error:&error];
-    
-    XCTAssertNotNil(error);
-    XCTAssertFalse(isInserted);
-}
-
-- (void)testAttemptToInsertObjectWithNilLinksArrayErrorOccures {
-    NSError *error = nil;
+- (void)testInsertLinkUncontainedBySourceInsertionSuccessful {
+    NSInteger initialSize = 0;
+    NSInteger expectedSize = 1;
+    NSDictionary *link = RSSDataFactory.rawLinkFromXML;
     NSURL *url = SwissKnife.mockURL;
-    NSArray<NSDictionary *> *links = nil;
-    BOOL isInserted = [self.sut insertSourceWithURL:url links:links error:&error];
+    self.repository.fetchedToReturn = @[];
     
-    XCTAssertNotNil(error);
-    XCTAssertFalse(isInserted);
+    XCTAssertEqual(initialSize, self.sut.links.count);
+    [self.sut insertLink:link relativeToURL:url];
+    XCTAssertEqual(expectedSize, self.sut.links.count);
 }
 
-- (void)testAttemptToInsertObjectWithEmptyLinksArrayErrorOccures {
-    NSError *error = nil;
-    NSURL *url = SwissKnife.mockURL;
-    NSArray<NSDictionary *> *links = @[];
-    BOOL isInserted = [self.sut insertSourceWithURL:url links:links error:&error];
+- (void)testDeleteLink {
+    NSArray *links = RSSDataFactory.rawLinksFromHTML;
+    RSSLink *link = [RSSDataFactory linkSelected:NO];
+    NSInteger expectedSize = links.count - 1;
+    self.repository.fetchedToReturn = links;
     
-    XCTAssertNotNil(error);
-    XCTAssertFalse(isInserted);
+    XCTAssertEqual(links.count, self.sut.links.count);
+    [self.sut deleteLink:link];
+    XCTAssertEqual(expectedSize, self.sut.links.count);
 }
 
-- (void)testAttemptToInsertObjectWithWrongRawDataErrorOccures {
-    NSError *error = nil;
-    NSURL *url = SwissKnife.mockURL;
-    NSArray *links = @[RSSDataFactory.rawGarbageData];
-    BOOL isInserted = [self.sut insertSourceWithURL:url links:links error:&error];
+- (void)testSelectLink {
+    NSInteger indexToSelect = 0;
+    NSArray *links = RSSDataFactory.rawLinksFromHTML;
+    self.repository.fetchedToReturn = links;
+    RSSLink *link = self.sut.links[indexToSelect];
     
-    XCTAssertNotNil(error);
-    XCTAssertFalse(isInserted);
+    XCTAssertFalse(link.isSelected);
+    [self.sut selectLink:link];
+    XCTAssertTrue(link.isSelected);
 }
 
-- (void)testAttemptToInsertObjectWithCorrectUrlAndLinksNormally {
-    RSSSource *expected = RSSDataFactory.sourceFromPlistSelectedNO;
-    NSArray<NSDictionary *> *links = RSSDataFactory.rawLinksFromHTML;
-    NSURL *url = expected.url;
-    NSError *error = nil;
-    BOOL isInserted = [self.sut insertSourceWithURL:url links:links error:&error];
+- (void)testSelectedLinkEqualsToSelection {
+    NSInteger indexToSelect = 0;
+    NSArray *links = RSSDataFactory.rawLinksFromHTML;
+    self.repository.fetchedToReturn = links;
+    RSSLink *link = self.sut.links[indexToSelect];
     
-    XCTAssertNil(error);
-    XCTAssertTrue(isInserted);
+    XCTAssertFalse(link.isSelected);
+    [self.sut selectLink:link];
+    XCTAssertTrue(link.isSelected);
+    XCTAssertEqualObjects(link, self.sut.selectedLink);
 }
 
-- (void)testSavingInternalErrorOccuresProvided {
-    NSError *error = nil;
-    self.repository.fetchedToReturn = @[RSSDataFactory.rawSourceFromPlistSelectedNO];
-    self.repository.updateErrorToReturn = SwissKnife.mockError;
-    self.repository.updatedToReturn = NO;
-    BOOL isSaved = [self.sut saveState:&error];
+- (void)testSelectedLinkEqualsToTheFirstLinkWhenNoSelectedByDefault {
+    NSArray *links = RSSDataFactory.rawLinksFromHTML;
+    self.repository.fetchedToReturn = links;
+    RSSLink *link = self.sut.links.firstObject;
     
-    XCTAssertNotNil(error);
-    XCTAssertFalse(isSaved);
-}
-
-- (void)testSavingDataNormally {
-    NSError *error = nil;
-    self.repository.fetchedToReturn = @[RSSDataFactory.rawSourceFromPlistSelectedNO];
-    self.repository.updatedToReturn = YES;
-    BOOL isSaved = [self.sut saveState:&error];
-    
-    XCTAssertNil(error);
-    XCTAssertTrue(isSaved);
-    XCTAssertEqualObjects(self.repository.fetchedToReturn, self.repository.dataProvided);
+    XCTAssertFalse(link.isSelected);
+    RSSLink *selectedLink = self.sut.selectedLink;
+    XCTAssertEqualObjects(link, selectedLink);
+    XCTAssertTrue(link.isSelected);
 }
 
 @end

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)discoverAddress:(NSString *)address;
 - (NSArray<id<UVRSSLinkViewModel>> *)items;
 - (void)selectItemAtIndex:(NSInteger)index;
+- (void)deleteItemAtIndex:(NSInteger)index;
 
 @end
 

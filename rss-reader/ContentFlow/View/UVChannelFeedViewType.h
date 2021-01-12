@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)rotateActivityIndicator:(BOOL)show;
 - (void)presentWebPageOnURL:(NSURL *)url;
+- (void)clearState;
 
 @end
 

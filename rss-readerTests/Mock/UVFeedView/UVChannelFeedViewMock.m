@@ -28,4 +28,8 @@
     self.presentedURL = url;
 }
 
+- (void)clearState {
+    self.isCalled = YES;
+}
+
 @end

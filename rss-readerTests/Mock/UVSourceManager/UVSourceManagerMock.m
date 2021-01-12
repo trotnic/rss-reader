@@ -13,18 +13,9 @@
 
 @implementation UVSourceManagerMock
 
-@synthesize links;
-
-
-- (RSSSource *)buildObjectWithURL:(NSURL *)url
-                            links:(NSArray<RSSLink *> *)links {
+- (NSArray<RSSLink *> *)links {
     self.isCalled = YES;
-    return self.sourceToReturn;
-}
-
-- (void)removeObject:(nonnull RSSSource *)source {
-    self.isCalled = YES;
-    [self.sourcesToReturn removeObject:source];
+    return self.linksToReturn;
 }
 
 - (BOOL)saveState:(out NSError **)error {
@@ -37,33 +28,41 @@
 
 - (void)selectLink:(RSSLink *)link {
     self.isCalled = YES;
+    self.providedLinkToSelect = link;
 }
 
 - (RSSLink *)selectedLink {
     self.isCalled = YES;
-    return self.linkToReturn;
+    return self.selectedLinkToReturn;
 }
 
-- (RSSSource *)selectedSource {
+- (void)deleteLink:(RSSLink *)link {
     self.isCalled = YES;
-    return self.sourceToReturn;
+    self.providedLinkToDelete = link;
 }
 
-- (void)updateObject:(RSSSource *)source {
+- (void)insertLink:(NSDictionary *)rawLink
+     relativeToURL:(NSURL *)url {
     self.isCalled = YES;
+    self.providedRawLinkToInsert = rawLink;
+    self.providedRelativeURL = url;
 }
 
-- (BOOL)insertSourceWithURL:(nonnull NSURL *)url
-                      links:(nonnull NSArray<NSDictionary *> *)links
-                      error:(out NSError * _Nullable * _Nullable)error {
+
+
+- (void)insertLinks:(NSArray<NSDictionary *> *)rawLinks
+      relativeToURL:(NSURL *)url {
     self.isCalled = YES;
-    self.providedURL = url;
-    self.providedLinks = links;
-    if (error) {
-        *error = self.insertionError;
-    }
-    return self.validationResultToReturn;
+    self.providedRawLinksToInsert = rawLinks;
+    self.providedRelativeURL = url;
 }
+
+
+- (void)updateLink:(RSSLink *)link {
+    self.isCalled = YES;
+    self.providedLinkToUpdate = link;
+}
+
 
 
 @end

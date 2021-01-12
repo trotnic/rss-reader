@@ -2,7 +2,7 @@
 //  AtomKeys.h
 //  rss-reader
 //
-//  Created by Uladzislau Volchyk on 1.01.21.
+//  Created by Uladzislau Volchyk on 12.01.21.
 //
 
 #ifndef AtomKeys_h

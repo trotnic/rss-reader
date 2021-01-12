@@ -30,7 +30,7 @@
     object.link = dictionary[kRSSChannelLink];
     object.title = dictionary[kRSSChannelTitle];
     object.summary = dictionary[kRSSChannelDescription];
-    object.items = [[dictionary mutableArrayValueForKey:kRSSChannelItems]
+    object.items = [dictionary[kRSSChannelItems]
                     map:^UVFeedItem *(NSDictionary *rawItem) {
         return [UVFeedItem objectWithDictionary:rawItem];        
     }];

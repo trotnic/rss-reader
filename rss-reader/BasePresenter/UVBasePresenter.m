@@ -52,26 +52,32 @@
     switch (type) {
         case RSSErrorTypeBadNetwork: {
             return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{
-                NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
+                NSLocalizedFailureReasonErrorKey:   NSLocalizedString(BAD_INTERNET_CONNECTION_TITLE, ""),
+                NSLocalizedDescriptionKey:          NSLocalizedString(BAD_INTERNET_CONNECTION_DESCRIPTION, "")
             }];
         }
         case RSSErrorTypeParsingError: {
             return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{
-                NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
+                NSLocalizedFailureReasonErrorKey:   NSLocalizedString(BAD_RSS_FEED_TITLE, ""),
+                NSLocalizedDescriptionKey:          NSLocalizedString(BAD_RSS_FEED_DESCRIPTION, "")
             }];
         }
         case RSSErrorTypeBadURL: {
             return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{
-                NSLocalizedFailureReasonErrorKey: NSLocalizedString(BAD_URL_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(BAD_URL_DESCRIPTION, "")
+                NSLocalizedFailureReasonErrorKey:   NSLocalizedString(BAD_URL_TITLE, ""),
+                NSLocalizedDescriptionKey:          NSLocalizedString(BAD_URL_DESCRIPTION, "")
             }];
         }
-        case RSSErrorNoRSSLinks: {
+        case RSSErrorNoRSSLinksDiscovered: {
             return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{
-                NSLocalizedFailureReasonErrorKey: NSLocalizedString(NO_RSS_LINKS_TITLE, ""),
-                NSLocalizedDescriptionKey: NSLocalizedString(NO_RSS_LINKS_DESCRIPTION, "")
+                NSLocalizedFailureReasonErrorKey:   NSLocalizedString(NO_RSS_LINKS_DISCOVERED_TITLE, ""),
+                NSLocalizedDescriptionKey:          NSLocalizedString(NO_RSS_LINKS_DISCOVERED_DESCRIPTION, "")
+            }];
+        }
+        case RSSErrorNoRSSLinkSelected: {
+            return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{
+                NSLocalizedFailureReasonErrorKey:   NSLocalizedString(NO_RSS_LINK_SELECTED_TITLE,""),
+                NSLocalizedDescriptionKey:          NSLocalizedString(NO_RSS_LINK_SELECTED_DESCRIPTION, "")
             }];
         }
     }

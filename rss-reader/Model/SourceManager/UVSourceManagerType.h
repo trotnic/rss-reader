@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSSource.h"
+#import "RSSLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,12 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<RSSLink *> *links;
 
-- (BOOL)insertSourceWithURL:(NSURL *)url links:(NSArray<NSDictionary *> *)links error:(out NSError **)error;
-- (RSSSource *)buildObjectWithURL:(NSURL *)url links:(NSArray<RSSLink *> *)links;
-- (void)removeObject:(RSSSource *)source;
-- (void)updateObject:(RSSSource *)source;
+- (void)insertLinks:(NSArray<NSDictionary *> *)rawLinks relativeToURL:(NSURL *)url;
+- (void)insertLink:(NSDictionary *)rawLink relativeToURL:(NSURL *)url;
+- (void)updateLink:(RSSLink *)link;
+- (void)deleteLink:(RSSLink *)link;
 - (void)selectLink:(RSSLink *)link;
-- (RSSSource * _Nullable)selectedSource;
 - (RSSLink * _Nullable)selectedLink;
 - (BOOL)saveState:(out NSError **)error;
 

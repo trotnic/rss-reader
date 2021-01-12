@@ -1,5 +1,5 @@
 //
-//  UIViewController+ErrorPresenter.h
+//  UIViewController+Util.h
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 11/26/20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIViewController (ErrorPresenter)
+@interface UIViewController (Util)
 
 - (void)showError:(NSError *)error;
 

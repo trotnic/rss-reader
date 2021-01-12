@@ -13,16 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UVSourceManagerMock : NSObject <UVSourceManagerType>
 
 @property (nonatomic, retain) NSArray<RSSLink *> *linksToReturn;
-@property (nonatomic, retain) RSSSource *sourceToReturn;
+@property (nonatomic, assign) BOOL saveStateToReturn;
 @property (nonatomic, assign) BOOL isCalled;
-@property (nonatomic, retain) NSMutableArray<RSSSource *> *sourcesToReturn;
-@property (nonatomic, retain) RSSLink *linkToReturn;
-@property (nonatomic, retain) NSError *insertionError;
+@property (nonatomic, retain) RSSLink *providedLinkToSelect;
+@property (nonatomic, retain) RSSLink *selectedLinkToReturn;
+@property (nonatomic, retain) RSSLink *providedLinkToDelete;
+@property (nonatomic, retain) RSSLink *providedLinkToUpdate;
+@property (nonatomic, retain) NSDictionary *providedRawLinkToInsert;
+@property (nonatomic, retain) NSArray<NSDictionary *> *providedRawLinksToInsert;
+@property (nonatomic, retain) NSURL *providedRelativeURL;
 @property (nonatomic, retain) NSError *savingError;
-
-@property (nonatomic, retain) NSURL *providedURL;
-@property (nonatomic, retain) NSArray<NSDictionary *> *providedLinks;
-@property (nonatomic, assign) BOOL validationResultToReturn;
 
 @end
 

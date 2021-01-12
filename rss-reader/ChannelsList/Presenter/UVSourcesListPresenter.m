@@ -52,46 +52,67 @@
     });
 }
 
+- (void)deleteItemAtIndex:(NSInteger)index {
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        [self.sourceManager deleteLink:self.sourceManager.links[index]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.viewDelegate updatePresentation];
+        });
+        [self saveState];
+    });
+}
+
 // MARK: - Private
 
 - (void)discoverLinks:(NSData *)data url:(NSURL *)url {
     if (!data) {
-        [self showError:RSSErrorNoRSSLinks];
+        [self showError:RSSErrorTypeParsingError];
         return;
     }
     
     __block typeof(self)weakSelf = self;
-    [self.dataRecognizer discoverLinks:data
-                            completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-        if (error) {
+    [self.dataRecognizer discoverContentType:data
+                                  completion:^(UVRawContentType type, NSError *error) {
+        if (type == UVRawContentHTML) {
+            [weakSelf.dataRecognizer discoverLinksFromHTML:data
+                                                completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+            }];
+        }
+        if (type == UVRawContentXML) {
+            [weakSelf.dataRecognizer discoverLinksFromXML:data
+                                                      url:url
+                                               completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+            }];
+        }
+        if (type == UVRawContentUndefined || error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinks];
+                [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
             });
-            return;
         }
-        
-        NSError *insertionError = nil;
-        [weakSelf.sourceManager insertSourceWithURL:url
-                                              links:rawLinks
-                                              error:&insertionError];
-        
-        if (insertionError) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinks];
-            });
-            return;
-        }
-        
-        NSError *saveError = nil;
-        [weakSelf.sourceManager saveState:&saveError];
-        // TODO: -
-        BOOL shouldUpdateResults = (saveError == nil);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
-        });
     }];
+}
+
+- (void)insertRawLinks:(NSArray<NSDictionary *> *)links
+               baseURL:(NSURL *)url error:(NSError *)error {
+    if (error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.viewDelegate stopSearchWithUpdate:NO];
+            [self showError:RSSErrorNoRSSLinksDiscovered];
+        });
+        return;
+    }
+    [self.sourceManager insertLinks:links relativeToURL:url];
+    
+    NSError *saveError = nil;
+    [self.sourceManager saveState:&saveError];
+    BOOL shouldUpdateResults = (saveError == nil);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
+    });
+
 }
 
 - (void)saveState {

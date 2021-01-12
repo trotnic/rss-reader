@@ -15,7 +15,7 @@
 
 @interface UVSourceManager ()
 
-@property (nonatomic, retain) NSMutableArray<RSSSource *> *sources;
+@property (nonatomic, retain) NSMutableArray<RSSLink *> *rssLinks;
 @property (nonatomic, retain) id<UVPListRepositoryType> repository;
 
 @end
@@ -25,7 +25,7 @@
 - (void)dealloc
 {
     [_repository release];
-    [_sources release];
+    [_rssLinks release];
     [_userDefaults release];
     [super dealloc];
 }
@@ -33,95 +33,70 @@
 // MARK: -
 
 - (NSArray<RSSLink *> *)links {
-    NSMutableArray *links = [NSMutableArray array];
-    [self.sources forEach:^(RSSSource *source) {
-        [links addObjectsFromArray:source.rssLinks];
+    return [[self.rssLinks copy] autorelease];
+}
+
+- (void)insertLinks:(NSArray<NSDictionary *> *)rawLinks
+      relativeToURL:(NSURL *)url{
+    [[rawLinks compactMap:^RSSLink *(NSDictionary *rawLink) {
+        RSSLink *link = [RSSLink objectWithDictionary:rawLink];
+        [link configureURLRelativeToURL:url];
+        return link;
+    }] forEach:^(RSSLink *link) {
+        if (![self.rssLinks containsObject:link]) {
+            [self.rssLinks addObject:link];
+        }
     }];
-    return [[links copy] autorelease];
 }
 
-- (RSSSource *)buildObjectWithURL:(NSURL *)url
-                            links:(NSArray<RSSLink *> *)links {
-    return [RSSSource sourceWithURL:url links:links];
-}
-
-- (BOOL)insertSourceWithURL:(NSURL *)url
-                      links:(NSArray<NSDictionary *> *)links
-                      error:(out NSError **)error {
-    if (!url || !links || !links.count) {
-        [self provideErrorForPointer:error];
-        return NO;
+- (void)insertLink:(NSDictionary *)rawLink
+     relativeToURL:(NSURL *)url {
+    RSSLink *link = [RSSLink objectWithDictionary:rawLink];
+    [link configureURLRelativeToURL:url];
+    if (![self.rssLinks containsObject:link]) {
+        [self.rssLinks addObject:link];
     }
-    
-    NSArray<RSSLink *> *actualLinks = [[links filter:^BOOL(id rawLink) {
-        return [rawLink isKindOfClass:NSDictionary.class];
-    }] compactMap:^RSSLink *(NSDictionary *rawLink) {
-        return [RSSLink objectWithDictionary:rawLink];
-    }];
-    
-    if (!actualLinks || !actualLinks.count) {
-        [self provideErrorForPointer:error];
-        return NO;
-    }
-    
-    RSSSource *source = [RSSSource sourceWithURL:url links:actualLinks];
-    
-    if (!source) {
-        [self provideErrorForPointer:error];
-        return NO;
-    }
-    [self insertObject:source];
-    return YES;
 }
 
-- (void)removeObject:(RSSSource *)source {
-    [self.sources removeObject:source];
+- (void)deleteLink:(RSSLink *)link {
+    [self.rssLinks removeObject:link];
 }
 
-- (void)updateObject:(RSSSource *)source {
+- (void)updateLink:(RSSLink *)link {
     __block typeof(self)weakSelf = self;
-    [self.sources enumerateObjectsUsingBlock:^(RSSSource *obj, NSUInteger idx, BOOL *stop) {
-        if([obj isEqual:source]) {
-            weakSelf.sources[idx] = source;
-        } else if (source.isSelected) {
-            [obj switchAllLinksSelected:NO];
+    [self.rssLinks enumerateObjectsUsingBlock:^(RSSLink *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isEqual:link]) {
+            weakSelf.rssLinks[idx] = link;
         }
     }];
 }
 
 - (void)selectLink:(RSSLink *)link {
-    [self.sources forEach:^(RSSSource *source) {
-        [source switchAllLinksSelected:NO];
+    [self.rssLinks forEach:^(RSSLink *obj) {
+        obj.selected = NO;
     }];
     link.selected = YES;
 }
 
-- (RSSSource *)selectedSource {
-    return [self.sources find:^BOOL(RSSSource *source) {
-        return source.isSelected;
-    }];
-}
-
-- (RSSLink *)selectedLink {
-    return self.selectedSource.selectedLinks.firstObject;
+- (RSSLink *)selectedLink {    
+    RSSLink * link = [[self.rssLinks filter:^BOOL(RSSLink *obj) {
+        return obj.isSelected;
+    }] firstObject];
+    if (!link && self.rssLinks.count > 0) {
+        self.rssLinks.firstObject.selected = YES;
+        return self.rssLinks.firstObject;
+    }
+    return link;
 }
 
 - (BOOL)saveState:(out NSError **)error {
-    NSArray *sources = [[self.sources map:^id(RSSSource *source) {
-        return source.dictionaryFromObject;
-    }] filter:^BOOL(id obj) {
-        return obj != nil;
+    NSArray<NSDictionary *> *rawLinks = [self.rssLinks compactMap:^id (RSSLink *link) {
+        return link.dictionaryFromObject;
     }];
-    return [self.repository updateData:sources error:error];
+    return [self.repository updateData:rawLinks error:error];
 }
 
 // MARK: - Private
-
-- (void)insertObject:(RSSSource *)source {
-    if (![self.sources containsObject:source]) {
-        [self.sources addObject:source];
-    }
-}
 
 - (NSError *)sourceError {
     return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
@@ -136,19 +111,19 @@
 
 // MARK: - Lazy
 
-- (NSMutableArray<RSSSource *> *)sources {
-    if(!_sources) {
+- (NSMutableArray<RSSLink *> *)rssLinks {
+    if (!_rssLinks) {
         NSError *error = nil;
-        NSArray *sources = [self.repository fetchData:&error];
-        if (sources && !error) {
-            _sources = [[sources map:^id (NSDictionary *rawSource) {
-                return [RSSSource objectWithDictionary:rawSource];
+        NSArray<NSDictionary *> *links = [self.repository fetchData:&error];
+        if (links && !error) {
+            _rssLinks = [[links map:^id (NSDictionary *rawLink) {
+                return [RSSLink objectWithDictionary:rawLink];
             }] mutableCopy];
         } else {
-            _sources = [NSMutableArray new];
+            _rssLinks = [NSMutableArray new];
         }
     }
-    return _sources;
+    return _rssLinks;
 }
 
 - (id<UVPListRepositoryType>)repository {

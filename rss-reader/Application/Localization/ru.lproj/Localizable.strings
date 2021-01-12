@@ -30,3 +30,9 @@
 "No RSS feeds" = "Нет RSS лент";
 "Try to input another site address" = "Попробуйте ввести другой адрес";
 
+"No RSS feed selected" = "Не выбрана RSS лента";
+"Provide a URL of RSS feed and select it in settings" = "Введите адрес RSS ленты и выберите её в настройках";
+
+// MESSAGES
+
+"No contents to show" = "Пусто 🙃";

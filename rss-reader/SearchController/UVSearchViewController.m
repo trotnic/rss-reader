@@ -6,7 +6,7 @@
 //
 
 #import "UVSearchViewController.h"
-#import "UIViewController+ErrorPresenter.h"
+#import "UIViewController+Util.h"
 #import "LocalConstants.h"
 
 @interface UVSearchViewController () <UISearchBarDelegate>

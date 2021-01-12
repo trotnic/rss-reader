@@ -14,6 +14,8 @@
 #import "SwissKnife.h"
 #import "RSSDataFactory.h"
 
+static NSInteger const TIMEOUT = 2;
+
 @interface UVSourcesListPresenterTests : XCTestCase
 
 @property (nonatomic, retain) UVSourcesListPresenter *sut;
@@ -49,152 +51,238 @@
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
         return !self.view.isUpdate && self.view.error != nil;
     }];
     
     [self.sut discoverAddress:@""];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.dataRecognizer.isCalled);
-    XCTAssertFalse(self.sourceManager.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testNilValidatedURLProvidedErrorPresented {
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
         return !self.view.isUpdate && self.view.error != nil;
     }];
-    
+
     [self.sut discoverAddress:@""];
-    
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.dataRecognizer.isCalled);
-    XCTAssertFalse(self.sourceManager.isCalled);
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testNetworkErrorPresented {
     self.network.url = SwissKnife.mockURL;
     self.network.requestError = SwissKnife.mockError;
-    
+
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
         return !self.view.isUpdate && self.view.error != nil;
     }];
-    
+
     [self.sut discoverAddress:@""];
-    
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.dataRecognizer.isCalled);
-    XCTAssertFalse(self.sourceManager.isCalled);
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 - (void)testNilDataFromNetworkErrorPresented {
     self.network.url = SwissKnife.mockURL;
     self.network.data = RSSDataFactory.rawDataNil;
+
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertFalse(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
+        return !self.view.isUpdate && self.view.error != nil;
+    }];
+
+    [self.sut discoverAddress:@""];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testHTMLDataRecognitionErrorOccuredPresented {
+    self.network.url = SwissKnife.mockURL;
+    self.network.data = RSSDataFactory.rawHTMLData;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentHTML;
+    self.dataRecognizer.discoverHTMLErrorToReturn = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
         return !self.view.isUpdate && self.view.error != nil;
     }];
     
-    [self.sut discoverAddress:@""];
+    [self.sut discoverAddress:@"tut.by"];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertFalse(self.dataRecognizer.isCalled);
-    XCTAssertFalse(self.sourceManager.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testRecognitionErrorPresented {
+- (void)testHTMLDataRecognizedNormally {
     self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawXMLData;
-    self.dataRecognizer.error = SwissKnife.mockError;
+    self.network.data = RSSDataFactory.rawHTMLData;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentHTML;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertTrue(self.sourceManager.isCalled);
+        return self.view.isUpdate && self.view.error == nil;
+    }];
+    
+    [self.sut discoverAddress:@"tut.by"];
+    
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testXMLDataRecognitionErrorOccuredPresented {
+    self.network.url = SwissKnife.mockURL;
+    self.network.data = RSSDataFactory.rawXMLData;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentXML;
+    self.dataRecognizer.discoverXMLErrorToReturn = SwissKnife.mockError;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
+        XCTAssertEqualObjects(self.network.url, self.dataRecognizer.providedURL);
         return !self.view.isUpdate && self.view.error != nil;
     }];
     
-    [self.sut discoverAddress:@""];
+    [self.sut discoverAddress:@"tut.by"];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.dataRecognizer.isCalled);
-    XCTAssertFalse(self.sourceManager.isCalled);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testInsertionErrorPresented {
+- (void)testXMLDataRecognizedNormally {
     self.network.url = SwissKnife.mockURL;
     self.network.data = RSSDataFactory.rawXMLData;
-    self.sourceManager.insertionError = SwissKnife.mockError;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentXML;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertTrue(self.sourceManager.isCalled);
+        XCTAssertEqualObjects(self.network.url, self.dataRecognizer.providedURL);
+        return self.view.isUpdate && self.view.error == nil;
+    }];
+    
+    [self.sut discoverAddress:@"tut.by"];
+    
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testContentTypeDiscoverErrorOccuredPresented {
+    self.network.url = SwissKnife.mockURL;
+    self.network.data = RSSDataFactory.rawXMLData;
+    self.dataRecognizer.discoverContentErrorToReturn = SwissKnife.mockError;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentUndefined;
+    
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
         return !self.view.isUpdate && self.view.error != nil;
     }];
     
-    [self.sut discoverAddress:@""];
+    [self.sut discoverAddress:@"tut.by"];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.dataRecognizer.isCalled);
-    XCTAssertTrue(self.sourceManager.isCalled);
-    XCTAssertEqualObjects(self.sourceManager.providedURL, self.network.url);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testSavingErrorOccured {
+- (void)testContentTypeUndefinedTypeOccuredAlertPresented {
     self.network.url = SwissKnife.mockURL;
     self.network.data = RSSDataFactory.rawXMLData;
-    self.sourceManager.savingError = SwissKnife.mockError;
+    self.dataRecognizer.contentTypeToReturn = UVRawContentUndefined;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
-        return !self.view.isUpdate;
+        XCTAssertTrue(self.network.isCalled);
+        XCTAssertTrue(self.dataRecognizer.isCalled);
+        XCTAssertFalse(self.sourceManager.isCalled);
+        return !self.view.isUpdate && self.view.error != nil;
     }];
     
-    [self.sut discoverAddress:@""];
+    [self.sut discoverAddress:@"tut.by"];
     
-    [self waitForExpectations:@[expectation] timeout:2];
-    
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.dataRecognizer.isCalled);
-    XCTAssertTrue(self.sourceManager.isCalled);
-    XCTAssertEqualObjects(self.sourceManager.providedURL, self.network.url);
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
-- (void)testNewLinksProvidedNormally {
-    self.network.url = SwissKnife.mockURL;
-    self.network.data = RSSDataFactory.rawXMLData;
+- (void)testEmptyInitialLinksListReturnedNormally {
+    NSArray *expected = RSSDataFactory.linksEmptyList;
+    self.sourceManager.linksToReturn = expected;
+    NSArray *obtained = self.sut.items;
+    
+    XCTAssertEqualObjects(expected, obtained);
+    XCTAssertTrue(self.sourceManager.isCalled);
+}
+
+- (void)testInitialLinksListReturnedNormally {
+    NSArray *expected = RSSDataFactory.links;
+    self.sourceManager.linksToReturn = expected;
+    NSArray *obtained = self.sut.items;
+    
+    XCTAssertEqualObjects(expected, obtained);
+    XCTAssertTrue(self.sourceManager.isCalled);
+}
+
+- (void)testSelectionItemAtIndexItemIsSelectedNormally {
+    NSInteger indexToSelect = 0;
+    self.sourceManager.linksToReturn = RSSDataFactory.links;
+    RSSLink *expected = self.sourceManager.linksToReturn[indexToSelect];
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view
                                                            handler:^BOOL{
-        return !self.view.error && self.view.isUpdate;
+        RSSLink *obtained = self.sourceManager.providedLinkToSelect;
+        return [expected isEqual:obtained];
     }];
     
-    [self.sut discoverAddress:@""];
+    [self.sut selectItemAtIndex:indexToSelect];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
+}
+
+- (void)testDeletionItemAtIndexItemIsSelectedNormally {
+    NSInteger indexToDelete = 0;
+    self.sourceManager.linksToReturn = RSSDataFactory.links;
+    RSSLink *expected = self.sourceManager.linksToReturn[indexToDelete];
     
-    [self waitForExpectations:@[expectation] timeout:2];
+    XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
+                                               evaluatedWithObject:self.view
+                                                           handler:^BOOL{
+        RSSLink *obtained = self.sourceManager.providedLinkToDelete;
+        return [expected isEqual:obtained];
+    }];
     
-    XCTAssertTrue(self.network.isCalled);
-    XCTAssertTrue(self.dataRecognizer.isCalled);
-    XCTAssertTrue(self.sourceManager.isCalled);
-    XCTAssertEqualObjects(self.sourceManager.providedURL, self.network.url);
+    [self.sut deleteItemAtIndex:indexToDelete];
+
+    [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
 
 @end

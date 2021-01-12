@@ -30,4 +30,10 @@
 "No RSS feeds" = "No RSS feeds";
 "Try to input another site address" = "Try to input another site address";
 
+"No RSS feed selected" = "No RSS feed selected";
+"Provide a URL of RSS feed and select it in settings" = "Provide a URL of RSS feed and select it in settings";
+
+// MESSAGES
+
+"No contents to show" = "No contents to show";
 
