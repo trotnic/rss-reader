@@ -11,7 +11,7 @@
 @interface RSSLink ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, retain, readwrite) NSURL *url;
+@property (nonatomic, strong, readwrite) NSURL *url;
 
 @end
 

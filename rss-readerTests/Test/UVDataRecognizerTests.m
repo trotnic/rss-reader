@@ -16,9 +16,9 @@ static NSInteger const TIMEOUT = 1;
 
 @interface UVDataRecognizerTests : XCTestCase
 
-@property (nonatomic, retain) UVDataRecognizer *sut;
-@property (nonatomic, retain) UVFeedParserMock *feedParser;
-@property (nonatomic, retain) UVRSSLinkXMLParserMock *linksParser;
+@property (nonatomic, strong) UVDataRecognizer *sut;
+@property (nonatomic, strong) UVFeedParserMock *feedParser;
+@property (nonatomic, strong) UVRSSLinkXMLParserMock *linksParser;
 
 @end
 

@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVFeedParserMock : NSObject <UVFeedParserType>
 
-@property (nonatomic, retain) NSURL *urlProvided;
-@property (nonatomic, retain) NSData *dataProvided;
-@property (nonatomic, retain) NSError *errorToReturn;
-@property (nonatomic, retain) NSDictionary *dictionaryToReturn;
+@property (nonatomic, strong) NSURL *urlProvided;
+@property (nonatomic, strong) NSData *dataProvided;
+@property (nonatomic, strong) NSError *errorToReturn;
+@property (nonatomic, strong) NSDictionary *dictionaryToReturn;
 @property (nonatomic, assign) BOOL isCalled;
 
 @end

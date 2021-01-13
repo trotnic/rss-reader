@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVRSSLinkXMLParserMock : NSObject <UVRSSLinkXMLParserType>
 
-@property (nonatomic, retain) NSData *providedData;
-@property (nonatomic, retain) NSDictionary *dictionaryToReturn;
-@property (nonatomic, retain) NSError *errorToReturn;
+@property (nonatomic, strong) NSData *providedData;
+@property (nonatomic, strong) NSDictionary *dictionaryToReturn;
+@property (nonatomic, strong) NSError *errorToReturn;
 @property (nonatomic, assign) BOOL isCalled;
 
 @end

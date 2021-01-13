@@ -13,7 +13,7 @@
 @property (nonatomic, copy, readwrite) NSString *link;
 @property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *summary;
-@property (nonatomic, retain, readwrite) NSArray<UVFeedItem *> *items;
+@property (nonatomic, strong, readwrite) NSArray<UVFeedItem *> *items;
 
 @end
 

@@ -18,11 +18,11 @@ static NSInteger const TIMEOUT = 4;
 
 @interface UVChannelFeedPresenterTests : XCTestCase
 
-@property (nonatomic, retain) UVChannelFeedPresenter *sut;
-@property (nonatomic, retain) UVNetworkMock *network;
-@property (nonatomic, retain) UVDataRecognizerMock *dataRecognizer;
-@property (nonatomic, retain) UVSourceManagerMock *sourceManager;
-@property (nonatomic, retain) UVChannelFeedViewMock *view;
+@property (nonatomic, strong) UVChannelFeedPresenter *sut;
+@property (nonatomic, strong) UVNetworkMock *network;
+@property (nonatomic, strong) UVDataRecognizerMock *dataRecognizer;
+@property (nonatomic, strong) UVSourceManagerMock *sourceManager;
+@property (nonatomic, strong) UVChannelFeedViewMock *view;
 
 @end
 

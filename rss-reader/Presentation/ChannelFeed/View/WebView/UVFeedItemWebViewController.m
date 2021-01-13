@@ -11,13 +11,13 @@
 
 @interface UVFeedItemWebViewController () <WKNavigationDelegate>
 
-@property (nonatomic, retain) WKWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 
-@property (nonatomic, retain) UIBarButtonItem *goBackButton;
-@property (nonatomic, retain) UIBarButtonItem *goForwardButton;
-@property (nonatomic, retain) UIBarButtonItem *reloadWebPageButton;
-@property (nonatomic, retain) UIBarButtonItem *closeWebPageButton;
-@property (nonatomic, retain) UIBarButtonItem *openInBrowserButton;
+@property (nonatomic, strong) UIBarButtonItem *goBackButton;
+@property (nonatomic, strong) UIBarButtonItem *goForwardButton;
+@property (nonatomic, strong) UIBarButtonItem *reloadWebPageButton;
+@property (nonatomic, strong) UIBarButtonItem *closeWebPageButton;
+@property (nonatomic, strong) UIBarButtonItem *openInBrowserButton;
 
 @end
 

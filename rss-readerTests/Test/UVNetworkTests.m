@@ -10,7 +10,7 @@
 
 @interface UVNetworkTests : XCTestCase
 
-@property (nonatomic, retain) UVNetwork *sut;
+@property (nonatomic, strong) UVNetwork *sut;
 
 @end
 

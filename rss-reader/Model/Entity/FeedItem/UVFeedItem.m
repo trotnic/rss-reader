@@ -15,10 +15,10 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @interface UVFeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, retain, readwrite) NSURL *url;
+@property (nonatomic, strong, readwrite) NSURL *url;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, copy, readwrite) NSString *category;
-@property (nonatomic, retain, readwrite) NSDate *pubDate;
+@property (nonatomic, strong, readwrite) NSDate *pubDate;
 
 @end
 

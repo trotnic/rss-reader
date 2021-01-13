@@ -54,7 +54,6 @@
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */; };
 		CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CA11C19D25A60631002019F4 /* UVFeedPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */; };
 		CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
@@ -191,7 +190,6 @@
 		CA11C18B25A5FCB6002019F4 /* UVSourcesListViewMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourcesListViewMock.h; sourceTree = "<group>"; };
 		CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListViewMock.m; sourceTree = "<group>"; };
 		CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedProviderTests.m; sourceTree = "<group>"; };
-		CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedPresenterTests.m; sourceTree = "<group>"; };
 		CA131ACE259A2DEB0044D992 /* UVRSSLinkXMLParserType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParserType.h; sourceTree = "<group>"; };
 		CA131ACF259A2DF50044D992 /* UVRSSLinkXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParser.h; sourceTree = "<group>"; };
 		CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVRSSLinkXMLParser.m; sourceTree = "<group>"; };
@@ -569,8 +567,8 @@
 		7362CAB725A24D4100037AEF /* SwissKnife */ = {
 			isa = PBXGroup;
 			children = (
-				7362CAB825A24D4100037AEF /* SwissKnife.m */,
 				7362CAB925A24D4100037AEF /* SwissKnife.h */,
+				7362CAB825A24D4100037AEF /* SwissKnife.m */,
 			);
 			path = SwissKnife;
 			sourceTree = "<group>";
@@ -595,7 +593,6 @@
 		7362CABF25A24D4100037AEF /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */,
 				CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */,
 				7362CAC125A24D4100037AEF /* UVFeedXMLParserTests.m */,
 				7362CAC225A24D4100037AEF /* UVChannelFeedPresenterTests.m */,
@@ -1051,8 +1048,6 @@
 				7362CADA25A24D4100037AEF /* UIApplicationMock.m in Sources */,
 				7362CAD925A24D4100037AEF /* UVChannelFeedPresenterTests.m in Sources */,
 				7362CADC25A24D4100037AEF /* MockParser.m in Sources */,
-				CA11C19D25A60631002019F4 /* UVFeedPresenterTests.m in Sources */,
-				CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */,
 				CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */,
 				7356668D25A880A600FB8902 /* UVRSSLinkXMLParserTests.m in Sources */,
 				739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */,
@@ -1060,6 +1055,7 @@
 				7362CAD525A24D4100037AEF /* SwissKnife.m in Sources */,
 				7362CADE25A24D4100037AEF /* UVNetworkMock.m in Sources */,
 				7356665825A8614A00FB8902 /* UVDataRecognizerTests.m in Sources */,
+				CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

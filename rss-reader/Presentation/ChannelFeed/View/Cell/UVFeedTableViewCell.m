@@ -16,21 +16,21 @@ static NSInteger const kTitleNumberOfLines = 0;
 
 @interface UVFeedTableViewCell ()
 
-@property (nonatomic, retain, readwrite) UILabel *titleLabel;
-@property (nonatomic, retain, readwrite) UILabel *dateLabel;
-@property (nonatomic, retain, readwrite) UILabel *categoryLabel;
-@property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
+@property (nonatomic, strong, readwrite) UILabel *titleLabel;
+@property (nonatomic, strong, readwrite) UILabel *dateLabel;
+@property (nonatomic, strong, readwrite) UILabel *categoryLabel;
+@property (nonatomic, strong, readwrite) UILabel *descriptionLabel;
 
-@property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *supplementaryTextStack;
-@property (nonatomic, retain) UIStackView *supplementaryButtonStack;
-@property (nonatomic, retain) UIStackView *supplementarySectionStack;
+@property (nonatomic, strong) UIStackView *mainStack;
+@property (nonatomic, strong) UIStackView *supplementaryTextStack;
+@property (nonatomic, strong) UIStackView *supplementaryButtonStack;
+@property (nonatomic, strong) UIStackView *supplementarySectionStack;
 
-@property (nonatomic, retain) UIButton *expandButton;
+@property (nonatomic, strong) UIButton *expandButton;
 
 @property (nonatomic, copy) void(^setupCompletion)(void);
 
-@property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
+@property (nonatomic, strong) id<UVFeedItemDisplayModel> model;
 
 @end
 

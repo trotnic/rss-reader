@@ -25,18 +25,18 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 @property (nonatomic, copy) ParseHandler completion;
 
 // MARK: - Channel
-@property (nonatomic, retain) NSMutableDictionary *channelDictionary;
-@property (nonatomic, retain) NSMutableArray<NSDictionary *> *items;
+@property (nonatomic, strong) NSMutableDictionary *channelDictionary;
+@property (nonatomic, strong) NSMutableArray<NSDictionary *> *items;
 
 // MARK: - Item
-@property (nonatomic, retain) NSMutableDictionary *itemDictionary;
+@property (nonatomic, strong) NSMutableDictionary *itemDictionary;
 @property (nonatomic, assign) BOOL isItem;
 
 // MARK: - Util
-@property (nonatomic, retain) NSXMLParser *parser;
-@property (nonatomic, retain) NSMutableString *parsingString;
+@property (nonatomic, strong) NSXMLParser *parser;
+@property (nonatomic, strong) NSMutableString *parsingString;
 
-@property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
+@property (nonatomic, strong) NSSet<NSString *> *plainTextNodes;
 
 @end
 

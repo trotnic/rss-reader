@@ -18,11 +18,11 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 @interface UVChannelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) UIRefreshControl *refreshControl;
-@property (nonatomic, retain) UIBarButtonItem *settingsButton;
-@property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) UIBarButtonItem *settingsButton;
+@property (nonatomic, strong) UIViewController<UVFeedItemWebViewType> *webView;
 
 @property (nonatomic, copy) void(^rightButtonClickAction)(void);
 

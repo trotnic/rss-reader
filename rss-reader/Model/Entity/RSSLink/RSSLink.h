@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RSSLink : NSObject <UVRSSLinkViewModel, NSSecureCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, retain, readonly) NSURL *url;
+@property (nonatomic, strong, readonly) NSURL *url;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
 + (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
