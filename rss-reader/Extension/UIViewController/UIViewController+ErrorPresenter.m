@@ -10,11 +10,11 @@
 @implementation UIViewController (ErrorPresenter)
 
 - (void)showError:(NSError *)error {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:error.localizedFailureReason
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:error.localizedFailureReason
+                                                                   message:error.localizedDescription
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(ALERT_OK_BUTTON_TITLE, "")  style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:nil];
 }

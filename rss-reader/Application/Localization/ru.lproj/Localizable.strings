@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  rss-reader
+
+  Created by Uladzislau on 11/25/20.
+  
+*/
+
+"OK" = " ОК";
+
+"Connection error" = "Ошибка сети";
+"Check your network connection and try to reload a feed" = "Проверьте подключение к интернету и попробуйте обновить ленту";
+
+"RSS error" = "Ошибка RSS";
+"Can't recognize RSS feed, use another one" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";
