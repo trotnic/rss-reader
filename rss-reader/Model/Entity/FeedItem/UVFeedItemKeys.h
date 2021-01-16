@@ -8,11 +8,20 @@
 #ifndef UVFeedItemKeys_h
 #define UVFeedItemKeys_h
 
+<<<<<<< HEAD
 static NSString *const kRSSItem             = @"item";
 static NSString *const kRSSItemTitle        = @"title";
 static NSString *const kRSSItemLink         = @"link";
 static NSString *const kRSSItemSummary      = @"description";
 static NSString *const kRSSItemCategory     = @"category";
 static NSString *const kRSSItemPubDate      = @"pubDate";
+=======
+static NSString *const kRSSItem = @"item";
+static NSString *const kRSSItemTitle = @"title";
+static NSString *const kRSSItemLink = @"link";
+static NSString *const kRSSItemSummary = @"description";
+static NSString *const kRSSItemCategory = @"category";
+static NSString *const kRSSItemPubDate = @"pubDate";
+>>>>>>> develop
 
 #endif /* UVFeedItemKeys_h */

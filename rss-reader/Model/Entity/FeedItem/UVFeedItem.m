@@ -23,9 +23,12 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @end
 
 @implementation UVFeedItem
+<<<<<<< HEAD:rss-reader/Model/Entity/FeedItem/UVFeedItem.m
 
 @synthesize expand;
 @synthesize frame;
+=======
+>>>>>>> develop:rss-reader/Model/Entity/FeedItem/FeedItem.m
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
@@ -57,6 +60,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"%@", self.link];
+<<<<<<< HEAD:rss-reader/Model/Entity/FeedItem/UVFeedItem.m
 }
 
 - (BOOL)isEqual:(id)other
@@ -64,6 +68,15 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
     return [self.link isEqualToString:[other link]];
 }
 
+=======
+}
+
+- (BOOL)isEqual:(id)other
+{
+    return [self.link isEqualToString:[other link]];
+}
+
+>>>>>>> develop:rss-reader/Model/Entity/FeedItem/FeedItem.m
 // MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {

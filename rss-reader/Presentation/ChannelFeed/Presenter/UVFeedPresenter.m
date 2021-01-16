@@ -22,6 +22,11 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 @property (nonatomic, retain) id<UVFeedProviderType> provider;
 @property (nonatomic, retain) id<UVNetworkType> network;
 
+<<<<<<< HEAD
+=======
+@property (nonatomic, assign) UIApplication *application;
+
+>>>>>>> develop
 @end
 
 @implementation UVFeedPresenter
@@ -63,7 +68,15 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
 }
 
 - (void)openArticleAt:(NSInteger)row {
+<<<<<<< HEAD
     [self.viewDelegate presentWebPageOnURL:[self urlForItemAt:row]];
+=======
+    [self.application openURL:[self urlForItemAt:row]
+                      options:@{}
+            completionHandler:^(BOOL success) {
+        NSLog(@"%@", success ? @" is opened" : @" isn't opened");
+    }];
+>>>>>>> develop
 }
 
 // MARK: - Private
@@ -119,4 +132,16 @@ static NSString *const kFeedURL = @"https://news.tut.by/rss/index.rss";
     }
 }
 
+<<<<<<< HEAD
+=======
+// MARK: - Lazy
+
+- (UIApplication *)application {
+    if(!_application) {
+        _application = UIApplication.sharedApplication;
+    }
+    return _application;
+}
+
+>>>>>>> develop
 @end

@@ -18,7 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) UILabel *descriptionLabel;
 
 + (NSString *)cellIdentifier;
+<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/Cell/UVFeedTableViewCell.h
 - (void)setupWithModel:(id<UVFeedItemDisplayModel>)model reloadCompletion:(void(^)(void))completion;
+=======
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model;
+>>>>>>> develop:rss-reader/ContentFlow/View/Cell/FeedTableViewCell.h
 
 @end
 
