@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop_v1.2 ]
+
+jobs:
+  test:
+    name: Base Tests
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Set Xcode Version
+      run: sudo xcode-select -s /Applications/Xcode_12.2.app
+
+    - name: Xcode Test
+      uses: sersoft-gmbh/xcodebuild-action@v1.1
+      with:
+        project: rss-reader.xcodeproj
+        scheme: rss-readerTests
+        destination: platform=iOS Simulator,name=iPhone 11 Pro Max,OS=14.2
+        action: test

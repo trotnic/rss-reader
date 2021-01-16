@@ -6,10 +6,11 @@
 //
 
 #import "AppDelegate.h"
-#import "FeedXMLParser.h"
-#import "FeedProvider.h"
-#import "FeedPresenter.h"
-#import "FeedViewController.h"
+#import "UVFeedXMLParser.h"
+#import "UVFeedProvider.h"
+#import "UVFeedPresenter.h"
+#import "UVFeedViewController.h"
+#import "UVNetwork.h"
 
 @interface AppDelegate ()
 
@@ -18,16 +19,22 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    FeedXMLParser *parser = [FeedXMLParser new];
-    FeedProvider *dataProvider = [[FeedProvider alloc] initWithParser:[parser autorelease]];
-    FeedPresenter *presenter = [[FeedPresenter alloc] initWithProvider:[dataProvider autorelease]];
-    FeedViewController *controller = [[FeedViewController alloc] initWithPresenter:[presenter autorelease]];
-    
+    [self setupAppearance];
+    return YES;
+}
+
+// MARK: -
+
+- (void)setupAppearance {
+    UVFeedViewController *controller = [UVFeedViewController new];
+    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
+                                                                   network:[[UVNetwork new] autorelease]];
+    presenter.viewDelegate = controller;
+    controller.presenter = [presenter autorelease];
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
     [self.window makeKeyAndVisible];
     
     [controller release];
-    return YES;
 }
 
 // MARK: Lazy

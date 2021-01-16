@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  rss-reader
+
+  Created by Uladzislau on 11/25/20.
+  
+*/
+
+"OK" = "OK";
+
+"Connection error" = "Connection error";
+"Check your network connection and try to reload a feed" = "Check your network connection and try to reload a feed";
+
+"RSS error" = "RSS error";
+"Can't recognize RSS feed, use another one" = "Can't recognize RSS feed, use another one";
