@@ -38,6 +38,7 @@
 		CA0A2BF12577B4C1003EC17A /* NSString+StringExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+StringExtractor.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
 		CAF30C2625701736004A925D /* UIViewController+ErrorPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */; };
+		CAF7104E25B2D5F600616207 /* UIImage+AppIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF7104D25B2D5F600616207 /* UIImage+AppIcons.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +137,9 @@
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+ErrorPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ErrorPresenter.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ErrorPresenter.m"; sourceTree = "<group>"; };
+		CAF7104C25B2D5F600616207 /* UIImage+AppIcons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+AppIcons.h"; sourceTree = "<group>"; };
+		CAF7104D25B2D5F600616207 /* UIImage+AppIcons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AppIcons.m"; sourceTree = "<group>"; };
+		CAF7105225B2D63400616207 /* AppIcons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppIcons.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +309,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CAF7104B25B2D5DA00616207 /* UIImage */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
 				CA0A2BEE2577B4C1003EC17A /* NSString */,
 				CAF30C2325701736004A925D /* UIViewController */,
@@ -546,6 +551,7 @@
 				73FE22E525A0E63300522F8C /* TagKeys.h */,
 				73FE22E325A0E63300522F8C /* UVErrorDomain.h */,
 				CA243AB82570E5D600B56A7B /* LocalConstants.h */,
+				CAF7105225B2D63400616207 /* AppIcons.h */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -565,6 +571,15 @@
 				CAF30C2525701736004A925D /* UIViewController+ErrorPresenter.m */,
 			);
 			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		CAF7104B25B2D5DA00616207 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				CAF7104C25B2D5F600616207 /* UIImage+AppIcons.h */,
+				CAF7104D25B2D5F600616207 /* UIImage+AppIcons.m */,
+			);
+			path = UIImage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -707,6 +722,7 @@
 				731BC02C25A105C7008F27C1 /* UVFeedTableViewCell.m in Sources */,
 				731BBF3F25A0F271008F27C1 /* UVFeedItemWebViewController.m in Sources */,
 				731BC01025A104AC008F27C1 /* UVFeedItem.m in Sources */,
+				CAF7104E25B2D5F600616207 /* UIImage+AppIcons.m in Sources */,
 				73FE22DF25A0E61A00522F8C /* UVFeedProvider.m in Sources */,
 				CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,

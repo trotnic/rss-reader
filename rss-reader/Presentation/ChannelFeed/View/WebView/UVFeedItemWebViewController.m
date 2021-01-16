@@ -6,7 +6,10 @@
 //
 
 #import "UVFeedItemWebViewController.h"
+
 #import <WebKit/WebKit.h>
+
+#import "UIImage+AppIcons.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
 @interface UVFeedItemWebViewController () <WKNavigationDelegate>
@@ -94,7 +97,7 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-left"]
+        _goBackButton = [[self webBarButtonItemWithImage:UIImage.arrowLeftIcon
                                                   action:@selector(goBack)] retain];
     }
     return _goBackButton;
@@ -102,7 +105,7 @@
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"arrow-narrow-right"]
+        _goForwardButton = [[self webBarButtonItemWithImage:UIImage.arrowRightIcon
                                                      action:@selector(goForward)] retain];
     }
     return _goForwardButton;
@@ -110,7 +113,7 @@
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"refresh"]
+        _reloadWebPageButton = [[self webBarButtonItemWithImage:UIImage.refreshIcon
                                                          action:@selector(reload)] retain];
     }
     return _reloadWebPageButton;
@@ -118,15 +121,17 @@
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        _closeWebPageButton = [[self webBarButtonItemWithImage:[UIImage imageNamed:@"xmark"]
-                                                        action:@selector(closeWebPage)] retain];
+        _closeWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.xmarkIcon
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(closeWebPage)];
     }
     return _closeWebPageButton;
 }
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"safari"]
+        _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:UIImage.safariIcon
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
                                                                action:@selector(openInBrowser)];
@@ -137,6 +142,7 @@
 // MARK: -
 
 - (void)closeWebPage {
+    [self.webView stopLoading];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
