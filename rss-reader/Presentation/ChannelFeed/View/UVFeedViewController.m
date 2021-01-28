@@ -20,29 +20,17 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 
-<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
 @property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
 
 @property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
-=======
-@property (nonatomic, retain) UIRefreshControl *refreshControl;
->>>>>>> develop:rss-reader/ContentFlow/View/FeedViewController.m
 
-@property (nonatomic, retain) id<UVFeedChannelDisplayModel> channel;
-
-<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
-=======
 @end
 
->>>>>>> develop:rss-reader/ContentFlow/View/FeedViewController.m
 @implementation UVFeedViewController
 
 - (void)dealloc
 {
-<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
     [_webView release];
-=======
->>>>>>> develop:rss-reader/ContentFlow/View/FeedViewController.m
     [_channel release];
     [_presenter release];
     [_tableView release];
@@ -116,7 +104,6 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
     [cell setupWithModel:self.channel.channelItems[indexPath.row] reloadCompletion:^ {
         CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
         [tableView beginUpdates];
@@ -126,10 +113,6 @@ static CGFloat const kFadeAnimationDuration = 0.1;
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
     }];
-=======
-    [cell setupWithModel:self.channel.channelItems[indexPath.row]];
-    
->>>>>>> develop:rss-reader/ContentFlow/View/FeedViewController.m
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
         cell.alpha = 1;
@@ -147,13 +130,10 @@ static CGFloat const kFadeAnimationDuration = 0.1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.presenter openArticleAt:indexPath.row];
-<<<<<<< HEAD:rss-reader/Presentation/ChannelFeed/View/UVFeedViewController.m
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return self.channel.channelItems[indexPath.row].frame.size.height;
-=======
->>>>>>> develop:rss-reader/ContentFlow/View/FeedViewController.m
 }
 
 // MARK: - FeedViewType

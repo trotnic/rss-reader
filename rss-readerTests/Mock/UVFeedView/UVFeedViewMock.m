@@ -19,14 +19,11 @@
     self.isActivityShown = show;
 }
 
-<<<<<<< HEAD
 - (void)presentWebPageOnURL:(NSURL *)url {
     self.isCalled = YES;
     self.presentedURL = url;
 }
 
-=======
->>>>>>> develop
 - (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel {
     self.isCalled = YES;
     self.channel = channel;
