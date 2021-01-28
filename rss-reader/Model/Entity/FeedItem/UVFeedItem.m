@@ -7,6 +7,7 @@
 
 #import "UVFeedItem.h"
 #import "NSDate+StringConvertible.h"
+#import "NSString+StringExtractor.h"
 
 static NSString *const kDatePresentationFormat = @"dd.MM.yyyy HH:mm";
 static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
@@ -22,6 +23,9 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 @end
 
 @implementation UVFeedItem
+
+@synthesize expand;
+@synthesize frame;
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
@@ -72,6 +76,10 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 - (NSString *)articleDate {
     return [self.pubDate stringWithFormat:kDatePresentationFormat];
+}
+
+- (NSString *)articleDescription {
+    return [self.summary stringBetweenStart:@" />" andFinish:@"<br"];
 }
 
 @end

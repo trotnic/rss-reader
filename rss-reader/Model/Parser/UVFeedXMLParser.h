@@ -1,5 +1,5 @@
 //
-//  UVFeedXMLParser.h
+//  FeedXMLParser.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/17/20.

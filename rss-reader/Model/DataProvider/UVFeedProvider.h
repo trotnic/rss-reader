@@ -1,5 +1,5 @@
 //
-//  UVFeedProvider.h
+//  FeedProvider.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/24/20.

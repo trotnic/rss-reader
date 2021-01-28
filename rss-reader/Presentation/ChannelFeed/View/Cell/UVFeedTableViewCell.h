@@ -15,9 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) UILabel *titleLabel;
 @property (nonatomic, retain, readonly) UILabel *dateLabel;
 @property (nonatomic, retain, readonly) UILabel *categoryLabel;
+@property (nonatomic, retain, readonly) UILabel *descriptionLabel;
 
 + (NSString *)cellIdentifier;
-- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model;
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model reloadCompletion:(void(^)(void))completion;
 
 @end
 

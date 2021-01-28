@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVFeedViewType <NSObject>
 
 - (void)updatePresentationWithChannel:(id<UVFeedChannelDisplayModel>)channel;
+- (void)presentWebPageOnURL:(NSURL *)url;
 - (void)rotateActivityIndicator:(BOOL)show;
 - (void)presentError:(NSError *)error;
 
