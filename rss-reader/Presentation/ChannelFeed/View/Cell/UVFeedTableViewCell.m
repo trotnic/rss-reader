@@ -7,12 +7,14 @@
 
 #import "UVFeedTableViewCell.h"
 
-static NSInteger const kPadding = 20;
-static NSInteger const kMainTitleFontSize = 18;
-static NSInteger const kMainTextFontSize = 16;
-static NSInteger const kSupplementaryTextFontSize = 14;
-static NSInteger const kTextSpacing = 20;
-static NSInteger const kTitleNumberOfLines = 0;
+#import "UIImage+AppIcons.h"
+
+static NSInteger const kPadding                     = 20;
+static NSInteger const kMainTitleFontSize           = 18;
+static NSInteger const kMainTextFontSize            = 16;
+static NSInteger const kSupplementaryTextFontSize   = 14;
+static NSInteger const kTextSpacing                 = 20;
+static NSInteger const kTitleNumberOfLines          = 0;
 
 @interface UVFeedTableViewCell ()
 
@@ -134,7 +136,7 @@ static NSInteger const kTitleNumberOfLines = 0;
 - (UIButton *)expandButton {
     if(!_expandButton) {
         _expandButton = [UIButton new];
-        [_expandButton setImage:[UIImage imageNamed:@"ellipsis"] forState:UIControlStateNormal];
+        [_expandButton setImage:UIImage.threeDotsHIcon forState:UIControlStateNormal];
         [_expandButton addTarget:self action:@selector(toggleDescription) forControlEvents:UIControlEventTouchUpInside];
     }
     return _expandButton;

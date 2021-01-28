@@ -50,11 +50,11 @@
 		739956B025A9A47A003FD39C /* UVSourceManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956AF25A9A47A003FD39C /* UVSourceManagerTests.m */; };
 		739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */; };
 		739956C125A9ABD2003FD39C /* NSUserDefaultsMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956C025A9ABD2003FD39C /* NSUserDefaultsMock.m */; };
+		73B4AD5425C2DA5800B7F8C5 /* UIImage+AppIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */; };
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */; };
 		CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */; };
-		CA11C19D25A60631002019F4 /* UVFeedPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */; };
 		CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; };
 		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
@@ -180,6 +180,9 @@
 		739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVPlistRepositoryMock.m; sourceTree = "<group>"; };
 		739956BF25A9ABD2003FD39C /* NSUserDefaultsMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsMock.h; sourceTree = "<group>"; };
 		739956C025A9ABD2003FD39C /* NSUserDefaultsMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsMock.m; sourceTree = "<group>"; };
+		73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AppIcons.m"; sourceTree = "<group>"; };
+		73B4AD5325C2DA5800B7F8C5 /* UIImage+AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AppIcons.h"; sourceTree = "<group>"; };
+		73B4AD5825C2DA6D00B7F8C5 /* AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppIcons.h; sourceTree = "<group>"; };
 		73FF085B258FEAFA00B1A496 /* UVSearchViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewControllerDelegate.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Util.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Util.h"; sourceTree = "<group>"; };
@@ -191,7 +194,6 @@
 		CA11C18B25A5FCB6002019F4 /* UVSourcesListViewMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourcesListViewMock.h; sourceTree = "<group>"; };
 		CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListViewMock.m; sourceTree = "<group>"; };
 		CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedProviderTests.m; sourceTree = "<group>"; };
-		CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedPresenterTests.m; sourceTree = "<group>"; };
 		CA131ACE259A2DEB0044D992 /* UVRSSLinkXMLParserType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParserType.h; sourceTree = "<group>"; };
 		CA131ACF259A2DF50044D992 /* UVRSSLinkXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParser.h; sourceTree = "<group>"; };
 		CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVRSSLinkXMLParser.m; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				73B4AD5125C2DA5800B7F8C5 /* UIImage */,
 				CA1090702590E5B400579204 /* NSArray */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
 				CA0A2BEE2577B4C1003EC17A /* NSString */,
@@ -595,7 +598,6 @@
 		7362CABF25A24D4100037AEF /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				CA11C19B25A60630002019F4 /* UVFeedPresenterTests.m */,
 				CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */,
 				7362CAC125A24D4100037AEF /* UVFeedXMLParserTests.m */,
 				7362CAC225A24D4100037AEF /* UVChannelFeedPresenterTests.m */,
@@ -708,6 +710,15 @@
 			path = NSUserDefaults;
 			sourceTree = "<group>";
 		};
+		73B4AD5125C2DA5800B7F8C5 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */,
+				73B4AD5325C2DA5800B7F8C5 /* UIImage+AppIcons.h */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
 		73FF0857258FEAD400B1A496 /* SearchController */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,6 +806,7 @@
 		CA243AB72570E5C100B56A7B /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				73B4AD5825C2DA6D00B7F8C5 /* AppIcons.h */,
 				7351C71E25A1204A00378AB2 /* TagAttributeKeys.h */,
 				7351C71D25A1204A00378AB2 /* TagKeys.h */,
 				7351C71F25A1204A00378AB2 /* UVErrorDomain.h */,
@@ -1030,6 +1042,7 @@
 				CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */,
 				733C9F4C258FDF640098316C /* UVSourcesListViewController.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
+				73B4AD5425C2DA5800B7F8C5 /* UIImage+AppIcons.m in Sources */,
 				CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1051,7 +1064,6 @@
 				7362CADA25A24D4100037AEF /* UIApplicationMock.m in Sources */,
 				7362CAD925A24D4100037AEF /* UVChannelFeedPresenterTests.m in Sources */,
 				7362CADC25A24D4100037AEF /* MockParser.m in Sources */,
-				CA11C19D25A60631002019F4 /* UVFeedPresenterTests.m in Sources */,
 				CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */,
 				CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */,
 				7356668D25A880A600FB8902 /* UVRSSLinkXMLParserTests.m in Sources */,
