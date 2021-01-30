@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVFeedItemDisplayModel <NSObject>
 
 @property (nonatomic, assign, getter=isExpand) BOOL expand;
-@property (nonatomic, assign) CGRect frame;
 
 - (NSString *)articleTitle;
 - (NSString *)articleCategory;

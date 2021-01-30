@@ -85,6 +85,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
     }
     return _tableView;
@@ -133,17 +134,11 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row] reloadCompletion:^ {
-        CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
-        [tableView beginUpdates];
-        if (!CGRectContainsRect(tableView.bounds, cellRect)) {
-            [tableView scrollToRowAtIndexPath:indexPath
-                             atScrollPosition:UITableViewScrollPositionTop
-                                     animated:YES];
-        }
-        [tableView reloadRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
-        [tableView endUpdates];
+    [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row]
+        reloadCompletion:^(void (^callback)(void)) {
+        [tableView performBatchUpdates:^{
+            callback();
+        } completion:nil];
     }];
     
     cell.alpha = 0;
@@ -163,10 +158,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.presenter openArticleAt:indexPath.row];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.presenter.channel.channelItems[indexPath.row].frame.size.height;
 }
 
 // MARK: - UVChannelFeedViewType
