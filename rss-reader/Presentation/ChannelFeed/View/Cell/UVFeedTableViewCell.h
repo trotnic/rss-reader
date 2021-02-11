@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UILabel *descriptionLabel;
 
 + (NSString *)cellIdentifier;
-- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model reloadCompletion:(void(^)(void))completion;
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model reloadCompletion:(void(^)(void(^callback)(void)))completion;
 
 @end
 

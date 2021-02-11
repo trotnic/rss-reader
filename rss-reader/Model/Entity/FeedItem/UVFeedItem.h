@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSURL *url;
 @property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, copy, readonly) NSString *category;
+@property (nonatomic, assign, getter=isExpand) BOOL expand;
 
 NS_ASSUME_NONNULL_END
 

@@ -51,6 +51,7 @@
 		739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */; };
 		739956C125A9ABD2003FD39C /* NSUserDefaultsMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956C025A9ABD2003FD39C /* NSUserDefaultsMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */; };
+		CA0AE69B25D5557E00747528 /* UIImage+AppIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0AE68425D5557E00747528 /* UIImage+AppIcons.m */; };
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */; };
 		CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -182,6 +183,9 @@
 		73FF085B258FEAFA00B1A496 /* UVSearchViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewControllerDelegate.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Util.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Util.h"; sourceTree = "<group>"; };
+		CA0AE68425D5557E00747528 /* UIImage+AppIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AppIcons.m"; sourceTree = "<group>"; };
+		CA0AE68525D5557E00747528 /* UIImage+AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AppIcons.h"; sourceTree = "<group>"; };
+		CA0AE6AF25D5561600747528 /* AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppIcons.h; sourceTree = "<group>"; };
 		CA1090712590E5D300579204 /* NSArray+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Util.h"; sourceTree = "<group>"; };
 		CA1090722590E5D300579204 /* NSArray+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Util.m"; sourceTree = "<group>"; };
 		CA11C16325A5E82B002019F4 /* UVFeedItemDisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemDisplayModel.h; sourceTree = "<group>"; };
@@ -414,6 +418,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CA0AE68325D5557E00747528 /* UIImage */,
 				CA1090702590E5B400579204 /* NSArray */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
 				CA0A2BEE2577B4C1003EC17A /* NSString */,
@@ -724,6 +729,15 @@
 			path = NSString;
 			sourceTree = "<group>";
 		};
+		CA0AE68325D5557E00747528 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				CA0AE68425D5557E00747528 /* UIImage+AppIcons.m */,
+				CA0AE68525D5557E00747528 /* UIImage+AppIcons.h */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
 		CA1090702590E5B400579204 /* NSArray */ = {
 			isa = PBXGroup;
 			children = (
@@ -796,6 +810,7 @@
 				7351C71D25A1204A00378AB2 /* TagKeys.h */,
 				7351C71F25A1204A00378AB2 /* UVErrorDomain.h */,
 				CA243AB82570E5D600B56A7B /* LocalConstants.h */,
+				CA0AE6AF25D5561600747528 /* AppIcons.h */,
 				7359A808259381D3008105A2 /* KeyConstants.h */,
 				7357FF5F25ADEE370096D731 /* AtomKeys.h */,
 			);
@@ -1027,6 +1042,7 @@
 				CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */,
 				733C9F4C258FDF640098316C /* UVSourcesListViewController.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
+				CA0AE69B25D5557E00747528 /* UIImage+AppIcons.m in Sources */,
 				CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

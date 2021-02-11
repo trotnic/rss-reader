@@ -194,7 +194,6 @@ static CGFloat const kFadeAnimationDuration = 0.1;
                          withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
     }];
-    
     cell.alpha = 0;
     [UIView animateWithDuration:kFadeAnimationDuration animations:^{
         cell.alpha = 1;
