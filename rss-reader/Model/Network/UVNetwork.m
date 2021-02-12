@@ -7,9 +7,16 @@
 
 #import "UVNetwork.h"
 #import "UVErrorDomain.h"
+#import "Reachability.h"
 
 static NSString *const SECURE_SCHEME = @"https";
 static NSString *const STUB_RELATIVE_PATH = @"";
+
+@interface UVNetwork ()
+
+@property (nonatomic, retain) id<ReachabilityType> reachability;
+
+@end
 
 @implementation UVNetwork
 
@@ -51,7 +58,10 @@ static NSString *const STUB_RELATIVE_PATH = @"";
     NSURL *newURL = [NSURL URLWithString:STUB_RELATIVE_PATH
                            relativeToURL:url].absoluteURL;
     return [self enhanceSchemeOfURL:newURL error:error];
-    
+}
+
+- (BOOL)isConnectionAvailable {
+    return self.reachability.currentReachabilityStatus != NotReachable;
 }
 
 // MARK: - Private
@@ -79,6 +89,13 @@ static NSString *const STUB_RELATIVE_PATH = @"";
         url = comps.URL;
     }
     return url;
+}
+
+- (id<ReachabilityType>)reachability {
+    if (!_reachability) {
+        _reachability = Reachability.reachabilityForInternetConnection;
+    }
+    return _reachability;
 }
 
 @end

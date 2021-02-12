@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fetchDataFromURL:(NSURL *)url completion:(void(^)(NSData *, NSError *))completion;
 - (NSURL * _Nullable)validateURL:(NSURL *)url error:(out NSError ** _Nullable)error;
 - (NSURL * _Nullable)validateAddress:(NSString *)address error:(out NSError ** _Nullable)error;
+- (BOOL)isConnectionAvailable;
 
 @end
 

@@ -21,7 +21,12 @@
 #import "UVChannelFeedViewController.h"
 #import "UVNetwork.h"
 
+#import "PresentationBlockFactory.h"
+#import "AppCoordinator.h"
+
 @interface AppDelegate ()
+
+@property (nonatomic, strong) AppCoordinator *coordinator;
 
 @end
 
@@ -45,27 +50,14 @@
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
     UVSourceManager *sourceManager = [UVSourceManager new];
     UVNetwork *network = [UVNetwork new];
-    
-    UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
-                                                                             sourceManager:sourceManager
-                                                                                   network:network];
-    
-    UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
-    presenter.viewDelegate = controller;
-    controller.presenter = presenter;
-    
-    [controller setupOnRighButtonClickAction:^{
-        
-        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
-                                                                                 sourceManager:sourceManager
-                                                                                       network:network];
-        UVSourcesListViewController *presentedController = [UVSourcesListViewController new];
-        presenter.viewDelegate = presentedController;
-        presentedController.presenter = presenter;
-        [controller.navigationController pushViewController:presentedController animated:YES];
-    }];
-    
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:controller];
+    PresentationBlockFactory *factory = [PresentationBlockFactory new];
+    // TODO: -
+    self.coordinator = [[AppCoordinator alloc] initWithPresentationFactory:factory network:network source:sourceManager recognizer:recognizer];
+    UINavigationController *controller = [UINavigationController new];
+    [self.coordinator setRootNavigationController:controller];
+    [self.coordinator showScreen:TRFeed];
+    // TODO: -
+    self.window.rootViewController = controller;
     [self.window makeKeyAndVisible];
 }
 

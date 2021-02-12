@@ -30,12 +30,11 @@
     object.link = dictionary[kRSSChannelLink];
     object.title = dictionary[kRSSChannelTitle];
     object.summary = dictionary[kRSSChannelDescription];
-    object.items = [dictionary[kRSSChannelItems]
-                    map:^UVFeedItem *(NSDictionary *rawItem) {
-        return [UVFeedItem objectWithDictionary:rawItem];        
+    object.items = [dictionary[kRSSChannelItems] map:^UVFeedItem *(NSDictionary *rawItem) {
+        return [UVFeedItem objectWithDictionary:rawItem];
     }];
     
-    return object;
+    return [object autorelease];
 }
 
 - (BOOL)isEqual:(id)other
@@ -46,7 +45,7 @@
 // MARK: - UVFeedChannelDisplayModel
 
 - (NSString *)channelTitle {
-    return [self.title copy];
+    return [[self.title copy] autorelease];
 }
 
 - (NSArray<id<UVFeedItemDisplayModel>> *)channelItems {

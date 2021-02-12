@@ -20,8 +20,8 @@ static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"Feed address";
 
 static NSString *const ALERT_OK_BUTTON_TITLE                = @"OK";
 
-static NSString *const BAD_INTERNET_CONNECTION_TITLE        = @"Connection error";
-static NSString *const BAD_INTERNET_CONNECTION_DESCRIPTION  = @"Check your network connection and try to reload a feed";
+static NSString *const NO_NETWORK_CONNECTION_TITLE          = @"No internet connection";
+static NSString *const NO_NETWORK_CONNECTION_DESCRIPTION    = @"Check your internet connection and try to reload a feed";
 
 static NSString *const BAD_RSS_FEED_TITLE                   = @"RSS error";
 static NSString *const BAD_RSS_FEED_DESCRIPTION             = @"Can't recognize RSS feed, use another one";
