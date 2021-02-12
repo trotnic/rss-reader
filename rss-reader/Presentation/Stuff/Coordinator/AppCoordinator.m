@@ -12,16 +12,17 @@
 
 #import "NSArray+Util.h"
 
-@interface AppCoordinator ()
+@interface AppCoordinator () <UINavigationControllerDelegate>
 
 @property (nonatomic, strong) id<PresentationFactoryType> factory;
 @property (nonatomic, strong) id<UVNetworkType> network;
 @property (nonatomic, strong) id<UVSourceManagerType> source;
 @property (nonatomic, strong) id<UVDataRecognizerType> recognizer;
 
-@property (nonatomic, strong) UINavigationController *controller;
+@property (nonatomic, strong) UVNavigationController *controller;
 
 @property (nonatomic, strong) UVCoordinatorState *currentState;
+@property (nonatomic, strong) UVCoordinatorTransition *lastTransition;
 
 @property (nonatomic, strong) NSSet<UVCoordinatorState *> *states;
 @property (nonatomic, strong) NSSet<UVCoordinatorTransition *> *transitions;
@@ -45,42 +46,32 @@
     return self;
 }
 
-- (void)setRootNavigationController:(UINavigationController *)controller {
+- (void)setRootNavigationController:(UVNavigationController *)controller {
     self.controller = controller;
+    self.controller.delegate = self;
+    
+    __block typeof(self)weakSelf = self;
+    
+    self.controller.popCallback = ^{
+        weakSelf.currentState = weakSelf.lastTransition.initial;
+        if (weakSelf.currentState.enterCallback) weakSelf.currentState.enterCallback();
+    };
 }
 
 - (void)showScreen:(Transactions)screen {
     
     for (UVCoordinatorTransition *obj in self.transitions) {
-        if (obj.identifier == screen /* && obj.initial.identifier == self.currentState.identifier */) {
-            if (self.currentState) {
-                self.currentState.exitCallback();
-            }
-            
+        if (obj.identifier == screen) {
             self.currentState = obj.terminal;
             self.currentState.enterCallback();
             return;
         }
     };
-//    for (UVCoordinatorState *obj in self.states) {
-//        if (obj.identifier == state) {
-//            [self setState:obj];
-//            return;
-//        }
-//    }
-    //    PresentationBlockType type = [self fromScreen:state];
-    //    UIViewController *vc = [self.factory presentationBlockOfType:type network:self.network
-    //                                                          source:self.source parser:self.recognizer
-    //                                                     coordinator:self];
-    //    [self.controller pushViewController:vc animated:YES];
 }
 
 // MARK: - Private
 
 - (void)setState:(UVCoordinatorState *)state {
-    if (self.currentState) {
-        self.currentState.exitCallback();
-    }
     self.currentState = state;
     self.currentState.enterCallback();
 }
@@ -104,17 +95,11 @@
         UIViewController *controller = [weakSelf controllerOf:PresentationBlockFeed];
         [weakSelf.controller pushViewController:controller animated:NO];
     };
-    feedState.exitCallback = ^{
-//        [weakSelf.controller popViewControllerAnimated:YES];
-    };
 
     UVCoordinatorState *sourcesState = [[UVCoordinatorState alloc] initWithIdentifier:ScreenStateSources];
     sourcesState.enterCallback = ^{
         UIViewController *controller = [weakSelf controllerOf:PresentationBlockSources];
         [weakSelf.controller pushViewController:controller animated:YES];
-    };
-    sourcesState.exitCallback = ^{
-        [weakSelf.controller popViewControllerAnimated:YES];
     };
 
     UVCoordinatorState *searchState = [[UVCoordinatorState alloc] initWithIdentifier:ScreenStateSearch];
@@ -122,13 +107,8 @@
         UIViewController *controller = [weakSelf controllerOf:PresentationBlockSearch];
         [weakSelf.controller pushViewController:controller animated:YES];
     };
-    searchState.exitCallback = ^{
-        [weakSelf.controller popViewControllerAnimated:YES];
-    };
     
     self.states = [NSSet setWithArray:@[feedState, sourcesState, searchState]];
-//    self.currentState = feedState;
-//    self.currentState.enterCallback();
     
     UVCoordinatorTransition *t1 = [[UVCoordinatorTransition alloc] initWithInitial:feedState terminal:sourcesState identifier:TRSource];
     UVCoordinatorTransition *t2 = [[UVCoordinatorTransition alloc] initWithInitial:sourcesState terminal:searchState identifier:TRSearch];
@@ -144,6 +124,20 @@
                                           source:self.source
                                           parser:self.recognizer
                                      coordinator:self];
+}
+
+// MARK: - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([navigationController.viewControllers containsObject:viewController]) {
+        
+    }
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+       didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
 }
 
 @end

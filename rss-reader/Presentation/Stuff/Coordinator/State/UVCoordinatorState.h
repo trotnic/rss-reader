@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) NSInteger identifier;
 @property (nonatomic, copy) void(^enterCallback)(void);
-@property (nonatomic, copy) void(^exitCallback)(void);
 
 - (instancetype)initWithIdentifier:(NSInteger)identifier;
 

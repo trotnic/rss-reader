@@ -11,6 +11,7 @@
 #import "UVNetworkType.h"
 #import "UVDataRecognizerType.h"
 #import "UVSourceManagerType.h"
+#import "UVNavigationController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
                                      source:(id<UVSourceManagerType>)source
                                  recognizer:(id<UVDataRecognizerType>)recognizer;
 
-- (void)setRootNavigationController:(UINavigationController *)controller;
+- (void)setRootNavigationController:(UVNavigationController *)controller;
 
 @end
 

@@ -23,6 +23,7 @@
 
 #import "PresentationBlockFactory.h"
 #import "AppCoordinator.h"
+#import "UVNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -53,7 +54,7 @@
     PresentationBlockFactory *factory = [PresentationBlockFactory new];
     // TODO: -
     self.coordinator = [[AppCoordinator alloc] initWithPresentationFactory:factory network:network source:sourceManager recognizer:recognizer];
-    UINavigationController *controller = [UINavigationController new];
+    UVNavigationController *controller = [UVNavigationController new];
     [self.coordinator setRootNavigationController:controller];
     [self.coordinator showScreen:TRFeed];
     // TODO: -

@@ -53,6 +53,7 @@
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */; };
 		CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CA127D9925D69E5900AC67EA /* UVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA127D9825D69E5900AC67EA /* UVNavigationController.m */; };
 		CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
@@ -194,6 +195,8 @@
 		CA11C18B25A5FCB6002019F4 /* UVSourcesListViewMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourcesListViewMock.h; sourceTree = "<group>"; };
 		CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListViewMock.m; sourceTree = "<group>"; };
 		CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedProviderTests.m; sourceTree = "<group>"; };
+		CA127D9725D69E5900AC67EA /* UVNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVNavigationController.h; sourceTree = "<group>"; };
+		CA127D9825D69E5900AC67EA /* UVNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVNavigationController.m; sourceTree = "<group>"; };
 		CA131ACE259A2DEB0044D992 /* UVRSSLinkXMLParserType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParserType.h; sourceTree = "<group>"; };
 		CA131ACF259A2DF50044D992 /* UVRSSLinkXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkXMLParser.h; sourceTree = "<group>"; };
 		CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVRSSLinkXMLParser.m; sourceTree = "<group>"; };
@@ -552,6 +555,7 @@
 		735AB151258BA4DA001ADB10 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				CA127D9625D69E4200AC67EA /* UVNavigationController */,
 				CA4362FD25D5626D0082E44C /* BasePresenter */,
 				CA43630B25D5626D0082E44C /* BaseView */,
 				CA43630025D5626D0082E44C /* BaseViewController */,
@@ -774,6 +778,15 @@
 				CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */,
 			);
 			path = UVSourcesList;
+			sourceTree = "<group>";
+		};
+		CA127D9625D69E4200AC67EA /* UVNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				CA127D9725D69E5900AC67EA /* UVNavigationController.h */,
+				CA127D9825D69E5900AC67EA /* UVNavigationController.m */,
+			);
+			path = UVNavigationController;
 			sourceTree = "<group>";
 		};
 		CA131ABC259A2D660044D992 /* FullParser */ = {
@@ -1166,6 +1179,7 @@
 				CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */,
 				2B1903832563FE17006D755E /* main.m in Sources */,
 				CA0AE69B25D5557E00747528 /* UIImage+AppIcons.m in Sources */,
+				CA127D9925D69E5900AC67EA /* UVNavigationController.m in Sources */,
 				CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
