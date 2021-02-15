@@ -1,5 +1,5 @@
 //
-//  UVSourcesListViewType.h
+//  UVChannelSourceListViewType.h
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 20.12.20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVSourcesListViewType <UVBaseViewType>
+@protocol UVChannelSourceListViewType <UVBaseViewType>
 
 - (void)stopSearchWithUpdate:(BOOL)update;
 

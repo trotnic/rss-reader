@@ -75,8 +75,7 @@
     NSError *saveError = nil;
     [self.sourceManager saveState:&saveError];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.coordinator showScreen:TRSource];
-        //        [self.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
+        [self.coordinator showScreen:PresentationBlockFeed];
     });
     
 }

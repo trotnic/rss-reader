@@ -1,18 +1,18 @@
 //
-//  UVSourcesListViewController.m
+//  UVChannelSourceListViewController.m
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 20.12.20.
 //
 
-#import "UVSourcesListViewController.h"
+#import "UVChannelSourceListViewController.h"
 #import "UVSearchViewController.h"
 
 #import "LocalConstants.h"
 
 #import "UIViewController+Util.h"
 
-@interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
+@interface UVChannelSourceListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *addSourceButton;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation UVSourcesListViewController
+@implementation UVChannelSourceListViewController
 
 - (void)dealloc
 {
@@ -109,8 +109,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if(!_addSourceButton) {
         _addSourceButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus"]
                                                             style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(addSource)];
+                                                           target:self.presenter
+                                                           action:@selector(searchButtonClicked)];
     }
     return _addSourceButton;
 }
@@ -125,19 +125,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 // MARK: -
 
-- (void)addSource {
-    [self.presenter searchButtonClicked];
-//     TODO: -
-//    [self.navigationController pushViewController:self.searchController animated:YES];
-}
-
 - (void)updatePresentation {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
                   withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)presentError:(NSError *)error {
-    [self.navigationController.topViewController showError:error];
+    [self showError:error];
 }
 
 // MARK: - UVSearchViewControllerDelegate

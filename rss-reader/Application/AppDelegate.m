@@ -6,28 +6,22 @@
 //
 
 #import "AppDelegate.h"
-#import "UVFeedXMLParser.h"
-#import "UVChannelFeedPresenter.h"
-#import "UVChannelFeedViewController.h"
-#import "UVSourceManager.h"
+
+#import "UVFeedManager.h"
 #import "UVSourceManager.h"
 #import "UVDataRecognizer.h"
-#import "UVSearchViewController.h"
-#import "UVSourcesListViewController.h"
-#import "UVSourcesListPresenter.h"
-#import "UVNetwork.h"
-#import "KeyConstants.h"
-#import "UVFeedXMLParser.h"
-#import "UVChannelFeedViewController.h"
 #import "UVNetwork.h"
 
-#import "PresentationBlockFactory.h"
-#import "AppCoordinator.h"
+#import "KeyConstants.h"
 #import "UVNavigationController.h"
+
+#import "UVPresentationBlockFactory.h"
+#import "UVAppCoordinator.h"
+
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) AppCoordinator *coordinator;
+@property (nonatomic, strong) UVAppCoordinator *coordinator;
 
 @end
 
@@ -49,15 +43,18 @@
 
 - (void)setupComponents {
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
-    UVSourceManager *sourceManager = [UVSourceManager new];
+    UVSourceManager *source = [UVSourceManager new];
     UVNetwork *network = [UVNetwork new];
-    PresentationBlockFactory *factory = [PresentationBlockFactory new];
-    // TODO: -
-    self.coordinator = [[AppCoordinator alloc] initWithPresentationFactory:factory network:network source:sourceManager recognizer:recognizer];
+    UVFeedManager *feed = [UVFeedManager new];
+    
+    UVPresentationBlockFactory *factory = [[UVPresentationBlockFactory alloc] initWithNetwork:network
+                                                                                   source:source
+                                                                               recognizer:recognizer
+                                                                                     feed:feed];
+    self.coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:factory];
     UVNavigationController *controller = [UVNavigationController new];
     [self.coordinator setRootNavigationController:controller];
-    [self.coordinator showScreen:TRFeed];
-    // TODO: -
+    [self.coordinator showScreen:PresentationBlockFeed];
     self.window.rootViewController = controller;
     [self.window makeKeyAndVisible];
 }

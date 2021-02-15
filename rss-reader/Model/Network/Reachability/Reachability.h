@@ -16,7 +16,6 @@ extern NSString *kReachabilityChangedNotification;
 @interface Reachability : NSObject <ReachabilityType>
 
 + (instancetype)reachabilityForInternetConnection;
-// TODO: make the usage of these methods
 - (BOOL)startNotifier;
 - (void)stopNotifier;
 - (BOOL)connectionRequired;

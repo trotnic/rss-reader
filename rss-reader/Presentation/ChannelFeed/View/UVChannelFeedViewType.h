@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVChannelFeedViewType <UVBaseViewType>
 
 - (void)rotateActivityIndicator:(BOOL)show;
-- (void)presentWebPageOnURL:(NSURL *)url;
+//- (void)presentWebPageOnURL:(NSURL *)url;
 - (void)clearState;
 - (void)setSettingsButtonActive:(BOOL)active;
 

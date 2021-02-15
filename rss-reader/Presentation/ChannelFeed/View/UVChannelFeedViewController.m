@@ -8,7 +8,6 @@
 #import "UVChannelFeedViewController.h"
 #import "UVFeedTableViewCell.h"
 #import "UVChannelFeedPresenterType.h"
-#import "UVFeedItemWebViewController.h"
 
 #import "UIViewController+Util.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
@@ -22,7 +21,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
-@property (nonatomic, strong) UIViewController<UVFeedItemWebViewType> *webView;
 
 @property (nonatomic, copy) void(^rightButtonClickAction)(void);
 
@@ -112,13 +110,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     return _refreshControl;
 }
 
-- (id<UVFeedItemWebViewType>)webView {
-    if(!_webView) {
-        _webView = [UVFeedItemWebViewController new];
-    }
-    return _webView;
-}
-
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -173,11 +164,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     } else {
         [self.activityIndicator stopAnimating];
     }
-}
-
-- (void)presentWebPageOnURL:(NSURL *)url {
-    [self.webView openURL:url];
-    [self.navigationController pushViewController:self.webView animated:YES];
 }
 
 - (void)clearState {

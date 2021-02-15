@@ -8,12 +8,20 @@
 #import "UVBasePresenter.h"
 #import "UVChannelFeedPresenterType.h"
 #import "UVChannelFeedViewType.h"
+#import "UVFeedManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelFeedPresenter : UVBasePresenter <UVChannelFeedPresenterType>
 
+@property (nonatomic, strong) id<UVFeedChannelDisplayModel> channel;
 @property (nonatomic, assign) UIViewController<UVChannelFeedViewType> *viewDelegate;
+
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                              feed:(id<UVFeedManagerType>)feed
+                       coordinator:(id<UVCoordinatorType>)coordinator;
 
 @end
 

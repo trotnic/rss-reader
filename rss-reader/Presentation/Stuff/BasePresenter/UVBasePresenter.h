@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewType.h"
-#import "CoordinatorType.h"
+#import "UVCoordinatorType.h"
 #import "UVSourceManagerType.h"
 #import "UVDataRecognizerType.h"
 #import "UVNetworkType.h"
@@ -17,17 +17,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVBasePresenter : NSObject
 
-@property (nonatomic, retain, readonly) id<UVDataRecognizerType> dataRecognizer;
-@property (nonatomic, retain, readonly) id<UVSourceManagerType> sourceManager;
-@property (nonatomic, retain, readonly) id<UVNetworkType> network;
-@property (nonatomic, retain, readonly) id<CoordinatorType> coordinator;
+@property (nonatomic, retain, readonly) id<UVDataRecognizerType>    dataRecognizer;
+@property (nonatomic, retain, readonly) id<UVSourceManagerType>     sourceManager;
+@property (nonatomic, retain, readonly) id<UVNetworkType>           network;
+@property (nonatomic, retain, readonly) id<UVCoordinatorType>         coordinator;
 
 @property (nonatomic, assign) UIViewController<UVBaseViewType> *viewDelegate;
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
-                     sourceManager:(id<UVSourceManagerType>)manager
+                            source:(id<UVSourceManagerType>)source
                            network:(id<UVNetworkType>)network
-                       coordinator:(id<CoordinatorType>)coordinator;
+                       coordinator:(id<UVCoordinatorType>)coordinator;
 
 - (void)showError:(RSSError)error;
 

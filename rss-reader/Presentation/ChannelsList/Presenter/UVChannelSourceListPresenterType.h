@@ -1,5 +1,5 @@
 //
-//  UVSourcesListPresenterType.h
+//  UVChannelSourceListPresenterType.h
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 20.12.20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVSourcesListPresenterType <NSObject>
+@protocol UVChannelSourceListPresenterType <NSObject>
 
 - (void)discoverAddress:(NSString *)address;
 - (NSArray<id<UVRSSLinkViewModel>> *)items;

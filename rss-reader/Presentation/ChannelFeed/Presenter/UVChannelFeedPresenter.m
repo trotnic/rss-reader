@@ -12,7 +12,7 @@
 
 @interface UVChannelFeedPresenter ()
 
-@property (nonatomic, retain) UVFeedChannel *channel;
+@property (nonatomic, retain) id<UVFeedManagerType> feed;
 
 @end
 
@@ -20,18 +20,29 @@
 
 @synthesize viewDelegate;
 
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                              feed:(id<UVFeedManagerType>)feed
+                       coordinator:(id<UVCoordinatorType>)coordinator {
+    self = [super initWithRecognizer:recognizer source:source
+                             network:network coordinator:coordinator];
+    if (self) {
+        _feed = feed;
+    }
+    return self;
+}
+
 // MARK: - UVChannelFeedPresenterType
 
 - (void)updateFeed {
     if (!self.network.isConnectionAvailable) {
         [self.viewDelegate setSettingsButtonActive:NO];
         [self showError:RSSErrorTypeNoNetworkConnection];
-        // TODO: perform DB request
         return;
     }
     [self.viewDelegate rotateActivityIndicator:YES];
     if (!self.sourceManager.links.count) {
-        self.channel = nil;
         [self.viewDelegate clearState];
         [self showError:RSSErrorNoRSSLinkSelected];
         return;
@@ -39,7 +50,6 @@
     
     NSURL *url = self.sourceManager.selectedLink.url;
     if (!url) {
-        self.channel = nil;
         [self.viewDelegate clearState];
         [self showError:RSSErrorTypeBadURL];
         return;
@@ -49,10 +59,6 @@
     [self.network fetchDataFromURL:url
                         completion:^(NSData *data, NSError *error) {
         if(error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.channel = nil;
-                [self.viewDelegate clearState];
-            });
             [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
             return;
         }
@@ -61,16 +67,16 @@
 }
 
 - (void)openArticleAt:(NSInteger)row {
-    NSURL *url = self.channel.items[row].url;
-    if (!url) {
-        [self showError:RSSErrorTypeBadURL];
-        return;
-    }
-    [self.viewDelegate presentWebPageOnURL:url];
+    [self.feed selectItem:self.feed.channelFeed.items[row]];
+    [self.coordinator showScreen:PresentationBlockWeb];
 }
 
 - (void)settingsButtonClicked {
-    [self.coordinator showScreen:TRSource];
+    [self.coordinator showScreen:PresentationBlockSources];
+}
+
+- (id<UVFeedChannelDisplayModel>)channel {
+    return self.feed.channelFeed;
 }
 
 // MARK: - Private
@@ -88,7 +94,12 @@
             return;
         }
         
-        weakSelf.channel = [UVFeedChannel objectWithDictionary:channel];
+        NSError *feedError = nil;
+        [weakSelf.feed provideRawFeed:channel error:&feedError];
+        if (error) {
+            [weakSelf showError:RSSErrorTypeBadURL];
+            return;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.viewDelegate rotateActivityIndicator:NO];
             [weakSelf.viewDelegate updatePresentation];

@@ -11,24 +11,24 @@
 
 @interface UVBasePresenter ()
 
-@property (nonatomic, retain, readwrite) id<UVDataRecognizerType> dataRecognizer;
-@property (nonatomic, retain, readwrite) id<UVSourceManagerType> sourceManager;
-@property (nonatomic, retain, readwrite) id<UVNetworkType> network;
-@property (nonatomic, retain, readwrite) id<CoordinatorType> coordinator;
+@property (nonatomic, retain, readwrite) id<UVDataRecognizerType>   dataRecognizer;
+@property (nonatomic, retain, readwrite) id<UVSourceManagerType>    sourceManager;
+@property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
+@property (nonatomic, retain, readwrite) id<UVCoordinatorType>        coordinator;
 
 @end
 
 @implementation UVBasePresenter
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
-                     sourceManager:(id<UVSourceManagerType>)manager
+                            source:(id<UVSourceManagerType>)source
                            network:(id<UVNetworkType>)network
-                       coordinator:(nonnull id<CoordinatorType>)coordinator
+                       coordinator:(id<UVCoordinatorType>)coordinator
 {
     self = [super init];
     if (self) {
         _dataRecognizer = recognizer;
-        _sourceManager = manager;
+        _sourceManager = source;
         _network = network;
         _coordinator = coordinator;
     }

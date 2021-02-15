@@ -1,20 +1,18 @@
 //
-//  FeedItemWebViewController.m
+//  UVChannelWebItemViewController.m
 //  rss-reader
 //
-//  Created by Uladzislau Volchyk on 12/3/20.
+//  Created by Uladzislau Volchyk on 15.02.21.
 //
 
-#import "UVFeedItemWebViewController.h"
+#import "UVChannelWebItemViewController.h"
 
 #import <WebKit/WebKit.h>
 
 #import "UIImage+AppIcons.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
-@interface UVFeedItemWebViewController () <WKNavigationDelegate>
-
-@property (nonatomic, strong) WKWebView *webView;
+@interface UVChannelWebItemViewController ()
 
 @property (nonatomic, strong) UIBarButtonItem *goBackButton;
 @property (nonatomic, strong) UIBarButtonItem *goForwardButton;
@@ -24,7 +22,9 @@
 
 @end
 
-@implementation UVFeedItemWebViewController
+@implementation UVChannelWebItemViewController
+
+@synthesize webView = _webView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,6 +34,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.toolbarHidden = NO;
+    [self.presenter loadPage];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -66,19 +67,12 @@
     ];
 }
 
-- (UIBarButtonItem *)webBarButtonItemWithImage:(UIImage *)image action:(SEL)selector {
-    return [[UIBarButtonItem alloc] initWithImage:image
-                                            style:UIBarButtonItemStylePlain
-                                           target:self.webView
-                                           action:selector];
-}
-
 // MARK: - Lazy
 
 - (WKWebView *)webView {
     if(!_webView) {
         _webView = [WKWebView new];
-        _webView.navigationDelegate = self;
+        _webView.navigationDelegate = self.presenter;
         _webView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _webView;
@@ -86,24 +80,30 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [self webBarButtonItemWithImage:UIImage.arrowLeftIcon
-                                                 action:@selector(goBack)];
+        _goBackButton = [[UIBarButtonItem alloc] initWithImage:UIImage.arrowLeftIcon
+                                                         style:UIBarButtonItemStylePlain
+                                                        target:self.presenter
+                                                        action:@selector(backButtonClick)];
     }
     return _goBackButton;
 }
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [self webBarButtonItemWithImage:UIImage.arrowRightIcon
-                                                    action:@selector(goForward)];
+        _goForwardButton = [[UIBarButtonItem alloc] initWithImage:UIImage.arrowRightIcon
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self.presenter
+                                                           action:@selector(forwardButtonClick)];
     }
     return _goForwardButton;
 }
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [self webBarButtonItemWithImage:UIImage.refreshIcon
-                                                        action:@selector(reload)];
+        _reloadWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.refreshIcon
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self.presenter
+                                                               action:@selector(reloadButtonClick)];
     }
     return _reloadWebPageButton;
 }
@@ -112,8 +112,8 @@
     if(!_closeWebPageButton) {
         _closeWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.xmarkIcon
                                                                style:UIBarButtonItemStylePlain
-                                                              target:self
-                                                              action:@selector(closeWebPage)];
+                                                              target:self.presenter
+                                                              action:@selector(closeButtonClick)];
     }
     return _closeWebPageButton;
 }
@@ -122,45 +122,31 @@
     if(!_openInBrowserButton) {
         _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:UIImage.safariIcon
                                                                 style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(openInBrowser)];
+                                                               target:self.presenter
+                                                               action:@selector(browserButtonClick)];
     }
     return _openInBrowserButton;
 }
 
-// MARK: -
+//// MARK: -
+//
+//- (void)closeWebPage {
+//    [self.webView stopLoading];
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
+//
+//- (void)openInBrowser {
+//    [UIApplication.sharedApplication openURL:self.webView.URL
+//                                     options:@{}
+//                           completionHandler:^(BOOL success) {
+//        [self closeWebPage];
+//    }];
+//}
 
-- (void)closeWebPage {
-    [self.webView stopLoading];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)openInBrowser {
-    [UIApplication.sharedApplication openURL:self.webView.URL
-                                     options:@{}
-                           completionHandler:^(BOOL success) {
-        [self closeWebPage];
-    }];
-}
-
-// MARK: - WKNavigationDelegate
-
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    switch (navigationAction.navigationType) {
-        case WKNavigationTypeLinkActivated:
-            [self.webView loadRequest:navigationAction.request];
-            break;
-        default:
-            break;
-    }
-    decisionHandler(WKNavigationActionPolicyAllow);
-}
-
-// MARK: - FeedItemWebViewType
-
-- (void)openURL:(NSURL *)url {
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-}
+//// MARK: - FeedItemWebViewType
+//
+//- (void)openURL:(NSURL *)url {
+//    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+//}
 
 @end

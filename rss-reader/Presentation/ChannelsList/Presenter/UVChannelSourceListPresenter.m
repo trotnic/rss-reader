@@ -1,18 +1,18 @@
 //
-//  UVSourcesListPresenter.m
+//  UVChannelSourceListPresenter.m
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 20.12.20.
 //
 
-#import "UVSourcesListPresenter.h"
+#import "UVChannelSourceListPresenter.h"
 #import "NSArray+Util.h"
 
-@interface UVSourcesListPresenter ()
+@interface UVChannelSourceListPresenter ()
 
 @end
 
-@implementation UVSourcesListPresenter
+@implementation UVChannelSourceListPresenter
 
 @synthesize viewDelegate;
 
@@ -63,7 +63,7 @@
 }
 
 - (void)searchButtonClicked {
-    [self.coordinator showScreen:TRSearch];
+    [self.coordinator showScreen:PresentationBlockSearch];
 }
 
 // MARK: - Private
