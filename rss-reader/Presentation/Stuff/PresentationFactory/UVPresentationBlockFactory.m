@@ -44,6 +44,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_network release];
+    [_source release];
+    [_recognizer release];
+    [_feed release];
+    [super dealloc];
+}
+
 - (UIViewController *)presentationBlockOfType:(PresentationBlockType)type
                                   coordinator:(id<UVCoordinatorType>)coordinator {
     switch (type) {
@@ -54,7 +63,7 @@
                                                                                               feed:self.feed
                                                                                        coordinator:coordinator];
             UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
-            controller.presenter = presenter;
+            controller.presenter = [presenter autorelease];
             presenter.viewDelegate = controller;
             return [controller autorelease];
         }
@@ -65,7 +74,7 @@
                                                                                                        network:self.network
                                                                                                    coordinator:coordinator];
             UVChannelSourceListViewController *controller = [UVChannelSourceListViewController new];
-            controller.presenter = presenter;
+            controller.presenter = [presenter autorelease];
             presenter.viewDelegate = controller;
             return [controller autorelease];
         }
@@ -75,7 +84,7 @@
                                                                                                network:self.network
                                                                                            coordinator:coordinator];
             UVChannelSearchViewController *controller = [UVChannelSearchViewController new];
-            controller.presenter = presenter;
+            controller.presenter = [presenter autorelease];
             presenter.viewDelegate = controller;
             return [controller autorelease];
         }
@@ -83,7 +92,7 @@
             UVChannelWebItemPresenter *presenter = [[UVChannelWebItemPresenter alloc] initWithCoordinator:coordinator feed:self.feed];
             UVChannelWebItemViewController *controller = [UVChannelWebItemViewController new];
             
-            controller.presenter = presenter;
+            controller.presenter = [presenter autorelease];
             presenter.view = controller;
             return [controller autorelease];
         }

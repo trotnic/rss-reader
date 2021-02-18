@@ -25,7 +25,7 @@
 //static Class UVSourceManager;
 
 @interface AppDelegate () {
-    Class *UVSourceManager;
+    Class UVSourceManager;
 }
 
 @property (nonatomic, strong) UVAppCoordinator *coordinator;
@@ -50,11 +50,9 @@
 }
 
 - (void)setupComponents {
-//    createClass(&UVSourceManager);
+    UVSourceManager = registerClass(@"UVSourceManager");
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
-//    [UVSourceManager alloc];
-//    id<UVSourceManagerType> source = [[*UVSourceManager alloc] init];
-    self.source = createSourceManager();
+    self.source = [UVSourceManager new];
     UVNetwork *network = [UVNetwork new];
     UVFeedManager *feed = [UVFeedManager new];
     

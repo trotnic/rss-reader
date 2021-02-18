@@ -37,6 +37,15 @@
     return [object autorelease];
 }
 
+- (void)dealloc
+{
+    [_link release];
+    [_title release];
+    [_summary release];
+    [_items release];
+    [super dealloc];
+}
+
 - (BOOL)isEqual:(id)other
 {
     return [self.link isEqualToString:[other link]];
