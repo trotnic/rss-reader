@@ -349,7 +349,7 @@
 			children = (
 				735AB151258BA4DA001ADB10 /* Stuff */,
 				CAB1612625DAA2FF0036B93D /* ChannelWebItem */,
-				CA43631B25D562AB0082E44C /* ChannelsList */,
+				CA43631B25D562AB0082E44C /* ChannelSourceList */,
 				CA0AE6DB25D55F3E00747528 /* ChannelSearch */,
 				CA2BE0AE257FAEBB00BC7749 /* ChannelFeed */,
 			);
@@ -927,14 +927,14 @@
 			path = Presentation/Stuff/BaseView;
 			sourceTree = "<group>";
 		};
-		CA43631B25D562AB0082E44C /* ChannelsList */ = {
+		CA43631B25D562AB0082E44C /* ChannelSourceList */ = {
 			isa = PBXGroup;
 			children = (
 				CA43631C25D562AB0082E44C /* Presenter */,
 				CA43632025D562AB0082E44C /* View */,
 			);
-			name = ChannelsList;
-			path = Presentation/ChannelsList;
+			name = ChannelSourceList;
+			path = Presentation/ChannelSourceList;
 			sourceTree = "<group>";
 		};
 		CA43631C25D562AB0082E44C /* Presenter */ = {

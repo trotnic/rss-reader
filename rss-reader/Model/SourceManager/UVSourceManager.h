@@ -10,10 +10,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVSourceManager : NSObject <UVSourceManagerType>
+//#ifndef UVSOURCEMANAGER_H
+//#define UVSOURCEMANAGER_H
 
-@property (nonatomic, retain) NSUserDefaults *userDefaults;
+static Class UVSourceManager;
 
-@end
+//Class createClass(void);
+id createSourceManager();
+
+//#endif
+//@interface UVSourceManager : NSObject <UVSourceManagerType>
+//
+//@property (nonatomic, retain) NSUserDefaults *userDefaults;
+//
+//@end
 
 NS_ASSUME_NONNULL_END

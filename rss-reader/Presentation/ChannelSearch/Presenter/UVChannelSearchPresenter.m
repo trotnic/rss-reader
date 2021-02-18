@@ -6,6 +6,7 @@
 //
 
 #import "UVChannelSearchPresenter.h"
+#import "NSArray+Util.h"
 
 @implementation UVChannelSearchPresenter
 
@@ -70,7 +71,10 @@
         });
         return;
     }
-    [self.sourceManager insertLinks:links relativeToURL:url];
+    
+    [links forEach:^(NSDictionary *rawLink) {
+        [self.sourceManager insertLink:rawLink relativeToURL:url];
+    }];
     
     NSError *saveError = nil;
     [self.sourceManager saveState:&saveError];

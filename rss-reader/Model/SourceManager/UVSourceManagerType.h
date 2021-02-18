@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVSourceManagerType <NSObject>
 
-@property (nonatomic, copy, readonly) NSArray<RSSLink *> *links;
+@property (nonatomic, strong, readonly) NSArray<RSSLink *> *links;
 
-- (void)insertLinks:(NSArray<NSDictionary *> *)rawLinks relativeToURL:(NSURL *)url;
+//- (void)insertLinks:(NSArray<NSDictionary *> *)rawLinks relativeToURL:(NSURL *)url;
 - (void)insertLink:(NSDictionary *)rawLink relativeToURL:(NSURL *)url;
 - (void)updateLink:(RSSLink *)link;
 - (void)deleteLink:(RSSLink *)link;

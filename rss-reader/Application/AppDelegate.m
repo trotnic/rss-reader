@@ -18,18 +18,26 @@
 #import "UVPresentationBlockFactory.h"
 #import "UVAppCoordinator.h"
 
+#import <objc/runtime.h>
+#import <objc/message.h>
+//#import "../Model/SourceManager/UVSourceManager.m"
 
-@interface AppDelegate ()
+//static Class UVSourceManager;
+
+@interface AppDelegate () {
+    Class *UVSourceManager;
+}
 
 @property (nonatomic, strong) UVAppCoordinator *coordinator;
+@property (nonatomic, strong) id source;
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setupComponents];
     [self setupSourcesFilePath];
+    [self setupComponents];
     return YES;
 }
 
@@ -42,13 +50,16 @@
 }
 
 - (void)setupComponents {
+//    createClass(&UVSourceManager);
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
-    UVSourceManager *source = [UVSourceManager new];
+//    [UVSourceManager alloc];
+//    id<UVSourceManagerType> source = [[*UVSourceManager alloc] init];
+    self.source = createSourceManager();
     UVNetwork *network = [UVNetwork new];
     UVFeedManager *feed = [UVFeedManager new];
     
     UVPresentationBlockFactory *factory = [[UVPresentationBlockFactory alloc] initWithNetwork:network
-                                                                                   source:source
+                                                                                   source:self.source
                                                                                recognizer:recognizer
                                                                                      feed:feed];
     self.coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:factory];
