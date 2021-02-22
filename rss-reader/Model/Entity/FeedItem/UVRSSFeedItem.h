@@ -1,5 +1,5 @@
 //
-//  UVFeedItem.h
+//  UVRSSFeedItem.h
 //  rss-reader
 //
 //  Created by Uladzislau on 11/17/20.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVFeedItem : NSObject <UVFeedItemDisplayModel>
+@interface UVRSSFeedItem : NSObject <UVFeedItemDisplayModel>
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, strong, readonly) NSURL *url;

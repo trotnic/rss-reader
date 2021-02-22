@@ -37,7 +37,7 @@
     return nil;
 }
 
-+ (UVFeedChannel *)channel {
++ (UVRSSFeed *)channel {
     NSDictionary *rawChannel = @{
         kRSSChannelTitle : @"TUT.BY: Новости ТУТ - Главные новости",
         kRSSChannelLink : @"https://news.tut.by/rss/index.rss",
@@ -82,7 +82,7 @@
         ]
     };
     
-    return [UVFeedChannel objectWithDictionary:rawChannel];
+    return [UVRSSFeed objectWithDictionary:rawChannel];
 }
 
 + (NSDictionary *)rawChannel {

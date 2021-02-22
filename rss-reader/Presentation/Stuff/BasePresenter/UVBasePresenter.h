@@ -17,19 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVBasePresenter : NSObject
 
-@property (nonatomic, retain, readonly) id<UVDataRecognizerType>    dataRecognizer;
-@property (nonatomic, retain, readonly) id<UVSourceManagerType>     sourceManager;
-@property (nonatomic, retain, readonly) id<UVNetworkType>           network;
-@property (nonatomic, retain, readonly) id<UVCoordinatorType>         coordinator;
-
-@property (nonatomic, assign) UIViewController<UVBaseViewType> *viewDelegate;
-
-- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
-                            source:(id<UVSourceManagerType>)source
-                           network:(id<UVNetworkType>)network
-                       coordinator:(id<UVCoordinatorType>)coordinator;
-
-- (void)showError:(RSSError)error;
++ (NSError *)provideErrorOfType:(RSSError)type;
 
 @end
 

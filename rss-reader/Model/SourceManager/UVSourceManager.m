@@ -145,14 +145,13 @@ Class registerClass(NSString *name) {
         class_addMethod(manager_class, _deleteLink_sel, _deleteLink_imp, _deleteLink_types);
         
         IMP _insertLink_imp = imp_implementationWithBlock(^(id self , NSDictionary *rawLink, NSURL *url){
-            // TODO: -
             NSMutableArray *_rssLinks_ref = object_getIvar(self, _rssLinks_ivar);
             
             RSSLink *link = ((RSSLink *(*)(id, SEL, NSDictionary *))objc_msgSend)(RSSLink.class, @selector(objectWithDictionary:), rawLink);
             ((void(*)(id, SEL, NSURL *))objc_msgSend)(link, @selector(configureURLRelativeToURL:), url);
             if (!((BOOL(*)(id, SEL, RSSLink *))objc_msgSend)(_rssLinks_ref, @selector(containsObject:), link)){
                 ((void(*)(id, SEL, RSSLink *))objc_msgSend)(_rssLinks_ref, @selector(addObject:), link);
-            };
+            }
             
             object_setIvar(self, _rssLinks_ivar, _rssLinks_ref);
         });

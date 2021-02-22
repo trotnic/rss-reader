@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelFeedPresenter : UVBasePresenter <UVChannelFeedPresenterType>
 
-@property (nonatomic, strong) id<UVFeedChannelDisplayModel> channel;
-@property (nonatomic, assign) UIViewController<UVChannelFeedViewType> *viewDelegate;
+//@property (nonatomic, strong) id<UVFeedChannelDisplayModel> channel;
+@property (nonatomic, assign) UIViewController<UVChannelFeedViewType> *view;
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
                             source:(id<UVSourceManagerType>)source

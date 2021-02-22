@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 
+#import "UVSourceRepository.h"
 #import "UVFeedManager.h"
 #import "UVSourceManager.h"
 #import "UVDataRecognizer.h"
@@ -44,9 +45,9 @@
 // MARK: -
 
 - (void)setupSourcesFilePath {
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+    NSString *sourcePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
                       .firstObject stringByAppendingString:kSourcesFileNameValue];
-    [NSUserDefaults.standardUserDefaults setObject:path forKey:kSourcesFilePathKey];
+    [NSUserDefaults.standardUserDefaults setObject:sourcePath forKey:kSourcesFilePathKey];
 }
 
 - (void)setupComponents {
@@ -54,7 +55,12 @@
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
     self.source = [UVSourceManager new];
     UVNetwork *network = [UVNetwork new];
-    UVFeedManager *feed = [UVFeedManager new];
+    
+    // TODO: -
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                      .firstObject stringByAppendingString:@"lolkek.plist"];
+    UVSourceRepository *feedRepository = [[UVSourceRepository alloc] initWithPath:path];
+    UVFeedManager *feed = [[UVFeedManager alloc] initWithRepository:feedRepository];
     
     UVPresentationBlockFactory *factory = [[UVPresentationBlockFactory alloc] initWithNetwork:network
                                                                                    source:self.source

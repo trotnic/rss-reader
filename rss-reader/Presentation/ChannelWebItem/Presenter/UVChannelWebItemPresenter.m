@@ -10,7 +10,7 @@
 @interface UVChannelWebItemPresenter ()
 
 @property (nonatomic, strong) id<UVCoordinatorType> coordinator;
-@property (nonatomic, strong) id<UVFeedManagerType> feed;
+@property (nonatomic, strong) id<UVFeedManagerType> feedManager;
 
 @end
 
@@ -21,7 +21,7 @@
     self = [super init];
     if (self) {
         _coordinator = coordinator;
-        _feed = feed;
+        _feedManager = feed;
     }
     return self;
 }
@@ -29,7 +29,7 @@
 // MARK: - UVChannelWebItemPresenterType
 
 - (void)loadPage {
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.feed.selectedItem.url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.feedManager.selectedFeedItem.url];
     [self.view.webView loadRequest:request];
 }
 
@@ -51,7 +51,7 @@
 }
 
 - (void)browserButtonClick {
-    [self.coordinator openURL:self.feed.selectedItem.url];
+    [self.coordinator openURL:self.feedManager.selectedFeedItem.url];
 }
 
 // MARK: - WKNavigationDelegate

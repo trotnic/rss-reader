@@ -6,17 +6,15 @@
 //
 
 #import "UVChannelSourceListViewController.h"
-#import "UVSearchViewController.h"
 
 #import "LocalConstants.h"
 
 #import "UIViewController+Util.h"
 
-@interface UVChannelSourceListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
+@interface UVChannelSourceListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *addSourceButton;
-@property (nonatomic, retain) UVSearchViewController *searchController;
 
 @end
 
@@ -27,7 +25,6 @@
     [_tableView release];
     [_presenter release];
     [_addSourceButton release];
-    [_searchController release];
     [super dealloc];
 }
 
@@ -115,14 +112,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _addSourceButton;
 }
 
-- (UVSearchViewController *)searchController {
-    if(!_searchController) {
-        _searchController = [UVSearchViewController new];
-        _searchController.delegate = self;
-    }
-    return _searchController;
-}
-
 // MARK: -
 
 - (void)updatePresentation {
@@ -132,12 +121,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)presentError:(NSError *)error {
     [self showError:error];
-}
-
-// MARK: - UVSearchViewControllerDelegate
-
-- (void)searchAcceptedWithKey:(NSString *)key {
-    [self.presenter discoverAddress:key];
 }
 
 // MARK: - UVSourcesListViewType

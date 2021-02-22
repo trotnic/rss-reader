@@ -10,36 +10,63 @@
 
 @interface UVFeedManager ()
 
-@property (nonatomic, strong) UVFeedChannel *channel;
-@property (nonatomic, weak) UVFeedItem *selected;
+@property (nonatomic, strong) UVRSSFeed *innerFeed;
+@property (nonatomic, weak) UVRSSFeedItem *selected;
+@property (nonatomic, strong) id<UVPListRepositoryType> repository;
 
 @end
 
 @implementation UVFeedManager
 
-- (UVFeedChannel *)channelFeed {
-    return self.channel;
+- (instancetype)initWithRepository:(id<UVPListRepositoryType>)repository {
+    self = [super init];
+    if (self) {
+        _repository = repository;
+    }
+    return self;
 }
 
-- (UVFeedItem *)selectedItem {
+// MARK: -
+
+- (UVRSSFeed *)feed {
+    if (!self.innerFeed) {
+        NSError *error = nil;
+        NSDictionary *raw = [[self.repository fetchData:&error] firstObject];
+        if (error) return nil;
+        self.innerFeed = [UVRSSFeed objectWithDictionary:raw];
+    }
+    return self.innerFeed;
+}
+
+- (UVRSSFeedItem *)selectedFeedItem {
     return self.selected;
 }
 
-- (void)selectItem:(UVFeedItem *)item {
+- (void)selectFeedItem:(UVRSSFeedItem *)item {
     self.selected = item;
 }
 
-- (void)provideRawFeed:(NSDictionary *)feed error:(NSError **)error {
+- (BOOL)storeFeed:(NSDictionary *)feed error:(NSError **)error {
     if (!feed || ![feed isKindOfClass:NSDictionary.class]) {
-        *error = [self feedError];
-        return;
+        if (error) *error = [self feedError];
+        return NO;
     }
-    UVFeedChannel *tmp = [UVFeedChannel objectWithDictionary:feed];
+    if (![self.repository updateData:@[feed] error:error]) {
+        return NO;
+    }
+    UVRSSFeed *tmp = [UVRSSFeed objectWithDictionary:feed];
     if (!tmp) {
-        *error = [self feedError];
-        return;
+        if (error) *error = [self feedError];
+        return NO;
     }
-    self.channel = tmp;
+    self.innerFeed = tmp;
+    return YES;
+}
+
+- (void)deleteFeed {
+    NSError *error = nil;
+    [self.repository updateData:@[] error:&error];
+    self.innerFeed = nil;
 }
 
 // MARK: - Private

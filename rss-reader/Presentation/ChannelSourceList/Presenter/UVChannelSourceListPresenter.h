@@ -14,7 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelSourceListPresenter : UVBasePresenter <UVChannelSourceListPresenterType>
 
-@property (nonatomic, assign) UIViewController<UVChannelSourceListViewType> *viewDelegate;
+@property (nonatomic, assign) UIViewController<UVChannelSourceListViewType> *view;
+
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                       coordinator:(id<UVCoordinatorType>)coordinator;
 
 @end
 

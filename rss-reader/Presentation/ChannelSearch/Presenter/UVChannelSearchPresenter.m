@@ -8,16 +8,41 @@
 #import "UVChannelSearchPresenter.h"
 #import "NSArray+Util.h"
 
+@interface UVChannelSearchPresenter ()
+
+@property (nonatomic, retain, readwrite) id<UVDataRecognizerType>   dataRecognizer;
+@property (nonatomic, retain, readwrite) id<UVSourceManagerType>    sourceManager;
+@property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
+@property (nonatomic, retain, readwrite) id<UVCoordinatorType>      coordinator;
+
+@end
+
 @implementation UVChannelSearchPresenter
 
-@synthesize viewDelegate;
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                       coordinator:(id<UVCoordinatorType>)coordinator {
+    self = [super init];
+    if (self) {
+        _dataRecognizer = recognizer;
+        _sourceManager = source;
+        _network = network;
+        _coordinator = coordinator;
+    }
+    return self;
+}
 
-- (void)searchButtonClickedWithToken:(NSString *)token {
+- (void)searchWithToken:(NSString *)token {
+    if (!self.network.isConnectionAvailable) {
+        [self presentError:RSSErrorTypeNoNetworkConnection];
+        return;
+    }
     NSError *error = nil;
     NSURL *url = [self.network validateAddress:token error:&error];
     
     if (error || !url) {
-        [self showError:RSSErrorTypeBadURL];
+        [self presentError:RSSErrorTypeBadURL];
         return;
     }
     
@@ -25,7 +50,9 @@
     [self.network fetchDataFromURL:url
                         completion:^(NSData *data, NSError *error) {
         if (error) {
-            [weakSelf showError:RSSErrorTypeBadURL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf presentError:RSSErrorTypeBadURL];
+            });
             return;
         }
         [weakSelf discoverLinks:data url:url];
@@ -35,8 +62,10 @@
 // MARK: - Private
 
 - (void)discoverLinks:(NSData *)data url:(NSURL *)url {
-    if (!data) {
-        [self showError:RSSErrorTypeParsingError];
+    if (!data || !url) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentError:RSSErrorTypeParsingError];
+        });
         return;
     }
     
@@ -56,8 +85,7 @@
             }];
         } else if (type == UVRawContentUndefined || error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                //                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
+                [self presentError:RSSErrorNoRSSLinkSelected];
             });
         }
     }];
@@ -67,11 +95,10 @@
                baseURL:(NSURL *)url error:(NSError *)error {
     if (error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self showError:RSSErrorNoRSSLinksDiscovered];
+            [self presentError:RSSErrorNoRSSLinkSelected];
         });
         return;
     }
-    
     [links forEach:^(NSDictionary *rawLink) {
         [self.sourceManager insertLink:rawLink relativeToURL:url];
     }];
@@ -91,6 +118,10 @@
         [self.sourceManager saveState:&error];
         NSLog(@"%@", error);
     }
+}
+
+- (void)presentError:(RSSError)errorType {
+    [self.view presentError:[UVChannelSearchPresenter provideErrorOfType:errorType]];
 }
 
 @end

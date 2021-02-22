@@ -14,7 +14,7 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 
 @interface UVNetwork ()
 
-@property (nonatomic, retain) id<ReachabilityType> reachability;
+@property (nonatomic, strong) id<ReachabilityType> reachability;
 
 @end
 
@@ -61,7 +61,9 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 }
 
 - (BOOL)isConnectionAvailable {
-    return self.reachability.currentReachabilityStatus != NotReachable;
+    return
+    self.reachability.currentReachabilityStatus == ReachableViaWWAN ||
+    self.reachability.currentReachabilityStatus == ReachableViaWiFi;
 }
 
 // MARK: - Private

@@ -164,7 +164,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
             /*
              ... and no [user] intervention is needed...
              */
-            returnValue = ReachableViaWiFi;
+            returnValue = ReachableViaWiFi; 
         }
     }
  
@@ -184,9 +184,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 {
     NSAssert(_reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
     SCNetworkReachabilityFlags flags;
- 
+    
     if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags))
     {
+        PrintReachabilityFlags(flags, "networkStatusForFlags");
         return (flags & kSCNetworkReachabilityFlagsConnectionRequired);
     }
  
