@@ -61,6 +61,8 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     [_descriptionLabel release];
     [_onExpandButtonClickCallback release];
     [_model release];
+    [_additionalStack release];
+    [_mainStack release];
     
     [super dealloc];
 }
@@ -160,7 +162,7 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     if (!_additionalStack) {
         _additionalStack = [UIStackView new];
         _additionalStack.axis = UILayoutConstraintAxisHorizontal;
-        _additionalStack.distribution = UIStackViewDistributionEqualCentering;
+        _additionalStack.distribution = UIStackViewDistributionEqualSpacing;
     }
     return _additionalStack;
 }

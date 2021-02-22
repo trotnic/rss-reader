@@ -61,7 +61,7 @@
                                                                                        network:network];
         UVSourcesListViewController *presentedController = [UVSourcesListViewController new];
         presenter.viewDelegate = [presentedController autorelease];
-        presentedController.presenter = presenter;
+        presentedController.presenter = [presenter autorelease];
         [controller.navigationController pushViewController:presentedController animated:YES];
     }];
     

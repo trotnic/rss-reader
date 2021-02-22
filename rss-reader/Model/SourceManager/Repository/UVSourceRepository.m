@@ -6,8 +6,10 @@
 //
 
 #import "UVSourceRepository.h"
-#import "KeyConstants.h"
 #import "NSArray+Util.h"
+
+#import "KeyConstants.h"
+#import "UVErrorDomain.h"
 
 @interface UVSourceRepository ()
 
@@ -48,8 +50,17 @@
                                                                format:NSPropertyListXMLFormat_v1_0
                                                               options:0
                                                                 error:error];
-    [plist writeToFile:self.path atomically:YES];
-    return error == nil;
+    
+    BOOL isWritten = [plist writeToFile:self.path atomically:YES];
+    
+    if (isWritten) {
+        return YES;
+    } else {
+        if (error) {
+            *error = [NSError errorWithDomain:UVDataWritingErrorDomain code:UVRSSReaderErrorCodeKey userInfo:nil];            
+        }
+        return NO;
+    }
 }
 
 @end
