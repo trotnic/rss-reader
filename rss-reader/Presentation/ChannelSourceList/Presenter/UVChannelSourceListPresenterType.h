@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVChannelSourceListPresenterType <NSObject>
 
-- (void)discoverAddress:(NSString *)address;
 - (NSArray<id<UVRSSLinkViewModel>> *)items;
 - (void)selectItemAtIndex:(NSInteger)index;
 - (void)deleteItemAtIndex:(NSInteger)index;

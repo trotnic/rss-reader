@@ -28,15 +28,28 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 @property (nonatomic, retain) UIStackView *mainStack;
 @property (nonatomic, retain) UIStackView *additionalStack;
 
-@property (nonatomic, strong) UIButton *expandButton;
+@property (nonatomic, retain) UIButton *expandButton;
 
 @property (nonatomic, copy) void(^onExpandButtonClickCallback)(void(^)(void));
 
-@property (nonatomic, strong) id<UVFeedItemDisplayModel> model;
+@property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
 
 @end
 
 @implementation UVFeedTableViewCell
+
+- (void)dealloc {
+    [_titleLabel release];
+    [_dateLabel release];
+    [_categoryLabel release];
+    [_descriptionLabel release];
+    [_mainStack release];
+    [_additionalStack release];
+    [_expandButton release];
+    [_onExpandButtonClickCallback release];
+    [_model release];
+    [super dealloc];
+}
 
 + (NSString *)cellIdentifier {
     return NSStringFromClass(self);

@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURL * _Nullable)validateAddress:(NSString *)address error:(out NSError ** _Nullable)error;
 - (BOOL)isConnectionAvailable;
 
+- (void)registerObserver:(id)observer callback:(void(^)(void))callback;
+- (void)unregisterObserver:(id)observer;
+
 @end
 
 NS_ASSUME_NONNULL_END

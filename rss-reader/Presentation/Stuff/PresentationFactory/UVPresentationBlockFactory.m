@@ -64,7 +64,7 @@
                                                                                        coordinator:coordinator];
             UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
             controller.presenter = [presenter autorelease];
-            presenter.viewDelegate = controller;
+            presenter.view = controller;
             return [controller autorelease];
         }
             
@@ -75,7 +75,7 @@
                                                                                                    coordinator:coordinator];
             UVChannelSourceListViewController *controller = [UVChannelSourceListViewController new];
             controller.presenter = [presenter autorelease];
-            presenter.viewDelegate = controller;
+            presenter.view = controller;
             return [controller autorelease];
         }
         case PresentationBlockSearch: {
@@ -85,7 +85,7 @@
                                                                                            coordinator:coordinator];
             UVChannelSearchViewController *controller = [UVChannelSearchViewController new];
             controller.presenter = [presenter autorelease];
-            presenter.viewDelegate = controller;
+            presenter.view = controller;
             return [controller autorelease];
         }
         case PresentationBlockWeb: {

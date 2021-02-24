@@ -143,7 +143,7 @@ static NSInteger const TIMEOUT = 4;
                                                            handler:^BOOL{
         XCTAssertTrue(self.dataRecognizer.isCalled);
         XCTAssertTrue(self.network.isCalled);
-        XCTAssertEqualObjects(expected, [self.sut performSelector:@selector(channel)]);
+        XCTAssertEqualObjects(expected, [self.sut performSelector:@selector(feed)]);
         return self.view.error == nil && !self.view.isActivityShown;
     }];
 

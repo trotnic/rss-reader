@@ -18,6 +18,5 @@ extern NSString *kReachabilityChangedNotification;
 + (instancetype)reachabilityForInternetConnection;
 - (BOOL)startNotifier;
 - (void)stopNotifier;
-- (BOOL)connectionRequired;
 
 @end

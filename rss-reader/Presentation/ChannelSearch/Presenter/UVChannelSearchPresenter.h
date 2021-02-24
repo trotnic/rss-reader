@@ -14,7 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelSearchPresenter : UVBasePresenter <UVChannelSearchPresenterType>
 
-@property (nonatomic, weak) UIViewController<UVChannelSearchViewType> *viewDelegate;
+@property (nonatomic, weak) UIViewController<UVChannelSearchViewType> *view;
+
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                       coordinator:(id<UVCoordinatorType>)coordinator;
 
 @end
 

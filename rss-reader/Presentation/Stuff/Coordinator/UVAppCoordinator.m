@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UVNavigationController *controller;
 @property (nonatomic, strong) UIApplication *application;
 
+@property (nonatomic, assign) PresentationBlockType lastPresentedBlock;
+
 @end
 
 @implementation UVAppCoordinator
@@ -34,8 +36,13 @@
 }
 
 - (void)showScreen:(PresentationBlockType)type {
-    [self.controller pushViewController:[self.factory presentationBlockOfType:type coordinator:self]
-                               animated:YES];
+    if (self.lastPresentedBlock == PresentationBlockSearch) {
+        [self.controller popViewControllerAnimated:YES];
+    } else {
+        [self.controller pushViewController:[self.factory presentationBlockOfType:type coordinator:self]
+                                   animated:YES];
+    }
+    self.lastPresentedBlock = type;
 }
 
 - (void)openURL:(NSURL *)url {

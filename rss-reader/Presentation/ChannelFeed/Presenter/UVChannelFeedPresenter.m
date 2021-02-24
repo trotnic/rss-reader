@@ -8,27 +8,32 @@
 #import "UVChannelFeedPresenter.h"
 #import "UVChannelFeedViewType.h"
 #import "UVFeedXMLParser.h"
-#import "UVFeedChannel.h"
+#import "UVRSSFeed.h"
 
 @interface UVChannelFeedPresenter ()
 
-@property (nonatomic, retain) id<UVFeedManagerType> feed;
+@property (nonatomic, strong) id<UVDataRecognizerType>  dataRecognizer;
+@property (nonatomic, strong) id<UVSourceManagerType>   sourceManager;
+@property (nonatomic, strong) id<UVNetworkType>         network;
+@property (nonatomic, strong) id<UVCoordinatorType>     coordinator;
+@property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
 
 @end
 
 @implementation UVChannelFeedPresenter
-
-@synthesize viewDelegate;
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
                             source:(id<UVSourceManagerType>)source
                            network:(id<UVNetworkType>)network
                               feed:(id<UVFeedManagerType>)feed
                        coordinator:(id<UVCoordinatorType>)coordinator {
-    self = [super initWithRecognizer:recognizer source:source
-                             network:network coordinator:coordinator];
+    self = [super init];
     if (self) {
-        _feed = feed;
+        _dataRecognizer = recognizer;
+        _sourceManager = source;
+        _network = network;
+        _coordinator = coordinator;
+        _feedManager = feed;
     }
     return self;
 }
@@ -37,20 +42,25 @@
 
 - (void)updateFeed {
     if (!self.network.isConnectionAvailable) {
-        [self.viewDelegate setSettingsButtonActive:NO];
+        [self.view setSettingsButtonActive:NO];
+        [self.view updatePresentation];
         [self showError:RSSErrorTypeNoNetworkConnection];
         return;
     }
-    [self.viewDelegate rotateActivityIndicator:YES];
+    [self.view setSettingsButtonActive:YES];
+    [self.view rotateActivityIndicator:YES];
     if (!self.sourceManager.links.count) {
-        [self.viewDelegate clearState];
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+            [self.feedManager deleteFeed];
+        });
+        [self.view clearState];
         [self showError:RSSErrorNoRSSLinkSelected];
         return;
     }
     
     NSURL *url = self.sourceManager.selectedLink.url;
     if (!url) {
-        [self.viewDelegate clearState];
+        [self.view clearState];
         [self showError:RSSErrorTypeBadURL];
         return;
     }
@@ -67,7 +77,12 @@
 }
 
 - (void)openArticleAt:(NSInteger)row {
-    [self.feed selectItem:self.feed.channelFeed.items[row]];
+    if (!self.network.isConnectionAvailable) {
+        [self.view setSettingsButtonActive:NO];
+        [self showError:RSSErrorTypeNoNetworkConnection];
+        return;
+    }
+    [self.feedManager selectFeedItem:self.feedManager.feed.items[row]];
     [self.coordinator showScreen:PresentationBlockWeb];
 }
 
@@ -76,7 +91,7 @@
 }
 
 - (id<UVFeedChannelDisplayModel>)channel {
-    return self.feed.channelFeed;
+    return self.feedManager.feed;
 }
 
 // MARK: - Private
@@ -86,7 +101,7 @@
         [self showError:RSSErrorTypeParsingError];
         return;
     }
-    __block typeof(self)weakSelf = self;
+    __weak typeof(self)weakSelf = self;
     [self.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
                               completion:^(NSDictionary *channel, NSError *error) {
         if(error) {
@@ -95,23 +110,19 @@
         }
         
         NSError *feedError = nil;
-        [weakSelf.feed provideRawFeed:channel error:&feedError];
-        if (error) {
+        if (![weakSelf.feedManager storeFeed:channel error:&feedError]) {
             [weakSelf showError:RSSErrorTypeBadURL];
             return;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.viewDelegate rotateActivityIndicator:NO];
-            [weakSelf.viewDelegate updatePresentation];
+            [weakSelf.view rotateActivityIndicator:NO];
+            [weakSelf.view updatePresentation];
         });
     }];
 }
 
 - (void)showError:(RSSError)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.viewDelegate rotateActivityIndicator:NO];
-    });
-    [super showError:error];
+    [self.view presentError:[UVChannelFeedPresenter provideErrorOfType:error]];
 }
 
 @end

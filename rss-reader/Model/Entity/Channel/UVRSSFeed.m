@@ -1,23 +1,23 @@
 //
-//  UVFeedChannel.m
+//  UVRSSFeed.m
 //  rss-reader
 //
 //  Created by Uladzislau on 11/18/20.
 //
 
-#import "UVFeedChannel.h"
+#import "UVRSSFeed.h"
 #import "NSArray+Util.h"
 
-@interface UVFeedChannel ()
+@interface UVRSSFeed ()
 
 @property (nonatomic, copy, readwrite) NSString *link;
 @property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *summary;
-@property (nonatomic, strong, readwrite) NSArray<UVFeedItem *> *items;
+@property (nonatomic, strong, readwrite) NSArray<UVRSSFeedItem *> *items;
 
 @end
 
-@implementation UVFeedChannel
+@implementation UVRSSFeed
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
@@ -25,13 +25,13 @@
         return nil;
     }
     
-    UVFeedChannel *object = [UVFeedChannel new];
+    UVRSSFeed *object = [UVRSSFeed new];
         
     object.link = dictionary[kRSSChannelLink];
     object.title = dictionary[kRSSChannelTitle];
     object.summary = dictionary[kRSSChannelDescription];
-    object.items = [dictionary[kRSSChannelItems] map:^UVFeedItem *(NSDictionary *rawItem) {
-        return [UVFeedItem objectWithDictionary:rawItem];
+    object.items = [dictionary[kRSSChannelItems] map:^UVRSSFeedItem *(NSDictionary *rawItem) {
+        return [UVRSSFeedItem objectWithDictionary:rawItem];
     }];
     
     return [object autorelease];

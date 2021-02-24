@@ -11,39 +11,13 @@
 
 @interface UVBasePresenter ()
 
-@property (nonatomic, retain, readwrite) id<UVDataRecognizerType>   dataRecognizer;
-@property (nonatomic, retain, readwrite) id<UVSourceManagerType>    sourceManager;
-@property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
-@property (nonatomic, retain, readwrite) id<UVCoordinatorType>        coordinator;
-
 @end
 
 @implementation UVBasePresenter
 
-- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
-                            source:(id<UVSourceManagerType>)source
-                           network:(id<UVNetworkType>)network
-                       coordinator:(id<UVCoordinatorType>)coordinator
-{
-    self = [super init];
-    if (self) {
-        _dataRecognizer = recognizer;
-        _sourceManager = source;
-        _network = network;
-        _coordinator = coordinator;
-    }
-    return self;
-}
-
-- (void)showError:(RSSError)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.viewDelegate presentError:[self provideErrorOfType:error]];
-    });
-}
-
 // MARK: - Private
 
-- (NSError *)provideErrorOfType:(RSSError)type {
++ (NSError *)provideErrorOfType:(RSSError)type {
     switch (type) {
         case RSSErrorTypeNoNetworkConnection: {
             return [NSError errorWithDomain:UVPresentationErrorDomain code:UVRSSReaderErrorCodeKey userInfo:@{

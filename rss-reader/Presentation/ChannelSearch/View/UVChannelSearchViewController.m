@@ -65,7 +65,7 @@
 // MARK: - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [self.presenter searchButtonClickedWithToken:searchBar.text];
+    [self.presenter searchWithToken:searchBar.text];
 }
 
 // MARK: - ViewType

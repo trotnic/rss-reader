@@ -10,43 +10,54 @@
 
 @interface UVChannelSourceListPresenter ()
 
+@property (nonatomic, retain, readwrite) id<UVDataRecognizerType>   dataRecognizer;
+@property (nonatomic, retain, readwrite) id<UVSourceManagerType>    sourceManager;
+@property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
+@property (nonatomic, retain, readwrite) id<UVCoordinatorType>      coordinator;
+
 @end
 
 @implementation UVChannelSourceListPresenter
 
-@synthesize viewDelegate;
+- (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
+                            source:(id<UVSourceManagerType>)source
+                           network:(id<UVNetworkType>)network
+                       coordinator:(id<UVCoordinatorType>)coordinator {
+    self = [super init];
+    if (self) {
+        _dataRecognizer = [recognizer retain];
+        _sourceManager = [source retain];
+        _network = [network retain];
+        _coordinator = [coordinator retain];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_dataRecognizer release];
+    [_sourceManager release];
+    [_network release];
+    [_coordinator release];
+    [super dealloc];
+}
 
 // MARK: - UVSourcesListPresenterType
-
-- (void)discoverAddress:(NSString *)address {
-    NSError *error = nil;
-    NSURL *url = [self.network validateAddress:address error:&error];
-    
-    if (error || !url) {
-        [self showError:RSSErrorTypeBadURL];
-        return;
-    }
-    
-    __block typeof(self)weakSelf = self;
-    [self.network fetchDataFromURL:url
-                        completion:^(NSData *data, NSError *error) {
-        if (error) {
-            [weakSelf showError:RSSErrorTypeBadURL];
-            return;
-        }
-        [weakSelf discoverLinks:data url:url];
-    }];
-}
 
 - (NSArray<id<UVRSSLinkViewModel>> *)items {
     return self.sourceManager.links;
 }
 
 - (void)selectItemAtIndex:(NSInteger)index {
+    // TODO: crash???
+    if (!self.network.isConnectionAvailable) {
+        [self.view presentError:[UVChannelSourceListPresenter provideErrorOfType:RSSErrorTypeNoNetworkConnection]];
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         [self.sourceManager selectLink:self.sourceManager.links[index]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.viewDelegate updatePresentation];
+            [self.view updatePresentation];
         });
         [self saveState];
     });
@@ -56,7 +67,7 @@
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         [self.sourceManager deleteLink:self.sourceManager.links[index]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.viewDelegate updatePresentation];
+            [self.view updatePresentation];
         });
         [self saveState];
     });
@@ -67,60 +78,6 @@
 }
 
 // MARK: - Private
-
-- (void)discoverLinks:(NSData *)data url:(NSURL *)url {
-    if (!data) {
-        [self showError:RSSErrorTypeParsingError];
-        return;
-    }
-    
-    __block typeof(self)weakSelf = self;
-    [self.dataRecognizer discoverContentType:data
-                                  completion:^(UVRawContentType type, NSError *error) {
-        if (type == UVRawContentHTML) {
-            [weakSelf.dataRecognizer discoverLinksFromHTML:data
-                                                completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentXML) {
-            [weakSelf.dataRecognizer discoverLinksFromXML:data
-                                                      url:url
-                                               completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentUndefined || error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
-            });
-        }
-    }];
-}
-
-- (void)insertRawLinks:(NSArray<NSDictionary *> *)links
-               baseURL:(NSURL *)url error:(NSError *)error {
-    if (error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.viewDelegate stopSearchWithUpdate:NO];
-            [self showError:RSSErrorNoRSSLinksDiscovered];
-        });
-        return;
-    }
-    
-    [links forEach:^(NSDictionary *rawLink) {
-        [self.sourceManager insertLink:rawLink relativeToURL:url];
-    }];
-    
-    NSError *saveError = nil;
-    [self.sourceManager saveState:&saveError];
-    BOOL shouldUpdateResults = (saveError == nil);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
-    });
-
-}
 
 - (void)saveState {
     NSError *error = nil;

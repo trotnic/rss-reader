@@ -7,6 +7,14 @@
 
 #import "UVBaseViewController.h"
 
+#import "UVDebug.h"
+
+#ifdef DEBUG_AREA
+
+#import "UVDebugViewController.h"
+
+#endif
+
 @interface UVBaseViewController ()
 
 @property (nonatomic, retain) UILabel *placeholderLabel;
@@ -19,6 +27,44 @@
     [super viewDidLoad];
     [self setupLabel];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+#ifdef DEBUG_AREA
+    
+    UIButton *butty = [UIButton new];
+    butty.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.05];
+    butty.translatesAutoresizingMaskIntoConstraints = NO;
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(dothings:)];
+    [butty addGestureRecognizer:longPress];
+    [self.view addSubview:butty];
+    
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [butty.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:50],
+        [butty.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-50],
+        [butty.heightAnchor constraintEqualToConstant:50],
+        [butty.widthAnchor constraintEqualToConstant:50],
+    ]];
+    
+    
+    
+    
+#endif
+}
+
+#ifdef DEBUG_AREA
+
+- (void)dothings:(UILongPressGestureRecognizer*)gesture {
+    if ( gesture.state == UIGestureRecognizerStateEnded ) {
+        UVDebugViewController *control = [UVDebugViewController new];
+//        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"LOLKEK" message:@"CHEBUREK" preferredStyle:UIAlertControllerStyleActionSheet];
+//        [control addAction:[UIAlertAction actionWithTitle:@"👌" style:UIAlertActionStyleCancel handler:nil]];
+        [self.navigationController pushViewController:control animated:YES];
+    }
+}
+
+#endif
 
 // MARK: -
 

@@ -1,18 +1,18 @@
 //
-//  UVFeedItem.m
+//  UVRSSFeedItem.m
 //  rss-reader
 //
 //  Created by Uladzislau on 11/17/20.
 //
 
-#import "UVFeedItem.h"
+#import "UVRSSFeedItem.h"
 #import "NSDate+StringConvertible.h"
 #import "NSString+Util.h"
 
 static NSString *const kDatePresentationFormat  = @"dd.MM.yyyy HH:mm";
 static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 
-@interface UVFeedItem ()
+@interface UVRSSFeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, strong, readwrite) NSURL *url;
@@ -22,7 +22,7 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 @end
 
-@implementation UVFeedItem
+@implementation UVRSSFeedItem
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
@@ -30,7 +30,7 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
         return nil;
     }
     
-    UVFeedItem *object = [[UVFeedItem alloc] init];
+    UVRSSFeedItem *object = [[UVRSSFeedItem alloc] init];
     
     object.title = dictionary[kRSSItemTitle];
     object.url = [NSURL URLWithString:dictionary[kRSSItemLink]];
@@ -54,11 +54,11 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 // MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {
-    return [self.title copy];
+    return self.title;
 }
 
 - (NSString *)articleCategory {
-    return [self.category copy];
+    return self.category;
 }
 
 - (NSString *)articleDate {

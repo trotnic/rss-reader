@@ -19,8 +19,8 @@
 		2BF48F9E256E9B85007A81E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BF48FA0256E9B85007A81E0 /* Localizable.strings */; };
 		7344475125A9D3FE00CDEA78 /* UVNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7344475025A9D3FE00CDEA78 /* UVNetworkTests.m */; };
 		734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 734AEE752591E8FD00CE5716 /* UVSourceRepository.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7351C6DE25A11EEF00378AB2 /* UVFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C6DD25A11EEF00378AB2 /* UVFeedItem.m */; };
-		7351C6E925A11F0700378AB2 /* UVFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C6E725A11F0700378AB2 /* UVFeedChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7351C6DE25A11EEF00378AB2 /* UVRSSFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C6DD25A11EEF00378AB2 /* UVRSSFeedItem.m */; };
+		7351C6E925A11F0700378AB2 /* UVRSSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C6E725A11F0700378AB2 /* UVRSSFeed.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7351C6F125A11F1D00378AB2 /* UVNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C6EF25A11F1D00378AB2 /* UVNetwork.m */; };
 		7351C70B25A11FD600378AB2 /* UVFeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7351C70925A11FD600378AB2 /* UVFeedTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7356665825A8614A00FB8902 /* UVDataRecognizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7356665725A8614A00FB8902 /* UVDataRecognizerTests.m */; };
@@ -40,6 +40,7 @@
 		7362CADF25A24D4100037AEF /* tutbyfeed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7362CAD425A24D4100037AEF /* tutbyfeed.xml */; };
 		7362CAEF25A24DFB00037AEF /* UVSourceManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362CAEE25A24DFB00037AEF /* UVSourceManagerMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7362CAF925A24FD800037AEF /* UVDataRecognizerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362CAF825A24FD800037AEF /* UVDataRecognizerMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		738F68A625E4F8E90073657C /* UVDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F68A525E4F8E90073657C /* UVDebugViewController.m */; };
 		739956B025A9A47A003FD39C /* UVSourceManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956AF25A9A47A003FD39C /* UVSourceManagerTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */; };
 		739956C125A9ABD2003FD39C /* NSUserDefaultsMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956C025A9ABD2003FD39C /* NSUserDefaultsMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -121,11 +122,11 @@
 		734AEE752591E8FD00CE5716 /* UVSourceRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceRepository.m; sourceTree = "<group>"; };
 		734AEE7A2591E90E00CE5716 /* UVPListRepositoryType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPListRepositoryType.h; sourceTree = "<group>"; };
 		734AEE7C2591EE6800CE5716 /* UVPropertyListConvertible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPropertyListConvertible.h; sourceTree = "<group>"; };
-		7351C6DA25A11EEF00378AB2 /* UVFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItem.h; sourceTree = "<group>"; };
+		7351C6DA25A11EEF00378AB2 /* UVRSSFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRSSFeedItem.h; sourceTree = "<group>"; };
 		7351C6DC25A11EEF00378AB2 /* UVFeedItemKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemKeys.h; sourceTree = "<group>"; };
-		7351C6DD25A11EEF00378AB2 /* UVFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedItem.m; sourceTree = "<group>"; };
-		7351C6E525A11F0700378AB2 /* UVFeedChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannel.h; sourceTree = "<group>"; };
-		7351C6E725A11F0700378AB2 /* UVFeedChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedChannel.m; sourceTree = "<group>"; };
+		7351C6DD25A11EEF00378AB2 /* UVRSSFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRSSFeedItem.m; sourceTree = "<group>"; };
+		7351C6E525A11F0700378AB2 /* UVRSSFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRSSFeed.h; sourceTree = "<group>"; };
+		7351C6E725A11F0700378AB2 /* UVRSSFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRSSFeed.m; sourceTree = "<group>"; };
 		7351C6E825A11F0700378AB2 /* UVFeedChannelKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelKeys.h; sourceTree = "<group>"; };
 		7351C6EE25A11F1D00378AB2 /* UVNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNetwork.h; sourceTree = "<group>"; };
 		7351C6EF25A11F1D00378AB2 /* UVNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNetwork.m; sourceTree = "<group>"; };
@@ -165,6 +166,9 @@
 		7362CAEE25A24DFB00037AEF /* UVSourceManagerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceManagerMock.m; sourceTree = "<group>"; };
 		7362CAF725A24FD800037AEF /* UVDataRecognizerMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizerMock.h; sourceTree = "<group>"; };
 		7362CAF825A24FD800037AEF /* UVDataRecognizerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVDataRecognizerMock.m; sourceTree = "<group>"; };
+		738F68A425E4F8E90073657C /* UVDebugViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDebugViewController.h; sourceTree = "<group>"; };
+		738F68A525E4F8E90073657C /* UVDebugViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVDebugViewController.m; sourceTree = "<group>"; };
+		738F68AE25E4F99B0073657C /* UVDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDebug.h; sourceTree = "<group>"; };
 		739956AF25A9A47A003FD39C /* UVSourceManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceManagerTests.m; sourceTree = "<group>"; };
 		739956B525A9A5FE003FD39C /* UVPlistRepositoryMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPlistRepositoryMock.h; sourceTree = "<group>"; };
 		739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVPlistRepositoryMock.m; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 		2B19036F2563FE16006D755E /* rss-reader */ = {
 			isa = PBXGroup;
 			children = (
+				738F68A225E4F8BC0073657C /* Debug Area */,
 				2BBE8E5E256D393600B31BC5 /* Extension */,
 				2B1903BE2563FEE9006D755E /* Model */,
 				2B1903B52563FEC5006D755E /* Presentation */,
@@ -393,8 +398,8 @@
 			isa = PBXGroup;
 			children = (
 				CA11C16325A5E82B002019F4 /* UVFeedItemDisplayModel.h */,
-				7351C6DA25A11EEF00378AB2 /* UVFeedItem.h */,
-				7351C6DD25A11EEF00378AB2 /* UVFeedItem.m */,
+				7351C6DA25A11EEF00378AB2 /* UVRSSFeedItem.h */,
+				7351C6DD25A11EEF00378AB2 /* UVRSSFeedItem.m */,
 				7351C6DC25A11EEF00378AB2 /* UVFeedItemKeys.h */,
 			);
 			path = FeedItem;
@@ -440,8 +445,8 @@
 		2B653A0225654EDD008A76A3 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				7351C6E525A11F0700378AB2 /* UVFeedChannel.h */,
-				7351C6E725A11F0700378AB2 /* UVFeedChannel.m */,
+				7351C6E525A11F0700378AB2 /* UVRSSFeed.h */,
+				7351C6E725A11F0700378AB2 /* UVRSSFeed.m */,
 				7351C6E825A11F0700378AB2 /* UVFeedChannelKeys.h */,
 				CA11C16A25A5EE50002019F4 /* UVFeedChannelDisplayModel.h */,
 			);
@@ -680,6 +685,32 @@
 				7362CAF825A24FD800037AEF /* UVDataRecognizerMock.m */,
 			);
 			path = UVDataRecognizer;
+			sourceTree = "<group>";
+		};
+		738F68A225E4F8BC0073657C /* Debug Area */ = {
+			isa = PBXGroup;
+			children = (
+				738F68AD25E4F9900073657C /* Headers */,
+				738F68A325E4F8C20073657C /* Controller */,
+			);
+			path = "Debug Area";
+			sourceTree = "<group>";
+		};
+		738F68A325E4F8C20073657C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				738F68A425E4F8E90073657C /* UVDebugViewController.h */,
+				738F68A525E4F8E90073657C /* UVDebugViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		738F68AD25E4F9900073657C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				738F68AE25E4F99B0073657C /* UVDebug.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		739956B425A9A5EC003FD39C /* UVPlistRepository */ = {
@@ -1172,10 +1203,11 @@
 				CA43630F25D5626D0082E44C /* UVBaseViewController.m in Sources */,
 				7351C70B25A11FD600378AB2 /* UVFeedTableViewCell.m in Sources */,
 				CA0AE6D425D55D4200747528 /* Reachability.m in Sources */,
-				7351C6E925A11F0700378AB2 /* UVFeedChannel.m in Sources */,
+				7351C6E925A11F0700378AB2 /* UVRSSFeed.m in Sources */,
 				7351C6F125A11F1D00378AB2 /* UVNetwork.m in Sources */,
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA43631125D5626D0082E44C /* UVSearchViewController.m in Sources */,
+				738F68A625E4F8E90073657C /* UVDebugViewController.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				CA43634D25D564DC0082E44C /* UVChannelSearchViewController.m in Sources */,
@@ -1186,7 +1218,7 @@
 				CA43632425D562AB0082E44C /* UVChannelSourceListPresenter.m in Sources */,
 				2BBE8E33256D37CE00B31BC5 /* UVChannelFeedViewController.m in Sources */,
 				734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */,
-				7351C6DE25A11EEF00378AB2 /* UVFeedItem.m in Sources */,
+				7351C6DE25A11EEF00378AB2 /* UVRSSFeedItem.m in Sources */,
 				CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */,
 				CAB1612D25DAA2FF0036B93D /* UVChannelWebItemPresenter.m in Sources */,
 				CAB1611125DA8B2D0036B93D /* UVFeedXMLParser.m in Sources */,

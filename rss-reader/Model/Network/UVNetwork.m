@@ -14,7 +14,9 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 
 @interface UVNetwork ()
 
-@property (nonatomic, retain) id<ReachabilityType> reachability;
+@property (nonatomic, strong) id<ReachabilityType> reachability;
+
+@property (nonatomic, strong) NSMutableDictionary<id, void(^)(void)> *observers;
 
 @end
 
@@ -49,7 +51,6 @@ static NSString *const STUB_RELATIVE_PATH = @"";
     return [self enhanceSchemeOfURL:newURL error:error];
 }
 
-
 - (NSURL *)validateURL:(NSURL *)url error:(out NSError **)error {
     if(!url || !url.absoluteString.length) {
         [self provideErrorForReference:error];
@@ -61,7 +62,20 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 }
 
 - (BOOL)isConnectionAvailable {
-    return self.reachability.currentReachabilityStatus != NotReachable;
+    return
+    self.reachability.currentReachabilityStatus == ReachableViaWWAN ||
+    self.reachability.currentReachabilityStatus == ReachableViaWiFi;
+}
+
+// MARK: - Posting
+
+// TODO: -
+- (void)registerObserver:(id)observer callback:(void (^)(void))callback {
+    self.observers[observer] = callback;
+}
+
+- (void)unregisterObserver:(id)observer {
+    self.observers[observer] = nil;
 }
 
 // MARK: - Private
@@ -94,8 +108,23 @@ static NSString *const STUB_RELATIVE_PATH = @"";
 - (id<ReachabilityType>)reachability {
     if (!_reachability) {
         _reachability = Reachability.reachabilityForInternetConnection;
+        if ([_reachability startNotifier]) {
+            [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(dothings) name:kReachabilityChangedNotification object:nil];
+        }
+        
     }
     return _reachability;
+}
+
+- (NSMutableDictionary<id,void (^)(void)> *)observers {
+    if (!_observers) {
+        _observers = [NSMutableDictionary new];
+    }
+    return _observers;
+}
+
+- (void)dothings {
+    NSLog(@"%@", @"changed!!!");
 }
 
 @end

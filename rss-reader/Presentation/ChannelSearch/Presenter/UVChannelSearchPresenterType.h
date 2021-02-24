@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVChannelSearchPresenterType <NSObject>
 
-- (void)searchButtonClickedWithToken:(NSString *)token;
+- (void)searchWithToken:(NSString *)token;
 
 @end
 

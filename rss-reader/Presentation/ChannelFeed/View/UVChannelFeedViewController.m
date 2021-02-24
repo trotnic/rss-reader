@@ -32,7 +32,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupLayout];
 }
 
@@ -77,6 +76,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [UIView new];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        _tableView.showsVerticalScrollIndicator = NO;
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
     }
     return _tableView;
@@ -114,6 +114,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
+    // TODO: -
     [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row]
         reloadCompletion:^(void (^callback)(void)) {
         [tableView performBatchUpdates:^{
@@ -146,13 +147,17 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     [self hidePlaceholderMessage];
     [self.tableView reloadData];
     self.navigationItem.title = [self.presenter.channel channelTitle];
-    [self.refreshControl endRefreshing];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
+        [self.activityIndicator stopAnimating];
+    });
 }
 
 - (void)presentError:(NSError *)error {
     if (self.refreshControl.isRefreshing) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(REFRESH_ENDING_DELAY * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.refreshControl endRefreshing];
+            [self.activityIndicator stopAnimating];
         });
     }
     [self showError:error];

@@ -6,16 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVFeedChannel.h"
+#import "UVRSSFeed.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedManagerType <NSObject>
 
-- (UVFeedChannel *)channelFeed;
-- (void)provideRawFeed:(NSDictionary *)feed error:(NSError **)error;
-- (UVFeedItem *)selectedItem;
-- (void)selectItem:(UVFeedItem *)item;
+- (UVRSSFeed *)feed;
+- (UVRSSFeedItem *)selectedFeedItem;
+- (BOOL)storeFeed:(NSDictionary *)feed error:(NSError **)error;
+- (void)deleteFeed;
+- (void)selectFeedItem:(UVRSSFeedItem *)item;
 
 @end
 
