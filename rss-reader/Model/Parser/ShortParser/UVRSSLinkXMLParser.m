@@ -40,7 +40,7 @@
 - (void)parseData:(NSData *)data
        completion:(void (^)(NSDictionary *, NSError *))completion {
     if (!data) {
-        completion(nil, [self parsingError]);
+        if (completion) completion(nil, [self parsingError]);
         return;
     }
     self.completion = completion;
@@ -48,7 +48,7 @@
     [self.parser parse];
     if (self.parser.parserError != nil) {
         [self.parser abortParsing];
-        completion(nil, self.parser.parserError);
+        if (completion) completion(nil, self.parser.parserError);
         return;
     }
 }
@@ -56,7 +56,7 @@
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    self.completion(nil, parseError);
+    if (self.completion) self.completion(nil, parseError);
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
@@ -93,7 +93,7 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    self.completion(self.linkDictionary, nil);
+    if (self.completion) self.completion(self.linkDictionary, nil);
 }
 
 // MARK: - Private

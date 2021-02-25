@@ -23,7 +23,7 @@
     NSURL *url = [self.network validateAddress:address error:&error];
     
     if (error || !url) {
-        [self showError:RSSErrorTypeBadURL];
+        [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
         return;
     }
     
@@ -31,7 +31,9 @@
     [self.network fetchDataFromURL:url
                         completion:^(NSData *data, NSError *error) {
         if (error) {
-            [weakSelf showError:RSSErrorTypeBadURL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
+            });
             return;
         }
         [weakSelf discoverLinks:data url:url];
@@ -66,7 +68,9 @@
 
 - (void)discoverLinks:(NSData *)data url:(NSURL *)url {
     if (!data) {
-        [self showError:RSSErrorTypeParsingError];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeParsingError]];
+        });
         return;
     }
     
@@ -89,7 +93,7 @@
         if (type == UVRawContentUndefined || error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
+                [weakSelf.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
             });
         }
     }];
@@ -100,7 +104,7 @@
     if (error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.viewDelegate stopSearchWithUpdate:NO];
-            [self showError:RSSErrorNoRSSLinksDiscovered];
+            [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
         });
         return;
     }

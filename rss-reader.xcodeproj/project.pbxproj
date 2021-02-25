@@ -51,7 +51,12 @@
 		739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956B625A9A5FE003FD39C /* UVPlistRepositoryMock.m */; };
 		739956C125A9ABD2003FD39C /* NSUserDefaultsMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956C025A9ABD2003FD39C /* NSUserDefaultsMock.m */; };
 		73B4AD5425C2DA5800B7F8C5 /* UIImage+AppIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */; };
+		73CD3B3A25E693FB00D9F143 /* UVSourceListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CD3B3925E693FB00D9F143 /* UVSourceListTableViewCell.m */; };
 		CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */; };
+		CA0EB7AB25E7C357009842D0 /* UITableViewCell+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0EB7AA25E7C357009842D0 /* UITableViewCell+Util.m */; };
+		CA0EB7B925E7D58E009842D0 /* UVAppCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0EB7B825E7D58E009842D0 /* UVAppCoordinator.m */; };
+		CA0EB7C025E7D722009842D0 /* UVPresentationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0EB7BF25E7D722009842D0 /* UVPresentationFactory.m */; };
+		CA0EB7DA25E7E874009842D0 /* UVAppCoordinatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0EB7D925E7E874009842D0 /* UVAppCoordinatorMock.m */; };
 		CA1090732590E5D300579204 /* NSArray+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1090722590E5D300579204 /* NSArray+Util.m */; };
 		CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */; };
 		CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */; };
@@ -183,14 +188,26 @@
 		73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AppIcons.m"; sourceTree = "<group>"; };
 		73B4AD5325C2DA5800B7F8C5 /* UIImage+AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AppIcons.h"; sourceTree = "<group>"; };
 		73B4AD5825C2DA6D00B7F8C5 /* AppIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppIcons.h; sourceTree = "<group>"; };
+		73CD3B3825E693FB00D9F143 /* UVSourceListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVSourceListTableViewCell.h; path = View/Cell/UVSourceListTableViewCell.h; sourceTree = "<group>"; };
+		73CD3B3925E693FB00D9F143 /* UVSourceListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVSourceListTableViewCell.m; path = View/Cell/UVSourceListTableViewCell.m; sourceTree = "<group>"; };
 		73FF085B258FEAFA00B1A496 /* UVSearchViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSearchViewControllerDelegate.h; sourceTree = "<group>"; };
 		CA0A2BEF2577B4C1003EC17A /* NSString+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Util.m"; sourceTree = "<group>"; };
 		CA0A2BF02577B4C1003EC17A /* NSString+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Util.h"; sourceTree = "<group>"; };
+		CA0EB7A925E7C357009842D0 /* UITableViewCell+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Util.h"; sourceTree = "<group>"; };
+		CA0EB7AA25E7C357009842D0 /* UITableViewCell+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Util.m"; sourceTree = "<group>"; };
+		CA0EB7B725E7D58E009842D0 /* UVAppCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVAppCoordinator.h; sourceTree = "<group>"; };
+		CA0EB7B825E7D58E009842D0 /* UVAppCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVAppCoordinator.m; sourceTree = "<group>"; };
+		CA0EB7BE25E7D722009842D0 /* UVPresentationFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPresentationFactory.h; sourceTree = "<group>"; };
+		CA0EB7BF25E7D722009842D0 /* UVPresentationFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVPresentationFactory.m; sourceTree = "<group>"; };
+		CA0EB7C425E7D975009842D0 /* UVPresentationFactoryType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPresentationFactoryType.h; sourceTree = "<group>"; };
+		CA0EB7C825E7DA23009842D0 /* UVAppCoordinatorType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVAppCoordinatorType.h; sourceTree = "<group>"; };
+		CA0EB7CD25E7DB0F009842D0 /* UVPresentationBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPresentationBlock.h; sourceTree = "<group>"; };
+		CA0EB7D825E7E874009842D0 /* UVAppCoordinatorMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVAppCoordinatorMock.h; sourceTree = "<group>"; };
+		CA0EB7D925E7E874009842D0 /* UVAppCoordinatorMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVAppCoordinatorMock.m; sourceTree = "<group>"; };
 		CA1090712590E5D300579204 /* NSArray+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Util.h"; sourceTree = "<group>"; };
 		CA1090722590E5D300579204 /* NSArray+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Util.m"; sourceTree = "<group>"; };
 		CA11C16325A5E82B002019F4 /* UVFeedItemDisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedItemDisplayModel.h; sourceTree = "<group>"; };
 		CA11C16A25A5EE50002019F4 /* UVFeedChannelDisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVFeedChannelDisplayModel.h; sourceTree = "<group>"; };
-		CA11C18025A5F588002019F4 /* UVBaseViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVBaseViewType.h; sourceTree = "<group>"; };
 		CA11C18B25A5FCB6002019F4 /* UVSourcesListViewMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourcesListViewMock.h; sourceTree = "<group>"; };
 		CA11C18C25A5FCB6002019F4 /* UVSourcesListViewMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListViewMock.m; sourceTree = "<group>"; };
 		CA11C19A25A60630002019F4 /* UVFeedProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVFeedProviderTests.m; sourceTree = "<group>"; };
@@ -266,10 +283,10 @@
 		2B19036F2563FE16006D755E /* rss-reader */ = {
 			isa = PBXGroup;
 			children = (
+				2B1903B12563FE9D006D755E /* Application */,
 				2BBE8E5E256D393600B31BC5 /* Extension */,
 				2B1903BE2563FEE9006D755E /* Model */,
 				2B1903B52563FEC5006D755E /* Presentation */,
-				2B1903B12563FE9D006D755E /* Application */,
 				2B1903812563FE17006D755E /* Info.plist */,
 			);
 			path = "rss-reader";
@@ -315,6 +332,7 @@
 		2B1903B52563FEC5006D755E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				CA0EB7B625E7D581009842D0 /* Coordinator */,
 				735AB151258BA4DA001ADB10 /* Stuff */,
 				CA2BE0AE257FAEBB00BC7749 /* ChannelFeed */,
 				733C9F47258FDF200098316C /* ChannelsList */,
@@ -418,6 +436,7 @@
 		2BBE8E5E256D393600B31BC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				CA0EB7A825E7C331009842D0 /* UITableViewCell */,
 				73B4AD5125C2DA5800B7F8C5 /* UIImage */,
 				CA1090702590E5B400579204 /* NSArray */,
 				CA1C9BCD25794091002364C3 /* UIBarButtonItem */,
@@ -468,6 +487,7 @@
 		733C9F48258FDF2E0098316C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				73CD3B3725E693D400D9F143 /* Cell */,
 				733C9F58258FDFA20098316C /* UVSourcesListViewType.h */,
 				733C9F4A258FDF640098316C /* UVSourcesListViewController.h */,
 				733C9F4B258FDF640098316C /* UVSourcesListViewController.m */,
@@ -553,8 +573,8 @@
 		735AB151258BA4DA001ADB10 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				CA0EB7BD25E7D715009842D0 /* Factory */,
 				7357FF5225ADE96E0096D731 /* BaseViewController */,
-				CA11C17F25A5F57C002019F4 /* BaseView */,
 				7351C72C25A1236E00378AB2 /* BasePresenter */,
 				73FF0857258FEAD400B1A496 /* SearchController */,
 			);
@@ -613,6 +633,7 @@
 		7362CAC325A24D4100037AEF /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				CA0EB7D725E7E863009842D0 /* UVAppCoordinator */,
 				739956BE25A9ABBF003FD39C /* NSUserDefaults */,
 				739956B425A9A5EC003FD39C /* UVPlistRepository */,
 				7356668225A87AD300FB8902 /* UVRSSLinkXMLParser */,
@@ -713,10 +734,19 @@
 		73B4AD5125C2DA5800B7F8C5 /* UIImage */ = {
 			isa = PBXGroup;
 			children = (
-				73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */,
 				73B4AD5325C2DA5800B7F8C5 /* UIImage+AppIcons.h */,
+				73B4AD5225C2DA5800B7F8C5 /* UIImage+AppIcons.m */,
 			);
 			path = UIImage;
+			sourceTree = "<group>";
+		};
+		73CD3B3725E693D400D9F143 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				73CD3B3825E693FB00D9F143 /* UVSourceListTableViewCell.h */,
+				73CD3B3925E693FB00D9F143 /* UVSourceListTableViewCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		73FF0857258FEAD400B1A496 /* SearchController */ = {
@@ -738,6 +768,44 @@
 			path = NSString;
 			sourceTree = "<group>";
 		};
+		CA0EB7A825E7C331009842D0 /* UITableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CA0EB7A925E7C357009842D0 /* UITableViewCell+Util.h */,
+				CA0EB7AA25E7C357009842D0 /* UITableViewCell+Util.m */,
+			);
+			path = UITableViewCell;
+			sourceTree = "<group>";
+		};
+		CA0EB7B625E7D581009842D0 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CA0EB7C825E7DA23009842D0 /* UVAppCoordinatorType.h */,
+				CA0EB7B725E7D58E009842D0 /* UVAppCoordinator.h */,
+				CA0EB7B825E7D58E009842D0 /* UVAppCoordinator.m */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		CA0EB7BD25E7D715009842D0 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				CA0EB7C425E7D975009842D0 /* UVPresentationFactoryType.h */,
+				CA0EB7BE25E7D722009842D0 /* UVPresentationFactory.h */,
+				CA0EB7BF25E7D722009842D0 /* UVPresentationFactory.m */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		CA0EB7D725E7E863009842D0 /* UVAppCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CA0EB7D825E7E874009842D0 /* UVAppCoordinatorMock.h */,
+				CA0EB7D925E7E874009842D0 /* UVAppCoordinatorMock.m */,
+			);
+			path = UVAppCoordinator;
+			sourceTree = "<group>";
+		};
 		CA1090702590E5B400579204 /* NSArray */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,14 +813,6 @@
 				CA1090722590E5D300579204 /* NSArray+Util.m */,
 			);
 			path = NSArray;
-			sourceTree = "<group>";
-		};
-		CA11C17F25A5F57C002019F4 /* BaseView */ = {
-			isa = PBXGroup;
-			children = (
-				CA11C18025A5F588002019F4 /* UVBaseViewType.h */,
-			);
-			path = BaseView;
 			sourceTree = "<group>";
 		};
 		CA11C18A25A5FC9F002019F4 /* UVSourcesList */ = {
@@ -787,9 +847,9 @@
 		CA1C9BC6257916A5002364C3 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				7351C6FF25A11FB300378AB2 /* UVFeedItemWebViewType.h */,
 				7351C70125A11FB300378AB2 /* UVFeedItemWebViewController.h */,
 				7351C70025A11FB300378AB2 /* UVFeedItemWebViewController.m */,
-				7351C6FF25A11FB300378AB2 /* UVFeedItemWebViewType.h */,
 			);
 			name = WebView;
 			sourceTree = "<group>";
@@ -821,6 +881,7 @@
 			isa = PBXGroup;
 			children = (
 				CA243AC325710D6F00B56A7B /* RSSError.h */,
+				CA0EB7CD25E7DB0F009842D0 /* UVPresentationBlock.h */,
 			);
 			path = Collections;
 			sourceTree = "<group>";
@@ -1017,6 +1078,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAF30C2625701736004A925D /* UIViewController+Util.m in Sources */,
+				CA0EB7B925E7D58E009842D0 /* UVAppCoordinator.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* UVChannelFeedPresenter.m in Sources */,
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,
@@ -1029,8 +1091,10 @@
 				7351C6F125A11F1D00378AB2 /* UVNetwork.m in Sources */,
 				7351C71525A1202200378AB2 /* UVFeedXMLParser.m in Sources */,
 				73601660258CFEDF00887C53 /* UVSearchViewController.m in Sources */,
+				CA0EB7AB25E7C357009842D0 /* UITableViewCell+Util.m in Sources */,
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				7357FF5525ADE9870096D731 /* UVBaseViewController.m in Sources */,
+				CA0EB7C025E7D722009842D0 /* UVPresentationFactory.m in Sources */,
 				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				7351C70225A11FB300378AB2 /* UVFeedItemWebViewController.m in Sources */,
@@ -1038,6 +1102,7 @@
 				2BBE8E33256D37CE00B31BC5 /* UVChannelFeedViewController.m in Sources */,
 				734AEE762591E8FD00CE5716 /* UVSourceRepository.m in Sources */,
 				7351C6DE25A11EEF00378AB2 /* UVFeedItem.m in Sources */,
+				73CD3B3A25E693FB00D9F143 /* UVSourceListTableViewCell.m in Sources */,
 				CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */,
 				CA0A2BF12577B4C1003EC17A /* NSString+Util.m in Sources */,
 				733C9F4C258FDF640098316C /* UVSourcesListViewController.m in Sources */,
@@ -1066,6 +1131,7 @@
 				7362CADC25A24D4100037AEF /* MockParser.m in Sources */,
 				CA11C19C25A60631002019F4 /* UVFeedProviderTests.m in Sources */,
 				CA11C18D25A5FCB6002019F4 /* UVSourcesListViewMock.m in Sources */,
+				CA0EB7DA25E7E874009842D0 /* UVAppCoordinatorMock.m in Sources */,
 				7356668D25A880A600FB8902 /* UVRSSLinkXMLParserTests.m in Sources */,
 				739956B725A9A5FE003FD39C /* UVPlistRepositoryMock.m in Sources */,
 				739956B025A9A47A003FD39C /* UVSourceManagerTests.m in Sources */,

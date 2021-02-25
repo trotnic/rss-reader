@@ -21,7 +21,7 @@ static NSString *const STUB_RELATIVE_PATH = @"";
         @autoreleasepool {
             NSError *error = nil;
             NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
-            completion(data, error);
+            if (completion) completion(data, error);
         }
     }];
 }

@@ -13,6 +13,7 @@
 #import "UVSourceManagerMock.h"
 #import "SwissKnife.h"
 #import "RSSDataFactory.h"
+#import "UVAppCoordinatorMock.h"
 
 static NSInteger const TIMEOUT = 2;
 
@@ -22,6 +23,7 @@ static NSInteger const TIMEOUT = 2;
 @property (nonatomic, retain) UVNetworkMock *network;
 @property (nonatomic, retain) UVDataRecognizerMock *dataRecognizer;
 @property (nonatomic, retain) UVSourceManagerMock *sourceManager;
+@property (nonatomic, retain) UVAppCoordinatorMock *coordinator;
 @property (nonatomic, retain) UVSourcesListViewMock *view;
 
 @end
@@ -33,9 +35,11 @@ static NSInteger const TIMEOUT = 2;
     _network = [UVNetworkMock new];
     _dataRecognizer = [UVDataRecognizerMock new];
     _sourceManager = [UVSourceManagerMock new];
+    _coordinator = [UVAppCoordinatorMock new];
     _sut = [[UVSourcesListPresenter alloc] initWithRecognizer:self.dataRecognizer
                                                 sourceManager:self.sourceManager
-                                                      network:self.network];
+                                                      network:self.network
+                                                  coordinator:self.coordinator];
     _sut.viewDelegate = self.view;
 }
 

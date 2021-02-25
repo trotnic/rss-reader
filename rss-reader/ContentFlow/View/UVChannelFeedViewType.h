@@ -7,15 +7,16 @@
 
 #import <Foundation/Foundation.h>
 #import "UVFeedChannelDisplayModel.h"
-#import "UVBaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVChannelFeedViewType <UVBaseViewType>
+@protocol UVChannelFeedViewType
 
 - (void)rotateActivityIndicator:(BOOL)show;
 - (void)presentWebPageOnURL:(NSURL *)url;
 - (void)clearState;
+- (void)updatePresentation;
+- (void)presentError:(NSError *)error;
 
 @end
 

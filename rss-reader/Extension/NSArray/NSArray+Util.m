@@ -10,6 +10,7 @@
 @implementation NSArray (Util)
 
 - (NSArray *)map:(id  _Nonnull (^)(id _Nonnull))completion {
+    if (!completion) return self;
     NSMutableArray *array = [NSMutableArray array];
     for (id object in self) {
         [array addObject:completion(object)];
@@ -18,6 +19,7 @@
 }
 
 - (NSArray *)compactMap:(id  _Nonnull (^)(id _Nonnull))completion {
+    if (!completion) return self;
     NSMutableArray *array = [NSMutableArray array];
     for (id object in self) {
         id result = completion(object);
@@ -29,6 +31,7 @@
 }
 
 - (NSArray *)filter:(BOOL (^)(id _Nonnull))completion {
+    if (!completion) return self;
     NSMutableArray *array = [NSMutableArray array];
     for (id object in self) {
         if (completion(object)) {
@@ -39,12 +42,14 @@
 }
 
 - (void)forEach:(void (^)(id _Nonnull))completion {
+    if (!completion) return;
     for (id obj in self) {
         completion(obj);
     }
 }
 
 - (id)find:(BOOL (^)(id _Nonnull))completion {
+    if (!completion) return nil;
     for (id obj in self) {
         if (completion(obj)) {
             return obj;

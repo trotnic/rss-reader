@@ -11,6 +11,11 @@
 #import "LocalConstants.h"
 
 #import "UIViewController+Util.h"
+#import "UIImage+AppIcons.h"
+#import "UVSourceListTableViewCell.h"
+#import "UIBarButtonItem+PrettiInitializable.h"
+
+#import "UITableViewCell+Util.h"
 
 @interface UVSourcesListViewController () <UITableViewDataSource, UITableViewDelegate, UVSearchViewControllerDelegate>
 
@@ -31,9 +36,46 @@
     [super dealloc];
 }
 
+// MARK: - Lazy Properties
+
+- (UITableView *)tableView {
+    if(!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        _tableView.tableFooterView = [[UIView new] autorelease];
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tableView registerClass:UVSourceListTableViewCell.class
+           forCellReuseIdentifier:UVSourceListTableViewCell.cellIdentifier];
+    }
+    return _tableView;
+}
+
+- (UIBarButtonItem *)addSourceButton {
+    if(!_addSourceButton) {
+        __block typeof(self)weakSelf = self;
+        _addSourceButton = [[UIBarButtonItem alloc] initWithImage:UIImage.plusIcon
+                                                            style:UIBarButtonItemStylePlain
+                                                           action:^{
+            [weakSelf.navigationController pushViewController:weakSelf.searchController animated:YES];
+        }];
+    }
+    return _addSourceButton;
+}
+
+- (UVSearchViewController *)searchController {
+    if(!_searchController) {
+        _searchController = [UVSearchViewController new];
+        _searchController.delegate = self;
+    }
+    return _searchController;
+}
+
+// MARK: -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupLayout];
+    [self setupAppearance];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -43,7 +85,17 @@
 
 // MARK: -
 
-- (void)setupLayout {
+- (void)setupAppearance {
+    [self configureNavigationItem];
+    [self layoutTableView];
+}
+
+- (void)configureNavigationItem {
+    self.navigationItem.title = NSLocalizedString(RSS_LINKS_TITLE, "");
+    self.navigationItem.rightBarButtonItems = @[self.editButtonItem, self.addSourceButton];
+}
+
+- (void)layoutTableView {
     [self.view addSubview:self.tableView];
     
     [NSLayoutConstraint activateConstraints:@[
@@ -52,11 +104,6 @@
         [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ]];
-    
-    self.navigationItem.title = NSLocalizedString(RSS_LINKS_TITLE, "");
-    self.navigationItem.rightBarButtonItems = @[self.editButtonItem, self.addSourceButton];
-    
-    self.tableView.tableFooterView = [[UIView new] autorelease];
 }
 
 // MARK: - UITableViewDataSource
@@ -66,14 +113,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)
-                                                            forIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.text = self.presenter.items[indexPath.row].linkTitle;
-    cell.textLabel.numberOfLines = 0;
-    if (self.presenter.items[indexPath.row].isSelected) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
+    UVSourceListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVSourceListTableViewCell.cellIdentifier
+                                                                      forIndexPath:indexPath];
+    [cell configureWithViewModel:self.presenter.items[indexPath.row]];
     return cell;
 }
 
@@ -91,43 +133,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.presenter selectItemAtIndex:indexPath.row];
 }
 
-// MARK: - Lazy
-
-- (UITableView *)tableView {
-    if(!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-        [_tableView registerClass:UITableViewCell.class
-           forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
-    }
-    return _tableView;
-}
-
-- (UIBarButtonItem *)addSourceButton {
-    if(!_addSourceButton) {
-        _addSourceButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus"]
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(addSource)];
-    }
-    return _addSourceButton;
-}
-
-- (UVSearchViewController *)searchController {
-    if(!_searchController) {
-        _searchController = [UVSearchViewController new];
-        _searchController.delegate = self;
-    }
-    return _searchController;
-}
-
 // MARK: -
-
-- (void)addSource {
-    [self.navigationController pushViewController:self.searchController animated:YES];
-}
 
 - (void)updatePresentation {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]

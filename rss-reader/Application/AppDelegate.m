@@ -6,30 +6,28 @@
 //
 
 #import "AppDelegate.h"
-#import "UVFeedXMLParser.h"
-#import "UVChannelFeedPresenter.h"
-#import "UVChannelFeedViewController.h"
-#import "UVSourceManager.h"
-#import "UVSourceManager.h"
-#import "UVDataRecognizer.h"
-#import "UVSearchViewController.h"
-#import "UVSourcesListViewController.h"
-#import "UVSourcesListPresenter.h"
-#import "UVNetwork.h"
 #import "KeyConstants.h"
-#import "UVFeedXMLParser.h"
-#import "UVChannelFeedViewController.h"
+
+#import "UVPresentationFactory.h"
+#import "UVAppCoordinator.h"
+
+#import "UVDataRecognizer.h"
 #import "UVNetwork.h"
+#import "UVSourceManager.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, retain) UVAppCoordinator *coordinator;
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setupComponents];
     [self setupSourcesFilePath];
+    self.window.rootViewController = self.coordinator.navigationController;
+    [self.coordinator showPresentationBlock:UVPresentationBlockFeed];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -41,37 +39,23 @@
     [NSUserDefaults.standardUserDefaults setObject:path forKey:kSourcesFilePathKey];
 }
 
-- (void)setupComponents {
-    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
-    UVSourceManager *sourceManager = [[UVSourceManager new] autorelease];
-    UVNetwork *network = [[UVNetwork new] autorelease];
-    
-    UVChannelFeedPresenter *presenter = [[UVChannelFeedPresenter alloc] initWithRecognizer:recognizer
-                                                                             sourceManager:sourceManager
-                                                                                   network:network];
-    
-    UVChannelFeedViewController *controller = [UVChannelFeedViewController new];
-    presenter.viewDelegate = controller;
-    controller.presenter = [presenter autorelease];
-    
-    [controller setupOnRighButtonClickAction:^{
-        
-        UVSourcesListPresenter *presenter = [[UVSourcesListPresenter alloc] initWithRecognizer:recognizer
-                                                                                 sourceManager:sourceManager
-                                                                                       network:network];
-        UVSourcesListViewController *presentedController = [UVSourcesListViewController new];
-        presenter.viewDelegate = [presentedController autorelease];
-        presentedController.presenter = [presenter autorelease];
-        [controller.navigationController pushViewController:presentedController animated:YES];
-    }];
-    
-    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
-    [self.window makeKeyAndVisible];
-    
-    [controller release];
+// MARK: Lazy
+
+- (UVAppCoordinator *)coordinator {
+    if (!_coordinator) {
+        UINavigationController *navigation = [[UINavigationController new] autorelease];
+        _coordinator = [[UVAppCoordinator alloc] initWithNavigation:navigation factory:[self factory]];
+    }
+    return _coordinator;
 }
 
-// MARK: Lazy
+- (UVPresentationFactory *)factory {
+    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
+    UVSourceManager *source = [[UVSourceManager new] autorelease];
+    UVNetwork *network = [[UVNetwork new] autorelease];
+    return [UVPresentationFactory factoryWithNetwork:network source:source recognizer:recognizer];
+    
+}
 
 - (UIWindow *)window {
     if(!_window) {
@@ -85,6 +69,7 @@
 - (void)dealloc
 {
     [_window release];
+    [_coordinator release];
     [super dealloc];
 }
 

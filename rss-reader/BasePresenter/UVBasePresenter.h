@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVBaseViewType.h"
-#import "UVSourceManagerType.h"
+
+#import "RSSError.h"
+
+#import "UVAppCoordinatorType.h"
 #import "UVDataRecognizerType.h"
 #import "UVNetworkType.h"
-#import "RSSError.h"
+#import "UVSourceManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, readonly) id<UVDataRecognizerType> dataRecognizer;
 @property (nonatomic, retain, readonly) id<UVSourceManagerType> sourceManager;
 @property (nonatomic, retain, readonly) id<UVNetworkType> network;
-
-@property (nonatomic, assign) UIViewController<UVBaseViewType> *viewDelegate;
+@property (nonatomic, retain, readonly) id<UVAppCoordinatorType> coordinator;
 
 - (instancetype)initWithRecognizer:(id<UVDataRecognizerType>)recognizer
                      sourceManager:(id<UVSourceManagerType>)manager
-                           network:(id<UVNetworkType>)network;
+                           network:(id<UVNetworkType>)network
+                       coordinator:(id<UVAppCoordinatorType>)coordinator;
 
-- (void)showError:(RSSError)error;
+- (NSError *)provideErrorOfType:(RSSError)errorType;
 
 @end
 

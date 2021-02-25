@@ -42,7 +42,7 @@ static NSString *const EMPTY_STRING         = @"";
                  parser:(id<UVFeedParserType>)parser
              completion:(void (^)(NSDictionary *, NSError *))completion {
     if (!data || !parser) {
-        completion(nil, [self recognitionError]);
+        if (completion) completion(nil, [self recognitionError]);
         return;
     }
     
@@ -50,7 +50,7 @@ static NSString *const EMPTY_STRING         = @"";
     
     [parser parseData:data
            completion:^(NSDictionary *result, NSError *error) {
-        completion(result, error);
+        if (completion) completion(result, error);
         [parser release];
     }];
 }
@@ -58,25 +58,25 @@ static NSString *const EMPTY_STRING         = @"";
 - (void)discoverLinksFromHTML:(NSData *)data
                    completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
     if (!data) {
-        completion(nil, [self recognitionError]);
+        if (completion) completion(nil, [self recognitionError]);
         return;
     }
     
     NSString *content = [NSString htmlStringFromData:data];
     
     if (!content || !content.length || [content isEqualToString:EMPTY_STRING]) {
-        completion(nil, [self recognitionError]);
+        if (completion) completion(nil, [self recognitionError]);
         return;
     }
     
     NSMutableArray<NSDictionary *> *links = [self findLinks:content];
     
     if (!links.count || !links) {
-        completion(nil, [self recognitionError]);
+        if (completion) completion(nil, [self recognitionError]);
         return;
     }
     
-    completion([[links copy] autorelease], nil);
+    if (completion) completion([[links copy] autorelease], nil);
     return;
 }
 
@@ -84,7 +84,7 @@ static NSString *const EMPTY_STRING         = @"";
                          url:(NSURL *)url
                   completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
     if (!data || !url) {
-        completion(nil, [self recognitionError]);
+        if (completion) completion(nil, [self recognitionError]);
         return;
     }
     
@@ -92,9 +92,9 @@ static NSString *const EMPTY_STRING         = @"";
         if (link && !error) {
             NSMutableDictionary *mLink = [[link mutableCopy] autorelease];
             mLink[kRSSLinkURL] = url.absoluteString;
-            completion(@[[[mLink copy] autorelease]], nil);
+            if (completion) completion(@[[[mLink copy] autorelease]], nil);
         } else {
-            completion(nil, error);
+            if (completion) completion(nil, error);
         }
     }];
 }
@@ -102,28 +102,28 @@ static NSString *const EMPTY_STRING         = @"";
 - (void)discoverContentType:(NSData *)data
                  completion:(void (^)(UVRawContentType, NSError *))completion {
     if (!data) {
-        completion(UVRawContentUndefined, [self recognitionError]);
+        if (completion) completion(UVRawContentUndefined, [self recognitionError]);
         return;
     }
     
     NSString *content = [NSString htmlStringFromData:data];
     
     if (!content || !content.length || [content isEqualToString:EMPTY_STRING]) {
-        completion(UVRawContentUndefined, [self recognitionError]);
+        if (completion) completion(UVRawContentUndefined, [self recognitionError]);
         return;
     }
     
     if ([self isRSS:content]) {
-        completion(UVRawContentXML, nil);
+        if (completion) completion(UVRawContentXML, nil);
         return;
     }
     
     if ([self isHTML:content]) {
-        completion(UVRawContentHTML, nil);
+        if (completion) completion(UVRawContentHTML, nil);
         return;
     }
     
-    completion(UVRawContentUndefined, nil);
+    if (completion) completion(UVRawContentUndefined, nil);
 }
 
 // MARK: - Private

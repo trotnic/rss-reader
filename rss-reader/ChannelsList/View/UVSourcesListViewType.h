@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVBaseViewType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol UVSourcesListViewType <UVBaseViewType>
+@protocol UVSourcesListViewType
 
 - (void)stopSearchWithUpdate:(BOOL)update;
+- (void)updatePresentation;
+- (void)presentError:(NSError *)error;
 
 @end
 

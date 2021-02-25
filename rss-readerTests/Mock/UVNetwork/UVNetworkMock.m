@@ -12,7 +12,7 @@
 - (void)fetchDataFromURL:(NSURL *)url
               completion:(void (^)(NSData *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.data, self.requestError);
+    if (completion) completion(self.data, self.requestError);
 }
 
 - (NSURL * _Nullable)validateAddress:(nonnull NSString *)address

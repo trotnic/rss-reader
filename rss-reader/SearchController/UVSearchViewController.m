@@ -25,29 +25,6 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupLayout];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.searchBar becomeFirstResponder];
-}
-
-// MARK: -
-
-- (void)setupLayout {
-    [self.view addSubview:self.tableView];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-        [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    ]];
-    self.navigationItem.titleView = self.searchBar;
-}
-
 // MARK: - Lazy
 
 - (UISearchBar *)searchBar {
@@ -66,6 +43,35 @@
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _tableView;
+}
+
+// MARK: -
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupAppearance];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.searchBar becomeFirstResponder];
+}
+
+// MARK: -
+
+- (void)setupAppearance {
+    [self layoutTableView];
+    self.navigationItem.titleView = self.searchBar;
+}
+
+- (void)layoutTableView {
+    [self.view addSubview:self.tableView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+    ]];
 }
 
 // MARK: - UISearchBarDelegate

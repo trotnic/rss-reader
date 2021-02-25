@@ -71,6 +71,18 @@
     [self.viewDelegate presentWebPageOnURL:url];
 }
 
+- (id<UVFeedItemDisplayModel>)feedItemAt:(NSInteger)row {
+    return self.channel.items[row];
+}
+
+- (NSInteger)numberOfItems {
+    return self.channel.items.count;
+}
+
+- (void)didTapSettingsButton {
+    [self.coordinator showPresentationBlock:UVPresentationBlockSources];
+}
+
 // MARK: - Private
 
 - (void)discoverChannel:(NSData *)data {
@@ -97,8 +109,8 @@
 - (void)showError:(RSSError)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.viewDelegate rotateActivityIndicator:NO];
+        [self.viewDelegate presentError:[self provideErrorOfType:error]];
     });
-    [super showError:error];
 }
 
 @end

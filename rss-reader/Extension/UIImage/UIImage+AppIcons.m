@@ -34,4 +34,12 @@
     return [UIImage imageNamed:THREE_DOTS_H];
 }
 
++ (UIImage *)plusIcon {
+    return [UIImage imageNamed:@"plus"];
+}
+
++ (UIImage *)gearIcon {
+    return [UIImage imageNamed:@"gear"];
+}
+
 @end
