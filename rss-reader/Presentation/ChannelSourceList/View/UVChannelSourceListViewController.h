@@ -5,13 +5,13 @@
 //  Created by Uladzislau Volchyk on 20.12.20.
 //
 
-#import <UIKit/UIKit.h>
+#import "UVBaseViewController.h"
 #import "UVChannelSourceListViewType.h"
 #import "UVChannelSourceListPresenterType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVChannelSourceListViewController : UIViewController <UVChannelSourceListViewType>
+@interface UVChannelSourceListViewController : UVBaseViewController <UVChannelSourceListViewType>
 
 @property (nonatomic, retain) id<UVChannelSourceListPresenterType> presenter;
 

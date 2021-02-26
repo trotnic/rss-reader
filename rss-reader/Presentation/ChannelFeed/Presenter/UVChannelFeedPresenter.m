@@ -12,11 +12,11 @@
 
 @interface UVChannelFeedPresenter ()
 
-@property (nonatomic, retain) id<UVDataRecognizerType>  dataRecognizer;
-@property (nonatomic, retain) id<UVSourceManagerType>   sourceManager;
-@property (nonatomic, retain) id<UVNetworkType>         network;
-@property (nonatomic, retain) id<UVCoordinatorType>     coordinator;
-@property (nonatomic, retain) id<UVFeedManagerType>     feedManager;
+@property (nonatomic, strong) id<UVDataRecognizerType>  dataRecognizer;
+@property (nonatomic, strong) id<UVSourceManagerType>   sourceManager;
+@property (nonatomic, strong) id<UVNetworkType>         network;
+@property (nonatomic, strong) id<UVCoordinatorType>     coordinator;
+@property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
 
 @end
 
@@ -31,11 +31,36 @@
     if (self) {
         _dataRecognizer = recognizer;
         _sourceManager = source;
-        _network = network;
+        self.network = network;
         _coordinator = coordinator;
         _feedManager = feed;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self.network unregisterObserver:NSStringFromClass([self class])];
+}
+
+// MARK: -
+
+- (void)setNetwork:(id<UVNetworkType>)network {
+    if (network != _network) {
+        [_network unregisterObserver:NSStringFromClass([self class])];
+        _network = network;
+        __block typeof(self)weakSelf = self;
+        [_network registerObserver:NSStringFromClass([self class]) callback:^(BOOL isConnectionStable) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (isConnectionStable) {
+                    [self updateFeed];
+                } else {
+                    [self.view setSettingsButtonActive:NO];
+                    [weakSelf showError:RSSErrorTypeNoNetworkConnection];
+                }
+            });
+        }];
+    }
 }
 
 // MARK: - UVChannelFeedPresenterType
@@ -101,7 +126,7 @@
         [self showError:RSSErrorTypeParsingError];
         return;
     }
-    __block typeof(self)weakSelf = self;
+    __weak typeof(self)weakSelf = self;
     [self.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
                               completion:^(NSDictionary *channel, NSError *error) {
         if(error) {
@@ -122,7 +147,9 @@
 }
 
 - (void)showError:(RSSError)error {
-    [self.view presentError:[UVChannelFeedPresenter provideErrorOfType:error]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view presentError:[UVChannelFeedPresenter provideErrorOfType:error]];
+    });
 }
 
 @end

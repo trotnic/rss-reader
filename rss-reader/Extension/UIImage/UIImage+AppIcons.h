@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)xmarkIcon;
 + (UIImage *)safariIcon;
 + (UIImage *)threeDotsHIcon;
++ (UIImage *)gearIcon;
++ (UIImage *)plusIcon;
 
 @end
 

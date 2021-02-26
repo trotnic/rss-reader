@@ -17,8 +17,11 @@ typedef enum : NSInteger {
 
 @protocol ReachabilityType <NSObject>
 
+- (BOOL)startNotifier;
+- (void)stopNotifier;
 - (BOOL)connectionRequired;
 - (NetworkStatus)currentReachabilityStatus;
+- (BOOL)isConnectionStable;
 
 @end
 

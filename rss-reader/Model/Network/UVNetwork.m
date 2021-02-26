@@ -9,16 +9,74 @@
 #import "UVErrorDomain.h"
 #import "Reachability.h"
 
-static NSString *const SECURE_SCHEME = @"https";
-static NSString *const STUB_RELATIVE_PATH = @"";
+#import "NSArray+Util.h"
+
+void *kObserversContext = &kObserversContext;
+
+static NSString *const SECURE_SCHEME        = @"https";
+static NSString *const STUB_RELATIVE_PATH   = @"";
 
 @interface UVNetwork ()
 
 @property (nonatomic, strong) id<ReachabilityType> reachability;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UVNetworkNotificationCallback> *observers;
+@property (nonatomic, strong) dispatch_queue_t synchronizationQueue;
 
 @end
 
 @implementation UVNetwork
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _observers = [NSMutableDictionary new];
+    }
+    return self;
+}
+
+// MARK: - Lazy Properties
+
+- (id<ReachabilityType>)reachability {
+    if (!_reachability) {
+        _reachability = Reachability.reachabilityForInternetConnection;
+        if ([_reachability startNotifier]) {
+            [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(dothings:)
+                                                       name:kReachabilityChangedNotification object:nil];
+        }
+    }
+    return _reachability;
+}
+
+- (dispatch_queue_t)synchronizationQueue {
+    if (!_synchronizationQueue) {
+        _synchronizationQueue = dispatch_queue_create("com.uvolchyk.network.syncrhonization", 0);
+    }
+    return _synchronizationQueue;
+}
+
+//- (NSMutableDictionary<id,UVNetworkNotificationCallback> *)observers {
+//    if (!_observers) {
+//        _observers = [NSMutableDictionary new];
+//    }
+//    return _observers;
+//}
+
+- (void)dothings:(NSNotification *)notification {
+    
+    // TODO: -
+//    if (self.reachability.isConnectionStable) {
+//
+//    }
+    
+//    __weak typeof(self)weakSelf = self;
+    [self.observers.allValues forEach:^(UVNetworkNotificationCallback callback) {
+        if (callback) callback([notification.object[kReachabilityIsConnectionStable] boolValue]);
+    }];
+        
+        
+}
+
 
 // MARK: -
 
@@ -49,7 +107,6 @@ static NSString *const STUB_RELATIVE_PATH = @"";
     return [self enhanceSchemeOfURL:newURL error:error];
 }
 
-
 - (NSURL *)validateURL:(NSURL *)url error:(out NSError **)error {
     if(!url || !url.absoluteString.length) {
         [self provideErrorForReference:error];
@@ -64,6 +121,28 @@ static NSString *const STUB_RELATIVE_PATH = @"";
     return
     self.reachability.currentReachabilityStatus == ReachableViaWWAN ||
     self.reachability.currentReachabilityStatus == ReachableViaWiFi;
+}
+
+// MARK: - Posting
+
+// TODO: -
+- (void)registerObserver:(NSString *)observer callback:(UVNetworkNotificationCallback)callback {
+    __block typeof(self)weakSelf = self;
+    dispatch_sync(self.synchronizationQueue, ^{
+        weakSelf.observers[observer] = callback;
+    });
+}
+
+- (void)unregisterObserver:(NSString *)observer {
+    __block typeof(self)weakSelf = self;
+
+    dispatch_sync(self.synchronizationQueue, ^{
+        [weakSelf.observers removeObjectForKey:observer];
+    });
+}
+
+- (BOOL)isObservedBy:(NSString *)observer {
+    return [self.observers.allKeys containsObject:observer];
 }
 
 // MARK: - Private
@@ -91,13 +170,6 @@ static NSString *const STUB_RELATIVE_PATH = @"";
         url = comps.URL;
     }
     return url;
-}
-
-- (id<ReachabilityType>)reachability {
-    if (!_reachability) {
-        _reachability = Reachability.reachabilityForInternetConnection;
-    }
-    return _reachability;
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "UVFeedTableViewCell.h"
 #import "UVChannelFeedPresenterType.h"
 
+#import "UIImage+AppIcons.h"
 #import "UIViewController+Util.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
@@ -84,7 +85,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (UIBarButtonItem *)settingsButton {
     if(!_settingsButton) {
-        _settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
+        _settingsButton = [[UIBarButtonItem alloc] initWithImage:UIImage.gearIcon
                                                            style:UIBarButtonItemStylePlain
                                                           target:self.presenter
                                                           action:@selector(settingsButtonClicked)];
@@ -114,6 +115,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
+    // TODO: -
     [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row]
         reloadCompletion:^(void (^callback)(void)) {
         [tableView performBatchUpdates:^{

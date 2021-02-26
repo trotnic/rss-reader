@@ -46,27 +46,14 @@
 
 - (void)setupSourcesFilePath {
     NSString *sourcePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                      .firstObject stringByAppendingString:kSourcesFileNameValue];
+                            .firstObject stringByAppendingString:kSourcesFileNameValue];
     [NSUserDefaults.standardUserDefaults setObject:sourcePath forKey:kSourcesFilePathKey];
 }
 
 - (void)setupComponents {
     UVSourceManager = registerClass(@"UVSourceManager");
-    UVDataRecognizer *recognizer = [UVDataRecognizer new];
-    self.source = [UVSourceManager new];
-    UVNetwork *network = [UVNetwork new];
     
     // TODO: -
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                      .firstObject stringByAppendingString:@"lolkek.plist"];
-    UVSourceRepository *feedRepository = [[UVSourceRepository alloc] initWithPath:path];
-    UVFeedManager *feed = [[UVFeedManager alloc] initWithRepository:feedRepository];
-    
-    UVPresentationBlockFactory *factory = [[UVPresentationBlockFactory alloc] initWithNetwork:network
-                                                                                   source:self.source
-                                                                               recognizer:recognizer
-                                                                                     feed:feed];
-    self.coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:factory];
     UVNavigationController *controller = [UVNavigationController new];
     [self.coordinator setRootNavigationController:controller];
     [self.coordinator showScreen:PresentationBlockFeed];
@@ -75,6 +62,44 @@
 }
 
 // MARK: Lazy
+
+- (id)source {
+    
+    
+    if (!_source) {
+        _source = [UVSourceManager new];
+    }
+    return _source;
+}
+
+- (UVNetwork *)network {
+    return [UVNetwork new];
+}
+
+- (UVDataRecognizer *)recognizer {
+    return [UVDataRecognizer new];
+}
+
+- (UVFeedManager *)feedManager {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                      .firstObject stringByAppendingString:@"/lolkek.plist"];
+    UVSourceRepository *feedRepository = [[UVSourceRepository alloc] initWithPath:path];
+    return [[UVFeedManager alloc] initWithRepository:feedRepository];
+}
+
+- (UVPresentationBlockFactory *)factory {
+    return [[UVPresentationBlockFactory alloc] initWithNetwork:[self network]
+                                                        source:self.source
+                                                    recognizer:[self recognizer]
+                                                          feed:[self feedManager]];
+}
+
+- (UVAppCoordinator *)coordinator {
+    if (!_coordinator) {
+        _coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:[self factory]];
+    }
+    return _coordinator;
+}
 
 - (UIWindow *)window {
     if(!_window) {

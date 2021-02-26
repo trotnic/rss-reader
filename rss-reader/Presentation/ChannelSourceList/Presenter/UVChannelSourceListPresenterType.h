@@ -12,10 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVChannelSourceListPresenterType <NSObject>
 
-- (NSArray<id<UVRSSLinkViewModel>> *)items;
 - (void)selectItemAtIndex:(NSInteger)index;
 - (void)deleteItemAtIndex:(NSInteger)index;
 - (void)searchButtonClicked;
+
+- (NSInteger)numberOfItems;
+- (id<UVRSSLinkViewModel>)itemAt:(NSInteger)index;
 
 @end
 

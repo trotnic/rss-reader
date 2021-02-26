@@ -27,11 +27,31 @@
     if (self) {
         _dataRecognizer = recognizer;
         _sourceManager = source;
-        _network = network;
+        self.network = network;
         _coordinator = coordinator;
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [_network unregisterObserver:NSStringFromClass([self class])];
+}
+
+// MARK: -
+
+- (void)setNetwork:(id<UVNetworkType>)network {
+    if (network != _network) {
+        [_network unregisterObserver:NSStringFromClass([self class])];
+        _network = network;
+        __block typeof(self)weakSelf = self;
+        [network registerObserver:NSStringFromClass([self class]) callback:^(BOOL isConnectionStable) {
+            if (!isConnectionStable) [weakSelf presentError:RSSErrorTypeNoNetworkConnection];
+        }];
+    }
+}
+
+// MARK: - UVChannelSearchPresenterType
 
 - (void)searchWithToken:(NSString *)token {
     if (!self.network.isConnectionAvailable) {

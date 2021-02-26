@@ -36,10 +36,10 @@
                            feed:(id<UVFeedManagerType>)feed {
     self = [super init];
     if (self) {
-        _network = network;
-        _source = source;
-        _recognizer = recognizer;
-        _feed = feed;
+        _network = [network retain];
+        _source = [source retain];
+        _recognizer = [recognizer retain];
+        _feed = [feed retain];
     }
     return self;
 }

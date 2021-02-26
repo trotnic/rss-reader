@@ -48,8 +48,12 @@
                                                                format:NSPropertyListXMLFormat_v1_0
                                                               options:0
                                                                 error:error];
-    [plist writeToFile:self.path atomically:YES];
-    return *error == nil;
+    if (![plist writeToFile:self.path atomically:YES]) {
+        // TODO: -
+        if (error) *error = [NSError errorWithDomain:@"oops" code:123 userInfo:nil];
+        return NO;
+    }
+    return YES;
 }
 
 @end

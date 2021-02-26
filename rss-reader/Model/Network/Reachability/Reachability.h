@@ -12,6 +12,7 @@
 #import "ReachabilityType.h"
 
 extern NSString *kReachabilityChangedNotification;
+extern NSString *kReachabilityIsConnectionStable;
 
 @interface Reachability : NSObject <ReachabilityType>
 
