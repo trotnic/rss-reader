@@ -14,5 +14,7 @@ static NSString *const REFRESH      = @"refresh";
 static NSString *const XMARK        = @"xmark";
 static NSString *const SAFARI       = @"safari";
 static NSString *const THREE_DOTS_H = @"ellipsis";
+static NSString *const GEAR         = @"gear";
+static NSString *const PLUS         = @"plus";
 
 #endif /* AppIcons_h */

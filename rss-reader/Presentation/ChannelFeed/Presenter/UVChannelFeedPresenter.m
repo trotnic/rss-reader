@@ -115,8 +115,16 @@
     [self.coordinator showScreen:PresentationBlockSources];
 }
 
-- (id<UVFeedChannelDisplayModel>)channel {
-    return self.feedManager.feed;
+- (NSString *)channelTitle {
+    return self.feedManager.feed.title;
+}
+
+- (id<UVFeedItemDisplayModel>)itemAt:(NSInteger)index {
+    return self.feedManager.feed.channelItems[index];
+}
+
+- (NSInteger)numberOfItems {
+    return self.feedManager.feed.channelItems.count;
 }
 
 // MARK: - Private

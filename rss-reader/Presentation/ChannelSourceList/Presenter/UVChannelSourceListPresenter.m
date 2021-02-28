@@ -60,12 +60,7 @@
 
 // MARK: - UVSourcesListPresenterType
 
-//- (NSArray<id<UVRSSLinkViewModel>> *)items {
-//    return self.sourceManager.links;
-//}
-
 - (void)selectItemAtIndex:(NSInteger)index {
-    // TODO: crash???
     if (!self.network.isConnectionAvailable) {
         [self.view presentError:[UVBasePresenter provideErrorOfType:RSSErrorTypeNoNetworkConnection]];
         return;

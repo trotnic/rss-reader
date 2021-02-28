@@ -18,6 +18,10 @@ typedef void(^UVNetworkNotificationCallback)(BOOL isConnectionStable);
 - (NSURL * _Nullable)validateAddress:(NSString *)address error:(out NSError ** _Nullable)error;
 - (BOOL)isConnectionAvailable;
 
+/**
+ * these operations must be as fast as possible
+ * & thread-safe
+ */
 - (void)registerObserver:(NSString *)observer callback:(UVNetworkNotificationCallback)callback;
 - (void)unregisterObserver:(NSString *)observer;
 - (BOOL)isObservedBy:(NSString *)observer;

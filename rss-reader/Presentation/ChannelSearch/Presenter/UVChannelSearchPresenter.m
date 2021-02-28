@@ -27,8 +27,8 @@
     if (self) {
         _dataRecognizer = recognizer;
         _sourceManager = source;
-        self.network = network;
         _coordinator = coordinator;
+        self.network = network;
     }
     return self;
 }

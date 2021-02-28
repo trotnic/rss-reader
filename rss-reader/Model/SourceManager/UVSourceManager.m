@@ -166,7 +166,7 @@ Class registerClass(NSString *name) {
         
         IMP _dealloc_imp = imp_implementationWithBlock(^(id self){
             [object_getIvar(self, _repository_ivar) release];
-            [object_getIvar(self, _rssLinks_ivar) release];            
+            [object_getIvar(self, _rssLinks_ivar) release];
             [object_getIvar(self, _userDefaults_ivar) release];
             
             struct objc_super super_entity = {
@@ -181,5 +181,5 @@ Class registerClass(NSString *name) {
         
         objc_registerClassPair(manager_class);
     });
-    return NSClassFromString(name);
+    return objc_getClass(name.UTF8String);
 }

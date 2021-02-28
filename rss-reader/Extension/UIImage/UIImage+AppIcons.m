@@ -35,11 +35,11 @@
 }
 
 + (UIImage *)gearIcon {
-    return [UIImage imageNamed:@"gear"];
+    return [UIImage imageNamed:GEAR];
 }
 
 + (UIImage *)plusIcon {
-    return [UIImage imageNamed:@"plus"];
+    return [UIImage imageNamed:PLUS];
 }
 
 @end

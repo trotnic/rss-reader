@@ -26,7 +26,7 @@
     return self;
 }
 
-// MARK: -
+// MARK: - UVFeedManagerType
 
 - (UVRSSFeed *)feed {
     if (!self.innerFeed) {

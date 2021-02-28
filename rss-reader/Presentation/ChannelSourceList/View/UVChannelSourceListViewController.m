@@ -11,6 +11,7 @@
 #import "LocalConstants.h"
 
 #import "UIImage+AppIcons.h"
+#import "UITableViewCell+Util.h"
 #import "UIViewController+Util.h"
 
 @interface UVChannelSourceListViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -39,7 +40,7 @@
         _tableView.delegate = self;
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:UVChannelSourceTableViewCell.class
-           forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
+           forCellReuseIdentifier:UVChannelSourceTableViewCell.cellIdentifier];
     }
     return _tableView;
 }
@@ -54,7 +55,7 @@
     return _addSourceButton;
 }
 
-// ЬФКЛЖ -
+// MARK: -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,7 +72,7 @@
     [self.tableView reloadData];
 }
 
-// MARK: -
+// MARK: - Private
 
 - (void)setupAppearance {
     [self layoutTableView];
@@ -99,7 +100,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UVChannelSourceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)
+    UVChannelSourceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVChannelSourceTableViewCell.cellIdentifier
                                                                          forIndexPath:indexPath];
     [cell configureWithViewModel:[self.presenter itemAt:indexPath.row]];
     return cell;
@@ -119,7 +120,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.presenter selectItemAtIndex:indexPath.row];
 }
 
-// MARK: -
+// MARK: - UVBaseViewType
 
 - (void)updatePresentation {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
@@ -130,7 +131,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self showError:error];
 }
 
-// MARK: - UVSourcesListViewType
+// MARK: - UVChannelSourceListViewType
 
 - (void)stopSearchWithUpdate:(BOOL)update {
     [self.navigationController popViewControllerAnimated:YES];

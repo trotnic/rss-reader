@@ -7,6 +7,8 @@
 
 #import "UVDebugViewController.h"
 
+#import "UIImage+AppIcons.h"
+
 @interface UVDebugViewController ()
 
 @property (nonatomic, strong) UIButton *noNetworkNotificationButton;
@@ -20,8 +22,7 @@
 - (UIButton *)noNetworkNotificationButton {
     if (!_noNetworkNotificationButton) {
         _noNetworkNotificationButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 200, 100, 100)];
-//        _noNetworkNotificationButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_noNetworkNotificationButton setImage:UIImage.checkmarkImage forState:UIControlStateNormal];
+        [_noNetworkNotificationButton setImage:UIImage.plusIcon forState:UIControlStateNormal];
         [_noNetworkNotificationButton addTarget:self action:@selector(sendNoNetworkNotification) forControlEvents:UIControlEventTouchUpInside];
     }
     return _noNetworkNotificationButton;

@@ -47,14 +47,14 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 - (void)parseData:(NSData *)data
        completion:(ParseHandler)completion {
     if (!data) {
-        completion(nil, [self parsingError]);
+        if (completion) completion(nil, [self parsingError]);
         return;
     }
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
     [self.parser parse];
     if (self.parser.parserError != nil) {
-        completion(nil, self.parser.parserError);
+        if (completion) completion(nil, self.parser.parserError);
         [self.parser abortParsing];
         return;
     }
@@ -63,14 +63,14 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 - (void)parseContentsOfURL:(NSURL *)url
                 completion:(ParseHandler)completion {
     if (!url) {
-        completion(nil, [self parsingError]);
+        if (completion) completion(nil, [self parsingError]);
         return;
     }
     self.completion = completion;
     self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
     if (self.parser.parserError != nil) {
-        completion(nil, self.parser.parserError);
+        if (completion) completion(nil, self.parser.parserError);
         [self.parser abortParsing];
         return;
     }
@@ -79,7 +79,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    self.completion(nil, parseError);
+    if (self.completion) self.completion(nil, parseError);
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
@@ -136,7 +136,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
-        self.completion(self.channelDictionary, nil);
+        if (self.completion) self.completion(self.channelDictionary, nil);
         _items = nil;
         _parser = nil;
         _completion = nil;

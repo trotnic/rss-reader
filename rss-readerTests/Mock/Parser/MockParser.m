@@ -16,13 +16,13 @@
 - (void)parseData:(NSData *)data
        completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.rawChannel, self.error);
+    if (completion) completion(self.rawChannel, self.error);
 }
 
 - (void)parseContentsOfURL:(NSURL *)url
                 completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.rawChannel, self.error);
+    if (completion) completion(self.rawChannel, self.error);
 }
 
 @end

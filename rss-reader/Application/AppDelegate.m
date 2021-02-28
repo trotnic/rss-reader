@@ -52,8 +52,6 @@
 
 - (void)setupComponents {
     UVSourceManager = registerClass(@"UVSourceManager");
-    
-    // TODO: -
     UVNavigationController *controller = [UVNavigationController new];
     [self.coordinator setRootNavigationController:controller];
     [self.coordinator showScreen:PresentationBlockFeed];

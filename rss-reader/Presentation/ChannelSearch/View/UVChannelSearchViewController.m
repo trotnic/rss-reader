@@ -14,14 +14,13 @@
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) UITableView *tableView;
 
-
 @end
 
 @implementation UVChannelSearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupLayout];
+    [self setupAppearance];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -29,9 +28,14 @@
     [self.searchBar becomeFirstResponder];
 }
 
-// MARK: -
+// MARK: - Private
 
-- (void)setupLayout {
+- (void)setupAppearance {
+    [self layoutTableView];
+    self.navigationItem.titleView = self.searchBar;
+}
+
+- (void)layoutTableView {
     [self.view addSubview:self.tableView];
     [NSLayoutConstraint activateConstraints:@[
         [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
@@ -39,7 +43,6 @@
         [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
     ]];
-    self.navigationItem.titleView = self.searchBar;
 }
 
 // MARK: - Lazy
@@ -70,6 +73,7 @@
 
 // MARK: - ViewType
 
+// TODO: -
 - (void)presentError:(NSError *)error {
     [self showError:error];
 }

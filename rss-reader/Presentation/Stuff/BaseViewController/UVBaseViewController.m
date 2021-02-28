@@ -29,16 +29,30 @@
 
 @implementation UVBaseViewController
 
+// MARK: - Lazy Properties
+
+- (UILabel *)placeholderLabel {
+    if (!_placeholderLabel) {
+        _placeholderLabel = [UILabel new];
+        _placeholderLabel.hidden = YES;
+        _placeholderLabel.textAlignment = NSTextAlignmentCenter;
+        _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _placeholderLabel;
+}
+
+// MARK: -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupLabel];
+    [self layoutLabel];
     
 #ifdef DEBUG_AREA
     
     self.butty = [UIButton new];
     self.butty.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.05];
     self.butty.translatesAutoresizingMaskIntoConstraints = NO;
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(dothings:)];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(respondBigRedButton:)];
     [self.butty addGestureRecognizer:longPress];
     [self.view addSubview:self.butty];
     
@@ -63,11 +77,9 @@
 
 #ifdef DEBUG_AREA
 
-- (void)dothings:(UILongPressGestureRecognizer*)gesture {
+- (void)respondBigRedButton:(UILongPressGestureRecognizer*)gesture {
     if ( gesture.state == UIGestureRecognizerStateEnded ) {
         UVDebugViewController *control = [UVDebugViewController new];
-//        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"LOLKEK" message:@"CHEBUREK" preferredStyle:UIAlertControllerStyleActionSheet];
-//        [control addAction:[UIAlertAction actionWithTitle:@"👌" style:UIAlertActionStyleCancel handler:nil]];
         [self.navigationController pushViewController:control animated:YES];
     }
 }
@@ -90,24 +102,12 @@
 
 // MARK: - Private
 
-- (void)setupLabel {
+- (void)layoutLabel {
     [self.view addSubview:self.placeholderLabel];
     [NSLayoutConstraint activateConstraints:@[
         [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
         [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor]
     ]];
-}
-
-// MARK: - Lazy
-
-- (UILabel *)placeholderLabel {
-    if (!_placeholderLabel) {
-        _placeholderLabel = [UILabel new];
-        _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _placeholderLabel.textAlignment = NSTextAlignmentCenter;
-        _placeholderLabel.hidden = YES;
-    }
-    return _placeholderLabel;
 }
 
 @end

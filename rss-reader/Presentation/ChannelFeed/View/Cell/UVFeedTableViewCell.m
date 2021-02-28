@@ -26,11 +26,11 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 @property (nonatomic, strong, readwrite) UILabel *descriptionLabel;
 
 @property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *additionalStack;
+@property (nonatomic, retain) UIStackView *auxiliaryStack;
 
 @property (nonatomic, retain) UIButton *expandButton;
 
-@property (nonatomic, copy) void(^onExpandButtonClickCallback)(void(^)(void));
+@property (nonatomic, copy) void(^buttonClickedCallback)(void(^)(void));
 
 @property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
 
@@ -38,64 +38,30 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 
 @implementation UVFeedTableViewCell
 
+// MARK: -
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupAppearance];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [_titleLabel release];
     [_dateLabel release];
     [_categoryLabel release];
     [_descriptionLabel release];
     [_mainStack release];
-    [_additionalStack release];
+    [_auxiliaryStack release];
     [_expandButton release];
-    [_onExpandButtonClickCallback release];
+    [_buttonClickedCallback release];
     [_model release];
     [super dealloc];
 }
 
-+ (NSString *)cellIdentifier {
-    return NSStringFromClass(self);
-}
-
-// MARK: -
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        [self setupLayout];
-    }
-    return self;
-}
-
-- (void)layoutIfNeeded {
-    [super layoutIfNeeded];
-    
-    [NSLayoutConstraint activateConstraints:@[
-        [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding],
-        [self.titleLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:kPadding],
-        [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding],
-        [self.titleLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.mainStack.topAnchor constant:-kTextSpacing],
-        
-        [self.mainStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding],
-        [self.mainStack.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:kPadding],
-        [self.mainStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding],
-        [self.mainStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-kPadding],
-    ]];
-}
-
-// MARK: -
-
-- (void)setupLayout {
-    [self.contentView addSubview:self.titleLabel];
-    [self.contentView addSubview:self.mainStack];
-    
-    [self.mainStack addArrangedSubview:self.descriptionLabel];
-    [self.mainStack addArrangedSubview:self.additionalStack];
-    
-    [self.additionalStack addArrangedSubview:self.dateLabel];
-    [self.additionalStack addArrangedSubview:self.categoryLabel];
-    [self.additionalStack addArrangedSubview:self.expandButton];
-}
-
-// MARK: -
+// MARK: - Lazy Properties
 
 - (UILabel *)categoryLabel {
     if(!_categoryLabel) {
@@ -112,8 +78,8 @@ static CGFloat   const kExpandAnimationDelay        = 0;
         _titleLabel.numberOfLines = kTitleNumberOfLines;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _titleLabel.font = [UIFont systemFontOfSize:kMainTitleFontSize weight:UIFontWeightBold];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _titleLabel.font = [UIFont systemFontOfSize:kMainTitleFontSize weight:UIFontWeightBold];
     }
     return _titleLabel;
 }
@@ -148,39 +114,58 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 - (UIStackView *)mainStack {
     if (!_mainStack) {
         _mainStack = [UIStackView new];
+        _mainStack.spacing = kTextSpacing;
         _mainStack.axis = UILayoutConstraintAxisVertical;
         _mainStack.distribution = UIStackViewDistributionFill;
-        _mainStack.spacing = kTextSpacing;
         _mainStack.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _mainStack;
 }
 
-- (UIStackView *)additionalStack {
-    if (!_additionalStack) {
-        _additionalStack = [UIStackView new];
-        _additionalStack.axis = UILayoutConstraintAxisHorizontal;
-        _additionalStack.distribution = UIStackViewDistributionEqualCentering;
+- (UIStackView *)auxiliaryStack {
+    if (!_auxiliaryStack) {
+        _auxiliaryStack = [UIStackView new];
+        _auxiliaryStack.axis = UILayoutConstraintAxisHorizontal;
+        _auxiliaryStack.distribution = UIStackViewDistributionEqualSpacing;
     }
-    return _additionalStack;
+    return _auxiliaryStack;
 }
 
-// MARK: -
+// MARK: - Private
 
-- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model
-      reloadCompletion:(void (^)(void(^callback)(void)))completion {
-    self.model = model;
-    self.onExpandButtonClickCallback = completion;
-    self.dateLabel.text = [self.model articleDate];
-    self.titleLabel.text = [self.model articleTitle];
-    self.categoryLabel.text = [self.model articleCategory];
-    self.descriptionLabel.text = [self.model articleDescription];
-    self.descriptionLabel.hidden = !self.model.isExpand;
+- (void)setupAppearance {
+    [self arrangeViews];
+    [self setupConstraints];
 }
 
-// MARK: -
+- (void)arrangeViews {
+    [self.contentView addSubview:self.titleLabel];
+    [self.contentView addSubview:self.mainStack];
+    
+    [self.mainStack addArrangedSubview:self.descriptionLabel];
+    [self.mainStack addArrangedSubview:self.auxiliaryStack];
+    
+    [self.auxiliaryStack addArrangedSubview:self.dateLabel];
+    [self.auxiliaryStack addArrangedSubview:self.categoryLabel];
+    [self.auxiliaryStack addArrangedSubview:self.expandButton];
+}
+
+- (void)setupConstraints {
+    [NSLayoutConstraint activateConstraints:@[
+        [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding],
+        [self.titleLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:kPadding],
+        [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding],
+        [self.titleLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.mainStack.topAnchor constant:-kTextSpacing],
+        
+        [self.mainStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:kPadding],
+        [self.mainStack.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:kPadding],
+        [self.mainStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-kPadding],
+        [self.mainStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-kPadding],
+    ]];
+}
+
 - (void)toggleDescription {
-    self.onExpandButtonClickCallback(^{
+    self.buttonClickedCallback(^{
         self.model.expand = !self.model.isExpand;
         [UIView animateKeyframesWithDuration:kExpandAnimationDuration delay:kExpandAnimationDelay options:0 animations:^{
             [self.titleLabel.heightAnchor constraintEqualToConstant:self.titleLabel.frame.size.height].active = YES;
@@ -189,6 +174,19 @@ static CGFloat   const kExpandAnimationDelay        = 0;
             [self.titleLabel.heightAnchor constraintEqualToConstant:self.titleLabel.frame.size.height].active = NO;
         }];
     });
+}
+
+// MARK: - Interface
+
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model
+      reloadCompletion:(void (^)(void(^callback)(void)))completion {
+    self.model = model;
+    self.buttonClickedCallback = completion;
+    self.dateLabel.text = [self.model articleDate];
+    self.titleLabel.text = [self.model articleTitle];
+    self.categoryLabel.text = [self.model articleCategory];
+    self.descriptionLabel.text = [self.model articleDescription];
+    self.descriptionLabel.hidden = !self.model.isExpand;
 }
 
 @end
