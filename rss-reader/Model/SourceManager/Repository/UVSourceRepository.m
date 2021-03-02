@@ -50,17 +50,12 @@
                                                                format:NSPropertyListXMLFormat_v1_0
                                                               options:0
                                                                 error:error];
-    
     BOOL isWritten = [plist writeToFile:self.path atomically:YES];
     
-    if (isWritten) {
-        return YES;
-    } else {
-        if (error) {
-            *error = [NSError errorWithDomain:UVDataWritingErrorDomain code:UVRSSReaderErrorCodeKey userInfo:nil];            
-        }
-        return NO;
+    if (error && !isWritten) {
+        *error = [NSError errorWithDomain:UVDataWritingErrorDomain code:UVRSSReaderErrorCodeKey userInfo:nil];
     }
+    return isWritten;
 }
 
 @end

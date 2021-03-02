@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVChannelFeedPresenterType <NSObject>
 
 - (void)updateFeed;
-- (void)openArticleAt:(NSInteger)row;
+- (void)didSelectItemAt:(NSInteger)row;
 - (id<UVFeedChannelDisplayModel>)channel;
 - (id<UVFeedItemDisplayModel>)feedItemAt:(NSInteger)row;
 - (NSInteger)numberOfItems;

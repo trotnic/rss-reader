@@ -37,12 +37,69 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 @property (nonatomic, retain) NSMutableString *parsingString;
 
 @property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
+@property (nonatomic, retain) NSData *parsingData;
 
 @end
 
 @implementation UVFeedXMLParser
 
-// MARK: FeedParserType
+- (void)dealloc
+{
+    [_items release];
+    [_parser release];
+    [_completion release];
+    [_parsingData release];
+    [_parsingString release];
+    [_itemDictionary release];
+    [_plainTextNodes release];
+    [_channelDictionary release];
+    [super dealloc];
+}
+
+// MARK: - Lazy Properties
+
+- (NSXMLParser *)parser {
+    if (!_parser) {
+        _parser = [[NSXMLParser parserWithData:self.parsingData delegate:self] retain];
+    }
+    return _parser;
+}
+
+- (NSMutableArray<NSDictionary *> *)items {
+    if(!_items) {
+        _items = [NSMutableArray new];
+    }
+    return _items;
+}
+
+- (NSMutableDictionary *)channelDictionary {
+    if(!_channelDictionary) {
+        _channelDictionary = [NSMutableDictionary new];
+    }
+    return _channelDictionary;
+}
+
+- (NSMutableDictionary *)itemDictionary {
+    if(!_itemDictionary) {
+        _itemDictionary = [NSMutableDictionary new];
+    }
+    return _itemDictionary;
+}
+
+- (NSSet<NSString *> *)plainTextNodes {
+    if(!_plainTextNodes) {
+        _plainTextNodes = [[NSSet setWithArray:@[
+            TAG_TITLE,
+            TAG_LINK,
+            TAG_CATEGORY,
+            TAG_PUBLICATION_DATE,
+            TAG_DESCRIPTION
+        ]] retain];
+    }
+    return _plainTextNodes;
+}
+
+// MARK: UVFeedParserType
 
 - (void)parseData:(NSData *)data
        completion:(ParseHandler)completion {
@@ -51,23 +108,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         return;
     }
     self.completion = completion;
-    self.parser = [NSXMLParser parserWithData:data delegate:self];
-    [self.parser parse];
-    if (self.parser.parserError != nil) {
-        if (completion) completion(nil, self.parser.parserError);
-        [self.parser abortParsing];
-        return;
-    }
-}
-
-- (void)parseContentsOfURL:(NSURL *)url
-                completion:(ParseHandler)completion {
-    if (!url) {
-        if (completion) completion(nil, [self parsingError]);
-        return;
-    }
-    self.completion = completion;
-    self.parser = [NSXMLParser parserWithURL:url delegate:self];
+    self.parsingData = data;
     [self.parser parse];
     if (self.parser.parserError != nil) {
         if (completion) completion(nil, self.parser.parserError);
@@ -139,19 +180,8 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
-        self.completion(self.channelDictionary, nil);
-        [_items release];
-        _items = nil;
-        [_parser release];
-        _parser = nil;
-        [_completion release];
-        _completion = nil;
-        [_parsingString release];
-        _parsingString = nil;
-        [_itemDictionary release];
-        _itemDictionary = nil;
-        [_channelDictionary release];
-        _channelDictionary = nil;
+        NSDictionary *channelCopy = [[self.channelDictionary copy] autorelease];
+        self.completion(channelCopy, nil);
     }
 }
 
@@ -159,61 +189,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (NSError *)parsingError {
     return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
-}
-
-// MARK: - Lazy
-
-- (NSMutableArray<NSDictionary *> *)items {
-    if(!_items) {
-        _items = [NSMutableArray new];
-    }
-    return _items;
-}
-
-- (NSMutableDictionary *)channelDictionary {
-    if(!_channelDictionary) {
-        _channelDictionary = [NSMutableDictionary new];
-    }
-    return _channelDictionary;
-}
-
-- (NSMutableDictionary *)itemDictionary {
-    if(!_itemDictionary) {
-        _itemDictionary = [NSMutableDictionary new];
-    }
-    return _itemDictionary;
-}
-
-- (NSSet<NSString *> *)plainTextNodes {
-    if(!_plainTextNodes) {
-        _plainTextNodes = [[NSSet setWithArray:@[
-            TAG_TITLE,
-            TAG_LINK,
-            TAG_CATEGORY,
-            TAG_PUBLICATION_DATE,
-            TAG_DESCRIPTION
-        ]] retain];
-    }
-    return _plainTextNodes;
-}
-
-- (void)dealloc
-{    
-    [_items release];
-    _items = nil;
-    [_parser release];
-    _parser = nil;
-    [_completion release];
-    _completion = nil;
-    [_parsingString release];
-    _parsingString = nil;
-    [_itemDictionary release];
-    _itemDictionary = nil;
-    [_channelDictionary release];
-    _channelDictionary = nil;
-    [_plainTextNodes release];
-    _plainTextNodes = nil;
-    [super dealloc];
 }
 
 @end

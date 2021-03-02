@@ -62,8 +62,8 @@
     }];
 }
 
-- (void)openArticleAt:(NSInteger)row {
-    NSURL *url = self.channel.items[row].url;
+- (void)didSelectItemAt:(NSInteger)row {
+    NSURL *url = [self.channel itemUrlAt:row];
     if (!url) {
         [self showError:RSSErrorTypeBadURL];
         return;

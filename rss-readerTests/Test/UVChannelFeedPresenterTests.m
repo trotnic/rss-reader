@@ -176,7 +176,7 @@ static NSInteger const TIMEOUT = 4;
         return self.view.error != nil && !self.view.isActivityShown;
     }];
     
-    [self.sut openArticleAt:index];
+    [self.sut didSelectItemAt:index];
     
     [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
@@ -197,7 +197,7 @@ static NSInteger const TIMEOUT = 4;
         return self.view.error == nil && !self.view.isActivityShown;
     }];
     
-    [self.sut openArticleAt:index];
+    [self.sut didSelectItemAt:index];
     
     [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }

@@ -52,6 +52,12 @@
     return [self.link isEqualToString:[other link]];
 }
 
+// MARK: - Interface
+
+- (NSURL *)itemUrlAt:(NSInteger)index {
+    return [self.items objectAtIndex:index].url;
+}
+
 // MARK: - UVFeedChannelDisplayModel
 
 - (NSString *)channelTitle {

@@ -31,14 +31,13 @@
 - (void)dealloc
 {
     [_parser release];
-    [_linkDictionary release];
-    [_parsingString release];
     [_completion release];
+    [_parsingString release];
+    [_linkDictionary release];
     [super dealloc];
 }
 
-- (void)parseData:(NSData *)data
-       completion:(void (^)(NSDictionary *, NSError *))completion {
+- (void)parseData:(NSData *)data completion:(void (^)(NSDictionary *, NSError *))completion {
     if (!data) {
         if (completion) completion(nil, [self parsingError]);
         return;
@@ -93,7 +92,10 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    if (self.completion) self.completion(self.linkDictionary, nil);
+    if (self.completion) {
+        NSDictionary *linkCopy = [[self.linkDictionary copy] autorelease];
+        self.completion(linkCopy, nil);
+    }
 }
 
 // MARK: - Private

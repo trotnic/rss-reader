@@ -158,7 +158,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.presenter openArticleAt:indexPath.row];
+    [self.presenter didSelectItemAt:indexPath.row];
 }
 
 // MARK: - UVChannelFeedViewType

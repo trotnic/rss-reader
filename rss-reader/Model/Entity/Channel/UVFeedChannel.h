@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
 
+- (NSURL *)itemUrlAt:(NSInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END

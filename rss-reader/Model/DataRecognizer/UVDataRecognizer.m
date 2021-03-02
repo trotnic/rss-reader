@@ -24,17 +24,11 @@ static NSString *const EMPTY_STRING         = @"";
 
 @interface UVDataRecognizer ()
 
-@property (nonatomic, retain) id<UVRSSLinkXMLParserType> linkXMLParser;
+@property (nonatomic, retain, readonly) id<UVRSSLinkXMLParserType> linkXMLParser;
 
 @end
 
 @implementation UVDataRecognizer
-
-- (void)dealloc
-{
-    [_linkXMLParser release];
-    [super dealloc];
-}
 
 // MARK: - UVDataRecognizerType
 
@@ -47,12 +41,10 @@ static NSString *const EMPTY_STRING         = @"";
     }
     
     [parser retain];
-    
-    [parser parseData:data
-           completion:^(NSDictionary *result, NSError *error) {
+    [parser parseData:data completion:^(NSDictionary *result, NSError *error) {
         if (completion) completion(result, error);
-        [parser release];
     }];
+    [parser release];
 }
 
 - (void)discoverLinksFromHTML:(NSData *)data
@@ -172,10 +164,7 @@ static NSString *const EMPTY_STRING         = @"";
 // MARK: - Lazy
 
 - (id<UVRSSLinkXMLParserType>)linkXMLParser {
-    if(!_linkXMLParser) {
-        _linkXMLParser = [UVRSSLinkXMLParser new];
-    }
-    return _linkXMLParser;
+    return [[UVRSSLinkXMLParser new] autorelease];
 }
 
 @end
