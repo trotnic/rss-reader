@@ -14,11 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateFeed;
 - (void)openArticleAt:(NSInteger)row;
+
 - (void)settingsButtonClicked;
+- (void)trashButtonClicked;
 
 - (id<UVFeedItemDisplayModel>)itemAt:(NSInteger)index;
 - (NSInteger)numberOfItems;
-- (NSString *)channelTitle;
+// FEED:
+//- (NSString *)channelTitle;
 
 @end
 

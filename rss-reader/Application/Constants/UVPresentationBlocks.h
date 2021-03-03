@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSInteger, PresentationBlockType) {
     PresentationBlockFeed,
+    PresentationBlockDone,
     PresentationBlockSources,
     PresentationBlockSearch,
     PresentationBlockWeb

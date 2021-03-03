@@ -11,12 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedItemDisplayModel <NSObject>
 
+@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSString *category;
+@property (nonatomic, copy, readonly) NSString *articleDate;
+@property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, assign, getter=isExpand) BOOL expand;
-
-- (NSString *)articleTitle;
-- (NSString *)articleCategory;
-- (NSString *)articleDate;
-- (NSString *)articleDescription;
 
 @end
 

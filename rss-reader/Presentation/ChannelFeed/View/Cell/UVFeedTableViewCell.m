@@ -182,10 +182,10 @@ static CGFloat   const kExpandAnimationDelay        = 0;
       reloadCompletion:(void (^)(void(^callback)(void)))completion {
     self.model = model;
     self.buttonClickedCallback = completion;
-    self.dateLabel.text = [self.model articleDate];
-    self.titleLabel.text = [self.model articleTitle];
-    self.categoryLabel.text = [self.model articleCategory];
-    self.descriptionLabel.text = [self.model articleDescription];
+    self.dateLabel.text = self.model.articleDate;
+    self.titleLabel.text = self.model.title;
+    self.categoryLabel.text = self.model.category;
+    self.descriptionLabel.text = self.model.summary;
     self.descriptionLabel.hidden = !self.model.isExpand;
 }
 

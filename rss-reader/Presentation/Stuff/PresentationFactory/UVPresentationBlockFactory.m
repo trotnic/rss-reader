@@ -19,6 +19,9 @@
 #import "UVChannelWebItemPresenter.h"
 #import "UVChannelWebItemViewController.h"
 
+#import "UVChannelDoneListPresenter.h"
+#import "UVChannelDoneListViewController.h"
+
 @interface UVPresentationBlockFactory ()
 
 @property (nonatomic, strong) id<UVNetworkType>         network;
@@ -67,7 +70,17 @@
             presenter.view = controller;
             return [controller autorelease];
         }
-            
+        case PresentationBlockDone: {
+            UVChannelDoneListPresenter *presenter = [[UVChannelDoneListPresenter alloc] initWithRecognizer:self.recognizer
+                                                                                                    source:self.source
+                                                                                                   network:self.network
+                                                                                                      feed:self.feed
+                                                                                               coordinator:coordinator];
+            UVChannelDoneListViewController *controller = [UVChannelDoneListViewController new];
+            controller.presenter = [presenter autorelease];
+            presenter.view = controller;
+            return [controller autorelease];
+        }
         case PresentationBlockSources: {
             UVChannelSourceListPresenter *presenter = [[UVChannelSourceListPresenter alloc] initWithRecognizer:self.recognizer
                                                                                                         source:self.source

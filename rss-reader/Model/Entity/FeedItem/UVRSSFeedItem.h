@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "UVFeedItemDisplayModel.h"
 #import "UVFeedItemKeys.h"
+#import "UVRSSItemState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, copy, readonly) NSString *category;
 @property (nonatomic, assign, getter=isExpand) BOOL expand;
+@property (nonatomic, assign) UVRSSItemOptionState readingState;
 
 NS_ASSUME_NONNULL_END
 

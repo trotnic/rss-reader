@@ -17,6 +17,7 @@
 @property (nonatomic, strong) id<UVNetworkType>         network;
 @property (nonatomic, strong) id<UVCoordinatorType>     coordinator;
 @property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
+@property (nonatomic, strong) NSMutableArray<UVRSSFeedItem *> *cachedItems;
 
 @end
 
@@ -41,6 +42,15 @@
 - (void)dealloc
 {
     [self.network unregisterObserver:NSStringFromClass([self class])];
+}
+
+// MARK: - Lazy Properties
+
+- (NSMutableArray<UVRSSFeedItem *> *)cachedItems {
+    if (!_cachedItems) {
+        _cachedItems = [[self.feedManager feedItemsWithState:(UVRSSItemNotStartedOpt | UVRSSItemReadingOpt)] mutableCopy];
+    }
+    return _cachedItems;
 }
 
 // MARK: -
@@ -107,7 +117,7 @@
         [self showError:RSSErrorTypeNoNetworkConnection];
         return;
     }
-    [self.feedManager selectFeedItem:self.feedManager.feed.items[row]];
+    [self.feedManager selectFeedItem:self.cachedItems[row]];
     [self.coordinator showScreen:PresentationBlockWeb];
 }
 
@@ -115,16 +125,16 @@
     [self.coordinator showScreen:PresentationBlockSources];
 }
 
-- (NSString *)channelTitle {
-    return self.feedManager.feed.title;
+- (void)trashButtonClicked {
+    [self.coordinator showScreen:PresentationBlockDone];
 }
 
 - (id<UVFeedItemDisplayModel>)itemAt:(NSInteger)index {
-    return self.feedManager.feed.channelItems[index];
+    return self.cachedItems[index];
 }
 
 - (NSInteger)numberOfItems {
-    return self.feedManager.feed.channelItems.count;
+    return self.cachedItems.count;
 }
 
 // MARK: - Private

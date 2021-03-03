@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UVRSSFeed : NSObject <UVFeedChannelDisplayModel>
 
 @property (nonatomic, copy, readonly) NSString *link;
-@property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, strong, readonly) NSArray<UVRSSFeedItem *> *items;
 
 + (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
+- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemOptionState)state;
 
 @end
 

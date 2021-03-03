@@ -21,6 +21,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
+@property (nonatomic, strong) UIBarButtonItem *trashButton;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
@@ -54,6 +55,16 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     return _settingsButton;
 }
 
+- (UIBarButtonItem *)trashButton {
+    if (!_trashButton) {
+        _trashButton = [[UIBarButtonItem alloc] initWithImage:UIImage.trashIcon
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self.presenter
+                                                       action:@selector(trashButtonClicked)];
+    }
+    return _trashButton;
+}
+
 - (UIActivityIndicatorView *)activityIndicator {
     if(!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -76,11 +87,12 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupAppearance];
+    [self.presenter updateFeed];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.presenter updateFeed];
+    [self.tableView reloadData];
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
@@ -91,6 +103,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (void)setupAppearance {
     self.navigationItem.rightBarButtonItem = self.settingsButton;
+    self.navigationItem.leftBarButtonItem = self.trashButton;
     [self layoutActivityIndicator];
     [self layoutTableView];
 }
@@ -144,7 +157,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 - (void)updatePresentation {
     [self hidePlaceholderMessage];
     [self.tableView reloadData];
-    self.navigationItem.title = [self.presenter channelTitle];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(REFRESH_ENDING_DELAY * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.refreshControl endRefreshing];
         [self.activityIndicator stopAnimating];

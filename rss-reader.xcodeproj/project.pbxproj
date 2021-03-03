@@ -66,6 +66,8 @@
 		CA43632525D562AB0082E44C /* UVChannelSourceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA43632225D562AB0082E44C /* UVChannelSourceListViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA43634D25D564DC0082E44C /* UVChannelSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA43634C25D564DC0082E44C /* UVChannelSearchViewController.m */; };
 		CA43635725D565040082E44C /* UVChannelSearchPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA43635625D565040082E44C /* UVChannelSearchPresenter.m */; };
+		CA59DCD725EF7DDA005356E7 /* UVChannelDoneListPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA59DCD625EF7DDA005356E7 /* UVChannelDoneListPresenter.m */; };
+		CA59DCDD25EF7DEA005356E7 /* UVChannelDoneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA59DCDC25EF7DEA005356E7 /* UVChannelDoneListViewController.m */; };
 		CA69671C25E92A5E00595123 /* UVChannelSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA69671B25E92A5E00595123 /* UVChannelSourceTableViewCell.m */; };
 		CA7D975C25A4B776009CBD9B /* UVSourcesListPresenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7D975B25A4B776009CBD9B /* UVSourcesListPresenterTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CAB1611125DA8B2D0036B93D /* UVFeedXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB1611025DA8B2D0036B93D /* UVFeedXMLParser.m */; };
@@ -234,6 +236,13 @@
 		CA43635525D565040082E44C /* UVChannelSearchPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVChannelSearchPresenter.h; path = Presentation/ChannelSearch/Presenter/UVChannelSearchPresenter.h; sourceTree = "<group>"; };
 		CA43635625D565040082E44C /* UVChannelSearchPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UVChannelSearchPresenter.m; path = Presentation/ChannelSearch/Presenter/UVChannelSearchPresenter.m; sourceTree = "<group>"; };
 		CA43635E25D565130082E44C /* UVChannelSearchPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UVChannelSearchPresenterType.h; path = Presentation/ChannelSearch/Presenter/UVChannelSearchPresenterType.h; sourceTree = "<group>"; };
+		CA59DCD525EF7DDA005356E7 /* UVChannelDoneListPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVChannelDoneListPresenter.h; sourceTree = "<group>"; };
+		CA59DCD625EF7DDA005356E7 /* UVChannelDoneListPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVChannelDoneListPresenter.m; sourceTree = "<group>"; };
+		CA59DCDB25EF7DEA005356E7 /* UVChannelDoneListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVChannelDoneListViewController.h; sourceTree = "<group>"; };
+		CA59DCDC25EF7DEA005356E7 /* UVChannelDoneListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVChannelDoneListViewController.m; sourceTree = "<group>"; };
+		CA59DCE125EF7DF1005356E7 /* UVChannelDoneListPresenterType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVChannelDoneListPresenterType.h; sourceTree = "<group>"; };
+		CA59DCE225EF7DFB005356E7 /* UVChannelDoneListViewType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVChannelDoneListViewType.h; sourceTree = "<group>"; };
+		CA59DCEC25EF8C91005356E7 /* UVRSSItemState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSItemState.h; sourceTree = "<group>"; };
 		CA69671A25E92A5E00595123 /* UVChannelSourceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVChannelSourceTableViewCell.h; sourceTree = "<group>"; };
 		CA69671B25E92A5E00595123 /* UVChannelSourceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVChannelSourceTableViewCell.m; sourceTree = "<group>"; };
 		CA7D975B25A4B776009CBD9B /* UVSourcesListPresenterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourcesListPresenterTests.m; sourceTree = "<group>"; };
@@ -358,6 +367,7 @@
 		2B1903B52563FEC5006D755E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				7372582C25EF756A0042E4C3 /* ChannelDoneList */,
 				735AB151258BA4DA001ADB10 /* Stuff */,
 				CAB1612625DAA2FF0036B93D /* ChannelWebItem */,
 				CA43631B25D562AB0082E44C /* ChannelSourceList */,
@@ -694,6 +704,35 @@
 			path = UVDataRecognizer;
 			sourceTree = "<group>";
 		};
+		7372582C25EF756A0042E4C3 /* ChannelDoneList */ = {
+			isa = PBXGroup;
+			children = (
+				7372582E25EF75830042E4C3 /* Presenter */,
+				7372582D25EF757E0042E4C3 /* View */,
+			);
+			path = ChannelDoneList;
+			sourceTree = "<group>";
+		};
+		7372582D25EF757E0042E4C3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA59DCE225EF7DFB005356E7 /* UVChannelDoneListViewType.h */,
+				CA59DCDB25EF7DEA005356E7 /* UVChannelDoneListViewController.h */,
+				CA59DCDC25EF7DEA005356E7 /* UVChannelDoneListViewController.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7372582E25EF75830042E4C3 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				CA59DCE125EF7DF1005356E7 /* UVChannelDoneListPresenterType.h */,
+				CA59DCD525EF7DDA005356E7 /* UVChannelDoneListPresenter.h */,
+				CA59DCD625EF7DDA005356E7 /* UVChannelDoneListPresenter.m */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		7381CCA325EC2D54001EF1DD /* UITableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,6 +908,7 @@
 			isa = PBXGroup;
 			children = (
 				CA243AC325710D6F00B56A7B /* RSSError.h */,
+				CA59DCEC25EF8C91005356E7 /* UVRSSItemState.h */,
 			);
 			path = Collections;
 			sourceTree = "<group>";
@@ -1230,6 +1270,7 @@
 				7351C70B25A11FD600378AB2 /* UVFeedTableViewCell.m in Sources */,
 				CA0AE6D425D55D4200747528 /* Reachability.m in Sources */,
 				7351C6E925A11F0700378AB2 /* UVRSSFeed.m in Sources */,
+				CA59DCD725EF7DDA005356E7 /* UVChannelDoneListPresenter.m in Sources */,
 				7351C6F125A11F1D00378AB2 /* UVNetwork.m in Sources */,
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA43631125D5626D0082E44C /* UVSearchViewController.m in Sources */,
@@ -1239,6 +1280,7 @@
 				CA43634D25D564DC0082E44C /* UVChannelSearchViewController.m in Sources */,
 				CAB1613625DAA31B0036B93D /* UVChannelWebItemViewController.m in Sources */,
 				CA43631025D5626D0082E44C /* UVAppCoordinator.m in Sources */,
+				CA59DCDD25EF7DEA005356E7 /* UVChannelDoneListViewController.m in Sources */,
 				CA43635725D565040082E44C /* UVChannelSearchPresenter.m in Sources */,
 				CA43630D25D5626D0082E44C /* UVPresentationBlockFactory.m in Sources */,
 				CA43632425D562AB0082E44C /* UVChannelSourceListPresenter.m in Sources */,

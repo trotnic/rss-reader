@@ -11,7 +11,6 @@
 @interface UVRSSFeed ()
 
 @property (nonatomic, copy, readwrite) NSString *link;
-@property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, strong, readwrite) NSArray<UVRSSFeedItem *> *items;
 
@@ -26,9 +25,8 @@
     }
     
     UVRSSFeed *object = [UVRSSFeed new];
-        
+    
     object.link = dictionary[kRSSChannelLink];
-    object.title = dictionary[kRSSChannelTitle];
     object.summary = dictionary[kRSSChannelDescription];
     object.items = [dictionary[kRSSChannelItems] map:^UVRSSFeedItem *(NSDictionary *rawItem) {
         return [UVRSSFeedItem objectWithDictionary:rawItem];
@@ -40,9 +38,8 @@
 - (void)dealloc
 {
     [_link release];
-    [_title release];
-    [_summary release];
     [_items release];
+    [_summary release];
     [super dealloc];
 }
 
@@ -51,14 +48,12 @@
     return [self.link isEqualToString:[other link]];
 }
 
-// MARK: - UVFeedChannelDisplayModel
+// MARK: - Interface
 
-- (NSString *)channelTitle {
-    return [[self.title copy] autorelease];
-}
-
-- (NSArray<id<UVFeedItemDisplayModel>> *)channelItems {
-    return self.items;
+- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemOptionState)state {
+    [[self.items find:^BOOL(UVRSSFeed *obj) {
+        return [item isEqual:obj];
+    }] setReadingState:state];
 }
 
 @end

@@ -38,12 +38,13 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
     object.expand = NO;
+    object.readingState = UVRSSItemNotStartedOpt;
     return object;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@", self.url];
+    return [NSString stringWithFormat:@"%@ --- %u, %p", self.url, self.readingState, &self];
 }
 
 - (BOOL)isEqual:(id)other
@@ -53,20 +54,8 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 // MARK: - UVFeedItemDisplayModel
 
-- (NSString *)articleTitle {
-    return self.title;
-}
-
-- (NSString *)articleCategory {
-    return self.category;
-}
-
 - (NSString *)articleDate {
     return [self.pubDate stringWithFormat:kDatePresentationFormat];
-}
-
-- (NSString *)articleDescription {
-    return self.summary;
 }
 
 @end

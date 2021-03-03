@@ -12,8 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedChannelDisplayModel <NSObject>
 
-- (NSString *)channelTitle;
-- (NSArray<id<UVFeedItemDisplayModel>> *)channelItems;
+@property (nonatomic, strong, readonly) NSArray<id<UVFeedItemDisplayModel>> * items;
 
 @end
 

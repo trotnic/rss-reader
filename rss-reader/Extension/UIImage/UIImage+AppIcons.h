@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)threeDotsHIcon;
 + (UIImage *)gearIcon;
 + (UIImage *)plusIcon;
++ (UIImage *)trashIcon;
 
 @end
 

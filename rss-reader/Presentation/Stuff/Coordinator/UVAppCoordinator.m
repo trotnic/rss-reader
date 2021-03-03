@@ -31,16 +31,26 @@
     return self;
 }
 
+// MARK: - Lazy Properties
+
+- (UIApplication *)application {
+    if (!_application) {
+        _application = UIApplication.sharedApplication;
+    }
+    return _application;
+}
+
 - (void)setRootNavigationController:(UVNavigationController *)controller {
     self.controller = controller;
 }
 
 - (void)showScreen:(PresentationBlockType)type {
-    if (self.lastPresentedBlock == PresentationBlockSearch) {
-        [self.controller popViewControllerAnimated:YES];
-    } else {
-        [self.controller pushViewController:[self.factory presentationBlockOfType:type coordinator:self]
-                                   animated:YES];
+    switch (self.lastPresentedBlock) {
+        case PresentationBlockSearch:
+            [self.controller popViewControllerAnimated:YES];
+            break;
+        default:
+            [self.controller pushViewController:[self.factory presentationBlockOfType:type coordinator:self] animated:YES];
     }
     self.lastPresentedBlock = type;
 }
@@ -64,13 +74,6 @@
 - (UIViewController *)controllerOf:(PresentationBlockType)type {
     return [self.factory presentationBlockOfType:type
                                      coordinator:self];
-}
-
-- (UIApplication *)application {
-    if (!_application) {
-        _application = UIApplication.sharedApplication;
-    }
-    return _application;
 }
 
 @end

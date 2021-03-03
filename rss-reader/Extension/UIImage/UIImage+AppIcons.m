@@ -42,4 +42,8 @@
     return [UIImage imageNamed:PLUS];
 }
 
++ (UIImage *)trashIcon {
+    return [UIImage imageNamed:@"trash"];
+}
+
 @end
