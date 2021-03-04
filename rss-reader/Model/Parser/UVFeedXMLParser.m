@@ -6,63 +6,121 @@
 //
 
 #import "UVFeedXMLParser.h"
-#import "UVFeedChannel.h"
-#import "NSXMLParser+DelegateInitializable.h"
-#import "TagKeys.h"
-#import "TagAttributeKeys.h"
-#import "AtomKeys.h"
 
-typedef void(^ParseHandler)(UVFeedChannel *_Nullable, NSError *_Nullable);
+#import "NSString+Util.h"
+#import "NSXMLParser+DelegateInitializable.h"
+#import "UVErrorDomain.h"
+
+#import "TagKeys.h"
+#import "AtomKeys.h"
+#import "TagAttributeKeys.h"
+
+#import "UVFeedChannelKeys.h"
+#import "UVFeedItemKeys.h"
+
+typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 @interface UVFeedXMLParser () <NSXMLParserDelegate>
 
 @property (nonatomic, copy) ParseHandler completion;
 
 // MARK: - Channel
-@property (nonatomic, retain) UVFeedChannel *channel;
 @property (nonatomic, retain) NSMutableDictionary *channelDictionary;
-@property (nonatomic, retain) NSMutableArray<UVFeedItem *> *items;
+@property (nonatomic, retain) NSMutableArray<NSDictionary *> *items;
 
 // MARK: - Item
 @property (nonatomic, retain) NSMutableDictionary *itemDictionary;
-@property (nonatomic, retain) NSMutableString *parsingString;
+@property (nonatomic, assign) BOOL isItem;
 
 // MARK: - Util
-@property (nonatomic, assign) BOOL isItem;
 @property (nonatomic, retain) NSXMLParser *parser;
+@property (nonatomic, retain) NSMutableString *parsingString;
 
 @property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
+@property (nonatomic, retain) NSData *parsingData;
 
 @end
 
 @implementation UVFeedXMLParser
 
-// MARK: FeedParserType
-
-- (void)parseData:(NSData *)data completion:(ParseHandler)completion {
-    self.completion = completion;
-    self.parser = [NSXMLParser parserWithData:data delegate:self];
-    [self.parser parse];
-    if(!data) {
-        completion(nil, self.parser.parserError);
-        [self.parser abortParsing];
-    }
+- (void)dealloc
+{
+    [_items release];
+    [_parser release];
+    [_completion release];
+    [_parsingData release];
+    [_parsingString release];
+    [_itemDictionary release];
+    [_plainTextNodes release];
+    [_channelDictionary release];
+    [super dealloc];
 }
 
-- (void)parseContentsOfURL:(NSURL *)url completion:(ParseHandler)completion {
+// MARK: - Lazy Properties
+
+- (NSXMLParser *)parser {
+    if (!_parser) {
+        _parser = [[NSXMLParser parserWithData:self.parsingData delegate:self] retain];
+    }
+    return _parser;
+}
+
+- (NSMutableArray<NSDictionary *> *)items {
+    if(!_items) {
+        _items = [NSMutableArray new];
+    }
+    return _items;
+}
+
+- (NSMutableDictionary *)channelDictionary {
+    if(!_channelDictionary) {
+        _channelDictionary = [NSMutableDictionary new];
+    }
+    return _channelDictionary;
+}
+
+- (NSMutableDictionary *)itemDictionary {
+    if(!_itemDictionary) {
+        _itemDictionary = [NSMutableDictionary new];
+    }
+    return _itemDictionary;
+}
+
+- (NSSet<NSString *> *)plainTextNodes {
+    if(!_plainTextNodes) {
+        _plainTextNodes = [[NSSet setWithArray:@[
+            TAG_TITLE,
+            TAG_LINK,
+            TAG_CATEGORY,
+            TAG_PUBLICATION_DATE,
+            TAG_DESCRIPTION
+        ]] retain];
+    }
+    return _plainTextNodes;
+}
+
+// MARK: UVFeedParserType
+
+- (void)parseData:(NSData *)data
+       completion:(ParseHandler)completion {
+    if (!data) {
+        if (completion) completion(nil, [self parsingError]);
+        return;
+    }
     self.completion = completion;
-    self.parser = [NSXMLParser parserWithURL:url delegate:self];
+    self.parsingData = data;
     [self.parser parse];
-    if(!url) {
-        completion(nil, self.parser.parserError);
+    if (self.parser.parserError != nil) {
+        if (completion) completion(nil, self.parser.parserError);
         [self.parser abortParsing];
+        return;
     }
 }
 
 // MARK: - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    self.completion(nil, parseError);
+    if (self.completion) self.completion(nil, parseError);
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
@@ -70,17 +128,16 @@ typedef void(^ParseHandler)(UVFeedChannel *_Nullable, NSError *_Nullable);
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:channelTag]) {
+    if([elementName isEqualToString:TAG_CHANNEL]) {
         self.isItem = NO;
     }
     
-    if([elementName isEqualToString:atomLink]) {
-        self.channelDictionary[kRSSChannelLink] = attributeDict[hrefAttr];
+    if([elementName isEqualToString:ATOM_LINK]) {
+        self.channelDictionary[kRSSChannelLink] = attributeDict[ATTR_HREF];
     }
     
-    if([elementName isEqualToString:itemTag]) {
+    if([elementName isEqualToString:TAG_ITEM]) {
         self.isItem = YES;
-        self.itemDictionary = [NSMutableDictionary dictionary];
     }
     
     if([self.plainTextNodes containsObject:elementName]) {
@@ -97,22 +154,13 @@ typedef void(^ParseHandler)(UVFeedChannel *_Nullable, NSError *_Nullable);
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
 
-    if([elementName isEqualToString:channelTag]) {
+    if([elementName isEqualToString:TAG_CHANNEL]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
-        UVFeedChannel *channel = [UVFeedChannel objectWithDictionary:self.channelDictionary];
-        if(channel) {
-            self.channel = channel;
-        } else {
-            [parser abortParsing];
-        }
-        
-        [_channelDictionary release];
-        _channelDictionary = nil;
     }
     
     if([self.plainTextNodes containsObject:elementName]) {
         if(self.isItem) {
-            self.itemDictionary[elementName] = self.parsingString;
+            self.itemDictionary[elementName] = self.parsingString.stringByStrippingHTML;
         } else {
             self.channelDictionary[elementName] = self.parsingString;
         }
@@ -121,85 +169,26 @@ typedef void(^ParseHandler)(UVFeedChannel *_Nullable, NSError *_Nullable);
         _parsingString = nil;
     }
     
-    if([elementName isEqualToString:kRSSItem]) {
-        UVFeedItem *item = [UVFeedItem objectWithDictionary:self.itemDictionary];
-        if(item) {
-            [self.items addObject:item];
-        }
+    if([elementName isEqualToString:TAG_ITEM]) {
+        [self.items addObject:self.itemDictionary];
         self.isItem = NO;
+        
+        [_itemDictionary release];
+        _itemDictionary = nil;
     }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
-        self.completion(self.channel, nil);
-        [_items release];
-        _items = nil;
-        [_parser release];
-        _parser = nil;
-        [_channel release];
-        _channel = nil;
-        [_completion release];
-        _completion = nil;
-        [_parsingString release];
-        _parsingString = nil;
-        [_itemDictionary release];
-        _itemDictionary = nil;
-        [_channelDictionary release];
-        _channelDictionary = nil;
+        NSDictionary *channelCopy = [[self.channelDictionary copy] autorelease];
+        self.completion(channelCopy, nil);
     }
 }
 
-// MARK: - Lazy
+// MARK: - Private
 
-- (NSMutableArray<UVFeedItem *> *)items {
-    if(!_items) {
-        _items = [NSMutableArray new];
-    }
-    return _items;
-}
-
-- (NSMutableDictionary *)channelDictionary {
-    if(!_channelDictionary) {
-        _channelDictionary = [NSMutableDictionary new];
-    }
-    return _channelDictionary;
-}
-
-- (NSSet<NSString *> *)plainTextNodes {
-    if(!_plainTextNodes) {
-        _plainTextNodes = [[NSSet setWithArray:@[
-            titleTag,
-            linkTag,
-            kRSSItemCategory,
-            kRSSItemPubDate,
-            kRSSItemSummary,
-            kRSSChannelTitle,
-            kRSSChannelDescription
-        ]] retain];
-    }
-    return _plainTextNodes;
-}
-
-- (void)dealloc
-{    
-    [_items release];
-    _items = nil;
-    [_parser release];
-    _parser = nil;
-    [_channel release];
-    _channel = nil;
-    [_completion release];
-    _completion = nil;
-    [_parsingString release];
-    _parsingString = nil;
-    [_itemDictionary release];
-    _itemDictionary = nil;
-    [_channelDictionary release];
-    _channelDictionary = nil;
-    [_plainTextNodes release];
-    _plainTextNodes = nil;
-    [super dealloc];
+- (NSError *)parsingError {
+    return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
 }
 
 @end

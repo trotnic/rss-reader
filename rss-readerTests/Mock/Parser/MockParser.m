@@ -14,15 +14,15 @@
 }
 
 - (void)parseData:(NSData *)data
-       completion:(void (^)(UVFeedChannel *, NSError *))completion {
+       completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.channel, self.error);
+    if (completion) completion(self.rawChannel, self.error);
 }
 
 - (void)parseContentsOfURL:(NSURL *)url
-                completion:(void (^)(UVFeedChannel *, NSError *))completion {
+                completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
-    completion(self.channel, self.error);
+    if (completion) completion(self.rawChannel, self.error);
 }
 
 @end

@@ -6,6 +6,7 @@
 //
 
 #import "UVFeedChannel.h"
+#import "NSArray+Util.h"
 
 @interface UVFeedChannel ()
 
@@ -29,7 +30,10 @@
     object.link = dictionary[kRSSChannelLink];
     object.title = dictionary[kRSSChannelTitle];
     object.summary = dictionary[kRSSChannelDescription];
-    object.items = [NSArray arrayWithArray:[dictionary mutableArrayValueForKey:kRSSChannelItems]];
+    object.items = [dictionary[kRSSChannelItems]
+                    map:^UVFeedItem *(NSDictionary *rawItem) {
+        return [UVFeedItem objectWithDictionary:rawItem];        
+    }];
     
     return [object autorelease];
 }
@@ -46,6 +50,12 @@
 - (BOOL)isEqual:(id)other
 {
     return [self.link isEqualToString:[other link]];
+}
+
+// MARK: - Interface
+
+- (NSURL *)itemUrlAt:(NSInteger)index {
+    return [self.items objectAtIndex:index].url;
 }
 
 // MARK: - UVFeedChannelDisplayModel

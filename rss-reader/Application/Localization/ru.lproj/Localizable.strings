@@ -6,6 +6,16 @@
   
 */
 
+// TITLES
+
+"RSS feeds" = "RSS ленты";
+
+// PLACEHOLDERS
+
+"Feed address" = "Адрес ленты";
+
+// ALERTS
+
 "OK" = " ОК";
 
 "Connection error" = "Ошибка сети";
@@ -13,3 +23,16 @@
 
 "RSS error" = "Ошибка RSS";
 "Can't recognize RSS feed, use another one" = "Невозможно распознать текущий RSS канал, попробуйте использовать другой";
+
+"URL you input is wrong" = "Неправильный адрес";
+"Check if you type correct and try again" = "Введите верный адрес и попробуйте снова";
+
+"No RSS feeds" = "Нет RSS лент";
+"Try to input another site address" = "Попробуйте ввести другой адрес";
+
+"No RSS feed selected" = "Не выбрана RSS лента";
+"Provide a URL of RSS feed and select it in settings" = "Введите адрес RSS ленты и выберите её в настройках";
+
+// MESSAGES
+
+"No contents to show" = "Пусто 🙃";

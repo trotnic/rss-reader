@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SwissKnife : NSObject
 
 + (NSError *)mockError;
++ (NSURL *)mockURL;
 
 @end
 

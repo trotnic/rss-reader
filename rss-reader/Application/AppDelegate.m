@@ -6,38 +6,56 @@
 //
 
 #import "AppDelegate.h"
-#import "UVFeedXMLParser.h"
-#import "UVFeedProvider.h"
-#import "UVFeedPresenter.h"
-#import "UVFeedViewController.h"
+#import "KeyConstants.h"
+
+#import "UVPresentationFactory.h"
+#import "UVAppCoordinator.h"
+
+#import "UVDataRecognizer.h"
 #import "UVNetwork.h"
+#import "UVSourceManager.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, retain) UVAppCoordinator *coordinator;
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setupAppearance];
+    [self setupSourcesFilePath];
+    self.window.rootViewController = self.coordinator.navigationController;
+    [self.coordinator showPresentationBlock:UVPresentationBlockFeed];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
 // MARK: -
 
-- (void)setupAppearance {
-    UVFeedViewController *controller = [UVFeedViewController new];
-    UVFeedPresenter *presenter = [[UVFeedPresenter alloc] initWithProvider:[[UVFeedProvider new] autorelease]
-                                                                   network:[[UVNetwork new] autorelease]];
-    presenter.viewDelegate = controller;
-    controller.presenter = [presenter autorelease];
-    self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:controller] autorelease];
-    [self.window makeKeyAndVisible];
-    
-    [controller release];
+- (void)setupSourcesFilePath {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                      .firstObject stringByAppendingString:kSourcesFileNameValue];
+    [NSUserDefaults.standardUserDefaults setObject:path forKey:kSourcesFilePathKey];
 }
 
 // MARK: Lazy
+
+- (UVAppCoordinator *)coordinator {
+    if (!_coordinator) {
+        UINavigationController *navigation = [[UINavigationController new] autorelease];
+        _coordinator = [[UVAppCoordinator alloc] initWithNavigation:navigation factory:[self factory]];
+    }
+    return _coordinator;
+}
+
+- (UVPresentationFactory *)factory {
+    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
+    UVSourceManager *source = [[UVSourceManager new] autorelease];
+    UVNetwork *network = [[UVNetwork new] autorelease];
+    return [UVPresentationFactory factoryWithNetwork:network source:source recognizer:recognizer];
+    
+}
 
 - (UIWindow *)window {
     if(!_window) {
@@ -51,6 +69,7 @@
 - (void)dealloc
 {
     [_window release];
+    [_coordinator release];
     [super dealloc];
 }
 

@@ -7,14 +7,37 @@
 
 #import "UIBarButtonItem+PrettiInitializable.h"
 
-@implementation UIBarButtonItem (PrettiInitializable)
+#import <objc/runtime.h>
 
-+ (instancetype)plainItemWithImage:(UIImage *)image target:(id)target action:(SEL)action {
-    return [[[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:target action:action] autorelease];
+void *kAssociationToken_action = &kAssociationToken_action;
+
+@implementation UIBarButtonItem (PrettyInitializable)
+
++ (instancetype)systemItem:(UIBarButtonSystemItem)systemItem action:(void(^)(void))action {
+    return [[UIBarButtonItem alloc] initWithSystemItem:systemItem action:action];
 }
 
-+ (instancetype)fillerItem {
-    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+- (instancetype)initWithSystemItem:(UIBarButtonSystemItem)systemItem action:(void (^)(void))action {
+    self = [self initWithBarButtonSystemItem:systemItem target:nil action:@selector(invoke)];
+    if (self) {
+        objc_setAssociatedObject(self, kAssociationToken_action, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+        self.target = objc_getAssociatedObject(self, kAssociationToken_action);
+    }
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style action:(void (^)(void))action {
+    self = [self initWithImage:image style:style target:nil action:@selector(invoke)];
+    if (self) {
+        objc_setAssociatedObject(self, kAssociationToken_action, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+        self.target = objc_getAssociatedObject(self, kAssociationToken_action);
+    }
+    return self;
+}
+
++ (instancetype)spacer {
+    return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                          target:nil action:nil] autorelease];
 }
 
 @end

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isCalled;
 @property (nonatomic, retain) NSError *error;
-@property (nonatomic, retain) UVFeedChannel *channel;
+@property (nonatomic, retain) NSDictionary *rawChannel;
 
 + (instancetype)parser;
 

@@ -6,6 +6,16 @@
   
 */
 
+// TITLES
+
+"RSS feeds" = "RSS feeds";
+
+// PLACEHOLDERS
+
+"Feed address" = "Feed address";
+
+// ALERTS
+
 "OK" = "OK";
 
 "Connection error" = "Connection error";
@@ -13,3 +23,17 @@
 
 "RSS error" = "RSS error";
 "Can't recognize RSS feed, use another one" = "Can't recognize RSS feed, use another one";
+
+"URL you input is wrong" = "URL you input is wrong";
+"Check if you type correct and try again" = "Check if you type correct and try again";
+
+"No RSS feeds" = "No RSS feeds";
+"Try to input another site address" = "Try to input another site address";
+
+"No RSS feed selected" = "No RSS feed selected";
+"Provide a URL of RSS feed and select it in settings" = "Provide a URL of RSS feed and select it in settings";
+
+// MESSAGES
+
+"No contents to show" = "No contents to show";
+

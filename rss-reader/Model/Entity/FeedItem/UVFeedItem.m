@@ -7,15 +7,15 @@
 
 #import "UVFeedItem.h"
 #import "NSDate+StringConvertible.h"
-#import "NSString+StringExtractor.h"
+#import "NSString+Util.h"
 
-static NSString *const kDatePresentationFormat = @"dd.MM.yyyy HH:mm";
-static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
+static NSString *const kDatePresentationFormat  = @"dd.MM.yyyy HH:mm";
+static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 @interface UVFeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, copy, readwrite) NSString *link;
+@property (nonatomic, retain, readwrite) NSURL *url;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, copy, readwrite) NSString *category;
 @property (nonatomic, retain, readwrite) NSDate *pubDate;
@@ -24,29 +24,26 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 @implementation UVFeedItem
 
-@synthesize expand;
-@synthesize frame;
-
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count) {
         NSLog(@"Unwanted behavior:\n%s\nargument:\n%@", __PRETTY_FUNCTION__, dictionary);
         return nil;
     }
     
-    UVFeedItem *object = [UVFeedItem new];
+    UVFeedItem *object = [[UVFeedItem alloc] init];
     
     object.title = dictionary[kRSSItemTitle];
-    object.link = dictionary[kRSSItemLink];
+    object.url = [NSURL URLWithString:dictionary[kRSSItemLink]];
     object.summary = dictionary[kRSSItemSummary];
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
-    
+    object.expand = NO;
     return [object autorelease];
 }
 
 - (void)dealloc
 {
-    [_link release];
+    [_url release];
     [_title release];
     [_summary release];    
     [_pubDate release];
@@ -56,12 +53,12 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@", self.link];
+    return [NSString stringWithFormat:@"%@", self.url];
 }
 
 - (BOOL)isEqual:(id)other
 {
-    return [self.link isEqualToString:[other link]];
+    return [self.url isEqual:[other url]];
 }
 
 // MARK: - UVFeedItemDisplayModel
@@ -79,7 +76,7 @@ static NSString *const kDateRawFormat = @"EE, d LLLL yyyy HH:mm:ss Z";
 }
 
 - (NSString *)articleDescription {
-    return [self.summary stringBetweenStart:@" />" andFinish:@"<br"];
+    return self.summary;
 }
 
 @end
