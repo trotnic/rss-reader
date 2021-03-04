@@ -13,7 +13,7 @@
        completion:(void (^)(NSDictionary *, NSError *))completion {
     self.isCalled = YES;
     self.providedData = data;
-    completion(self.dictionaryToReturn, self.errorToReturn);
+    if (completion) completion(self.dictionaryToReturn, self.errorToReturn);
 }
 
 @end

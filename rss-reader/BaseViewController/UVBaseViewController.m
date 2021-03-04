@@ -21,9 +21,23 @@
     [super dealloc];
 }
 
+// MARK: - Lazy Properties
+
+- (UILabel *)placeholderLabel {
+    if (!_placeholderLabel) {
+        _placeholderLabel = [UILabel new];
+        _placeholderLabel.hidden = YES;
+        _placeholderLabel.textAlignment = NSTextAlignmentCenter;
+        _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _placeholderLabel;
+}
+
+// MARK: -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupLabel];
+    [self layoutPlaceholderLabel];
 }
 
 // MARK: -
@@ -42,24 +56,12 @@
 
 // MARK: - Private
 
-- (void)setupLabel {
+- (void)layoutPlaceholderLabel {
     [self.view addSubview:self.placeholderLabel];
     [NSLayoutConstraint activateConstraints:@[
         [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
         [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor]
     ]];
-}
-
-// MARK: - Lazy
-
-- (UILabel *)placeholderLabel {
-    if (!_placeholderLabel) {
-        _placeholderLabel = [UILabel new];
-        _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _placeholderLabel.textAlignment = NSTextAlignmentCenter;
-        _placeholderLabel.hidden = YES;
-    }
-    return _placeholderLabel;
 }
 
 @end

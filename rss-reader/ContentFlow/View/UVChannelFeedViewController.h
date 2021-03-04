@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) id<UVChannelFeedPresenterType> presenter;
 
-- (void)setupOnRighButtonClickAction:(void(^)(void))completion;
-
 @end
 
 NS_ASSUME_NONNULL_END

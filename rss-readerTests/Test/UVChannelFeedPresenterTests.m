@@ -13,16 +13,18 @@
 #import "UVSourceManagerMock.h"
 #import "SwissKnife.h"
 #import "RSSDataFactory.h"
+#import "UVAppCoordinatorMock.h"
 
 static NSInteger const TIMEOUT = 4;
 
 @interface UVChannelFeedPresenterTests : XCTestCase
 
-@property (nonatomic, strong) UVChannelFeedPresenter *sut;
-@property (nonatomic, strong) UVNetworkMock *network;
-@property (nonatomic, strong) UVDataRecognizerMock *dataRecognizer;
-@property (nonatomic, strong) UVSourceManagerMock *sourceManager;
-@property (nonatomic, strong) UVChannelFeedViewMock *view;
+@property (nonatomic, retain) UVChannelFeedPresenter *sut;
+@property (nonatomic, retain) UVNetworkMock *network;
+@property (nonatomic, retain) UVDataRecognizerMock *dataRecognizer;
+@property (nonatomic, retain) UVSourceManagerMock *sourceManager;
+@property (nonatomic, retain) UVAppCoordinatorMock *coordinator;
+@property (nonatomic, retain) UVChannelFeedViewMock *view;
 
 @end
 
@@ -33,9 +35,11 @@ static NSInteger const TIMEOUT = 4;
     _network = [UVNetworkMock new];
     _dataRecognizer = [UVDataRecognizerMock new];
     _sourceManager = [UVSourceManagerMock new];
+    _coordinator = [UVAppCoordinatorMock new];
     _sut = [[UVChannelFeedPresenter alloc] initWithRecognizer:self.dataRecognizer
                                                 sourceManager:self.sourceManager
-                                                      network:self.network];
+                                                      network:self.network
+                                                  coordinator:self.coordinator];
     _sut.viewDelegate = self.view;
 }
 
@@ -153,7 +157,6 @@ static NSInteger const TIMEOUT = 4;
 }
 
 - (void)testAttemptToOpenArticleWithNilURLErrorOccuredProvided {
-//    UVFeedChannel *channel = RSSDataFactory.channel;
     UVFeedChannel *channel = nil;
     NSInteger index = 0;
     [self.sut setValue:channel forKey:@"channel"];
@@ -168,7 +171,7 @@ static NSInteger const TIMEOUT = 4;
         return self.view.error != nil && !self.view.isActivityShown;
     }];
     
-    [self.sut openArticleAt:index];
+    [self.sut didSelectItemAt:index];
     
     [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }
@@ -189,7 +192,7 @@ static NSInteger const TIMEOUT = 4;
         return self.view.error == nil && !self.view.isActivityShown;
     }];
     
-    [self.sut openArticleAt:index];
+    [self.sut didSelectItemAt:index];
     
     [self waitForExpectations:@[expectation] timeout:TIMEOUT];
 }

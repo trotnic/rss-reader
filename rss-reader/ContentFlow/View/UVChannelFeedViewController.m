@@ -10,8 +10,8 @@
 #import "UVChannelFeedPresenterType.h"
 #import "UVFeedItemWebViewController.h"
 
+#import "UIImage+AppIcons.h"
 #import "UIViewController+Util.h"
-#import "UIBarButtonItem+PrettiInitializable.h"
 
 static CGFloat const FADE_ANIMATION_DURATION    = 0.1;
 static NSInteger const REFRESH_ENDING_DELAY     = 1;
@@ -24,50 +24,9 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
 @property (nonatomic, strong) UIViewController<UVFeedItemWebViewType> *webView;
 
-@property (nonatomic, copy) void(^rightButtonClickAction)(void);
-
 @end
 
 @implementation UVChannelFeedViewController
-
-// MARK: -
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self setupLayout];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.presenter updateFeed];
-}
-
-- (void)setupLayout {
-    [self.view addSubview:self.tableView];
-    [self.view addSubview:self.activityIndicator];
-    
-    self.navigationItem.rightBarButtonItem = self.settingsButton;
-    
-    [NSLayoutConstraint activateConstraints:@[
-        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-        [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-}
-
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake) {
-        [self.presenter updateFeed];
-    }
-}
-
-// MARK: -
-
-- (void)setupOnRighButtonClickAction:(void(^)(void))completion {
-    self.rightButtonClickAction = completion;
-}
 
 // MARK: - Lazy Properties
 
@@ -76,10 +35,10 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.refreshControl = self.refreshControl;
         _tableView.tableFooterView = [UIView new];
-        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        _tableView.refreshControl = self.refreshControl;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
     }
     return _tableView;
@@ -87,16 +46,12 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (UIBarButtonItem *)settingsButton {
     if(!_settingsButton) {
-        _settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
+        _settingsButton = [[UIBarButtonItem alloc] initWithImage:UIImage.gearIcon
                                                            style:UIBarButtonItemStylePlain
-                                                          target:self
-                                                          action:@selector(settingsButtonClick)];
+                                                          target:self.presenter
+                                                          action:@selector(didTapSettingsButton)];
     }
     return _settingsButton;
-}
-
-- (void)settingsButtonClick {
-    self.rightButtonClickAction();
 }
 
 - (UIActivityIndicatorView *)activityIndicator {
@@ -111,7 +66,8 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 - (UIRefreshControl *)refreshControl {
     if(!_refreshControl) {
         _refreshControl = [UIRefreshControl new];
-        [_refreshControl addTarget:self.presenter action:@selector(updateFeed)
+        [_refreshControl addTarget:self.presenter
+                            action:@selector(updateFeed)
                   forControlEvents:UIControlEventValueChanged];
     }
     return _refreshControl;
@@ -124,14 +80,47 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     return _webView;
 }
 
+// MARK: -
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupAppearance];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.presenter updateFeed];
+}
+
+// MARK: - Private
+
+- (void)setupAppearance {
+    [self layoutActivityIndicator];
+    [self layoutTableView];
+    self.navigationItem.rightBarButtonItem = self.settingsButton;
+}
+
+- (void)layoutActivityIndicator {
+    [self.view addSubview:self.activityIndicator];
+}
+
+- (void)layoutTableView {
+    [self.view addSubview:self.tableView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+}
+
 // MARK: - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UVFeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UVFeedTableViewCell.cellIdentifier forIndexPath:indexPath];
-    [cell setupWithModel:self.presenter.channel.channelItems[indexPath.row]
-        reloadCompletion:^(void (^callback)(void)) {
+    [cell setupWithModel:[self.presenter feedItemAt:indexPath.row] reloadCompletion:^(void (^callback)(void)) {
         [tableView performBatchUpdates:^{
-            callback();
+            if (callback) callback();
         } completion:nil];
     }];
     
@@ -144,14 +133,23 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.presenter.channel.channelItems.count;
+    return self.presenter.numberOfItems;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    switch (motion) {
+        case UIEventSubtypeMotionShake:
+            [self.presenter updateFeed];
+        default:
+            break;
+    }
 }
 
 // MARK: - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.presenter openArticleAt:indexPath.row];
+    [self.presenter didSelectItemAt:indexPath.row];
 }
 
 // MARK: - UVChannelFeedViewType

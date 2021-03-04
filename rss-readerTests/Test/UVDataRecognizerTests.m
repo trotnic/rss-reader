@@ -12,6 +12,14 @@
 #import "RSSDataFactory.h"
 #import "SwissKnife.h"
 
+#import <objc/runtime.h>
+
+@interface UVDataRecognizer ()
+
+@property (nonatomic, retain, readwrite) id<UVRSSLinkXMLParserType> linkXMLParser;
+
+@end
+
 static NSInteger const TIMEOUT = 1;
 
 @interface UVDataRecognizerTests : XCTestCase
@@ -23,6 +31,10 @@ static NSInteger const TIMEOUT = 1;
 @end
 
 @implementation UVDataRecognizerTests
+
+- (id<UVRSSLinkXMLParserType>)mockParserMethod {
+    return [self.linksParser copy];
+}
 
 - (void)setUp {
     _sut = [UVDataRecognizer new];
@@ -190,7 +202,12 @@ static NSInteger const TIMEOUT = 1;
     NSData *data = RSSDataFactory.rawXMLData;
     NSURL *url = SwissKnife.mockURL;
     self.linksParser.errorToReturn = SwissKnife.mockError;
-    [self.sut setValue:self.linksParser forKey:@"linkXMLParser"];
+    
+    Method sut_method = class_getInstanceMethod(self.sut.class, NSSelectorFromString(@"linkXMLParser"));
+    IMP sut_mock_imp = imp_implementationWithBlock(^id(id self_){
+        return self.linksParser;
+    });
+    method_setImplementation(sut_method, sut_mock_imp);
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
 
@@ -210,8 +227,11 @@ static NSInteger const TIMEOUT = 1;
     NSURL *url = SwissKnife.mockURL;
     self.linksParser.dictionaryToReturn = RSSDataFactory.rawLinkFromXML;
 
-    [self.sut setValue:self.linksParser forKey:@"linkXMLParser"];
-
+    Method sut_method = class_getInstanceMethod(self.sut.class, NSSelectorFromString(@"linkXMLParser"));
+    IMP sut_mock_imp = imp_implementationWithBlock(^id(id self_){
+        return self.linksParser;
+    });
+    method_setImplementation(sut_method, sut_mock_imp);
     XCTestExpectation *expectation = [self expectationWithDescription:@"no rss links in html error occured"];
 
     [self.sut discoverLinksFromXML:data url:url completion:^(NSArray<NSDictionary *> *result, NSError *error) {
@@ -273,7 +293,7 @@ static NSInteger const TIMEOUT = 1;
     [self.sut discoverContentType:data
                        completion:^(UVRawContentType type, NSError *error) {
         XCTAssertEqual(UVRawContentUndefined, type);
-        XCTAssertNil(error);
+        XCTAssertNotNil(error);
         [expectation fulfill];
     }];
     

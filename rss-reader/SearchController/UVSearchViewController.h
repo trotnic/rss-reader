@@ -1,5 +1,5 @@
 //
-//  UVSourceSearchViewController.h
+//  UVSourceSearchViewController#.h
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 18.12.20.

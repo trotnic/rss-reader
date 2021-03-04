@@ -14,7 +14,7 @@
 completionHandler:(void (^)(BOOL))completion {
     self.isCalled = YES;
     self.selectedURL = url;
-    completion(self.completionBool);
+    if (completion) completion(self.completionBool);
 }
 
 @end

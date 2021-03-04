@@ -62,13 +62,25 @@
     }];
 }
 
-- (void)openArticleAt:(NSInteger)row {
-    NSURL *url = self.channel.items[row].url;
+- (void)didSelectItemAt:(NSInteger)row {
+    NSURL *url = [self.channel itemUrlAt:row];
     if (!url) {
         [self showError:RSSErrorTypeBadURL];
         return;
     }
     [self.viewDelegate presentWebPageOnURL:url];
+}
+
+- (id<UVFeedItemDisplayModel>)feedItemAt:(NSInteger)row {
+    return self.channel.items[row];
+}
+
+- (NSInteger)numberOfItems {
+    return self.channel.items.count;
+}
+
+- (void)didTapSettingsButton {
+    [self.coordinator showPresentationBlock:UVPresentationBlockSources];
 }
 
 // MARK: - Private
@@ -97,8 +109,8 @@
 - (void)showError:(RSSError)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.viewDelegate rotateActivityIndicator:NO];
+        [self.viewDelegate presentError:[self provideErrorOfType:error]];
     });
-    [super showError:error];
 }
 
 @end

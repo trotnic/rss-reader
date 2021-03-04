@@ -23,7 +23,7 @@
     NSURL *url = [self.network validateAddress:address error:&error];
     
     if (error || !url) {
-        [self showError:RSSErrorTypeBadURL];
+        [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
         return;
     }
     
@@ -31,7 +31,9 @@
     [self.network fetchDataFromURL:url
                         completion:^(NSData *data, NSError *error) {
         if (error) {
-            [weakSelf showError:RSSErrorTypeBadURL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeBadURL]];
+            });
             return;
         }
         [weakSelf discoverLinks:data url:url];
@@ -66,31 +68,36 @@
 
 - (void)discoverLinks:(NSData *)data url:(NSURL *)url {
     if (!data) {
-        [self showError:RSSErrorTypeParsingError];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorTypeParsingError]];
+        });
         return;
     }
     
     __block typeof(self)weakSelf = self;
     [self.dataRecognizer discoverContentType:data
                                   completion:^(UVRawContentType type, NSError *error) {
-        if (type == UVRawContentHTML) {
-            [weakSelf.dataRecognizer discoverLinksFromHTML:data
-                                                completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentXML) {
-            [weakSelf.dataRecognizer discoverLinksFromXML:data
-                                                      url:url
-                                               completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentUndefined || error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
-            });
+        switch (type) {
+            case UVRawContentHTML:
+                [weakSelf.dataRecognizer discoverLinksFromHTML:data
+                                                    completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                    [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+                }];
+                break;
+            case UVRawContentXML:
+                [weakSelf.dataRecognizer discoverLinksFromXML:data
+                                                          url:url
+                                                   completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                    [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+                }];
+                break;
+            case UVRawContentUndefined:
+            default:
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.viewDelegate stopSearchWithUpdate:NO];
+                    if (error) [weakSelf.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
+                });
+                break;
         }
     }];
 }
@@ -100,7 +107,7 @@
     if (error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.viewDelegate stopSearchWithUpdate:NO];
-            [self showError:RSSErrorNoRSSLinksDiscovered];
+            [self.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
         });
         return;
     }
@@ -112,7 +119,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
     });
-
+    
 }
 
 - (void)saveState {
