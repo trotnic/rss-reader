@@ -20,8 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<UVFeedItemDisplayModel>)itemAt:(NSInteger)index;
 - (NSInteger)numberOfItems;
-// FEED:
-//- (NSString *)channelTitle;
+
+- (void)markItemDoneAtIndex:(NSInteger)index;
+- (void)markItemReadAtIndex:(NSInteger)index;
+- (void)deleteitemAtIndex:(NSInteger)index;
 
 @end
 

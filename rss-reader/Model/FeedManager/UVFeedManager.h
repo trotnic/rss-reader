@@ -8,12 +8,13 @@
 #import <Foundation/Foundation.h>
 #import "UVFeedManagerType.h"
 #import "UVPListRepositoryType.h"
+#import "UVSessionType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UVFeedManager : NSObject <UVFeedManagerType>
 
-- (instancetype)initWithRepository:(id<UVPListRepositoryType>)repository;
+- (instancetype)initWithSession:(id<UVSessionType>)session repository:(id<UVPListRepositoryType>)repository;
 
 @end
 

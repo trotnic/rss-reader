@@ -15,6 +15,11 @@
 @property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
 @property (nonatomic, retain, readwrite) id<UVCoordinatorType>      coordinator;
 
+// Is used internally as a better approach
+// to mark an instance as an observer
+// of id<UVNetworkType> network
+@property (nonatomic, retain) NSUUID *uuid;
+
 @end
 
 @implementation UVChannelSourceListPresenter
@@ -35,24 +40,32 @@
 
 - (void)dealloc
 {
-    [_network unregisterObserver:NSStringFromClass([self class])];
+    [_network unregisterObserver:self.uuid.UUIDString];
     [_dataRecognizer release];
     [_sourceManager release];
     [_network release];
     [_coordinator release];
+    [_uuid release];
     [super dealloc];
 }
 
-// MARK: -
+// MARK: - Lazy Properties
+
+- (NSUUID *)uuid {
+    if (!_uuid) {
+        _uuid = [NSUUID.UUID retain];
+    }
+    return _uuid;
+}
 
 - (void)setNetwork:(id<UVNetworkType>)network {
     if (network != _network) {
         [network retain];
-        [_network unregisterObserver:NSStringFromClass([self class])];
+        [_network unregisterObserver:self.uuid.UUIDString];
         [_network release];
         _network = network;
         __block typeof(self)weakSelf = self;
-        [network registerObserver:NSStringFromClass([self class]) callback:^(BOOL isConnectionStable) {
+        [network registerObserver:self.uuid.UUIDString callback:^(BOOL isConnectionStable) {
             if (!isConnectionStable) [weakSelf.view presentError:[UVBasePresenter provideErrorOfType:RSSErrorTypeNoNetworkConnection]];
         }];
     }

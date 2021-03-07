@@ -9,7 +9,7 @@
 
 @implementation UIBarButtonItem (PrettyInitializable)
 
-+ (instancetype)fillerItem {
++ (instancetype)spacerItem {
     return [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                           target:nil action:nil] autorelease];
 }

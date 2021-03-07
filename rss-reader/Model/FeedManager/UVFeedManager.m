@@ -14,15 +14,21 @@
 
 @property (nonatomic, strong) UVRSSFeed *innerFeed;
 @property (nonatomic, strong) UVRSSFeedItem *selected;
+
+@property (nonatomic, strong) id<UVSessionType> session;
 @property (nonatomic, strong) id<UVPListRepositoryType> repository;
+
+@property (nonatomic, copy, readonly) NSString *feedFileName;
 
 @end
 
 @implementation UVFeedManager
 
-- (instancetype)initWithRepository:(id<UVPListRepositoryType>)repository {
+- (instancetype)initWithSession:(id<UVSessionType>)session
+                     repository:(id<UVPListRepositoryType>)repository {
     self = [super init];
     if (self) {
+        _session = session;
         _repository = repository;
     }
     return self;
@@ -39,7 +45,7 @@
 - (UVRSSFeed *)feed {
     if (!self.innerFeed) {
         NSError *error = nil;
-        NSDictionary *raw = [[self.repository fetchData:&error] firstObject];
+        NSDictionary *raw = [self.repository fetchData:self.feedFileName error:&error].firstObject;
         if (error) return nil;
         self.innerFeed = [UVRSSFeed objectWithDictionary:raw];
     }
@@ -50,37 +56,62 @@
     return self.selected;
 }
 
+- (void)setState:(UVRSSItemOptionState)state ofFeedItem:(UVRSSFeedItem *)item {
+    // FEED: 
+    item.readingState = state;
+}
+
 - (void)selectFeedItem:(UVRSSFeedItem *)item {
-    switch (item.readingState) {
-        case UVRSSItemNotStartedOpt:
-            [self.innerFeed changeStateOf:item state:UVRSSItemDoneOpt];
-            break;
-        default:
-            break;
-    }
     self.selected = item;
 }
 
-- (BOOL)storeFeed:(NSDictionary *)feed error:(NSError **)error {
-    if (!feed || ![feed isKindOfClass:NSDictionary.class]) {
+- (BOOL)storeFeed:(NSDictionary *)rawFeed error:(NSError **)error {
+    if (!rawFeed || ![rawFeed isKindOfClass:NSDictionary.class]) {
         if (error) *error = [self feedError];
         return NO;
     }
-    if (![self.repository updateData:@[feed] error:error]) {
-        return NO;
-    }
-    UVRSSFeed *tmp = [UVRSSFeed objectWithDictionary:feed];
-    if (!tmp) {
+    
+    UVRSSFeed *feed = [UVRSSFeed objectWithDictionary:rawFeed];
+    if (!feed) {
         if (error) *error = [self feedError];
         return NO;
     }
-    self.innerFeed = tmp;
-    return YES;
+    // FEED:
+    /**
+     check if a feed exists
+     */
+    NSString *fileName = self.feedFileName;
+    if (![self.repository isFileExists:fileName] || !self.innerFeed.feedItems.count || ![feed isEqual:self.innerFeed]) {
+        // FEED:
+        /**
+         updating a serialized structure
+         */
+        self.innerFeed = feed;
+    } else {
+        NSArray *tmp = [feed.items filter:^BOOL(UVRSSFeedItem *item) {
+            return ![self.innerFeed.items containsObject:item];
+        }];
+        if (tmp.count > 0) [self.innerFeed.feedItems addObjectsFromArray:tmp];
+    }
+    return [self.repository updateData:@[self.innerFeed.dictionaryFromObject] file:fileName error:error];
+    // FEED: ❗️
+    /**
+     do analysis here
+     */
+//    return YES;
+}
+
+- (void)deleteFeedItem:(UVRSSFeedItem *)item {
+    // FEED:
+    NSError *error = nil;
+    [self.innerFeed.feedItems removeObject:item];
+    NSDictionary *rawFeedToSave = self.innerFeed.dictionaryFromObject;
+    [self.repository updateData:@[rawFeedToSave] file:self.feedFileName error:&error];
 }
 
 - (void)deleteFeed {
     NSError *error = nil;
-    [self.repository updateData:@[] error:&error];
+    [self.repository updateData:@[] file:self.feedFileName error:&error];
     self.innerFeed = nil;
 }
 
@@ -88,6 +119,10 @@
 
 - (NSError *)feedError {
     return [NSError errorWithDomain:UVNullDataErrorDomain code:10000 userInfo:nil];
+}
+
+- (NSString *)feedFileName {
+    return [self.session pathTo:UVFeedPath];
 }
 
 @end

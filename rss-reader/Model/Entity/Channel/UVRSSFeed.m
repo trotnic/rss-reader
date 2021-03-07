@@ -12,7 +12,6 @@
 
 @property (nonatomic, copy, readwrite) NSString *link;
 @property (nonatomic, copy, readwrite) NSString *summary;
-@property (nonatomic, strong, readwrite) NSArray<UVRSSFeedItem *> *items;
 
 @end
 
@@ -28,24 +27,35 @@
     
     object.link = dictionary[kRSSChannelLink];
     object.summary = dictionary[kRSSChannelDescription];
-    object.items = [dictionary[kRSSChannelItems] map:^UVRSSFeedItem *(NSDictionary *rawItem) {
+    NSArray *items = [dictionary[kRSSChannelItems] map:^UVRSSFeedItem *(NSDictionary *rawItem) {
         return [UVRSSFeedItem objectWithDictionary:rawItem];
     }];
+    object.feedItems = [NSMutableSet setWithArray:items];
     
     return [object autorelease];
+}
+
+- (NSDictionary *)dictionaryFromObject {
+    return @{
+        kRSSChannelLink : self.link,
+        kRSSChannelDescription : self.summary,
+        kRSSChannelItems : [self.feedItems.allObjects map:^NSDictionary *(UVRSSFeedItem *item) {
+            return item.dictionaryFromObject;
+        }]
+    };
 }
 
 - (void)dealloc
 {
     [_link release];
-    [_items release];
+    [_feedItems release];
     [_summary release];
     [super dealloc];
 }
 
-- (BOOL)isEqual:(id)other
+- (BOOL)isEqual:(UVRSSFeed *)other
 {
-    return [self.link isEqualToString:[other link]];
+    return [self.link isEqualToString:other.link];
 }
 
 // MARK: - Interface
@@ -54,6 +64,10 @@
     [[self.items find:^BOOL(UVRSSFeed *obj) {
         return [item isEqual:obj];
     }] setReadingState:state];
+}
+
+- (NSArray<id<UVFeedItemDisplayModel>> *)items {
+    return self.feedItems.allObjects;
 }
 
 @end

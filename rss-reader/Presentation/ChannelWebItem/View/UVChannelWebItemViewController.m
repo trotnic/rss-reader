@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UIBarButtonItem *closeWebPageButton;
 @property (nonatomic, strong) UIBarButtonItem *openInBrowserButton;
 
+@property (nonatomic, strong) UIBarButtonItem *doneButton;
+
 @end
 
 @implementation UVChannelWebItemViewController
@@ -39,52 +41,52 @@
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[UIBarButtonItem alloc] initWithImage:UIImage.arrowLeftIcon
-                                                         style:UIBarButtonItemStylePlain
-                                                        target:self.presenter
-                                                        action:@selector(backButtonClick)];
+        _goBackButton = [self presenterItemWithImage:UIImage.arrowLeftIcon
+                                            selector:@selector(backButtonClick)];
     }
     return _goBackButton;
 }
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[UIBarButtonItem alloc] initWithImage:UIImage.arrowRightIcon
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self.presenter
-                                                           action:@selector(forwardButtonClick)];
+        _goForwardButton = [self presenterItemWithImage:UIImage.arrowRightIcon
+                                               selector:@selector(forwardButtonClick)];
     }
     return _goForwardButton;
 }
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.refreshIcon
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self.presenter
-                                                               action:@selector(reloadButtonClick)];
+        _reloadWebPageButton = [self presenterItemWithImage:UIImage.refreshIcon
+                                                   selector:@selector(reloadButtonClick)];
     }
     return _reloadWebPageButton;
 }
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        _closeWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.xmarkIcon
-                                                               style:UIBarButtonItemStylePlain
-                                                              target:self.presenter
-                                                              action:@selector(closeButtonClick)];
+        _closeWebPageButton = [self presenterItemWithImage:UIImage.xmarkIcon
+                                                  selector:@selector(closeButtonClick)];
     }
     return _closeWebPageButton;
 }
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:UIImage.safariIcon
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self.presenter
-                                                               action:@selector(browserButtonClick)];
+        _openInBrowserButton = [self presenterItemWithImage:UIImage.safariIcon
+                                                   selector:@selector(browserButtonClick)];
     }
     return _openInBrowserButton;
+}
+
+- (UIBarButtonItem *)doneButton {
+    if (!_doneButton) {
+        _doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                       style:UIBarButtonItemStylePlain
+                                                      target:self.presenter
+                                                      action:@selector(doneButtonClick)];
+    }
+    return _doneButton;
 }
 
 // MARK: -
@@ -115,6 +117,7 @@
     }
     [self layoutWebView];
     [self setupToolbar];
+    self.navigationItem.rightBarButtonItem = self.doneButton;
 }
 
 - (void)layoutWebView {
@@ -128,7 +131,7 @@
 }
 
 - (void)setupToolbar {
-    UIBarButtonItem *spacer = [UIBarButtonItem fillerItem];
+    UIBarButtonItem *spacer = [UIBarButtonItem spacerItem];
     self.toolbarItems = @[
         self.goBackButton,
         spacer,
@@ -140,6 +143,10 @@
         spacer,
         self.openInBrowserButton
     ];
+}
+
+- (UIBarButtonItem *)presenterItemWithImage:(UIImage *)image selector:(SEL)selector {
+    return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self.presenter action:selector];
 }
 
 @end

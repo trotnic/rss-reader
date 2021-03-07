@@ -9,16 +9,17 @@
 #import "UVFeedChannelDisplayModel.h"
 #import "UVFeedChannelKeys.h"
 #import "UVRSSFeedItem.h"
+#import "UVPropertyListConvertible.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVRSSFeed : NSObject <UVFeedChannelDisplayModel>
+@interface UVRSSFeed : NSObject <UVFeedChannelDisplayModel, UVPropertyListConvertible>
 
 @property (nonatomic, copy, readonly) NSString *link;
 @property (nonatomic, copy, readonly) NSString *summary;
-@property (nonatomic, strong, readonly) NSArray<UVRSSFeedItem *> *items;
+// FEED: mutable?
+@property (nonatomic, strong) NSMutableSet<UVRSSFeedItem *> *feedItems;
 
-+ (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
 - (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemOptionState)state;
 
 @end

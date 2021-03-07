@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVSourceRepository : NSObject <UVPListRepositoryType>
 
-- (instancetype)initWithPath:(NSString *)path;
+//- (instancetype)initWithPath:(NSString *)path;
 
 @end
 

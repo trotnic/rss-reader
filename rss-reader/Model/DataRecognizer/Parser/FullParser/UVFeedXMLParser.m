@@ -136,13 +136,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
-        if (self.completion) self.completion(self.channelDictionary, nil);
-        _items = nil;
-        _parser = nil;
-        _completion = nil;
-        _parsingString = nil;
-        _itemDictionary = nil;
-        _channelDictionary = nil;
+        if (self.completion) self.completion([self.channelDictionary copy], nil);
     }
 }
 

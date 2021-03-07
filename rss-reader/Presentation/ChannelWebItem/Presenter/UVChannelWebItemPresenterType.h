@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol UVChannelWebItemPresenterType <NSObject, WKNavigationDelegate>
 
 - (void)loadPage;
+
 - (void)backButtonClick;
 - (void)forwardButtonClick;
 - (void)reloadButtonClick;
 - (void)closeButtonClick;
 - (void)browserButtonClick;
+
+- (void)doneButtonClick;
 
 @end
 

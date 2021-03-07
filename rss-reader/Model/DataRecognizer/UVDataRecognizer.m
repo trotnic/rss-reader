@@ -62,6 +62,7 @@ static NSString *const EMPTY_STRING         = @"";
         if (completion) completion(result, error);
         [parser release];
     }];
+    NSLog(@"%@", parser);
 }
 
 - (void)discoverLinksFromHTML:(NSData *)data

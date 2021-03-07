@@ -29,6 +29,7 @@
 // MARK: - UVChannelWebItemPresenterType
 
 - (void)loadPage {
+    // TODO: probably move a moment of creation into the UVNetwork class
     NSURLRequest *request = [NSURLRequest requestWithURL:self.feedManager.selectedFeedItem.url];
     [self.view.webView loadRequest:request];
 }
@@ -52,6 +53,13 @@
 
 - (void)browserButtonClick {
     [self.coordinator openURL:self.feedManager.selectedFeedItem.url];
+}
+
+- (void)doneButtonClick {
+    // FEED:
+    UVRSSFeedItem *selectedItem = self.feedManager.selectedFeedItem;
+    [self.feedManager setState:UVRSSItemDoneOpt ofFeedItem:selectedItem];
+    [self.coordinator showScreen:PresentationBlockFeed];
 }
 
 // MARK: - WKNavigationDelegate

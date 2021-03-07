@@ -47,6 +47,7 @@
 - (void)showScreen:(PresentationBlockType)type {
     switch (self.lastPresentedBlock) {
         case PresentationBlockSearch:
+        case PresentationBlockWeb:
             [self.controller popViewControllerAnimated:YES];
             break;
         default:

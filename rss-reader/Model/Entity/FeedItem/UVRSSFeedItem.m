@@ -31,31 +31,50 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
     }
     
     UVRSSFeedItem *object = [[UVRSSFeedItem alloc] init];
-    
+    // FEED: 
     object.title = dictionary[kRSSItemTitle];
     object.url = [NSURL URLWithString:dictionary[kRSSItemLink]];
     object.summary = dictionary[kRSSItemSummary];
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
-    object.expand = NO;
-    object.readingState = UVRSSItemNotStartedOpt;
+    object.expand = [dictionary[kRSSItemExpand] boolValue];
+    UVRSSItemOptionState state = [dictionary[kRSSItemState] intValue];
+    object.readingState = !state ? UVRSSItemNotStartedOpt : state;
     return object;
+}
+
+- (NSDictionary *)dictionaryFromObject {
+    // FEED: ❗️
+    NSDictionary *dict = @{
+        kRSSItemTitle : [self.title copy],
+        kRSSItemLink : [self.url.absoluteString copy],
+        kRSSItemSummary : [self.summary copy],
+        kRSSItemCategory : self.category == nil ? @"" : [self.category copy],
+        kRSSItemPubDate : [self.pubDate stringWithFormat:kDateRawFormat],
+        kRSSItemExpand : [NSNumber numberWithBool:self.isExpand == 0 ? 0 : 1],
+        kRSSItemState : [NSNumber numberWithInt:self.readingState]
+    };
+    return dict;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ --- %u, %p", self.url, self.readingState, &self];
+    return [NSString stringWithFormat:@"%@ --- %u, %p", self.url, self.readingState, self];
 }
 
-- (BOOL)isEqual:(id)other
+- (BOOL)isEqual:(UVRSSFeedItem *)other
 {
-    return [self.url isEqual:[other url]];
+    return [self.url isEqual:other.url];
 }
 
 // MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleDate {
     return [self.pubDate stringWithFormat:kDatePresentationFormat];
+}
+
+- (BOOL)isReading {
+    return self.readingState == UVRSSItemReadingOpt;
 }
 
 @end

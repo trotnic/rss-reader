@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *articleDate;
 @property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, assign, getter=isExpand) BOOL expand;
+@property (nonatomic, assign, readonly, getter=isReading) BOOL reading;
 
 @end
 

@@ -7,5 +7,11 @@
 
 #import <Foundation/Foundation.h>
 #import "UVSourceManagerType.h"
+#import "UVPListRepositoryType.h"
+#import "UVSessionType.h"
 
-Class registerClass(NSString *name);
+@interface UVSourceManager : NSObject <UVSourceManagerType>
+
+- (instancetype)initWithSession:(id<UVSessionType>)session repository:(id<UVPListRepositoryType>)repository;
+
+@end

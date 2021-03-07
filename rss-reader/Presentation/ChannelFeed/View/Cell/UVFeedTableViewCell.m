@@ -25,18 +25,34 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 @property (nonatomic, strong, readwrite) UILabel *categoryLabel;
 @property (nonatomic, strong, readwrite) UILabel *descriptionLabel;
 
-@property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *auxiliaryStack;
+@property (nonatomic, strong) UIImageView *stateView;
 
-@property (nonatomic, retain) UIButton *expandButton;
+@property (nonatomic, strong) UIStackView *mainStack;
+@property (nonatomic, strong) UIStackView *auxiliaryStack;
+@property (nonatomic, strong) UIStackView *subAuxiliaryStackV;
+
+@property (nonatomic, strong) UIButton *expandButton;
 
 @property (nonatomic, copy) void(^buttonClickedCallback)(void(^)(void));
 
-@property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
+@property (nonatomic, strong) id<UVFeedItemDisplayModel> model;
 
 @end
 
 @implementation UVFeedTableViewCell
+
+/**
+ 
+ ---------------------------
+ | Some title here         |
+ |                         |
+ | description             |
+ |                         |
+ | date   category  expand |
+ | state                   |
+ ---------------------------
+ 
+ */
 
 // MARK: -
 
@@ -111,6 +127,15 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     return _expandButton;
 }
 
+- (UIImageView *)stateView {
+    if (!_stateView) {
+        _stateView = [UIImageView new];
+        _stateView.image = [UIImage systemImageNamed:@"eyeglasses"];
+        _stateView.hidden = YES;
+    }
+    return _stateView;
+}
+
 - (UIStackView *)mainStack {
     if (!_mainStack) {
         _mainStack = [UIStackView new];
@@ -127,8 +152,19 @@ static CGFloat   const kExpandAnimationDelay        = 0;
         _auxiliaryStack = [UIStackView new];
         _auxiliaryStack.axis = UILayoutConstraintAxisHorizontal;
         _auxiliaryStack.distribution = UIStackViewDistributionEqualSpacing;
+        _auxiliaryStack.alignment = UIStackViewAlignmentTop;
     }
     return _auxiliaryStack;
+}
+
+- (UIStackView *)subAuxiliaryStackV {
+    if (!_subAuxiliaryStackV) {
+        _subAuxiliaryStackV = [UIStackView new];
+        _subAuxiliaryStackV.axis = UILayoutConstraintAxisVertical;
+        _subAuxiliaryStackV.alignment = UIStackViewAlignmentLeading;
+        _subAuxiliaryStackV.distribution = UIStackViewDistributionFillProportionally;
+    }
+    return _subAuxiliaryStackV;
 }
 
 // MARK: - Private
@@ -145,7 +181,10 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     [self.mainStack addArrangedSubview:self.descriptionLabel];
     [self.mainStack addArrangedSubview:self.auxiliaryStack];
     
-    [self.auxiliaryStack addArrangedSubview:self.dateLabel];
+    [self.subAuxiliaryStackV addArrangedSubview:self.dateLabel];
+    [self.subAuxiliaryStackV addArrangedSubview:self.stateView];
+    
+    [self.auxiliaryStack addArrangedSubview:self.subAuxiliaryStackV];
     [self.auxiliaryStack addArrangedSubview:self.categoryLabel];
     [self.auxiliaryStack addArrangedSubview:self.expandButton];
 }
@@ -187,6 +226,8 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     self.categoryLabel.text = self.model.category;
     self.descriptionLabel.text = self.model.summary;
     self.descriptionLabel.hidden = !self.model.isExpand;
+    self.stateView.hidden = !self.model.isReading;
 }
+
 
 @end

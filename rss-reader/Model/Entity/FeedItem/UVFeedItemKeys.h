@@ -14,5 +14,7 @@ static NSString *const kRSSItemLink         = @"link";
 static NSString *const kRSSItemSummary      = @"description";
 static NSString *const kRSSItemCategory     = @"category";
 static NSString *const kRSSItemPubDate      = @"pubDate";
+static NSString *const kRSSItemExpand       = @"expand";
+static NSString *const kRSSItemState        = @"state";
 
 #endif /* UVFeedItemKeys_h */
