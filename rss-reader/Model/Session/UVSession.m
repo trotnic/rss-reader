@@ -7,6 +7,8 @@
 
 #import "UVSession.h"
 
+static NSString *const KEY_FEED_ITEM        = @"feedItem";
+static NSString *const KEY_SHOULD_RESTORE   = @"shouldRestore";
 static NSString *const SOURCES_FILE_NAME    = @"source.plist";
 static NSString *const FEED_FILE_NAME       = @"lolkek.plist";
 
@@ -30,20 +32,31 @@ static NSString *const FEED_FILE_NAME       = @"lolkek.plist";
 
 // MARK: - Lazy Properties
 
+- (BOOL)shouldRestore {
+    return [self.defaults boolForKey:KEY_SHOULD_RESTORE];
+}
+
+- (void)setShouldRestore:(BOOL)shouldRestore {
+    [self.defaults setBool:shouldRestore forKey:KEY_SHOULD_RESTORE];
+}
+
+- (NSDictionary *)lastFeedItem {
+    return [self.defaults valueForKey:KEY_FEED_ITEM];
+}
+
+- (void)setLastFeedItem:(NSDictionary *)lastFeedItem {
+    [self.defaults setValue:lastFeedItem forKey:KEY_FEED_ITEM];
+}
 
 // MARK: - UVSessionType
 
-- (NSString *)pathTo:(UVPath)type {
+- (NSString *)nameOfFile:(UVFile)type {
     switch (type) {
-        case UVFeedPath:
+        case UVFeedFile:
             return FEED_FILE_NAME;
-        case UVSourcesPath:
+        case UVSourcesFile:
             return SOURCES_FILE_NAME;
     }
-}
-
-- (BOOL)shouldRestore {
-    return NO;
 }
 
 @end

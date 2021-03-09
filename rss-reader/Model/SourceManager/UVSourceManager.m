@@ -19,8 +19,11 @@
 
 @property (nonatomic, strong) NSMutableArray<RSSLink *> *rssLinks;
 
-@property (nonatomic, strong) id<UVSessionType> session;
-@property (nonatomic, strong) id<UVPListRepositoryType> repository;
+@property (nonatomic, retain) id<UVSessionType> session;
+@property (nonatomic, retain) id<UVPListRepositoryType> repository;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, void(^)(BOOL)> *observers;
+@property (nonatomic, strong) dispatch_semaphore_t synchronizationSemaphore;
 
 @property (nonatomic, copy, readonly) NSString *sourcesFileName;
 
@@ -32,16 +35,19 @@
 {
     self = [super init];
     if (self) {
-        _session = session;
-        _repository = repository;
+        _session = [session retain];
+        _repository = [repository retain];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [_synchronizationSemaphore release];
+    [_observers release];
     [_repository release];
     [_rssLinks release];
+    [_session release];
     [super dealloc];
 }
 
@@ -62,6 +68,20 @@
         }
     }
     return _rssLinks;
+}
+
+- (dispatch_semaphore_t)synchronizationSemaphore {
+    if (!_synchronizationSemaphore) {
+        _synchronizationSemaphore = dispatch_semaphore_create(1);
+    }
+    return _synchronizationSemaphore;
+}
+
+- (NSMutableDictionary<NSString *, void(^)(BOOL)> *)observers {
+    if (!_observers) {
+        _observers = [NSMutableDictionary new];
+    }
+    return _observers;
 }
 
 // MARK: - Interface
@@ -89,10 +109,13 @@
         link.selected = NO;
     }];
     link.selected = YES;
+    [self.observers.allValues forEach:^(void(^callback)(BOOL)) {
+        if (callback) callback(YES);
+    }];
 }
 
 - (void)updateLink:(RSSLink *)link {
-    [self.rssLinks enumerateObjectsUsingBlock:^(RSSLink *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.rssLinks enumerateObjectsUsingBlock:^(RSSLink *obj, NSUInteger idx, BOOL *stop) {
         if ([obj isEqual:link]) self.rssLinks[idx] = link;
     }];
 }
@@ -104,19 +127,35 @@
 - (void)insertLink:(NSDictionary *)rawLink relativeToURL:(NSURL *)url {
     RSSLink *link = [RSSLink objectWithDictionary:rawLink];
     [link configureURLRelativeToURL:url];
-    if (![self.rssLinks containsObject:link]) {
-        [self.rssLinks addObject:link];
-    }
+    if (![self.rssLinks containsObject:link]) [self.rssLinks addObject:link];
 }
 
 - (NSArray<RSSLink *> *)links {
-    return [self.rssLinks copy];
+    return [[self.rssLinks copy] autorelease];
+}
+
+// MARK: - Posting
+
+- (void)registerObserver:(NSString *)observer callback:(void(^)(BOOL))callback {
+    dispatch_semaphore_wait(self.synchronizationSemaphore, DISPATCH_TIME_NOW);
+    self.observers[observer] = [[callback copy] autorelease];
+    dispatch_semaphore_signal(self.synchronizationSemaphore);
+}
+
+- (void)unregisterObserver:(NSString *)observer {
+    dispatch_semaphore_wait(self.synchronizationSemaphore, DISPATCH_TIME_NOW);
+    [self.observers removeObjectForKey:observer];
+    dispatch_semaphore_signal(self.synchronizationSemaphore);
+}
+
+- (BOOL)isObservedBy:(NSString *)observer {
+    return [self.observers.allKeys containsObject:observer];
 }
 
 // MARK: - Private
 
 - (NSString *)sourcesFileName {
-    return [self.session pathTo:UVSourcesPath];
+    return [self.session nameOfFile:UVSourcesFile];
 }
 
 @end

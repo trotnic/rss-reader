@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVSession : NSObject <UVSessionType>
 
+@property (nonatomic, assign) BOOL shouldRestore;
+
 - (instancetype)initWithDefaults:(NSUserDefaults *)defaults;
 
 @end

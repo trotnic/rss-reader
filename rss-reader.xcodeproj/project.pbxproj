@@ -41,6 +41,7 @@
 		7362CAEF25A24DFB00037AEF /* UVSourceManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362CAEE25A24DFB00037AEF /* UVSourceManagerMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7362CAF925A24FD800037AEF /* UVDataRecognizerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362CAF825A24FD800037AEF /* UVDataRecognizerMock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		736C7ED925F5007A005F0E14 /* UVSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 736C7ED825F5007A005F0E14 /* UVSession.m */; };
+		736C7EF125F5283B005F0E14 /* UVStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 736C7EF025F5283B005F0E14 /* UVStack.m */; };
 		7381CCA625EC2DA8001EF1DD /* UITableViewCell+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 7381CCA525EC2DA8001EF1DD /* UITableViewCell+Util.m */; };
 		738F68A625E4F8E90073657C /* UVDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F68A525E4F8E90073657C /* UVDebugViewController.m */; };
 		739956B025A9A47A003FD39C /* UVSourceManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 739956AF25A9A47A003FD39C /* UVSourceManagerTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -174,6 +175,8 @@
 		736C7ED725F5007A005F0E14 /* UVSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSession.h; sourceTree = "<group>"; };
 		736C7ED825F5007A005F0E14 /* UVSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSession.m; sourceTree = "<group>"; };
 		736C7EE025F50086005F0E14 /* UVSessionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSessionType.h; sourceTree = "<group>"; };
+		736C7EEF25F5283B005F0E14 /* UVStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVStack.h; sourceTree = "<group>"; };
+		736C7EF025F5283B005F0E14 /* UVStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVStack.m; sourceTree = "<group>"; };
 		7381CCA425EC2DA8001EF1DD /* UITableViewCell+Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Util.h"; sourceTree = "<group>"; };
 		7381CCA525EC2DA8001EF1DD /* UITableViewCell+Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Util.m"; sourceTree = "<group>"; };
 		738F68A425E4F8E90073657C /* UVDebugViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDebugViewController.h; sourceTree = "<group>"; };
@@ -321,6 +324,7 @@
 		2B19036F2563FE16006D755E /* rss-reader */ = {
 			isa = PBXGroup;
 			children = (
+				736C7EED25F5282E005F0E14 /* Util */,
 				738F68A225E4F8BC0073657C /* Debug Area */,
 				2BBE8E5E256D393600B31BC5 /* Extension */,
 				2B1903BE2563FEE9006D755E /* Model */,
@@ -718,6 +722,23 @@
 				736C7ED825F5007A005F0E14 /* UVSession.m */,
 			);
 			path = Session;
+			sourceTree = "<group>";
+		};
+		736C7EED25F5282E005F0E14 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				736C7EEE25F52831005F0E14 /* Stack */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		736C7EEE25F52831005F0E14 /* Stack */ = {
+			isa = PBXGroup;
+			children = (
+				736C7EEF25F5283B005F0E14 /* UVStack.h */,
+				736C7EF025F5283B005F0E14 /* UVStack.m */,
+			);
+			path = Stack;
 			sourceTree = "<group>";
 		};
 		7372582C25EF756A0042E4C3 /* ChannelDoneList */ = {
@@ -1275,6 +1296,7 @@
 				CAF30C2625701736004A925D /* UIViewController+Util.m in Sources */,
 				CA43630E25D5626D0082E44C /* UVBasePresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
+				736C7EF125F5283B005F0E14 /* UVStack.m in Sources */,
 				2BBE8E1F256D37A400B31BC5 /* UVChannelFeedPresenter.m in Sources */,
 				CA43632525D562AB0082E44C /* UVChannelSourceListViewController.m in Sources */,
 				2BBE8E80256D446A00B31BC5 /* NSXMLParser+DelegateInitializable.m in Sources */,

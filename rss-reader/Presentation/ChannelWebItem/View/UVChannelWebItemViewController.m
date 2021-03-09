@@ -9,6 +9,8 @@
 
 #import <WebKit/WebKit.h>
 
+#import "LocalConstants.h"
+
 #import "UIImage+AppIcons.h"
 #import "UIBarButtonItem+PrettiInitializable.h"
 
@@ -81,7 +83,7 @@
 
 - (UIBarButtonItem *)doneButton {
     if (!_doneButton) {
-        _doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+        _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(DONE, "")
                                                        style:UIBarButtonItemStylePlain
                                                       target:self.presenter
                                                       action:@selector(doneButtonClick)];

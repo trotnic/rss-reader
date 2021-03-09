@@ -60,7 +60,7 @@
 
 // MARK: - Interface
 
-- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemOptionState)state {
+- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemState)state {
     [[self.items find:^BOOL(UVRSSFeed *obj) {
         return [item isEqual:obj];
     }] setReadingState:state];

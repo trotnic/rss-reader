@@ -13,7 +13,7 @@
 @interface UVFeedManager ()
 
 @property (nonatomic, strong) UVRSSFeed *innerFeed;
-@property (nonatomic, strong) UVRSSFeedItem *selected;
+@property (nonatomic, strong) UVRSSFeedItem *selectedItem;
 
 @property (nonatomic, strong) id<UVSessionType> session;
 @property (nonatomic, strong) id<UVPListRepositoryType> repository;
@@ -23,6 +23,8 @@
 @end
 
 @implementation UVFeedManager
+
+@synthesize selectedItem = _selectedItem;
 
 - (instancetype)initWithSession:(id<UVSessionType>)session
                      repository:(id<UVPListRepositoryType>)repository {
@@ -34,9 +36,25 @@
     return self;
 }
 
+// MARK: - Properties
+
+- (UVRSSFeedItem *)selectedItem {
+    if (!_selectedItem) {
+        _selectedItem = [UVRSSFeedItem objectWithDictionary:self.session.lastFeedItem];
+    }
+    return _selectedItem;
+}
+
+- (void)setSelectedItem:(UVRSSFeedItem *)selectedItem {
+    if (![_selectedItem isEqual:selectedItem]) {
+        _selectedItem = selectedItem;
+        self.session.lastFeedItem = selectedItem.dictionaryFromObject;
+    }
+}
+
 // MARK: - UVFeedManagerType
 
-- (NSArray<UVRSSFeedItem *> *)feedItemsWithState:(UVRSSItemOptionState)state {
+- (NSArray<UVRSSFeedItem *> *)feedItemsWithState:(UVRSSItemState)state {
     return [self.feed.items filter:^BOOL(UVRSSFeedItem *item) {
         return (item.readingState & state) != 0;
     }];
@@ -53,16 +71,16 @@
 }
 
 - (UVRSSFeedItem *)selectedFeedItem {
-    return self.selected;
+    return self.selectedItem;
 }
 
-- (void)setState:(UVRSSItemOptionState)state ofFeedItem:(UVRSSFeedItem *)item {
+- (void)setState:(UVRSSItemState)state ofFeedItem:(UVRSSFeedItem *)item {
     // FEED: 
     item.readingState = state;
 }
 
 - (void)selectFeedItem:(UVRSSFeedItem *)item {
-    self.selected = item;
+    self.selectedItem = item;
 }
 
 - (BOOL)storeFeed:(NSDictionary *)rawFeed error:(NSError **)error {
@@ -94,11 +112,6 @@
         if (tmp.count > 0) [self.innerFeed.feedItems addObjectsFromArray:tmp];
     }
     return [self.repository updateData:@[self.innerFeed.dictionaryFromObject] file:fileName error:error];
-    // FEED: ❗️
-    /**
-     do analysis here
-     */
-//    return YES;
 }
 
 - (void)deleteFeedItem:(UVRSSFeedItem *)item {
@@ -122,7 +135,7 @@
 }
 
 - (NSString *)feedFileName {
-    return [self.session pathTo:UVFeedPath];
+    return [self.session nameOfFile:UVFeedFile];
 }
 
 @end

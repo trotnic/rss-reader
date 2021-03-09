@@ -153,16 +153,17 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 }
 
 - (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIContextualAction *markDone = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:@"Done" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+    UIContextualAction *markDone = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:NSLocalizedString(DONE, "")
+                                                                         handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
         [self.presenter markItemDoneAtIndex:indexPath.row];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [tableView reloadData];
         });
         completionHandler(YES);
     }];
-    markDone.backgroundColor = UIColor.redColor;
-    UIContextualAction *markRead = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:@"Read"
-                                                                         handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+    markDone.backgroundColor = UIColor.blueColor;
+    UIContextualAction *markRead = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:NSLocalizedString(READ, "")
+                                                                         handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
         [self.presenter markItemReadAtIndex:indexPath.row];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [tableView reloadData];
@@ -170,23 +171,17 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         completionHandler(YES);
     }];
     markRead.backgroundColor = UIColor.orangeColor;
-    
-    
-//    UITableViewRowAction *someAct = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
-//                                                                       title:@"lolkek"
-//                                                                     handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-//        puts("🤪");
-//    }];
     return [UISwipeActionsConfiguration configurationWithActions:@[markDone, markRead]];
 }
 
 - (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIContextualAction *delete = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"Delete" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
-        [self.presenter deleteitemAtIndex:indexPath.row];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    UIContextualAction *delete = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:NSLocalizedString(DELETE, "")
+                                                                       handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+        [self.presenter deleteItemAtIndex:indexPath.row];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [tableView reloadData];
+            completionHandler(YES);
         });
-        completionHandler(YES);
     }];
     return [UISwipeActionsConfiguration configurationWithActions:@[delete]];
 }

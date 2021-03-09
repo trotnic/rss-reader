@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (RSSLink * _Nullable)selectedLink;
 - (BOOL)saveState:(out NSError **)error;
 
+- (void)registerObserver:(NSString *)observer callback:(void(^)(BOOL))callback;
+- (void)unregisterObserver:(NSString *)observer;
+- (BOOL)isObservedBy:(NSString *)observer;
+
 @end
 
 NS_ASSUME_NONNULL_END

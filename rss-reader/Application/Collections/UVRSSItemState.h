@@ -8,16 +8,11 @@
 #ifndef UVRSSItemState_h
 #define UVRSSItemState_h
 
-typedef NS_ENUM(NSUInteger, UVRSSItemState) {
-    UVRSSItemNotStarted,
-    UVRSSItemReading,
-    UVRSSItemDone
-};
-
 typedef enum {
-    UVRSSItemNotStartedOpt = 1,
-    UVRSSItemReadingOpt    = 1 << 1,
-    UVRSSItemDoneOpt       = 1 << 2
-} UVRSSItemOptionState;
+    UVRSSItemNotStarted = 1,
+    UVRSSItemReading    = 1 << 1,
+    UVRSSItemDone       = 1 << 2,
+    UVRSSItemDeleted    = 1 << 3
+} UVRSSItemState;
 
 #endif /* UVRSSItemState_h */

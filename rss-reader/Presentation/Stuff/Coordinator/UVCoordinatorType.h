@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)showScreen:(PresentationBlockType)screen;
 - (void)openURL:(NSURL *)url;
-- (void)closeCurrentScreen;
 
 @end
 

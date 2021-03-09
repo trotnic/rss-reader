@@ -9,24 +9,27 @@
 #import <UIKit/UIKit.h>
 
 #import "NSArray+Util.h"
+#import "UVStack.h"
 
 @interface UVAppCoordinator () <UINavigationControllerDelegate>
 
+@property (nonatomic, strong) id<UVSessionType> session;
 @property (nonatomic, strong) id<UVPresentationFactoryType> factory;
 
-@property (nonatomic, strong) UVNavigationController *controller;
+@property (nonatomic, strong) UVNavigationController *navigation;
 @property (nonatomic, strong) UIApplication *application;
 
-@property (nonatomic, assign) PresentationBlockType lastPresentedBlock;
+@property (nonatomic, strong) UVStack *presentationStack;
 
 @end
 
 @implementation UVAppCoordinator
 
-- (instancetype)initWithPresentationFactory:(id<UVPresentationFactoryType>)factory {
+- (instancetype)initWithPresentationFactory:(id<UVPresentationFactoryType>)factory session:(id<UVSessionType>)session {
     self = [super init];
     if (self) {
         _factory = factory;
+        _session = session;
     }
     return self;
 }
@@ -40,41 +43,57 @@
     return _application;
 }
 
-- (void)setRootNavigationController:(UVNavigationController *)controller {
-    self.controller = controller;
+- (UVStack *)presentationStack {
+    if (!_presentationStack) {
+        _presentationStack = [UVStack new];
+    }
+    return _presentationStack;
 }
 
-- (void)showScreen:(PresentationBlockType)type {
-    switch (self.lastPresentedBlock) {
-        case PresentationBlockSearch:
+// MARK: - Interface
+
+- (void)setRootNavigationController:(UVNavigationController *)controller {
+    self.navigation = controller;
+    __weak typeof(self)weakSelf = self;
+    self.navigation.popCallback = ^{
+        id presentationBlock = [weakSelf.presentationStack pop];
+        if ([presentationBlock intValue] == PresentationBlockWeb)
+            weakSelf.session.shouldRestore = NO;
+    };
+}
+
+- (void)start {
+    [self showScreen:PresentationBlockFeed];
+    if (self.session.shouldRestore) [self showScreen:PresentationBlockWeb];
+}
+
+// MARK: - UVCoordinatorType
+
+- (void)showScreen:(PresentationBlockType)screen {
+    // TODO: -
+    PresentationBlockType previousScreen = [self.presentationStack.peek intValue];
+    switch (previousScreen) {
         case PresentationBlockWeb:
-            [self.controller popViewControllerAnimated:YES];
+            self.session.shouldRestore = NO;
+        case PresentationBlockSearch:
+            [self.navigation popViewControllerAnimated:YES];
             break;
         default:
-            [self.controller pushViewController:[self.factory presentationBlockOfType:type coordinator:self] animated:YES];
+            [self.navigation pushViewController:[self.factory presentationBlockOfType:screen coordinator:self] animated:YES];
+            [self.presentationStack push:@(screen)];
     }
-    self.lastPresentedBlock = type;
+    if (screen == PresentationBlockWeb) self.session.shouldRestore = YES;
 }
 
 - (void)openURL:(NSURL *)url {
     if (url && [self.application canOpenURL:url]) {
+        self.session.shouldRestore = NO;
         [self.application openURL:url options:@{} completionHandler:^(BOOL success){
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.controller popViewControllerAnimated:YES];
+                [self.navigation popViewControllerAnimated:YES];
             });
         }];
     }
-}
-
-- (void)closeCurrentScreen {
-    [self.controller popViewControllerAnimated:YES];
-}
-
-// MARK: - Private
-
-- (UIViewController *)controllerOf:(PresentationBlockType)type {
-    return [self.factory presentationBlockOfType:type
-                                     coordinator:self];
 }
 
 @end

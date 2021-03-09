@@ -9,15 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, UVPath) {
-    UVSourcesPath,
-    UVFeedPath
+typedef NS_ENUM(NSUInteger, UVFile) {
+    UVSourcesFile,
+    UVFeedFile
 };
 
 @protocol UVSessionType <NSObject>
 
-- (NSString *)pathTo:(UVPath)type;
-- (BOOL)shouldRestore;
+@property (nonatomic, assign) BOOL shouldRestore;
+@property (nonatomic, strong) NSDictionary *lastFeedItem;
+
+- (NSString *)nameOfFile:(UVFile)type;
 
 @end
 

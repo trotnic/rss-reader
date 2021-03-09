@@ -15,9 +15,12 @@
 @property (nonatomic, retain, readwrite) id<UVNetworkType>          network;
 @property (nonatomic, retain, readwrite) id<UVCoordinatorType>      coordinator;
 
-// Is used internally as a better approach
-// to mark an instance as an observer
-// of id<UVNetworkType> network
+/**
+ Is used internally as a better approach
+ to mark an instance as an observer
+ of id<UVNetworkType> network
+ */
+
 @property (nonatomic, retain) NSUUID *uuid;
 
 @end

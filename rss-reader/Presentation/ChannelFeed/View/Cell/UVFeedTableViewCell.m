@@ -73,6 +73,8 @@ static CGFloat   const kExpandAnimationDelay        = 0;
     [_auxiliaryStack release];
     [_expandButton release];
     [_buttonClickedCallback release];
+    [_stateView release];
+    [_subAuxiliaryStackV release];
     [_model release];
     [super dealloc];
 }
@@ -130,7 +132,8 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 - (UIImageView *)stateView {
     if (!_stateView) {
         _stateView = [UIImageView new];
-        _stateView.image = [UIImage systemImageNamed:@"eyeglasses"];
+        _stateView.image = [UIImage imageNamed:@"eye"];
+        _stateView.contentMode = UIViewContentModeScaleAspectFit;
         _stateView.hidden = YES;
     }
     return _stateView;
@@ -152,7 +155,7 @@ static CGFloat   const kExpandAnimationDelay        = 0;
         _auxiliaryStack = [UIStackView new];
         _auxiliaryStack.axis = UILayoutConstraintAxisHorizontal;
         _auxiliaryStack.distribution = UIStackViewDistributionEqualSpacing;
-        _auxiliaryStack.alignment = UIStackViewAlignmentTop;
+        _auxiliaryStack.alignment = UIStackViewAlignmentCenter;
     }
     return _auxiliaryStack;
 }

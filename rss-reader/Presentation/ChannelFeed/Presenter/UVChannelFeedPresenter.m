@@ -19,6 +19,8 @@
 @property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
 @property (nonatomic, strong, readonly) NSMutableArray<UVRSSFeedItem *> *feedItems;
 
+@property (nonatomic, retain) NSUUID *uuid;
+
 @end
 
 @implementation UVChannelFeedPresenter
@@ -31,7 +33,7 @@
     self = [super init];
     if (self) {
         _dataRecognizer = recognizer;
-        _sourceManager = source;
+        self.sourceManager = source;
         self.network = network;
         _coordinator = coordinator;
         _feedManager = feed;
@@ -41,29 +43,47 @@
 
 - (void)dealloc
 {
-    [self.network unregisterObserver:NSStringFromClass([self class])];
+    [_network unregisterObserver:NSStringFromClass([self class])];
+    [_sourceManager unregisterObserver:NSStringFromClass([self class])];
 }
 
 // MARK: - Lazy Properties
 
-- (NSMutableArray<UVRSSFeedItem *> *)feedItems {
-    return [[self.feedManager feedItemsWithState:(UVRSSItemNotStartedOpt | UVRSSItemReadingOpt)] mutableCopy];
+- (NSUUID *)uuid {
+    if (!_uuid) {
+        _uuid = NSUUID.UUID;
+    }
+    return _uuid;
 }
-
-// MARK: -
 
 - (void)setNetwork:(id<UVNetworkType>)network {
     if (network != _network) {
-        [_network unregisterObserver:NSStringFromClass([self class])];
+        [_network unregisterObserver:self.uuid.UUIDString];
         _network = network;
         __block typeof(self)weakSelf = self;
-        [_network registerObserver:NSStringFromClass([self class]) callback:^(BOOL isConnectionStable) {
+        [_network registerObserver:self.uuid.UUIDString callback:^(BOOL isConnectionStable) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (isConnectionStable) {
-                    [self updateFeed];
+                    [weakSelf updateFeed];
                 } else {
-                    [self.view setSettingsButtonActive:NO];
+                    [weakSelf.view setSettingsButtonActive:NO];
                     [weakSelf showError:RSSErrorTypeNoNetworkConnection];
+                }
+            });
+        }];
+    }
+}
+
+- (void)setSourceManager:(id<UVSourceManagerType>)sourceManager {
+    if (sourceManager != _sourceManager) {
+        [_sourceManager unregisterObserver:self.uuid.UUIDString];
+        _sourceManager = sourceManager;
+        __weak typeof(self)weakSelf = self;
+        [_sourceManager registerObserver:self.uuid.UUIDString callback:^(BOOL isOk) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (isOk) {
+                    [weakSelf updateFeed];
+                    [weakSelf.view updatePresentation];
                 }
             });
         }];
@@ -115,7 +135,7 @@
         return;
     }
     UVRSSFeedItem *item = self.feedItems[row];
-    [self.feedManager setState:UVRSSItemReadingOpt ofFeedItem:item];
+    [self.feedManager setState:UVRSSItemReading ofFeedItem:item];
     [self.feedManager selectFeedItem:item];
     [self.coordinator showScreen:PresentationBlockWeb];
 }
@@ -137,18 +157,22 @@
 }
 
 - (void)markItemDoneAtIndex:(NSInteger)index {
-    [self.feedManager setState:UVRSSItemDoneOpt ofFeedItem:self.feedItems[index]];
+    [self.feedManager setState:UVRSSItemDone ofFeedItem:self.feedItems[index]];
 }
 
 - (void)markItemReadAtIndex:(NSInteger)index {
-    [self.feedManager setState:UVRSSItemReadingOpt ofFeedItem:self.feedItems[index]];
+    [self.feedManager setState:UVRSSItemReading ofFeedItem:self.feedItems[index]];
 }
 
-- (void)deleteitemAtIndex:(NSInteger)index {
-    [self.feedManager deleteFeedItem:self.feedItems[index]];
+- (void)deleteItemAtIndex:(NSInteger)index {
+    [self.feedManager setState:UVRSSItemDeleted ofFeedItem:self.feedItems[index]];
 }
 
 // MARK: - Private
+
+- (NSMutableArray<UVRSSFeedItem *> *)feedItems {
+    return [[self.feedManager feedItemsWithState:(UVRSSItemNotStarted | UVRSSItemReading)] mutableCopy];
+}
 
 - (void)discoverChannel:(NSData *)data {
     if(!data) {

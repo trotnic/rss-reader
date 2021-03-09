@@ -48,7 +48,7 @@
 
 - (void)closeButtonClick {
     [self.view.webView stopLoading];
-    [self.coordinator closeCurrentScreen];
+    [self.coordinator showScreen:PresentationBlockFeed];
 }
 
 - (void)browserButtonClick {
@@ -57,8 +57,10 @@
 
 - (void)doneButtonClick {
     // FEED:
-    UVRSSFeedItem *selectedItem = self.feedManager.selectedFeedItem;
-    [self.feedManager setState:UVRSSItemDoneOpt ofFeedItem:selectedItem];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        UVRSSFeedItem *selectedItem = self.feedManager.selectedFeedItem;
+        [self.feedManager setState:UVRSSItemDone ofFeedItem:selectedItem];
+    });
     [self.coordinator showScreen:PresentationBlockFeed];
 }
 

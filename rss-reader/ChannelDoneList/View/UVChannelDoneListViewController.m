@@ -7,6 +7,8 @@
 
 #import "UVChannelDoneListViewController.h"
 
+#import "LocalConstants.h"
+
 #import "UVFeedTableViewCell.h"
 #import "UITableViewCell+Util.h"
 
@@ -37,8 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self layoutTableView];
-    // FEED: 
-    self.navigationItem.title = @"lolkek😅";
+    self.navigationItem.title = NSLocalizedString(DONE_LIST, "");
 }
 
 - (void)viewWillAppear:(BOOL)animated {

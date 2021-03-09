@@ -38,8 +38,8 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
     object.expand = [dictionary[kRSSItemExpand] boolValue];
-    UVRSSItemOptionState state = [dictionary[kRSSItemState] intValue];
-    object.readingState = !state ? UVRSSItemNotStartedOpt : state;
+    UVRSSItemState state = [dictionary[kRSSItemState] intValue];
+    object.readingState = !state ? UVRSSItemNotStarted : state;
     return object;
 }
 
@@ -74,7 +74,7 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 }
 
 - (BOOL)isReading {
-    return self.readingState == UVRSSItemReadingOpt;
+    return self.readingState == UVRSSItemReading;
 }
 
 @end

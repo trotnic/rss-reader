@@ -39,7 +39,7 @@
 // MARK: - Lazy Properties
 
 - (NSArray<UVRSSFeedItem *> *)feedItems {
-    return [self.feed feedItemsWithState:UVRSSItemDoneOpt];
+    return [self.feed feedItemsWithState:UVRSSItemDone];
 }
 
 // MARK: - UVChannelDoneListPresenterType

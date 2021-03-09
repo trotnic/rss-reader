@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)markItemDoneAtIndex:(NSInteger)index;
 - (void)markItemReadAtIndex:(NSInteger)index;
-- (void)deleteitemAtIndex:(NSInteger)index;
+- (void)deleteItemAtIndex:(NSInteger)index;
 
 @end
 

@@ -21,13 +21,8 @@
 
 #import <objc/runtime.h>
 #import <objc/message.h>
-//#import "../Model/SourceManager/UVSourceManager.m"
 
-//static Class UVSourceManager;
-
-@interface AppDelegate () {
-    Class UVSourceManager;
-}
+@interface AppDelegate ()
 
 @property (nonatomic, strong) UVAppCoordinator *coordinator;
 
@@ -44,32 +39,29 @@
 
 - (void)setupComponents {
     UVNavigationController *controller = [UVNavigationController new];
-    [self.coordinator setRootNavigationController:controller];
-    [self.coordinator showScreen:PresentationBlockFeed];
     self.window.rootViewController = controller;
+    [self.coordinator setRootNavigationController:controller];
+    [self.coordinator start];
     [self.window makeKeyAndVisible];
 }
 
 // MARK: Lazy
 
-- (UVPresentationBlockFactory *)factory {
-    UVNetwork *network = [UVNetwork new];
-    UVDataRecognizer *recognizer = [UVDataRecognizer new];
-    UVSourceRepository *repository = [UVSourceRepository new];
-    UVSession *session = [[UVSession alloc] initWithDefaults:NSUserDefaults.standardUserDefaults];
-    
-    UVSourceManager *source = [[UVSourceManager alloc] initWithSession:session repository:repository];
-    UVFeedManager *feed = [[UVFeedManager alloc] initWithSession:session repository:repository];
-    
-    return [[UVPresentationBlockFactory alloc] initWithNetwork:network
-                                                        source:source
-                                                    recognizer:recognizer
-                                                          feed:feed];
-}
-
 - (UVAppCoordinator *)coordinator {
     if (!_coordinator) {
-        _coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:[self factory]];
+        UVNetwork *network = [UVNetwork new];
+        UVDataRecognizer *recognizer = [UVDataRecognizer new];
+        UVSourceRepository *repository = [UVSourceRepository new];
+        UVSession *session = [[UVSession alloc] initWithDefaults:NSUserDefaults.standardUserDefaults];
+        
+        UVSourceManager *source = [[UVSourceManager alloc] initWithSession:session repository:repository];
+        UVFeedManager *feed = [[UVFeedManager alloc] initWithSession:session repository:repository];
+        
+        UVPresentationBlockFactory *factory = [[UVPresentationBlockFactory alloc] initWithNetwork:network
+                                                                                           source:source
+                                                                                       recognizer:recognizer
+                                                                                             feed:feed];
+        _coordinator = [[UVAppCoordinator alloc] initWithPresentationFactory:factory session:session];
     }
     return _coordinator;
 }

@@ -11,10 +11,14 @@
 // TITLES
 
 static NSString *const RSS_LINKS_TITLE                      = @"RSS feeds";
+static NSString *const DONE_LIST                            = @"Done list";
 
 // PLACEHOLDERS
 
 static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"Feed address";
+static NSString *const DONE                                 = @"Done";
+static NSString *const READ                                 = @"Read";
+static NSString *const DELETE                               = @"Delete";
 
 // ALERTS
 

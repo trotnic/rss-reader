@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 // FEED: mutable?
 @property (nonatomic, strong) NSMutableSet<UVRSSFeedItem *> *feedItems;
 
-- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemOptionState)state;
+- (void)changeStateOf:(UVRSSFeedItem *)item state:(UVRSSItemState)state;
 
 @end
 

@@ -9,10 +9,14 @@
 // TITLES
 
 "RSS feeds" = "RSS feeds";
+"Done list" = "Done list";
 
 // PLACEHOLDERS
 
 "Feed address" = "Feed address";
+"Read" = "Read";
+"Done" = "Done";
+"Delete" = "Delete";
 
 // ALERTS
 

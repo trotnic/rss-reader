@@ -9,10 +9,14 @@
 // TITLES
 
 "RSS feeds" = "RSS ленты";
+"Done list" = "Завершённые";
 
 // PLACEHOLDERS
 
 "Feed address" = "Адрес ленты";
+"Read" = "Прочитать";
+"Done" = "Завершить";
+"Delete" = "Удалить";
 
 // ALERTS
 

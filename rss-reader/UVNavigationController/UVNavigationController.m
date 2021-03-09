@@ -7,16 +7,7 @@
 
 #import "UVNavigationController.h"
 
-@interface UVNavigationController ()
-
-@end
-
 @implementation UVNavigationController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [super pushViewController:viewController animated:animated];

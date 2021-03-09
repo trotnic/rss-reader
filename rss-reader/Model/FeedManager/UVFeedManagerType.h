@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedManagerType <NSObject>
 
-- (NSArray<UVRSSFeedItem *> *)feedItemsWithState:(UVRSSItemOptionState)state;
+- (NSArray<UVRSSFeedItem *> *)feedItemsWithState:(UVRSSItemState)state;
 - (BOOL)storeFeed:(NSDictionary *)feed error:(NSError **)error;
 - (void)deleteFeed;
-- (void)setState:(UVRSSItemOptionState)state ofFeedItem:(UVRSSFeedItem *)item;
+- (void)setState:(UVRSSItemState)state ofFeedItem:(UVRSSFeedItem *)item;
 - (void)selectFeedItem:(UVRSSFeedItem *)item;
 - (void)deleteFeedItem:(UVRSSFeedItem *)item;
 - (UVRSSFeedItem *)selectedFeedItem;
