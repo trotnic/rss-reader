@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UVRSSFeed.h"
-#import "RSSLink.h"
+#import "UVRSSLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSData *)rawDataNil;
 + (UVRSSFeed *)channel;
 + (NSDictionary *)rawChannel;
-+ (NSArray<RSSLink *> *)links;
-+ (NSArray<RSSLink *> *)linksEmptyList;
-+ (RSSLink *)linkSelected:(BOOL)selected;
++ (NSArray<UVRSSLink *> *)links;
++ (NSArray<UVRSSLink *> *)linksEmptyList;
++ (UVRSSLink *)linkSelected:(BOOL)selected;
 + (NSDictionary *)rawLinkFromXML;
 + (NSArray<NSDictionary *> *)rawLinksFromHTML;
 

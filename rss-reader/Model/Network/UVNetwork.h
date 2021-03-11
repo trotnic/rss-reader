@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UVObservable.h"
 #import "UVNetworkType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UVNetwork : NSObject <UVNetworkType>
+@interface UVNetwork : UVObservable <UVNetworkType>
 
 @end
 

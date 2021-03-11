@@ -7,6 +7,9 @@
 
 #import "UVChannelFeedPresenter.h"
 #import "UVChannelFeedViewType.h"
+
+#import "NSArray+Util.h"
+
 #import "UVFeedXMLParser.h"
 #import "UVRSSFeed.h"
 
@@ -19,7 +22,15 @@
 @property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
 @property (nonatomic, strong, readonly) NSMutableArray<UVRSSFeedItem *> *feedItems;
 
-@property (nonatomic, retain) NSUUID *uuid;
+@property (nonatomic, strong) NSMutableArray<UVRSSLink *> *selectedLinks;
+
+
+@property (nonatomic, strong) NSOperationQueue *feedItemQueue;
+/**
+    take the operation queue here?
+ */
+
+@property (nonatomic, strong) NSUUID *uuid;
 
 @end
 
@@ -56,11 +67,28 @@
     return _uuid;
 }
 
+- (NSOperationQueue *)feedItemQueue {
+    if (!_feedItemQueue) {
+        _feedItemQueue = [NSOperationQueue new];
+        _feedItemQueue.qualityOfService = NSQualityOfServiceUserInitiated;
+    }
+    return _feedItemQueue;
+}
+
+- (NSMutableArray<UVRSSLink *> *)selectedLinks {
+    if (!_selectedLinks) {
+        _selectedLinks = [NSMutableArray new];
+    }
+    return _selectedLinks;
+}
+
+// MARK: -
+
 - (void)setNetwork:(id<UVNetworkType>)network {
     if (network != _network) {
         [_network unregisterObserver:self.uuid.UUIDString];
         _network = network;
-        __block typeof(self)weakSelf = self;
+        __weak typeof(self)weakSelf = self;
         [_network registerObserver:self.uuid.UUIDString callback:^(BOOL isConnectionStable) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (isConnectionStable) {
@@ -79,13 +107,16 @@
         [_sourceManager unregisterObserver:self.uuid.UUIDString];
         _sourceManager = sourceManager;
         __weak typeof(self)weakSelf = self;
-        [_sourceManager registerObserver:self.uuid.UUIDString callback:^(BOOL isOk) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (isOk) {
-                    [weakSelf updateFeed];
-                    [weakSelf.view updatePresentation];
-                }
-            });
+        [_sourceManager registerObserver:self.uuid.UUIDString callback:^(BOOL shouldUpdate) {
+            if (shouldUpdate) {
+//                weakSelf
+            }
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                if (isOk) {
+//                    [weakSelf updateFeed];
+//                    [weakSelf.view updatePresentation];
+//                }
+//            });
         }];
     }
 }
@@ -102,30 +133,128 @@
     [self.view setSettingsButtonActive:YES];
     [self.view rotateActivityIndicator:YES];
     if (!self.sourceManager.links.count) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
-            [self.feedManager deleteFeed];
-        });
+        // TODO:
+//        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+//            [self.feedManager deleteFeed];
+//        });
         [self.view clearState];
         [self showError:RSSErrorNoRSSLinkSelected];
         return;
     }
     
-    NSURL *url = self.sourceManager.selectedLink.url;
-    if (!url) {
-        [self.view clearState];
-        [self showError:RSSErrorTypeBadURL];
-        return;
-    }
     
-    __block typeof(self)weakSelf = self;
-    [self.network fetchDataFromURL:url
-                        completion:^(NSData *data, NSError *error) {
-        if(error) {
-            [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
-            return;
-        }
-        [weakSelf discoverChannel:data];
+    // LINKS: ❗️
+    NSArray<UVRSSFeed *> *feeds = [self.feedManager.currentFeeds copy];
+    [feeds forEach:^(UVRSSFeed *feed) {
+        if (![self.sourceManager.selectedLinks containsObject:feed.link]) [self.feedManager deleteFeed:feed];
     }];
+    
+    __weak typeof(self)weakSelf = self;
+    [self.sourceManager.selectedLinks forEach:^(UVRSSLink *link) {
+        if (![weakSelf.feedManager containsLink:link]) {
+            [weakSelf.network fetchDataFromURL:link.url completion:^(NSData *data, NSError *error) {
+                if (error) {
+                    [weakSelf showError:RSSErrorTypeBadURL];
+                    return;
+                }
+                [weakSelf.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
+                                              completion:^(NSArray<NSDictionary *> *feed, NSError *error) {
+                    if (error) {
+                        [weakSelf showError:RSSErrorTypeParsingError];
+                        return;
+                    }
+                    NSError *feedError = nil;
+                    if(![weakSelf.feedManager storeFeed:feed forLink:link error:&feedError]) {
+                        [weakSelf showError:RSSErrorTypeBadURL];
+                        return;
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.view rotateActivityIndicator:NO];
+                        [weakSelf.view updatePresentation];
+                    });
+                }];
+            }];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.view rotateActivityIndicator:NO];
+            [weakSelf.view updatePresentation];
+        });
+    }];
+    
+    // find diff from SM
+    
+    
+//    NSMutableArray<UVRSSFeed *> *diff = [NSMutableArray new];
+//    [self.feedManager.currentFeeds forEach:^(UVRSSFeed *feed) {
+//        if (![self.sourceManager.selectedLinks containsObject:feed.link]) [diff addObject:feed];
+//    }];
+    
+    
+//    [self.sourceManager.selectedLinks forEach:^(UVRSSLink *link) {
+//        // check
+//
+//
+//        [weakSelf.feedItemQueue addOperationWithBlock:^{
+//            [weakSelf.network fetchDataFromURL:link.url completion:^(NSData *data, NSError *error) {
+//                if (error) {
+//                    [weakSelf showError:RSSErrorTypeBadURL];
+//                    return;
+//                }
+//                [weakSelf.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
+//                                              completion:^(NSArray<NSDictionary *> *feed, NSError *error) {
+//                    if (error) {
+//                        [weakSelf showError:RSSErrorTypeParsingError];
+//                        return;
+//                    }
+//                    NSError *feedError = nil;
+//                    if(![weakSelf.feedManager storeFeed:feed forLink:link error:&feedError]) {
+//                        [weakSelf showError:RSSErrorTypeBadURL];
+//                        return;
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [weakSelf.view rotateActivityIndicator:NO];
+//                        [weakSelf.view updatePresentation];
+//                    });
+//                }];
+//            }];
+//        }];
+//        [weakSelf.feedManager.currentFeeds forEach:^(UVRSSFeed *feed) {
+//
+//        }];
+//        [weakSelf.feedItemQueue addOperationWithBlock:^{
+//            [weakSelf.network fetchDataFromURL:link.url
+//                                    completion:^(NSData *data, NSError *error) {
+//                if (error || !data) {
+//                    [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
+//                    return;
+//                }
+//                [weakSelf.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new] completion:^(NSDictionary *rawChannel, NSError *error) {
+//                    if (error) {
+//                        [weakSelf showError:RSSErrorTypeParsingError];
+//                        return;
+//                    }
+//
+//                }];
+//            }];
+//        }];
+//    }];
+//
+//    NSURL *url = self.sourceManager.selectedLink.url;
+//    if (!url) {
+//        [self.view clearState];
+//        [self showError:RSSErrorTypeBadURL];
+//        return;
+//    }
+//
+////    __block typeof(self)weakSelf = self;
+//    [self.network fetchDataFromURL:url
+//                        completion:^(NSData *data, NSError *error) {
+//        if(error) {
+//            [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
+//            return;
+//        }
+//        [weakSelf discoverChannel:data];
+//    }];
 }
 
 - (void)openArticleAt:(NSInteger)row {
@@ -174,21 +303,21 @@
     return [[self.feedManager feedItemsWithState:(UVRSSItemNotStarted | UVRSSItemReading)] mutableCopy];
 }
 
-- (void)discoverChannel:(NSData *)data {
+- (void)discoverFeed:(NSData *)data link:(UVRSSLink *)link {
     if(!data) {
         [self showError:RSSErrorTypeParsingError];
         return;
     }
     __weak typeof(self)weakSelf = self;
     [self.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
-                              completion:^(NSDictionary *channel, NSError *error) {
+                              completion:^(NSArray<NSDictionary *> *feed, NSError *error) {
         if(error) {
             [weakSelf showError:RSSErrorNoRSSLinksDiscovered];
             return;
         }
         
         NSError *feedError = nil;
-        if (![weakSelf.feedManager storeFeed:channel error:&feedError]) {
+        if (![weakSelf.feedManager storeFeed:feed forLink:link error:&feedError]) {
             [weakSelf showError:RSSErrorTypeBadURL];
             return;
         }

@@ -19,8 +19,6 @@ static NSString *const STUB_RELATIVE_PATH   = @"";
 @interface UVNetwork ()
 
 @property (nonatomic, strong) id<ReachabilityType> reachability;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UVNetworkNotificationCallback> *observers;
-@property (nonatomic, strong) dispatch_semaphore_t synchronizationSemaphore;
 
 @end
 
@@ -42,20 +40,6 @@ static NSString *const STUB_RELATIVE_PATH   = @"";
         }
     }
     return _reachability;
-}
-
-- (dispatch_semaphore_t)synchronizationSemaphore {
-    if (!_synchronizationSemaphore) {
-        _synchronizationSemaphore = dispatch_semaphore_create(1);
-    }
-    return _synchronizationSemaphore;
-}
-
-- (NSMutableDictionary<NSString *, UVNetworkNotificationCallback> *)observers {
-    if (!_observers) {
-        _observers = [NSMutableDictionary new];
-    }
-    return _observers;
 }
 
 // MARK: - Interface
@@ -104,25 +88,8 @@ static NSString *const STUB_RELATIVE_PATH   = @"";
 
 // MARK: - Posting
 
-- (void)registerObserver:(NSString *)observer
-                callback:(UVNetworkNotificationCallback)callback {
-    dispatch_semaphore_wait(self.synchronizationSemaphore, DISPATCH_TIME_NOW);
-    self.observers[observer] = callback;
-    dispatch_semaphore_signal(self.synchronizationSemaphore);
-}
-
-- (void)unregisterObserver:(NSString *)observer {
-    dispatch_semaphore_wait(self.synchronizationSemaphore, DISPATCH_TIME_NOW);
-    [self.observers removeObjectForKey:observer];
-    dispatch_semaphore_signal(self.synchronizationSemaphore);
-}
-
-- (BOOL)isObservedBy:(NSString *)observer {
-    return [self.observers.allKeys containsObject:observer];
-}
-
 - (void)respondReachability:(NSNotification *)notification {
-    [self.observers.allValues forEach:^(UVNetworkNotificationCallback callback) {
+    [self notifyObservers:^(observableCallback callback) {
         if (callback) callback([notification.object[kReachabilityIsConnectionStable] boolValue]);
     }];
 }

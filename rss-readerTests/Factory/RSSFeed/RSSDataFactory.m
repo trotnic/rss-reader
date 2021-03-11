@@ -131,13 +131,13 @@
     };
 }
 
-+ (RSSLink *)linkSelected:(BOOL)selected {
++ (UVRSSLink *)linkSelected:(BOOL)selected {
     NSDictionary *rawLink = @{
         kRSSLinkTitle : @"TUT.BY - Главные новости недели",
         kRSSLinkURL : @"https://news.tut.by/rss/index.rss",
         kRSSLinkSelected : [NSNumber numberWithBool:selected]
     };
-    return [RSSLink objectWithDictionary:rawLink];
+    return [UVRSSLink objectWithDictionary:rawLink];
 }
 
 + (NSDictionary *)rawLinkFromXML {
@@ -163,7 +163,7 @@
     ];
 }
 
-+ (NSArray<RSSLink *> *)links {
++ (NSArray<UVRSSLink *> *)links {
     NSArray<NSDictionary *> *rawLinks = @[
         @{
             kRSSLinkTitle : @"TUT.BY - Главные новости недели",
@@ -179,11 +179,11 @@
         }
     ];
     return [rawLinks map:^id(NSDictionary *rawLink) {
-        return [RSSLink objectWithDictionary:rawLink];
+        return [UVRSSLink objectWithDictionary:rawLink];
     }];
 }
 
-+ (NSArray<RSSLink *> *)linksEmptyList {
++ (NSArray<UVRSSLink *> *)linksEmptyList {
     return @[];
 }
 

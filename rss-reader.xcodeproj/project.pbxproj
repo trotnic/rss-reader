@@ -56,7 +56,7 @@
 		CA127D9925D69E5900AC67EA /* UVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA127D9825D69E5900AC67EA /* UVNavigationController.m */; };
 		CA131AD1259A2DF50044D992 /* UVRSSLinkXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA131AD0259A2DF50044D992 /* UVRSSLinkXMLParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA1C9BD0257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CA2BE099257F954400BC7749 /* RSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* RSSLink.m */; };
+		CA2BE099257F954400BC7749 /* UVRSSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2BE098257F954400BC7749 /* UVRSSLink.m */; };
 		CA2EF4D0257E5F64002452CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA2EF4CF257E5F64002452CA /* Settings.bundle */; };
 		CA2EF4E5257E67DA002452CA /* UVDataRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2EF4E4257E67DA002452CA /* UVDataRecognizer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CA43630D25D5626D0082E44C /* UVPresentationBlockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CA4362FC25D5626D0082E44C /* UVPresentationBlockFactory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -76,6 +76,7 @@
 		CAB1612D25DAA2FF0036B93D /* UVChannelWebItemPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB1612825DAA2FF0036B93D /* UVChannelWebItemPresenter.m */; };
 		CAB1613625DAA31B0036B93D /* UVChannelWebItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB1613525DAA31B0036B93D /* UVChannelWebItemViewController.m */; };
 		CAF30C2625701736004A925D /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF30C2525701736004A925D /* UIViewController+Util.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CAF8160C25F8DD3200E61535 /* UVObservable.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF8160B25F8DD3200E61535 /* UVObservable.m */; };
 		CAF8182D25DA8A860057EB50 /* UVFeedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF8182C25DA8A860057EB50 /* UVFeedManager.m */; };
 		CAFBBECA2587B63D0000C272 /* UVSourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBBEC92587B63D0000C272 /* UVSourceManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
@@ -211,7 +212,7 @@
 		CA1C9BCF257940A9002364C3 /* UIBarButtonItem+PrettiInitializable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+PrettiInitializable.m"; sourceTree = "<group>"; };
 		CA243AB82570E5D600B56A7B /* LocalConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalConstants.h; sourceTree = "<group>"; };
 		CA243AC325710D6F00B56A7B /* RSSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSError.h; sourceTree = "<group>"; };
-		CA2BE098257F954400BC7749 /* RSSLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSSLink.m; sourceTree = "<group>"; };
+		CA2BE098257F954400BC7749 /* UVRSSLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVRSSLink.m; sourceTree = "<group>"; };
 		CA2BE0C0257FB03B00BC7749 /* UVDataRecognizerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizerType.h; sourceTree = "<group>"; };
 		CA2EF4CF257E5F64002452CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CA2EF4E3257E67DA002452CA /* UVDataRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDataRecognizer.h; sourceTree = "<group>"; };
@@ -265,10 +266,12 @@
 		CAB1614325DAC50E0036B93D /* UVPresentationBlocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVPresentationBlocks.h; sourceTree = "<group>"; };
 		CAF30C2425701736004A925D /* UIViewController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Util.h"; sourceTree = "<group>"; };
 		CAF30C2525701736004A925D /* UIViewController+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Util.m"; sourceTree = "<group>"; };
+		CAF8160A25F8DD3200E61535 /* UVObservable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVObservable.h; sourceTree = "<group>"; };
+		CAF8160B25F8DD3200E61535 /* UVObservable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVObservable.m; sourceTree = "<group>"; };
 		CAF8182B25DA8A860057EB50 /* UVFeedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedManager.h; sourceTree = "<group>"; };
 		CAF8182C25DA8A860057EB50 /* UVFeedManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVFeedManager.m; sourceTree = "<group>"; };
 		CAF8183125DA8A970057EB50 /* UVFeedManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVFeedManagerType.h; sourceTree = "<group>"; };
-		CAFBBEAE25878B940000C272 /* RSSLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSLink.h; sourceTree = "<group>"; };
+		CAFBBEAE25878B940000C272 /* UVRSSLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRSSLink.h; sourceTree = "<group>"; };
 		CAFBBEB9258795330000C272 /* UVRSSLinkViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVRSSLinkViewModel.h; sourceTree = "<group>"; };
 		CAFBBEC82587B63D0000C272 /* UVSourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVSourceManager.h; sourceTree = "<group>"; };
 		CAFBBEC92587B63D0000C272 /* UVSourceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UVSourceManager.m; sourceTree = "<group>"; };
@@ -409,6 +412,7 @@
 		2B1903BE2563FEE9006D755E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CAF8160925F8DD0C00E61535 /* Observable */,
 				734AEE732591E8E700CE5716 /* Repository */,
 				736C7ED625F5006A005F0E14 /* Session */,
 				CAF8182A25DA8A770057EB50 /* FeedManager */,
@@ -953,8 +957,8 @@
 		CA2BE096257F952800BC7749 /* RSSLink */ = {
 			isa = PBXGroup;
 			children = (
-				CAFBBEAE25878B940000C272 /* RSSLink.h */,
-				CA2BE098257F954400BC7749 /* RSSLink.m */,
+				CAFBBEAE25878B940000C272 /* UVRSSLink.h */,
+				CA2BE098257F954400BC7749 /* UVRSSLink.m */,
 				7346FF9025A32D5F00634829 /* UVRSSLinkKeys.h */,
 				CAFBBEB9258795330000C272 /* UVRSSLinkViewModel.h */,
 			);
@@ -1140,6 +1144,15 @@
 			path = UIViewController;
 			sourceTree = "<group>";
 		};
+		CAF8160925F8DD0C00E61535 /* Observable */ = {
+			isa = PBXGroup;
+			children = (
+				CAF8160A25F8DD3200E61535 /* UVObservable.h */,
+				CAF8160B25F8DD3200E61535 /* UVObservable.m */,
+			);
+			path = Observable;
+			sourceTree = "<group>";
+		};
 		CAF8182A25DA8A770057EB50 /* FeedManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1294,6 +1307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAF30C2625701736004A925D /* UIViewController+Util.m in Sources */,
+				CAF8160C25F8DD3200E61535 /* UVObservable.m in Sources */,
 				CA43630E25D5626D0082E44C /* UVBasePresenter.m in Sources */,
 				2B53014F256E430200E82D56 /* NSDateFormatter+FormatInitializable.m in Sources */,
 				736C7EF125F5283B005F0E14 /* UVStack.m in Sources */,
@@ -1312,7 +1326,7 @@
 				CA1090732590E5D300579204 /* NSArray+Util.m in Sources */,
 				CA43631125D5626D0082E44C /* UVSearchViewController.m in Sources */,
 				738F68A625E4F8E90073657C /* UVDebugViewController.m in Sources */,
-				CA2BE099257F954400BC7749 /* RSSLink.m in Sources */,
+				CA2BE099257F954400BC7749 /* UVRSSLink.m in Sources */,
 				2BBE8E62256D395500B31BC5 /* NSDate+StringConvertible.m in Sources */,
 				CA43634D25D564DC0082E44C /* UVChannelSearchViewController.m in Sources */,
 				CAB1613625DAA31B0036B93D /* UVChannelWebItemViewController.m in Sources */,

@@ -6,12 +6,14 @@
 //
 
 #import "UVRSSFeed.h"
+
 #import "NSArray+Util.h"
 
 @interface UVRSSFeed ()
 
-@property (nonatomic, copy, readwrite) NSString *link;
-@property (nonatomic, copy, readwrite) NSString *summary;
+@property (nonatomic, strong, readwrite) UVRSSLink *link;
+//@property (nonatomic, strong, readwrite) NSURL *url;
+//@property (nonatomic, copy, readwrite) NSString *summary;
 
 @end
 
@@ -25,8 +27,10 @@
     
     UVRSSFeed *object = [UVRSSFeed new];
     
-    object.link = dictionary[kRSSChannelLink];
-    object.summary = dictionary[kRSSChannelDescription];
+    object.link = [UVRSSLink objectWithDictionary:dictionary[kRSSChannelLink]];
+    
+//    object.url = [NSURL URLWithString:dictionary[kRSSChannelLink]];
+//    object.summary = dictionary[kRSSChannelDescription];
     NSArray *items = [dictionary[kRSSChannelItems] map:^UVRSSFeedItem *(NSDictionary *rawItem) {
         return [UVRSSFeedItem objectWithDictionary:rawItem];
     }];
@@ -36,26 +40,29 @@
 }
 
 - (NSDictionary *)dictionaryFromObject {
+    NSArray *items = [self.feedItems.allObjects map:^NSDictionary *(UVRSSFeedItem *item) {
+        return item.dictionaryFromObject;
+    }];
     return @{
-        kRSSChannelLink : self.link,
-        kRSSChannelDescription : self.summary,
-        kRSSChannelItems : [self.feedItems.allObjects map:^NSDictionary *(UVRSSFeedItem *item) {
-            return item.dictionaryFromObject;
-        }]
+        kRSSChannelLink : [self.link dictionaryFromObject],
+//        kRSSChannelDescription : self.summary,
+        kRSSChannelItems : items ? items : @[]
     };
 }
 
 - (void)dealloc
 {
-    [_link release];
+//    [_url release];
     [_feedItems release];
-    [_summary release];
+    [_link release];
+//    [_summary release];
     [super dealloc];
 }
 
 - (BOOL)isEqual:(UVRSSFeed *)other
 {
-    return [self.link isEqualToString:other.link];
+    return [self.link isEqual:other.link];
+//    return [self.url isEqual:other.url];
 }
 
 // MARK: - Interface
@@ -66,8 +73,26 @@
     }] setReadingState:state];
 }
 
+- (void)setLinkIfNil:(UVRSSLink *)link {
+    if (!_link) _link = [link retain];
+}
+
+- (void)setRawFeedIfNil:(NSArray<NSDictionary *> *)rawFeed {
+    if (!_feedItems) {
+        _feedItems = [NSMutableSet new];
+        // LINKS:
+        [rawFeed forEach:^(NSDictionary *rawItem) {
+            [self.feedItems addObject:[UVRSSFeedItem objectWithDictionary:rawItem]];
+        }];
+    }
+}
+
 - (NSArray<id<UVFeedItemDisplayModel>> *)items {
     return self.feedItems.allObjects;
+}
+
+- (BOOL)isEqualToLink:(UVRSSLink *)link {
+    return [self.link isEqual:link];
 }
 
 @end

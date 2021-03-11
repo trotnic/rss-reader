@@ -11,8 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol UVFeedParserType <NSObject>
 
-- (void)parseData:(NSData *)data completion:(void(^)(NSDictionary *_Nullable, NSError *_Nullable))completion;
-- (void)parseContentsOfURL:(NSURL *)url completion:(void(^)(NSDictionary *_Nullable, NSError *_Nullable))completion;
+- (void)parseData:(NSData *)data completion:(void(^)(NSArray<NSDictionary *> *_Nullable, NSError *_Nullable))completion;
+//- (void)parseData:(NSData *)data completion:(void(^)(NSDictionary *_Nullable, NSError *_Nullable))completion;
+//- (void)parseContentsOfURL:(NSURL *)url completion:(void(^)(NSDictionary *_Nullable, NSError *_Nullable))completion;
 
 @end
 

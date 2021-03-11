@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UVObservable.h"
 #import "UVSourceManagerType.h"
 #import "UVPListRepositoryType.h"
 #import "UVSessionType.h"
 
-@interface UVSourceManager : NSObject <UVSourceManagerType>
+@interface UVSourceManager : UVObservable <UVSourceManagerType>
 
 - (instancetype)initWithSession:(id<UVSessionType>)session repository:(id<UVPListRepositoryType>)repository;
 

@@ -1,21 +1,21 @@
 //
-//  RSSLink.m
+//  UVRSSLink.m
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 8.12.20.
 //
 
-#import "RSSLink.h"
+#import "UVRSSLink.h"
 #import "UVRSSLinkKeys.h"
 
-@interface RSSLink ()
+@interface UVRSSLink ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
 @property (nonatomic, strong, readwrite) NSURL *url;
 
 @end
 
-@implementation RSSLink
+@implementation UVRSSLink
 
 + (instancetype)objectWithDictionary:(NSDictionary *)dictionary {
     if(!dictionary || !dictionary.count || ![dictionary isKindOfClass:NSDictionary.class]) {
@@ -23,7 +23,7 @@
         return nil;
     }
     
-    return [[RSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
+    return [[UVRSSLink alloc] initWithTitle:dictionary[kRSSLinkTitle]
                                       url:[NSURL URLWithString:dictionary[kRSSLinkURL]]
                                  selected:[dictionary[kRSSLinkSelected] boolValue]];
 }
@@ -48,11 +48,10 @@
 
 - (NSDictionary *)dictionaryFromObject {
     return @{
-        kRSSLinkTitle : self.title,
+        kRSSLinkTitle : self.title ? self.title : @"",
         kRSSLinkURL : self.url.absoluteString,
         kRSSLinkSelected : [NSNumber numberWithBool:self.isSelected]
     };
-    
 }
 
 - (NSString *)description
@@ -105,7 +104,7 @@
 // MARK: - NSCopying
 
 - (id)copyWithZone:(struct _NSZone *)zone {
-    RSSLink *copy = [RSSLink new];
+    UVRSSLink *copy = [UVRSSLink new];
     copy.url = self.url;
     copy.selected = self.isSelected;
     copy.title = self.title;

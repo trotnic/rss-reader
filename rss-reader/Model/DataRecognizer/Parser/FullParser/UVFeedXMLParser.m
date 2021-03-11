@@ -18,19 +18,14 @@
 #import "UVFeedChannelKeys.h"
 #import "UVFeedItemKeys.h"
 
-typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
+typedef void(^ParseHandler)(NSArray *_Nullable, NSError *_Nullable);
 
 @interface UVFeedXMLParser () <NSXMLParserDelegate>
 
 @property (nonatomic, copy) ParseHandler completion;
 
-// MARK: - Channel
-@property (nonatomic, strong) NSMutableDictionary *channelDictionary;
 @property (nonatomic, strong) NSMutableArray<NSDictionary *> *items;
-
-// MARK: - Item
 @property (nonatomic, strong) NSMutableDictionary *itemDictionary;
-@property (nonatomic, assign) BOOL isItem;
 
 // MARK: - Util
 @property (nonatomic, strong) NSXMLParser *parser;
@@ -44,30 +39,13 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 // MARK: FeedParserType
 
-- (void)parseData:(NSData *)data
-       completion:(ParseHandler)completion {
+- (void)parseData:(NSData *)data completion:(ParseHandler)completion {
     if (!data) {
         if (completion) completion(nil, [self parsingError]);
         return;
     }
     self.completion = completion;
     self.parser = [NSXMLParser parserWithData:data delegate:self];
-    [self.parser parse];
-    if (self.parser.parserError != nil) {
-        if (completion) completion(nil, self.parser.parserError);
-        [self.parser abortParsing];
-        return;
-    }
-}
-
-- (void)parseContentsOfURL:(NSURL *)url
-                completion:(ParseHandler)completion {
-    if (!url) {
-        if (completion) completion(nil, [self parsingError]);
-        return;
-    }
-    self.completion = completion;
-    self.parser = [NSXMLParser parserWithURL:url delegate:self];
     [self.parser parse];
     if (self.parser.parserError != nil) {
         if (completion) completion(nil, self.parser.parserError);
@@ -87,18 +65,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if([elementName isEqualToString:TAG_CHANNEL]) {
-        self.isItem = NO;
-    }
-    
-    if([elementName isEqualToString:ATOM_LINK]) {
-        self.channelDictionary[kRSSChannelLink] = attributeDict[ATTR_HREF];
-    }
-    
-    if([elementName isEqualToString:TAG_ITEM]) {
-        self.isItem = YES;
-    }
-    
     if([self.plainTextNodes containsObject:elementName]) {
         self.parsingString = [NSMutableString string];
     }
@@ -113,31 +79,19 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
     
-    if([elementName isEqualToString:TAG_CHANNEL]) {
-        [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
-    }
-    
     if([self.plainTextNodes containsObject:elementName]) {
-        if(self.isItem) {
-            self.itemDictionary[elementName] = self.parsingString.stringByStrippingHTML;
-        } else {
-            self.channelDictionary[elementName] = self.parsingString;
-        }
+        self.itemDictionary[elementName] = self.parsingString.stringByStrippingHTML;
         _parsingString = nil;
     }
     
     if([elementName isEqualToString:TAG_ITEM]) {
         [self.items addObject:self.itemDictionary];
-        self.isItem = NO;
-        
         _itemDictionary = nil;
     }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    if(self.completion) {
-        if (self.completion) self.completion([self.channelDictionary copy], nil);
-    }
+    if(self.completion) self.completion([self.items copy], nil);
 }
 
 // MARK: - Private
@@ -153,13 +107,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         _items = [NSMutableArray new];
     }
     return _items;
-}
-
-- (NSMutableDictionary *)channelDictionary {
-    if(!_channelDictionary) {
-        _channelDictionary = [NSMutableDictionary new];
-    }
-    return _channelDictionary;
 }
 
 - (NSMutableDictionary *)itemDictionary {

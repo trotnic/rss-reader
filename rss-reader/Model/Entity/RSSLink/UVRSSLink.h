@@ -1,5 +1,5 @@
 //
-//  RSSLink.h
+//  UVRSSLink.h
 //  rss-reader
 //
 //  Created by Uladzislau Volchyk on 8.12.20.
@@ -10,9 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSSLink : NSObject <UVRSSLinkViewModel, NSSecureCoding, NSCopying>
+@interface UVRSSLink : NSObject <UVRSSLinkViewModel, NSSecureCoding, NSCopying>
 
 @property (nonatomic, copy, readonly) NSString *title;
+/**
+ a key to link feed & rss-link
+ */
 @property (nonatomic, strong, readonly) NSURL *url;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 

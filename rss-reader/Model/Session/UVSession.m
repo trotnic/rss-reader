@@ -7,6 +7,10 @@
 
 #import "UVSession.h"
 
+/**
+ should know about feed?
+ */
+
 static NSString *const KEY_FEED_ITEM        = @"feedItem";
 static NSString *const KEY_SHOULD_RESTORE   = @"shouldRestore";
 static NSString *const SOURCES_FILE_NAME    = @"source.plist";
@@ -15,7 +19,6 @@ static NSString *const FEED_FILE_NAME       = @"lolkek.plist";
 @interface UVSession ()
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
-@property (nonatomic, strong) NSFileManager *fileManager;
 
 @end
 

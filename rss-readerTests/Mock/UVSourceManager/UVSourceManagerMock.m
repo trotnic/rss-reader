@@ -13,7 +13,7 @@
 
 @implementation UVSourceManagerMock
 
-- (NSArray<RSSLink *> *)links {
+- (NSArray<UVRSSLink *> *)links {
     self.isCalled = YES;
     return self.linksToReturn;
 }
@@ -26,17 +26,17 @@
     return YES;
 }
 
-- (void)selectLink:(RSSLink *)link {
+- (void)selectLink:(UVRSSLink *)link {
     self.isCalled = YES;
     self.providedLinkToSelect = link;
 }
 
-- (RSSLink *)selectedLink {
+- (UVRSSLink *)selectedLink {
     self.isCalled = YES;
     return self.selectedLinkToReturn;
 }
 
-- (void)deleteLink:(RSSLink *)link {
+- (void)deleteLink:(UVRSSLink *)link {
     self.isCalled = YES;
     self.providedLinkToDelete = link;
 }
@@ -58,7 +58,7 @@
 }
 
 
-- (void)updateLink:(RSSLink *)link {
+- (void)updateLink:(UVRSSLink *)link {
     self.isCalled = YES;
     self.providedLinkToUpdate = link;
 }

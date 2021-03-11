@@ -49,7 +49,7 @@ static NSString *const EMPTY_STRING         = @"";
 
 - (void)discoverChannel:(NSData *)data
                  parser:(id<UVFeedParserType>)parser
-             completion:(void (^)(NSDictionary *, NSError *))completion {
+             completion:(void (^)(NSArray<NSDictionary *> *, NSError *))completion {
     if (!data || !parser) {
         if (completion) completion(nil, [self recognitionError]);
         return;
@@ -58,11 +58,10 @@ static NSString *const EMPTY_STRING         = @"";
     [parser retain];
     
     [parser parseData:data
-           completion:^(NSDictionary *result, NSError *error) {
+           completion:^(NSArray *result, NSError *error) {
         if (completion) completion(result, error);
         [parser release];
     }];
-    NSLog(@"%@", parser);
 }
 
 - (void)discoverLinksFromHTML:(NSData *)data

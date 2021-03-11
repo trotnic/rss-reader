@@ -12,6 +12,7 @@
 
 @interface UVFeedManager ()
 
+@property (nonatomic, strong) NSMutableArray<UVRSSFeed *> *innerFeeds;
 @property (nonatomic, strong) UVRSSFeed *innerFeed;
 @property (nonatomic, strong) UVRSSFeedItem *selectedItem;
 
@@ -38,6 +39,13 @@
 
 // MARK: - Properties
 
+- (NSMutableArray<UVRSSFeed *> *)innerFeeds {
+    if (!_innerFeeds) {
+        _innerFeeds = [NSMutableArray new];
+    }
+    return _innerFeeds;
+}
+
 - (UVRSSFeedItem *)selectedItem {
     if (!_selectedItem) {
         _selectedItem = [UVRSSFeedItem objectWithDictionary:self.session.lastFeedItem];
@@ -55,9 +63,29 @@
 // MARK: - UVFeedManagerType
 
 - (NSArray<UVRSSFeedItem *> *)feedItemsWithState:(UVRSSItemState)state {
-    return [self.feed.items filter:^BOOL(UVRSSFeedItem *item) {
-        return (item.readingState & state) != 0;
+    // LINKS:
+    NSMutableArray *items = [NSMutableArray new];
+    [self.innerFeeds forEach:^(UVRSSFeed *feed) {
+        NSArray *filteredByState = [feed.feedItems.allObjects filter:^BOOL(UVRSSFeedItem *item) {
+            return (item.readingState & state) != 0;
+        }];
+        [items addObjectsFromArray:filteredByState];
+        //        [items addObjectsFromArray:];
     }];
+    return items;
+    //    return [self.feed.items filter:^BOOL(UVRSSFeedItem *item) {
+    //        return (item.readingState & state) != 0;
+    //    }];
+}
+
+- (NSArray<UVRSSFeed *> *)currentFeeds {
+    return [self.innerFeeds copy];
+}
+
+- (BOOL)containsLink:(UVRSSLink *)link {
+    for (UVRSSFeed *feed in self.innerFeeds)
+        if ([feed.link isEqual:link]) return YES;
+    return NO;
 }
 
 - (UVRSSFeed *)feed {
@@ -75,7 +103,7 @@
 }
 
 - (void)setState:(UVRSSItemState)state ofFeedItem:(UVRSSFeedItem *)item {
-    // FEED: 
+    // FEED:
     item.readingState = state;
 }
 
@@ -83,48 +111,77 @@
     self.selectedItem = item;
 }
 
-- (BOOL)storeFeed:(NSDictionary *)rawFeed error:(NSError **)error {
-    if (!rawFeed || ![rawFeed isKindOfClass:NSDictionary.class]) {
+- (BOOL)storeFeed:(NSArray<NSDictionary *> *)rawFeed
+          forLink:(UVRSSLink *)link
+            error:(NSError *__autoreleasing  _Nullable *)error {
+    if (!rawFeed || ![rawFeed isKindOfClass:NSArray.class]) {
         if (error) *error = [self feedError];
         return NO;
     }
     
-    UVRSSFeed *feed = [UVRSSFeed objectWithDictionary:rawFeed];
-    if (!feed) {
-        if (error) *error = [self feedError];
-        return NO;
-    }
-    // FEED:
+    // LINKS:
+    UVRSSFeed *feed = [UVRSSFeed new];
+    [feed setRawFeedIfNil:rawFeed];
+    [feed setLinkIfNil:link];
     /**
-     check if a feed exists
+     maybe check for existence
      */
-    NSString *fileName = self.feedFileName;
-    if (![self.repository isFileExists:fileName] || !self.innerFeed.feedItems.count || ![feed isEqual:self.innerFeed]) {
-        // FEED:
-        /**
-         updating a serialized structure
-         */
-        self.innerFeed = feed;
-    } else {
-        NSArray *tmp = [feed.items filter:^BOOL(UVRSSFeedItem *item) {
-            return ![self.innerFeed.items containsObject:item];
-        }];
-        if (tmp.count > 0) [self.innerFeed.feedItems addObjectsFromArray:tmp];
-    }
-    return [self.repository updateData:@[self.innerFeed.dictionaryFromObject] file:fileName error:error];
+    [self.innerFeeds addObject:feed];
+    
+    return [self.repository updateData:[self.innerFeeds map:^id (UVRSSFeed *feed) {
+        return feed.dictionaryFromObject;
+    }] file:self.feedFileName error:error];
 }
 
-- (void)deleteFeedItem:(UVRSSFeedItem *)item {
-    // FEED:
-    NSError *error = nil;
-    [self.innerFeed.feedItems removeObject:item];
-    NSDictionary *rawFeedToSave = self.innerFeed.dictionaryFromObject;
-    [self.repository updateData:@[rawFeedToSave] file:self.feedFileName error:&error];
-}
+// LINKS:
+/**
+ under question
+ */
+//- (BOOL)storeFeed:(NSDictionary *)rawFeed error:(NSError **)error {
+//    if (!rawFeed || ![rawFeed isKindOfClass:NSDictionary.class]) {
+//        if (error) *error = [self feedError];
+//        return NO;
+//    }
+//
+//    UVRSSFeed *feed = [UVRSSFeed objectWithDictionary:rawFeed];
+//    if (!feed) {
+//        if (error) *error = [self feedError];
+//        return NO;
+//    }
+//    // FEED:
+//    /**
+//     check if a feed exists
+//     */
+//    NSString *fileName = self.feedFileName;
+//    if (![self.repository isFileExists:fileName] || !self.innerFeed.feedItems.count || ![feed isEqual:self.innerFeed]) {
+//        // FEED:
+//        /**
+//         updating a serialized structure
+//         */
+//        self.innerFeed = feed;
+//    } else {
+//        NSArray *tmp = [feed.items filter:^BOOL(UVRSSFeedItem *item) {
+//            return ![self.innerFeed.items containsObject:item];
+//        }];
+//        if (tmp.count > 0) [self.innerFeed.feedItems addObjectsFromArray:tmp];
+//    }
+//    return [self.repository updateData:@[self.innerFeed.dictionaryFromObject] file:fileName error:error];
+//}
 
-- (void)deleteFeed {
+//- (void)deleteFeedItem:(UVRSSFeedItem *)item {
+//    // FEED:
+//    NSError *error = nil;
+//    [self.innerFeed.feedItems removeObject:item];
+//    NSDictionary *rawFeedToSave = self.innerFeed.dictionaryFromObject;
+//    [self.repository updateData:@[rawFeedToSave] file:self.feedFileName error:&error];
+//}
+
+- (void)deleteFeed:(UVRSSFeed *)feed {
+    [self.innerFeeds removeObject:feed];
     NSError *error = nil;
-    [self.repository updateData:@[] file:self.feedFileName error:&error];
+    [self.repository updateData:[self.innerFeeds map:^id _Nonnull(UVRSSFeed *feed) {
+        return feed.dictionaryFromObject;
+    }] file:self.feedFileName error:&error];
     self.innerFeed = nil;
 }
 
