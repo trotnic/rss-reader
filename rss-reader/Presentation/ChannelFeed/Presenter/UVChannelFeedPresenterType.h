@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)markItemReadAtIndex:(NSInteger)index;
 - (void)deleteItemAtIndex:(NSInteger)index;
 
+- (void)sortByTitle;
+- (void)sortByDate;
+
 @end
 
 NS_ASSUME_NONNULL_END

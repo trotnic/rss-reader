@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)gearIcon;
 + (UIImage *)plusIcon;
 + (UIImage *)trashIcon;
++ (UIImage *)sortIcon;
 
 @end
 

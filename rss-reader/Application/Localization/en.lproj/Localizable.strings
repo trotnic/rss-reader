@@ -14,6 +14,10 @@
 // PLACEHOLDERS
 
 "Feed address" = "Feed address";
+"Cancel" = "Cancel";
+"Title" = "Title";
+"Date" = "Date";
+"Sort By" = "Sort By";
 "Read" = "Read";
 "Done" = "Done";
 "Delete" = "Delete";

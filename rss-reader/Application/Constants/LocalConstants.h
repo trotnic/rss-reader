@@ -16,6 +16,10 @@ static NSString *const DONE_LIST                            = @"Done list";
 // PLACEHOLDERS
 
 static NSString *const SEARCH_RSS_SOURCE_PLACEHOLDER        = @"Feed address";
+static NSString *const CANCEL                               = @"Cancel";
+static NSString *const TITLE                                = @"Title";
+static NSString *const DATE                                 = @"Date";
+static NSString *const SORT_BY                              = @"Sort By";
 static NSString *const DONE                                 = @"Done";
 static NSString *const READ                                 = @"Read";
 static NSString *const DELETE                               = @"Delete";

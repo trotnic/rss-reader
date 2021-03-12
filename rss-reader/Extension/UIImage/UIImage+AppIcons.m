@@ -46,4 +46,8 @@
     return [UIImage imageNamed:@"trash"];
 }
 
++ (UIImage *)sortIcon {
+    return [UIImage imageNamed:@"arrow-up-down"];
+}
+
 @end

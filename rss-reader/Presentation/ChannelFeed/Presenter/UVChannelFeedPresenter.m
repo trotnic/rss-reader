@@ -13,6 +13,14 @@
 #import "UVFeedXMLParser.h"
 #import "UVRSSFeed.h"
 
+
+// TODO: -
+
+typedef NS_ENUM(NSUInteger, SortType) {
+    SortDate,
+    SortTitle
+};
+
 @interface UVChannelFeedPresenter ()
 
 @property (nonatomic, strong) id<UVDataRecognizerType>  dataRecognizer;
@@ -22,14 +30,11 @@
 @property (nonatomic, strong) id<UVFeedManagerType>     feedManager;
 @property (nonatomic, strong, readonly) NSMutableArray<UVRSSFeedItem *> *feedItems;
 
+@property (nonatomic, strong) NSSortDescriptor *sortDescriptor;
+
 @property (nonatomic, strong) NSMutableArray<UVRSSLink *> *selectedLinks;
 
-
 @property (nonatomic, strong) NSOperationQueue *feedItemQueue;
-/**
-    take the operation queue here?
- */
-
 @property (nonatomic, strong) NSUUID *uuid;
 
 @end
@@ -82,6 +87,13 @@
     return _selectedLinks;
 }
 
+- (NSSortDescriptor *)sortDescriptor {
+    if (!_sortDescriptor) {
+        _sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
+    }
+    return _sortDescriptor;
+}
+
 // MARK: -
 
 - (void)setNetwork:(id<UVNetworkType>)network {
@@ -108,15 +120,10 @@
         _sourceManager = sourceManager;
         __weak typeof(self)weakSelf = self;
         [_sourceManager registerObserver:self.uuid.UUIDString callback:^(BOOL shouldUpdate) {
-            if (shouldUpdate) {
-//                weakSelf
-            }
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                if (isOk) {
-//                    [weakSelf updateFeed];
-//                    [weakSelf.view updatePresentation];
-//                }
-//            });
+            if (shouldUpdate)
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf updateFeed];
+                });
         }];
     }
 }
@@ -151,34 +158,43 @@
     
     __weak typeof(self)weakSelf = self;
     [self.sourceManager.selectedLinks forEach:^(UVRSSLink *link) {
-        if (![weakSelf.feedManager containsLink:link]) {
-            [weakSelf.network fetchDataFromURL:link.url completion:^(NSData *data, NSError *error) {
-                if (error) {
-                    [weakSelf showError:RSSErrorTypeBadURL];
-                    return;
-                }
-                [weakSelf.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
-                                              completion:^(NSArray<NSDictionary *> *feed, NSError *error) {
+        [weakSelf.feedItemQueue addOperationWithBlock:^{
+            if (![weakSelf.feedManager containsLink:link]) {
+                [weakSelf.network fetchDataFromURL:link.url completion:^(NSData *data, NSError *error) {
                     if (error) {
-                        [weakSelf showError:RSSErrorTypeParsingError];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakSelf showError:RSSErrorTypeBadURL];
+                        });
                         return;
                     }
-                    NSError *feedError = nil;
-                    if(![weakSelf.feedManager storeFeed:feed forLink:link error:&feedError]) {
-                        [weakSelf showError:RSSErrorTypeBadURL];
-                        return;
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.view rotateActivityIndicator:NO];
-                        [weakSelf.view updatePresentation];
-                    });
+                    [weakSelf.dataRecognizer discoverChannel:data parser:[UVFeedXMLParser new]
+                                                  completion:^(NSArray<NSDictionary *> *feed, NSError *error) {
+                        if (error) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [weakSelf showError:RSSErrorTypeParsingError];
+                            });
+                            return;
+                        }
+                        NSError *feedError = nil;
+                        if(![weakSelf.feedManager storeFeed:feed forLink:link error:&feedError]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [weakSelf showError:RSSErrorTypeBadURL];
+                            });
+                            return;
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakSelf.view rotateActivityIndicator:NO];
+                            [weakSelf.view updatePresentation];
+                        });
+                    }];
                 }];
-            }];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.view rotateActivityIndicator:NO];
-            [weakSelf.view updatePresentation];
-        });
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.view rotateActivityIndicator:NO];
+                [weakSelf.view updatePresentation];
+            });
+        }];
+        
     }];
     
     // find diff from SM
@@ -297,10 +313,23 @@
     [self.feedManager setState:UVRSSItemDeleted ofFeedItem:self.feedItems[index]];
 }
 
+
+// TODO: -
+- (void)sortByTitle {
+    self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    [self updateFeed];
+}
+
+- (void)sortByDate {
+    self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
+    [self updateFeed];
+}
+
 // MARK: - Private
 
-- (NSMutableArray<UVRSSFeedItem *> *)feedItems {
-    return [[self.feedManager feedItemsWithState:(UVRSSItemNotStarted | UVRSSItemReading)] mutableCopy];
+- (NSArray<UVRSSFeedItem *> *)feedItems {
+    // TODO: -
+    return [[self.feedManager feedItemsWithState:(UVRSSItemNotStarted | UVRSSItemReading)] sortedArrayUsingDescriptors:@[self.sortDescriptor]];
 }
 
 - (void)discoverFeed:(NSData *)data link:(UVRSSLink *)link {

@@ -20,8 +20,11 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 @interface UVChannelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
 @property (nonatomic, strong) UIBarButtonItem *trashButton;
+@property (nonatomic, strong) UIBarButtonItem *sortButton;
+
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
@@ -65,6 +68,16 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     return _trashButton;
 }
 
+- (UIBarButtonItem *)sortButton {
+    if (!_sortButton) {
+        _sortButton = [[UIBarButtonItem alloc] initWithImage:UIImage.sortIcon
+                                                       style:UIBarButtonItemStylePlain
+                                                      target:self
+                                                      action:@selector(showSortingActionSheet:)];
+    }
+    return _sortButton;
+}
+
 - (UIActivityIndicatorView *)activityIndicator {
     if(!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -102,7 +115,7 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 // MARK: - Private
 
 - (void)setupAppearance {
-    self.navigationItem.rightBarButtonItem = self.settingsButton;
+    self.navigationItem.rightBarButtonItems = @[self.settingsButton, self.sortButton];
     self.navigationItem.leftBarButtonItem = self.trashButton;
     [self layoutActivityIndicator];
     [self layoutTableView];
@@ -120,6 +133,36 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ]];
+}
+
+- (void)showSortingActionSheet:(UIBarButtonItem *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:NSLocalizedString(SORT_BY, "")
+                                                                        message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *sortByDate = [UIAlertAction actionWithTitle:NSLocalizedString(DATE, "")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action) {
+        [self.presenter sortByDate];
+    }];
+    
+    UIAlertAction *sortByTitle = [UIAlertAction actionWithTitle:NSLocalizedString(TITLE, "")
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+        [self.presenter sortByTitle];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(TITLE, "")
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction *action) {
+        
+    }];
+    
+    [controller addAction:sortByTitle];
+    [controller addAction:sortByDate];
+    [controller addAction:cancel];
+    
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 // MARK: - UITableViewDataSource
