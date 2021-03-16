@@ -14,9 +14,9 @@
 
 @interface UVSourceManagerTests : XCTestCase
 
-@property (nonatomic, retain) UVSourceManager *sut;
-@property (nonatomic, retain) UVPlistRepositoryMock *repository;
-@property (nonatomic, retain) NSUserDefaults *defaults;
+@property (nonatomic, strong) UVSourceManager *sut;
+@property (nonatomic, strong) UVPlistRepositoryMock *repository;
+@property (nonatomic, strong) NSUserDefaults *defaults;
 
 @end
 

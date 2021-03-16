@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UVFeedItem : NSObject <UVFeedItemDisplayModel>
 
 @property (nonatomic, copy, readonly) NSString *title;
-@property (nonatomic, retain, readonly) NSURL *url;
+@property (nonatomic, strong, readonly) NSURL *url;
 @property (nonatomic, copy, readonly) NSString *summary;
 @property (nonatomic, copy, readonly) NSString *category;
 @property (nonatomic, assign, getter=isExpand) BOOL expand;

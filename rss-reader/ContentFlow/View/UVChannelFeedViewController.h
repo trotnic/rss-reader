@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVChannelFeedViewController : UVBaseViewController <UVChannelFeedViewType>
 
-@property (nonatomic, retain) id<UVChannelFeedPresenterType> presenter;
+@property (nonatomic, strong) id<UVChannelFeedPresenterType> presenter;
 
 @end
 

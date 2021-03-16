@@ -115,7 +115,7 @@ static NSString *const EMPTY_STRING         = @"";
         return;
     }
     
-    if (completion) completion(UVRawContentUndefined, nil);
+    if (completion) completion(UVRawContentUndefined, [self recognitionError]);
 }
 
 // MARK: - Private

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *link;
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSString *summary;
-@property (nonatomic, retain, readonly) NSArray<UVFeedItem *> *items;
+@property (nonatomic, strong, readonly) NSArray<UVFeedItem *> *items;
 
 + (instancetype _Nullable)objectWithDictionary:(NSDictionary *)dictionary;
 

@@ -77,24 +77,27 @@
     __block typeof(self)weakSelf = self;
     [self.dataRecognizer discoverContentType:data
                                   completion:^(UVRawContentType type, NSError *error) {
-        if (type == UVRawContentHTML) {
-            [weakSelf.dataRecognizer discoverLinksFromHTML:data
-                                                completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentXML) {
-            [weakSelf.dataRecognizer discoverLinksFromXML:data
-                                                      url:url
-                                               completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
-                [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
-            }];
-        }
-        if (type == UVRawContentUndefined || error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.viewDelegate stopSearchWithUpdate:NO];
-                [weakSelf.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
-            });
+        switch (type) {
+            case UVRawContentHTML:
+                [weakSelf.dataRecognizer discoverLinksFromHTML:data
+                                                    completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                    [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+                }];
+                break;
+            case UVRawContentXML:
+                [weakSelf.dataRecognizer discoverLinksFromXML:data
+                                                          url:url
+                                                   completion:^(NSArray<NSDictionary *> *rawLinks, NSError *error) {
+                    [weakSelf insertRawLinks:rawLinks baseURL:url error:error];
+                }];
+                break;
+            case UVRawContentUndefined:
+            default:
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.viewDelegate stopSearchWithUpdate:NO];
+                    if (error) [weakSelf.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
+                });
+                break;
         }
     }];
 }
@@ -116,7 +119,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.viewDelegate stopSearchWithUpdate:shouldUpdateResults];
     });
-
+    
 }
 
 - (void)saveState {

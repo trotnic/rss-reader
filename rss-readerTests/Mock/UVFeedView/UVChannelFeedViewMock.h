@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isCalled;
 @property (nonatomic, assign) BOOL isActivityShown;
-@property (nonatomic, retain) NSError *error;
-@property (nonatomic, retain) NSURL *presentedURL;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) NSURL *presentedURL;
 
 @end
 

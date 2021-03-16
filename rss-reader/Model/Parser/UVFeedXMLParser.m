@@ -25,16 +25,16 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 @property (nonatomic, copy) ParseHandler completion;
 
 // MARK: - Channel
-@property (nonatomic, retain) NSMutableDictionary *channelDictionary;
-@property (nonatomic, retain) NSMutableArray<NSDictionary *> *items;
+@property (nonatomic, strong) NSMutableDictionary *channelDictionary;
+@property (nonatomic, strong) NSMutableArray<NSDictionary *> *items;
 
 // MARK: - Item
-@property (nonatomic, retain) NSMutableDictionary *itemDictionary;
+@property (nonatomic, strong) NSMutableDictionary *itemDictionary;
 @property (nonatomic, assign) BOOL isItem;
 
 // MARK: - Util
-@property (nonatomic, retain) NSXMLParser *parser;
-@property (nonatomic, retain) NSMutableString *parsingString;
+@property (nonatomic, strong) NSXMLParser *parser;
+@property (nonatomic, strong) NSMutableString *parsingString;
 
 @property (nonatomic, retain) NSSet<NSString *> *plainTextNodes;
 @property (nonatomic, retain) NSData *parsingData;
@@ -43,24 +43,11 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 @implementation UVFeedXMLParser
 
-- (void)dealloc
-{
-    [_items release];
-    [_parser release];
-    [_completion release];
-    [_parsingData release];
-    [_parsingString release];
-    [_itemDictionary release];
-    [_plainTextNodes release];
-    [_channelDictionary release];
-    [super dealloc];
-}
-
 // MARK: - Lazy Properties
 
 - (NSXMLParser *)parser {
     if (!_parser) {
-        _parser = [[NSXMLParser parserWithData:self.parsingData delegate:self] retain];
+        _parser = [NSXMLParser parserWithData:self.parsingData delegate:self];
     }
     return _parser;
 }
@@ -88,13 +75,13 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
 
 - (NSSet<NSString *> *)plainTextNodes {
     if(!_plainTextNodes) {
-        _plainTextNodes = [[NSSet setWithArray:@[
+        _plainTextNodes = [NSSet setWithArray:@[
             TAG_TITLE,
             TAG_LINK,
             TAG_CATEGORY,
             TAG_PUBLICATION_DATE,
             TAG_DESCRIPTION
-        ]] retain];
+        ]];
     }
     return _plainTextNodes;
 }
@@ -153,7 +140,7 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
  didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName {
-
+    
     if([elementName isEqualToString:TAG_CHANNEL]) {
         [self.channelDictionary setValue:self.items forKey:kRSSChannelItems];
     }
@@ -164,8 +151,6 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         } else {
             self.channelDictionary[elementName] = self.parsingString;
         }
-        
-        [_parsingString release];
         _parsingString = nil;
     }
     
@@ -173,14 +158,13 @@ typedef void(^ParseHandler)(NSDictionary *_Nullable, NSError *_Nullable);
         [self.items addObject:self.itemDictionary];
         self.isItem = NO;
         
-        [_itemDictionary release];
         _itemDictionary = nil;
     }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if(self.completion) {
-        NSDictionary *channelCopy = [[self.channelDictionary copy] autorelease];
+        NSDictionary *channelCopy = [self.channelDictionary copy];
         self.completion(channelCopy, nil);
     }
 }

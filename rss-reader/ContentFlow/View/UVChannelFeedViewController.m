@@ -18,29 +18,15 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 @interface UVChannelFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) UIRefreshControl *refreshControl;
-@property (nonatomic, retain) UIBarButtonItem *settingsButton;
-@property (nonatomic, retain) UIViewController<UVFeedItemWebViewType> *webView;
-
-@property (nonatomic, copy) void(^rightButtonClickAction)(void);
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) UIBarButtonItem *settingsButton;
+@property (nonatomic, strong) UIViewController<UVFeedItemWebViewType> *webView;
 
 @end
 
 @implementation UVChannelFeedViewController
-
-- (void)dealloc
-{
-    [_webView release];
-    [_presenter release];
-    [_tableView release];
-    [_settingsButton release];
-    [_refreshControl release];
-    [_activityIndicator release];
-    [_rightButtonClickAction release];
-    [super dealloc];
-}
 
 // MARK: - Lazy Properties
 
@@ -49,9 +35,9 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
         _tableView.refreshControl = self.refreshControl;
         _tableView.rowHeight = UITableViewAutomaticDimension;
-        _tableView.tableFooterView = [[UIView new] autorelease];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:UVFeedTableViewCell.class forCellReuseIdentifier:UVFeedTableViewCell.cellIdentifier];
     }
@@ -106,6 +92,8 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
     [self.presenter updateFeed];
 }
 
+// MARK: - Private
+
 - (void)setupAppearance {
     [self layoutActivityIndicator];
     [self layoutTableView];
@@ -124,12 +112,6 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
         [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ]];
-}
-
-// MARK: -
-
-- (void)setupOnRighButtonClickAction:(void(^)(void))completion {
-    self.rightButtonClickAction = completion;
 }
 
 // MARK: - UITableViewDataSource
@@ -152,6 +134,15 @@ static NSInteger const REFRESH_ENDING_DELAY     = 1;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.presenter.numberOfItems;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    switch (motion) {
+        case UIEventSubtypeMotionShake:
+            [self.presenter updateFeed];
+        default:
+            break;
+    }
 }
 
 // MARK: - UITableViewDelegate

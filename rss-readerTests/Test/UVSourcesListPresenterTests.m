@@ -15,7 +15,7 @@
 #import "RSSDataFactory.h"
 #import "UVAppCoordinatorMock.h"
 
-static NSInteger const TIMEOUT = 2;
+static NSInteger const TIMEOUT = 4;
 
 @interface UVSourcesListPresenterTests : XCTestCase
 
@@ -222,6 +222,7 @@ static NSInteger const TIMEOUT = 2;
     self.network.url = SwissKnife.mockURL;
     self.network.data = RSSDataFactory.rawXMLData;
     self.dataRecognizer.contentTypeToReturn = UVRawContentUndefined;
+    self.dataRecognizer.discoverContentErrorToReturn = SwissKnife.mockError;
     
     XCTestExpectation *expectation = [self expectationForPredicate:[NSPredicate predicateWithFormat:@"isCalled == YES"]
                                                evaluatedWithObject:self.view

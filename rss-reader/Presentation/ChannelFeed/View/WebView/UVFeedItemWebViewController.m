@@ -16,28 +16,17 @@ static CGFloat const POP_DELAY_ON_WEB_OPEN = 0.5;
 
 @interface UVFeedItemWebViewController () <WKNavigationDelegate>
 
-@property (nonatomic, retain) WKWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 
-@property (nonatomic, retain) UIBarButtonItem *goBackButton;
-@property (nonatomic, retain) UIBarButtonItem *goForwardButton;
-@property (nonatomic, retain) UIBarButtonItem *reloadWebPageButton;
-@property (nonatomic, retain) UIBarButtonItem *closeWebPageButton;
-@property (nonatomic, retain) UIBarButtonItem *openInBrowserButton;
+@property (nonatomic, strong) UIBarButtonItem *goBackButton;
+@property (nonatomic, strong) UIBarButtonItem *goForwardButton;
+@property (nonatomic, strong) UIBarButtonItem *reloadWebPageButton;
+@property (nonatomic, strong) UIBarButtonItem *closeWebPageButton;
+@property (nonatomic, strong) UIBarButtonItem *openInBrowserButton;
 
 @end
 
 @implementation UVFeedItemWebViewController
-
-- (void)dealloc
-{
-    [_webView release];
-    [_goBackButton release];
-    [_goForwardButton release];
-    [_reloadWebPageButton release];
-    [_closeWebPageButton release];
-    [_openInBrowserButton release];
-    [super dealloc];
-}
 
 // MARK: - Lazy
 
@@ -52,31 +41,31 @@ static CGFloat const POP_DELAY_ON_WEB_OPEN = 0.5;
 
 - (UIBarButtonItem *)goBackButton {
     if(!_goBackButton) {
-        _goBackButton = [[self webBarButtonItemWithImage:UIImage.arrowLeftIcon
-                                                  action:@selector(goBack)] retain];
+        _goBackButton = [self webBarButtonItemWithImage:UIImage.arrowLeftIcon
+                                                 action:@selector(goBack)];
     }
     return _goBackButton;
 }
 
 - (UIBarButtonItem *)goForwardButton {
     if(!_goForwardButton) {
-        _goForwardButton = [[self webBarButtonItemWithImage:UIImage.arrowRightIcon
-                                                     action:@selector(goForward)] retain];
+        _goForwardButton = [self webBarButtonItemWithImage:UIImage.arrowRightIcon
+                                                    action:@selector(goForward)];
     }
     return _goForwardButton;
 }
 
 - (UIBarButtonItem *)reloadWebPageButton {
     if(!_reloadWebPageButton) {
-        _reloadWebPageButton = [[self webBarButtonItemWithImage:UIImage.refreshIcon
-                                                         action:@selector(reload)] retain];
+        _reloadWebPageButton = [self webBarButtonItemWithImage:UIImage.refreshIcon
+                                                        action:@selector(reload)];
     }
     return _reloadWebPageButton;
 }
 
 - (UIBarButtonItem *)closeWebPageButton {
     if(!_closeWebPageButton) {
-        __block typeof(self)weakSelf = self;
+        __weak typeof(self)weakSelf = self;
         _closeWebPageButton = [[UIBarButtonItem alloc] initWithImage:UIImage.xmarkIcon
                                                                style:UIBarButtonItemStylePlain
                                                               action:^{
@@ -89,7 +78,7 @@ static CGFloat const POP_DELAY_ON_WEB_OPEN = 0.5;
 
 - (UIBarButtonItem *)openInBrowserButton {
     if(!_openInBrowserButton) {
-        __block typeof(self)weakSelf = self;
+        __weak typeof(self)weakSelf = self;
         _openInBrowserButton = [[UIBarButtonItem alloc] initWithImage:UIImage.safariIcon
                                                                 style:UIBarButtonItemStylePlain
                                                                action:^{
@@ -160,10 +149,10 @@ static CGFloat const POP_DELAY_ON_WEB_OPEN = 0.5;
 }
 
 - (UIBarButtonItem *)webBarButtonItemWithImage:(UIImage *)image action:(SEL)selector {
-    return [[[UIBarButtonItem alloc] initWithImage:image
-                                             style:UIBarButtonItemStylePlain
-                                            target:self.webView
-                                            action:selector] autorelease];
+    return [[UIBarButtonItem alloc] initWithImage:image
+                                            style:UIBarButtonItemStylePlain
+                                           target:self.webView
+                                           action:selector];
 }
 
 // MARK: - WKNavigationDelegate

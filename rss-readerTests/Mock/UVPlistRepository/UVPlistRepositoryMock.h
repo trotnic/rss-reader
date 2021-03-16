@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UVPlistRepositoryMock : NSObject <UVPListRepositoryType>
 
-@property (nonatomic, retain) NSArray<NSDictionary *> *fetchedToReturn;
+@property (nonatomic, strong) NSArray<NSDictionary *> *fetchedToReturn;
 @property (nonatomic, assign) BOOL updatedToReturn;
-@property (nonatomic, retain) NSArray<NSDictionary *> *dataProvided;
-@property (nonatomic, retain) NSError *fetchingErrorToReturn;
-@property (nonatomic, retain) NSError *updateErrorToReturn;
+@property (nonatomic, strong) NSArray<NSDictionary *> *dataProvided;
+@property (nonatomic, strong) NSError *fetchingErrorToReturn;
+@property (nonatomic, strong) NSError *updateErrorToReturn;
 @property (nonatomic, assign) BOOL isCalled;
 
 @end

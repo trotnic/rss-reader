@@ -15,10 +15,10 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 @interface UVFeedItem ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, retain, readwrite) NSURL *url;
+@property (nonatomic, strong, readwrite) NSURL *url;
 @property (nonatomic, copy, readwrite) NSString *summary;
 @property (nonatomic, copy, readwrite) NSString *category;
-@property (nonatomic, retain, readwrite) NSDate *pubDate;
+@property (nonatomic, strong, readwrite) NSDate *pubDate;
 
 @end
 
@@ -38,17 +38,7 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
     object.category = dictionary[kRSSItemCategory];
     object.pubDate = [NSDate dateFromString:dictionary[kRSSItemPubDate] withFormat:kDateRawFormat];
     object.expand = NO;
-    return [object autorelease];
-}
-
-- (void)dealloc
-{
-    [_url release];
-    [_title release];
-    [_summary release];    
-    [_pubDate release];
-    [_category release];
-    [super dealloc];
+    return object;
 }
 
 - (NSString *)description
@@ -64,11 +54,11 @@ static NSString *const kDateRawFormat           = @"EE, d LLLL yyyy HH:mm:ss Z";
 // MARK: - UVFeedItemDisplayModel
 
 - (NSString *)articleTitle {
-    return [[self.title copy] autorelease];
+    return [self.title copy];
 }
 
 - (NSString *)articleCategory {
-    return [[self.category copy] autorelease];
+    return [self.category copy];
 }
 
 - (NSString *)articleDate {

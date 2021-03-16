@@ -17,7 +17,7 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, retain) UVAppCoordinator *coordinator;
+@property (nonatomic, strong) UVAppCoordinator *coordinator;
 
 @end
 
@@ -43,18 +43,17 @@
 
 - (UVAppCoordinator *)coordinator {
     if (!_coordinator) {
-        UINavigationController *navigation = [[UINavigationController new] autorelease];
+        UINavigationController *navigation = [UINavigationController new];
         _coordinator = [[UVAppCoordinator alloc] initWithNavigation:navigation factory:[self factory]];
     }
     return _coordinator;
 }
 
 - (UVPresentationFactory *)factory {
-    UVDataRecognizer *recognizer = [[UVDataRecognizer new] autorelease];
-    UVSourceManager *source = [[UVSourceManager new] autorelease];
-    UVNetwork *network = [[UVNetwork new] autorelease];
+    UVDataRecognizer *recognizer = [UVDataRecognizer new];
+    UVSourceManager *source = [UVSourceManager new];
+    UVNetwork *network = [UVNetwork new];
     return [UVPresentationFactory factoryWithNetwork:network source:source recognizer:recognizer];
-    
 }
 
 - (UIWindow *)window {
@@ -62,15 +61,6 @@
         _window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     }
     return _window;
-}
-
-// MARK: -
-
-- (void)dealloc
-{
-    [_window release];
-    [_coordinator release];
-    [super dealloc];
 }
 
 @end

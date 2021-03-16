@@ -20,19 +20,19 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 
 @interface UVFeedTableViewCell ()
 
-@property (nonatomic, retain, readwrite) UILabel *titleLabel;
-@property (nonatomic, retain, readwrite) UILabel *dateLabel;
-@property (nonatomic, retain, readwrite) UILabel *categoryLabel;
-@property (nonatomic, retain, readwrite) UILabel *descriptionLabel;
+@property (nonatomic, strong, readwrite) UILabel *titleLabel;
+@property (nonatomic, strong, readwrite) UILabel *dateLabel;
+@property (nonatomic, strong, readwrite) UILabel *categoryLabel;
+@property (nonatomic, strong, readwrite) UILabel *descriptionLabel;
 
-@property (nonatomic, retain) UIStackView *mainStack;
-@property (nonatomic, retain) UIStackView *additionalStack;
+@property (nonatomic, strong) UIStackView *mainStack;
+@property (nonatomic, strong) UIStackView *additionalStack;
 
-@property (nonatomic, retain) UIButton *expandButton;
+@property (nonatomic, strong) UIButton *expandButton;
 
 @property (nonatomic, copy) void(^onExpandButtonClickCallback)(void(^)(void));
 
-@property (nonatomic, retain) id<UVFeedItemDisplayModel> model;
+@property (nonatomic, strong) id<UVFeedItemDisplayModel> model;
 
 @end
 
@@ -51,21 +51,6 @@ static CGFloat   const kExpandAnimationDelay        = 0;
         [self setupAppearance];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [_dateLabel release];
-    [_titleLabel release];
-    [_categoryLabel release];
-    [_expandButton release];
-    [_descriptionLabel release];
-    [_onExpandButtonClickCallback release];
-    [_model release];
-    [_additionalStack release];
-    [_mainStack release];
-    
-    [super dealloc];
 }
 
 // MARK: - Lazy Properties
@@ -121,9 +106,9 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 - (UIStackView *)mainStack {
     if (!_mainStack) {
         _mainStack = [UIStackView new];
-        _mainStack.spacing = kTextSpacing;
         _mainStack.axis = UILayoutConstraintAxisVertical;
         _mainStack.distribution = UIStackViewDistributionFill;
+        _mainStack.spacing = kTextSpacing;
         _mainStack.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _mainStack;
@@ -176,8 +161,7 @@ static CGFloat   const kExpandAnimationDelay        = 0;
 
 // MARK: -
 
-- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model
-      reloadCompletion:(void (^)(void(^callback)(void)))completion {
+- (void)setupWithModel:(id<UVFeedItemDisplayModel>)model reloadCompletion:(void (^)(void(^callback)(void)))completion {
     self.model = model;
     self.onExpandButtonClickCallback = completion;
     self.dateLabel.text = [self.model articleDate];

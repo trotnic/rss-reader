@@ -10,7 +10,7 @@
 
 @interface UVNetworkTests : XCTestCase
 
-@property (nonatomic, retain) UVNetwork *sut;
+@property (nonatomic, strong) UVNetwork *sut;
 
 @end
 
@@ -18,10 +18,6 @@
 
 - (void)setUp {
     _sut = [UVNetwork new];
-}
-
-- (void)tearDown {
-    [_sut release];
 }
 
 - (void)testValidateEmptyAddressErrorOccures {

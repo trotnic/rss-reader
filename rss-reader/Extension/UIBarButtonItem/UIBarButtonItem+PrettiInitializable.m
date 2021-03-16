@@ -14,7 +14,7 @@ void *kAssociationToken_action = &kAssociationToken_action;
 @implementation UIBarButtonItem (PrettyInitializable)
 
 + (instancetype)systemItem:(UIBarButtonSystemItem)systemItem action:(void(^)(void))action {
-    return [[UIBarButtonItem alloc] initWithSystemItem:systemItem action:action];
+    return [[[UIBarButtonItem alloc] initWithSystemItem:systemItem action:action] autorelease];
 }
 
 - (instancetype)initWithSystemItem:(UIBarButtonSystemItem)systemItem action:(void (^)(void))action {

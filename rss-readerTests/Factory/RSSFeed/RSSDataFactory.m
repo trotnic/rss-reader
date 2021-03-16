@@ -178,9 +178,9 @@
             kRSSLinkURL : @"https://news.tut.by/rss/all.rss",
         }
     ];
-    return [[rawLinks map:^id(NSDictionary *rawLink) {
+    return [rawLinks map:^id(NSDictionary *rawLink) {
         return [RSSLink objectWithDictionary:rawLink];
-    }] autorelease];
+    }];
 }
 
 + (NSArray<RSSLink *> *)linksEmptyList {

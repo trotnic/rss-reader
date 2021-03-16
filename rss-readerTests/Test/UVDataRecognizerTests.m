@@ -24,9 +24,9 @@ static NSInteger const TIMEOUT = 1;
 
 @interface UVDataRecognizerTests : XCTestCase
 
-@property (nonatomic, retain) UVDataRecognizer *sut;
-@property (nonatomic, retain) UVFeedParserMock *feedParser;
-@property (nonatomic, retain) UVRSSLinkXMLParserMock *linksParser;
+@property (nonatomic, strong) UVDataRecognizer *sut;
+@property (nonatomic, strong) UVFeedParserMock *feedParser;
+@property (nonatomic, strong) UVRSSLinkXMLParserMock *linksParser;
 
 @end
 
@@ -40,12 +40,6 @@ static NSInteger const TIMEOUT = 1;
     _sut = [UVDataRecognizer new];
     _feedParser = [UVFeedParserMock new];
     _linksParser = [UVRSSLinkXMLParserMock new];
-}
-
-- (void)tearDown {
-    [_sut release];
-    [_feedParser release];
-    [_linksParser release];
 }
 
 - (void)testXMLChannelDiscoveringNilDataProvidedErrorOccures {
@@ -299,7 +293,7 @@ static NSInteger const TIMEOUT = 1;
     [self.sut discoverContentType:data
                        completion:^(UVRawContentType type, NSError *error) {
         XCTAssertEqual(UVRawContentUndefined, type);
-        XCTAssertNil(error);
+        XCTAssertNotNil(error);
         [expectation fulfill];
     }];
     
