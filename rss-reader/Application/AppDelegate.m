@@ -51,7 +51,7 @@
 
 - (UVPresentationFactory *)factory {
     UVDataRecognizer *recognizer = [UVDataRecognizer new];
-    UVSourceManager *source = [UVSourceManager new];
+    id source = [UVSourceManager new];
     UVNetwork *network = [UVNetwork new];
     return [UVPresentationFactory factoryWithNetwork:network source:source recognizer:recognizer];
 }

@@ -14,7 +14,7 @@
 
 @interface UVSourceManagerTests : XCTestCase
 
-@property (nonatomic, strong) UVSourceManager *sut;
+@property (nonatomic, strong) NSObject<UVSourceManagerType> *sut;
 @property (nonatomic, strong) UVPlistRepositoryMock *repository;
 @property (nonatomic, strong) NSUserDefaults *defaults;
 
@@ -44,8 +44,8 @@
     self.repository.fetchedToReturn = @[];
     
     XCTAssertEqual(initialSize, self.sut.links.count);
-    [self.sut insertLinks:expectedLinks relativeToURL:url];
-    XCTAssertEqual(expectedLinks.count, self.sut.links.count);
+    [self.sut insertLink:expectedLinks.firstObject relativeToURL:url];
+    XCTAssertEqual(1, self.sut.links.count);
 }
 
 - (void)testInsertLinkUncontainedBySourceInsertionSuccessful {
