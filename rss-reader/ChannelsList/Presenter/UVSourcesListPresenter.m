@@ -92,7 +92,6 @@
                 }];
                 break;
             case UVRawContentUndefined:
-            default:
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.viewDelegate stopSearchWithUpdate:NO];
                     if (error) [weakSelf.viewDelegate presentError:[self provideErrorOfType:RSSErrorNoRSSLinksDiscovered]];
@@ -111,7 +110,9 @@
         });
         return;
     }
-    [self.sourceManager insertLinks:links relativeToURL:url];
+    [links forEach:^(NSDictionary *rawLink) {
+        [self.sourceManager insertLink:rawLink relativeToURL:url];
+    }];
     
     NSError *saveError = nil;
     [self.sourceManager saveState:&saveError];
